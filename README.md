@@ -1,4 +1,4 @@
-#scMerge
+# scMerge
 
 `scMerge` is a R package for merging and normalising single-cell RNA-Seq datasets.
 
