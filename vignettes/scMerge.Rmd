@@ -1,0 +1,173 @@
+---
+title: "scMerge"
+author: "Yingxin Lin"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: vignette
+    toc_depth: 3
+    number_sections: yes
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{scMerge}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+#Loading Packages and Data
+```{r warning = FALSE, message = FALSE}
+library(scMerge)
+library(SingleCellExperiment)
+library(scater)
+```
+
+
+```{r}
+#single-cell stably expressed gene list
+data("segList_ensemblGeneID")
+#mouse ESC data
+data("sce_mESC")
+```
+
+```{r}
+sce_mESC
+```
+
+```{r}
+scater::plotPCA(sce_mESC,colour_by="cellTypes")
+```
+
+#Unsupervised scMerge
+```{r results='hide',fig.show='hide'}
+system.time(sce_mESC <- scMerge(sce_mESC, 
+                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                    kmeansK = c(1,3,3,1,1),
+                    assay_name = "scMerge_unsupervised"))
+```
+
+```{r}
+sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised")
+scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+```
+
+##Selecting 80% of cells
+```{r results='hide',fig.show='hide'}
+system.time(sce_mESC <- scMerge(sce_mESC, 
+                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                    kmeansK = c(1,3,3,1,1),
+                    assay_name = "scMerge_unsupervised_80",
+                    replicate_prop = 0.8))
+```
+
+```{r}
+sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_80")
+scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+```
+
+
+##Selecting 50% of cells
+```{r results='hide',fig.show='hide'}
+system.time(sce_mESC <- scMerge(sce_mESC, 
+                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                    kmeansK = c(1,3,3,1,1),
+                    assay_name = "scMerge_unsupervised_50",
+                    replicate_prop = 0.5))
+```
+
+```{r}
+sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_50")
+scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+```
+
+##Selecting 20% of cells
+```{r results='hide',fig.show='hide'}
+system.time(sce_mESC <- scMerge(sce_mESC, 
+                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                    kmeansK = c(1,3,3,1,1),
+                    assay_name = "scMerge_unsupervised_50",
+                    replicate_prop = 0.2))
+```
+
+```{r}
+sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_50")
+scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+```
+
+#Supervised scMerge
+
+Perform scMerge using *all* known cell type information to create pseudo-replicates
+
+```{r results='hide',fig.show='hide'}
+sce_mESC <- scMerge(sce_mESC,
+                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                    kmeansK = c(1,3,3,1,1),
+                    assay_name = "scMerge_supervised",
+                    cell_type = sce_mESC$cellTypes)
+```
+
+
+```{r}
+sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_supervised")
+scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+```
+
+#Semi-supervised scMerge I
+
+Perform scMerge using *partial* known cell type information
+
+```{r results='hide',fig.show='hide'}
+sce_mESC <- scMerge(sce_mESC,
+                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                    kmeansK = c(1,3,3,1,1),
+                    assay_name = "scMerge_semisupervised1",
+                    cell_type = sce_mESC$cellTypes,
+                    cell_type_inc = which(sce_mESC$cellTypes=="2i"))
+```
+
+
+```{r}
+sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_semisupervised1")
+scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+```
+
+#Semi-supervised scMerge II
+
+Perform scMerge using known cell type information to identify mutual nearest cluster
+
+
+```{r results='hide',fig.show='hide'}
+sce_mESC <- scMerge(sce_mESC,
+                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                    kmeansK = c(1,3,3,1,1),
+                    assay_name = "scMerge_semisupervised2",
+                    cell_type = sce_mESC$cellTypes,
+                    cell_type_match = T)
+```
+
+```{r}
+sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_semisupervised2")
+scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+```
+
+#Session Info
+
+```{r}
+sessionInfo()
+```
+
+
+<!-- You can enable figure captions by `fig_caption: yes` in YAML: -->
+
+<!--     output: -->
+<!--       rmarkdown::html_vignette: -->
+<!--         fig_caption: yes -->
+
+<!-- Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**. -- -->
