@@ -2,7 +2,7 @@
 #'
 #' Create pseudo-replicate from single-cell RNA-seq data from different batches, experiments, and protocols.
 #'
-#' @param sce A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData
+#' @param sce A \code{SingleCellExperiment} object contains then batch-combined matrix with batch info in colData
 #' @param batch A vector indicates the batch information for each cell in the batch-combined matrix.
 #' @param kmeansK A vector indicates the kmeans's K for each batch, length of KmeansK needs to be the same as the number of batch.
 #' @param exprs A string inciates the assay that are used for batch correction, default is logcounts
