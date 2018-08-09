@@ -64,7 +64,7 @@ Merge single-cell RNA-seq data from different batches, experiments, protocols.
 }
 \examples{
 require(SingleCellExperiment)
-#Loading the data
+#Loading example data
 data("sce_mESC")
 data("segList_ensemblGeneID")
 #scMerge

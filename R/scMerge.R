@@ -30,7 +30,7 @@
 #' @author Yingxin Lin
 #' @examples
 #' require(SingleCellExperiment)
-#' #Loading the data
+#' #Loading example data
 #' data("sce_mESC")
 #' data("segList_ensemblGeneID")
 #' #scMerge
@@ -62,23 +62,28 @@ scMerge <- function(sce_combine,
                     assay_name = NULL,
                     return_sce = TRUE) {
 
+  ## Checking input expression
   if(is.null(exprs)){
     stop("exprs is NULL.")
   }
+
+  ## Checking input expression assay name in SCE object
   if(!exprs %in% assayNames(sce_combine)){
     stop(paste("No assay named", exprs))
   }
 
+  ## Extracting data matrix from SCE object
   exprs_mat <- assay(sce_combine, exprs)
   sce_rownames <- rownames(sce_combine)
 
-  # Check QC
+  ## Checking if any rows or columns are purely zeroes
   if (sum(rowSums(exprs_mat) == 0) != 0 | sum(colSums(exprs_mat) == 0) != 0) {
     stop("There are rows or columns that are all zeros. Please remove it.")
   }
 
+  ## Checking negative controls input
   if (is.null(ctl)) {
-    warning("No Negative Control\n")
+    warning("No negative control genes \n")
     if (return_sce) {
       return(sce_combine)
     } else {
@@ -86,24 +91,24 @@ scMerge <- function(sce_combine,
     }
   } else {
     if (class(ctl) == "character") {
-      ctl <- which(sce_rownames%in% ctl)
+      ctl <- which(sce_rownames %in% ctl)
     }
     if (length(ctl) == 0) {
-      stop("No negative genes exists in the expression matrix", call. = FALSE)
+      stop("Could not find any negative control genes in the row names of the expression matrix", call. = FALSE)
     }
   }
 
-
+  ## Checking the batch info
   if (is.null(sce_combine$batch)) {
-    stop("No bacth info", call. = FALSE)
+    stop("Could not find a 'batch' column in colData(sce_combine)", call. = FALSE)
   }
-  if(class(sce_combine$batch)=="factor"){
+  if(class(sce_combine$batch) == "factor"){
     sce_batch <- droplevels(sce_combine$batch)
   }else{
     sce_batch <- sce_combine$batch
   }
 
-
+  ## Finding pseudo-replicates
   repMat <- scReplicate(sce = sce_combine,
                         batch = sce_batch,
                         kmeansK = kmeansK,
@@ -120,13 +125,13 @@ scMerge <- function(sce_combine,
                         WV_marker = WV_marker)
 
 
-  cat("Dimension of the replicate matrix")
+  cat("Dimension of the replicates mapping matrix \n")
   print(dim(repMat))
 
 
-  # Perform scMerge
+  ## Performing RUV normalisation
 
-  cat("perform RUV... ;) \n")
+  cat("Performing RUV normalisation... ;) \n")
 
   ruv3res <- scRUVIII(Y = t(exprs_mat),
                               M = repMat,
@@ -140,8 +145,8 @@ scMerge <- function(sce_combine,
                               fast_svd = fast_svd)
 
 
-
-  # Return results #NEED FIX
+  # YXL: NEED FIX
+  ## Return results
   if (return_all_RUV) {
     return(res = list(
       scRUV = ruv3res,
@@ -154,7 +159,6 @@ scMerge <- function(sce_combine,
     if (is.null(assay_name)) {
       assay_name <- paste("scMerge_RUVk", ruv3res$k, sep = "")
     }
-
     assay(sce_combine, assay_name) <- t(ruv3res$newY)
     cat(paste("Return assay named \n", assay_name))
     return(sce_combine)
