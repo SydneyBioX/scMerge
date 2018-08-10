@@ -37,7 +37,7 @@
 #' sce_mESC<- scMerge(sce_mESC,
 #'                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
 #'                    kmeansK = c(1,3,3,1,1),
-#'                    assay_name = "scRUV")
+#'                    assay_name = "scMerge")
 #' @export
 
 

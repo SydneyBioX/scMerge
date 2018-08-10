@@ -5,11 +5,11 @@
 \title{Merge single-cell RNA-seq data from different batches, experiments, protocols.}
 \usage{
 scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
-  hvg_exprs = "counts", marker = NULL, marker_list = NULL,
-  ruvK = 20, replicate_prop = 0.5, cell_type = NULL,
-  cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = TRUE,
-  dist = "cor", WV = NULL, WV_marker = NULL,
-  return_all_RUV = FALSE, assay_name = NULL, return_sce = TRUE)
+  hvg_exprs = "counts", marker = NULL, marker_list = NULL, ruvK = 20,
+  replicate_prop = 0.5, cell_type = NULL, cell_type_match = FALSE,
+  cell_type_inc = NULL, fast_svd = TRUE, dist = "cor", WV = NULL,
+  WV_marker = NULL, return_all_RUV = FALSE, assay_name = NULL,
+  return_sce = TRUE)
 }
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
@@ -71,7 +71,7 @@ data("segList_ensemblGeneID")
 sce_mESC<- scMerge(sce_mESC,
                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
                    kmeansK = c(1,3,3,1,1),
-                   assay_name = "scRUV")
+                   assay_name = "scMerge")
 }
 \author{
 Yingxin Lin
