@@ -4,7 +4,7 @@
 
 ## Installation 
 
-The installation process could take up to 10 minutes, depending if you have some of the packages pre-installed. 
+The installation process could take up to 5 minutes, depending if you have some of the packages pre-installed. 
 
 ``` r
 # Some CRAN packages required by scMerge

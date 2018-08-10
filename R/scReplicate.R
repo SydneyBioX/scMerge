@@ -54,7 +54,7 @@ scReplicate <- function(sce,
                         WV_marker = NULL,
                         return_all = FALSE){
 
-  exprs_mat <- assay(sce, exprs)
+  exprs_mat <- SummarizedExperiment::assay(sce, exprs)
 
   if (!is.null(cell_type) & is.null(cell_type_inc) & !cell_type_match) {
 

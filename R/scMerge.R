@@ -73,7 +73,7 @@ scMerge <- function(sce_combine,
   }
 
   ## Extracting data matrix from SCE object
-  exprs_mat <- assay(sce_combine, exprs)
+  exprs_mat <- SummarizedExperiment::assay(sce_combine, exprs)
   sce_rownames <- rownames(sce_combine)
 
   ## Checking if any rows or columns are purely zeroes
