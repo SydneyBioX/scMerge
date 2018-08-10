@@ -42,7 +42,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
         return.info = return.info
       )
     } else {
-      ruv3res <- RUVIII(
+      ruv3res <- ruv::RUVIII(
         Y = t(normY),
         ctl = ctl,
         k = k,
