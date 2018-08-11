@@ -11,11 +11,11 @@
 # which also provides the option to select optimal RUVk according to the silhouette coefficient
 scRUVIII <- function(Y = Y, M = M, ctl = ctl,
                              fullalpha = NULL,
-                             k = k, return.info = T,
+                             k = k, return.info = TRUE,
                              cell_type = NULL,
                              batch = NULL,
                              return_all = F,
-                             fast_svd = F) {
+                             fast_svd = FALSE) {
   Y <- t(Y)
   # geneMeanMat<-matrix(rep(rowMeans(Y),ncol(Y)),ncol=ncol(Y))
   # geneSdMat<-matrix(rep(apply(Y-geneMeanMat,1,sd),ncol(Y)),ncol=ncol(Y))

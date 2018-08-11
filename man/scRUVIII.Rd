@@ -5,8 +5,8 @@
 \title{scRUVIII}
 \usage{
 scRUVIII(Y = Y, M = M, ctl = ctl, fullalpha = NULL, k = k,
-  return.info = T, cell_type = NULL, batch = NULL, return_all = F,
-  fast_svd = F)
+  return.info = TRUE, cell_type = NULL, batch = NULL,
+  return_all = F, fast_svd = FALSE)
 }
 \description{
 perform scRUVIII

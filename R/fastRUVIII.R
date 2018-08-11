@@ -54,7 +54,7 @@ fastRUVIII <-
         } else {
           rsvd_k <- sum(ctl)
         }
-        if (nrow(M) >= 2000) {
+        if (nrow(M) >= 300) {
           rvsd_q <- 1
         } else {
           rvsd_q <- 2
