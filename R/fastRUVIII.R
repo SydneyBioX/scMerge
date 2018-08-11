@@ -54,11 +54,15 @@ fastRUVIII <-
         } else {
           rsvd_k <- sum(ctl)
         }
+
+
         if (nrow(M) >= 300) {
           rvsd_q <- 1
         } else {
           rvsd_q <- 2
         }
+
+
         fullalpha <- t(rsvd::rsvd(Y0 %*% t(Y0), k = rsvd_k, q = rvsd_q)$u[, 1:min(
           m - ncol(M),
           sum(ctl)

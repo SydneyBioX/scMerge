@@ -1,26 +1,26 @@
 #' Merge single-cell RNA-seq data from different batches, experiments, protocols.
 #'
-#' @param sce_combine A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData
-#' @param ctl A vector indicates the indices of negative control
-#' @param kmeansK A vector indicates the kmeans's K for each batch, length of KmeansK needs to be the same as the number of batch.
-#' @param exprs A string inciates the assay that are used for batch correction, default is logcounts
-#' @param hvg_exprs A string inciates the assay that are used for highly variable genes identification, default is counts
-#' @param marker A vector of markers, which will be used in calcualtion of mutual nearest cluster. If no markers input, highly variable genes will be used instead
-#' @param marker_list A list of markers for each batch, which will be used in calcualtion of mutual nearest cluster.
-#' @param ruvK A vector indicates the number(s) of unwanted variation factors that are removed, default is 25.
-#' @param replicate_prop A number indicates the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1
-#' @param cell_type A vector indicates the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.
-#' @param cell_type_match Whether find mutual nearest cluster using cell type information
-#' @param cell_type_inc A vector indicates the indices of the cells that will be used to supervise the pseudo-replicate procedure
-#' @param fast_svd If \code{TRUE}, rsvd will be used for singular value decomposition calculation.
-#' @param dist The distance metrics that are used in the calcualtion of the mutual nearest cluster, default is Pearson correlation.
-#' @param WV A vector indicates the wanted variation factor other than cell type info, such as cell stages.
-#' @param WV_marker A vector indicates the markers of the wanted variation.
-#' @param return_all_RUV whether return all the RUV results
+#' @param sce_combine A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData.
+#' @param ctl A chatacter vector of negative control. It should have a non-empty intersection with the rows of sce_combine.
+#' @param kmeansK A vector indicates the kmeans's K for each batch. The length of kmeansK needs to be the same as the number of batch.
+#' @param exprs A string inciating the name of the assay requiring batch correction in sce_combine, default is logcounts.
+#' @param hvg_exprs A string inciating the assay that to be used for highly variable genes identification in sce_combine, default is counts.
+#' @param marker An optional vector of markers, to be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead.
+#' @param marker_list An optional list of markers for each batch, which will be used in calculation of mutual nearest cluster.
+#' @param ruvK An optional integer/vector indicating the number of unwanted variation factors that are removed, default is 20.
+#' @param replicate_prop A number indicating the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1.
+#' @param cell_type An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.
+#' @param cell_type_match An optional logical input for whether to find mutual nearest cluster using cell type information.
+#' @param cell_type_inc An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.
+#' @param fast_svd If \code{TRUE}, randomised singular value decomposition will be used for singular value decomposition calculation.
+#' @param dist The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.
+#' @param WV A optional vector indicating the wanted variation factor other than cell type info, such as cell stages.
+#' @param WV_marker An optional vector indicating the markers of the wanted variation.
+#' @param return_all_RUV Whether to return all RUVIII outputs.
 #' @param assay_name The assay name for the adjusted expression matrix.
 #' @param return_sce If \code{TRUE}, return the whole \code{SingleCellExperiment} object. If \code{FALSE}, return the adjusted expression matrix.
 #'
-#' @return If \code{return_sce} is \code{TRUE}, return the \code{SingleCellExperiment} object with the adjusted assay.
+#' @return If \code{return_sce} is \code{TRUE}, return the \code{SingleCellExperiment} object with the adjusted assay, otherwise, the adjusted expression matrix will be returned.
 #'
 #' If \code{return_sce} is \code{FALSE}, return the followings
 #' \item{normalised_matrix }{adjusted expression matrix}
@@ -30,10 +30,11 @@
 #' @author Yingxin Lin
 #' @examples
 #' require(SingleCellExperiment)
-#' #Loading example data
+#' # Loading example data
 #' data("sce_mESC")
+#' # Previously computed stably expressed genes
 #' data("segList_ensemblGeneID")
-#' #scMerge
+#' # Running an example data with minimal inputs
 #' sce_mESC<- scMerge(sce_mESC,
 #'                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
 #'                    kmeansK = c(1,3,3,1,1),

@@ -12,46 +12,46 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
   return_all_RUV = FALSE, assay_name = NULL, return_sce = TRUE)
 }
 \arguments{
-\item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
+\item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData.}
 
-\item{ctl}{A vector indicates the indices of negative control}
+\item{ctl}{A chatacter vector of negative control. It should have a non-empty intersection with the rows of sce_combine.}
 
-\item{kmeansK}{A vector indicates the kmeans's K for each batch, length of KmeansK needs to be the same as the number of batch.}
+\item{kmeansK}{A vector indicates the kmeans's K for each batch. The length of kmeansK needs to be the same as the number of batch.}
 
-\item{exprs}{A string inciates the assay that are used for batch correction, default is logcounts}
+\item{exprs}{A string inciating the name of the assay requiring batch correction in sce_combine, default is logcounts.}
 
-\item{hvg_exprs}{A string inciates the assay that are used for highly variable genes identification, default is counts}
+\item{hvg_exprs}{A string inciating the assay that to be used for highly variable genes identification in sce_combine, default is counts.}
 
-\item{marker}{A vector of markers, which will be used in calcualtion of mutual nearest cluster. If no markers input, highly variable genes will be used instead}
+\item{marker}{An optional vector of markers, to be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead.}
 
-\item{marker_list}{A list of markers for each batch, which will be used in calcualtion of mutual nearest cluster.}
+\item{marker_list}{An optional list of markers for each batch, which will be used in calculation of mutual nearest cluster.}
 
-\item{ruvK}{A vector indicates the number(s) of unwanted variation factors that are removed, default is 25.}
+\item{ruvK}{An optional integer/vector indicating the number of unwanted variation factors that are removed, default is 20.}
 
-\item{replicate_prop}{A number indicates the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1}
+\item{replicate_prop}{A number indicating the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1.}
 
-\item{cell_type}{A vector indicates the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.}
+\item{cell_type}{An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.}
 
-\item{cell_type_match}{Whether find mutual nearest cluster using cell type information}
+\item{cell_type_match}{An optional logical input for whether to find mutual nearest cluster using cell type information.}
 
-\item{cell_type_inc}{A vector indicates the indices of the cells that will be used to supervise the pseudo-replicate procedure}
+\item{cell_type_inc}{An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.}
 
-\item{fast_svd}{If \code{TRUE}, rsvd will be used for singular value decomposition calculation.}
+\item{fast_svd}{If \code{TRUE}, randomised singular value decomposition will be used for singular value decomposition calculation.}
 
-\item{dist}{The distance metrics that are used in the calcualtion of the mutual nearest cluster, default is Pearson correlation.}
+\item{dist}{The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.}
 
-\item{WV}{A vector indicates the wanted variation factor other than cell type info, such as cell stages.}
+\item{WV}{A optional vector indicating the wanted variation factor other than cell type info, such as cell stages.}
 
-\item{WV_marker}{A vector indicates the markers of the wanted variation.}
+\item{WV_marker}{An optional vector indicating the markers of the wanted variation.}
 
-\item{return_all_RUV}{whether return all the RUV results}
+\item{return_all_RUV}{Whether to return all RUVIII outputs.}
 
 \item{assay_name}{The assay name for the adjusted expression matrix.}
 
 \item{return_sce}{If \code{TRUE}, return the whole \code{SingleCellExperiment} object. If \code{FALSE}, return the adjusted expression matrix.}
 }
 \value{
-If \code{return_sce} is \code{TRUE}, return the \code{SingleCellExperiment} object with the adjusted assay.
+If \code{return_sce} is \code{TRUE}, return the \code{SingleCellExperiment} object with the adjusted assay, otherwise, the adjusted expression matrix will be returned.
 
 If \code{return_sce} is \code{FALSE}, return the followings
 \item{normalised_matrix }{adjusted expression matrix}
@@ -64,10 +64,11 @@ Merge single-cell RNA-seq data from different batches, experiments, protocols.
 }
 \examples{
 require(SingleCellExperiment)
-#Loading example data
+# Loading example data
 data("sce_mESC")
+# Previously computed stably expressed genes
 data("segList_ensemblGeneID")
-#scMerge
+# Running an example data with minimal inputs
 sce_mESC<- scMerge(sce_mESC,
                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
                    kmeansK = c(1,3,3,1,1),
