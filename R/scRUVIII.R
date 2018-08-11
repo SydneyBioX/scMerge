@@ -16,7 +16,11 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
                              batch = NULL,
                              return_all = F,
                              fast_svd = FALSE) {
+
+  ## Transpose the data, since RUV assumes columns are genes.
   Y <- t(Y)
+
+
   # geneMeanMat<-matrix(rep(rowMeans(Y),ncol(Y)),ncol=ncol(Y))
   # geneSdMat<-matrix(rep(apply(Y-geneMeanMat,1,sd),ncol(Y)),ncol=ncol(Y))
   # normY<-(Y-geneMeanMat)/geneSdMat
@@ -26,13 +30,16 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
     return(NULL)
   }
 
+  ## Standardise the data
   scale_res <- standardize(Y, batch)
   normY <- scale_res$s.data
   geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
   geneMeanMat <- scale_res$stand.mean
 
-  if (length(k) == 1) {
-    if (fast_svd) {
+
+
+  if (length(k) == 1) { ## If user only specified one RUVk value
+    if (fast_svd) { ## And the user wanted the rsvd option, we will provide that
       ruv3res <- fastRUVIII(
         Y = t(normY),
         ctl = ctl,
@@ -41,7 +48,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
         fullalpha = fullalpha,
         return.info = return.info
       )
-    } else {
+    } else { ## If the user wanted the usual svd option, we will provide that here
       ruv3res <- ruv::RUVIII(
         Y = t(normY),
         ctl = ctl,
@@ -53,7 +60,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
     }
 
     ruv3res$k <- k
-  } else {
+  } else { ## If user only specified more than one RUVk value, we will perform a computation with a single value first
     ruv3res_list <- list()
     print(paste("k =", k[1]))
     if (fast_svd) {
@@ -74,8 +81,8 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
         fullalpha = fullalpha,
         return.info = return.info
       )
-    }
-
+    } ## End fast_svd criterion
+    ## If user only specified more than one RUVk value, then, all subsequent normalisation can be calculated using the first decomposition value.
     for (i in 2:length(k)) {
       print(paste("k =", k[i]))
       if (fast_svd) {
@@ -96,8 +103,8 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
           fullalpha = ruv3res_list[[1]]$fullalpha,
           return.info = return.info
         )
-      }
-    }
+      } ## End fast_svd criterion
+    } ## End length(k) == 1 criterion
 
     if (is.null(cell_type)) {
       cat("No cell type info, replicate matrix will be used as cell type info\n")
