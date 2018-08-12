@@ -121,11 +121,10 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
                                        )
                                      }
     ))
-    # score<-minMaxScale(k*sil_res[1,])-minMaxScale(rev(k)*sil_res[2,])
-    # f_score<-minMaxScale(sil_res[1,])-minMaxScale(sil_res[2,])
+
     f_score <- rep(NA, ncol(sil_res))
     for (i in 1:length(k)) {
-      f_score[i] <- f_measure(minMaxScale(sil_res[1, ])[i], 1 - minMaxScale(sil_res[2, ])[i])
+      f_score[i] <- f_measure(zeroOneScale(sil_res[1, ])[i], 1 - zeroOneScale(sil_res[2, ])[i])
     }
     names(f_score) <- k
 
@@ -157,8 +156,8 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
 
 
 
-minMaxScale <- function(v) {
-  v <- (v - min(v)) / (max(v) - min(v))
+zeroOneScale <- function(v) {
+  v <- (v+1)/2
   return(v)
 }
 
@@ -174,4 +173,7 @@ standardize <- function(exprsMat, batch) {
   return(res = list(s.data = s.data, stand.mean = stand.mean, stand.var = var.pooled))
 }
 
-
+f_measure <- function(celltypes, batch) {
+  f <- 2 * (celltypes * batch) / (celltypes + batch)
+  return(f)
+}
