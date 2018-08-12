@@ -113,7 +113,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
 
     sil_res <- do.call(cbind, lapply(ruv3res_list,
                                      FUN = function(x) {
-                                       pca.data <- rsvd::rpca(x$newY, k = 50, rand = 1)
+                                       pca.data <- rsvd::rpca(x$newY, k = 10, rand = 1)
                                        # pca.data<-prcomp(x$newY)
                                        c(
                                          batch_sil(pca.data, as.numeric(as.factor(cell_type))),
