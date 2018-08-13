@@ -52,13 +52,13 @@ fastRUVIII <-
         Y0 <- residop_fast(Y, M)
 ####################
         ## KW: This switch was changed from sum(ctl) to 0.1*min(dim(Y0)), as we need to work with more data
-        # if (min(m - ncol(M), sum(ctl)) <= 150) {
-        #   rsvd_k <- 150
-        # } else {
-        #   rsvd_k <- sum(ctl)
-        # }
+        if (min(m - ncol(M), sum(ctl)) <= 150) {
+          rsvd_k <- 150
+        } else {
+          rsvd_k <- sum(ctl)
+        }
 
-        rsvd_k = 0.1*min(dim(Y0))
+        # rsvd_k = 0.1*min(dim(Y0))
 ####################
         ## KW: At the advice of JO, q should not be lowered.
         # if (nrow(M) >= 300) {
