@@ -287,7 +287,7 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
         # point_rank <- rank(point_dist)
         # point_rank <- point_rank / length(point_rank)
         # point_rank
-        centroidDist(exprs_current[,kmeans_res$cluster == y])
+        centroidDist(exprs_current[,kmeans_res$cluster == y], drop = FALSE] )
       })
       clustering_res_pt_dist[[j]] <- unlist(clustering_res_pt_dist[[j]])
       clustering_res_pt_dist[[j]] <- clustering_res_pt_dist[[j]][names(clustering_res[[j]])]
