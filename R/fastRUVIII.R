@@ -8,7 +8,7 @@
 
 
 fastRUVIII <-
-  function(Y, M, ctl, k = NULL, eta = NULL, include.intercept = TRUE,
+  function(Y, M, ctl, k = NULL, eta = NULL, propEigen = 0.01, include.intercept = TRUE,
            average = FALSE, fullalpha = NULL, return.info = FALSE, inputcheck = TRUE) {
     if (is.data.frame(Y)) {
       Y <- data.matrix(Y)
@@ -59,7 +59,7 @@ fastRUVIII <-
         #   rsvd_k <- sum(ctl)
         # }
 
-        propEigen = 0.1
+        propEigen = 0.01
         rsvd_k = min(m - ncol(M), sum(ctl), ceiling(propEigen*min(dim(Y0))))
         ####################
         ## KW: At the advice of JO, q should not be lowered.

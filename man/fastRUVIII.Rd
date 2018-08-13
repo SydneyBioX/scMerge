@@ -4,9 +4,9 @@
 \alias{fastRUVIII}
 \title{fastRUVIII}
 \usage{
-fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, include.intercept = TRUE,
-  average = FALSE, fullalpha = NULL, return.info = FALSE,
-  inputcheck = TRUE)
+fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, propEigen = 0.01,
+  include.intercept = TRUE, average = FALSE, fullalpha = NULL,
+  return.info = FALSE, inputcheck = TRUE)
 }
 \description{
 perform fastRUVIII

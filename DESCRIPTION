@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: Merging single-cell RNA-seq expression matrices
-Version: 0.1.6.1
+Version: 0.1.6.2
 Author: Yingxin Lin
 Maintainer: Yingxin Lin <yingxin.lin@sydney.edu.au>
 Description: Remove batch effect and unwanted variations for single-cell RNA-seq expression matrix.
