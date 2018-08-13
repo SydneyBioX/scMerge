@@ -280,11 +280,14 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
     if (!is.null(pca_current)) {
       kmeans_res <- kmeans(pca_current$x[, 1:10], centers = kmeansK[j], nstart = 100)
       clustering_res[[j]] <- kmeans_res$cluster
+      exprs_current <- exprsMat[HVG_list[[j]], batch == batch_list[j]]
       clustering_res_pt_dist[[j]] <- lapply(1:kmeansK[j], function(y) {
-        point_dist <- rowSums((pca[[j]]$x[which(kmeans_res$cluster == y), 1:10, drop = FALSE] - kmeans_res$centers[y, ])^2)
-        point_rank <- rank(point_dist)
-        point_rank <- point_rank / length(point_rank)
-        point_rank
+
+        # point_dist <- rowSums((pca[[j]]$x[which(kmeans_res$cluster == y), 1:10, drop = FALSE] - kmeans_res$centers[y, ])^2)
+        # point_rank <- rank(point_dist)
+        # point_rank <- point_rank / length(point_rank)
+        # point_rank
+        centroidDist(exprs_current[,kmeans_res$cluster == y])
       })
       clustering_res_pt_dist[[j]] <- unlist(clustering_res_pt_dist[[j]])
       clustering_res_pt_dist[[j]] <- clustering_res_pt_dist[[j]][names(clustering_res[[j]])]
