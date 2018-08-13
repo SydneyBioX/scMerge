@@ -48,26 +48,31 @@ fastRUVIII <-
         # if(min(m - ncol(M),sum(ctl))<=150){ rsvd_k=150}else{rsvd_k=min(m - ncol(M),sum(ctl))}
         # fullalpha = t(rsvd(Y0 %*% t(Y0),k=rsvd_k)$u[, 1:min(m - ncol(M),
         #    sum(ctl)), drop = FALSE]) %*% Y
+
         Y0 <- residop_fast(Y, M)
-        if (min(m - ncol(M), sum(ctl)) <= 150) {
-          rsvd_k <- 150
-        } else {
-          rsvd_k <- sum(ctl)
-        }
+####################
+        ## KW: This switch was changed from sum(ctl) to 0.1*min(dim(Y0)), as we need to work with more data
+        # if (min(m - ncol(M), sum(ctl)) <= 150) {
+        #   rsvd_k <- 150
+        # } else {
+        #   rsvd_k <- sum(ctl)
+        # }
 
-
-        if (nrow(M) >= 300) {
-          rvsd_q <- 1
-        } else {
-          rvsd_q <- 2
-        }
-
-
-        fullalpha <- t(rsvd::rsvd(Y0 %*% t(Y0), k = rsvd_k, q = rvsd_q)$u[, 1:min(
+        rsvd_k = 0.1*min(dim(Y0))
+####################
+        ## KW: At the advice of JO, q should not be lowered.
+        # if (nrow(M) >= 300) {
+        #   rvsd_q <- 1
+        # } else {
+        #   rvsd_q <- 2
+        # }
+####################
+        fullalpha <- t(rsvd::rsvd(Y0 %*% t(Y0), k = rsvd_k, q = 2)$u[, 1:min(
           m - ncol(M),
           sum(ctl)
         ), drop = FALSE]) %*% Y
       }
+
       alpha <- fullalpha[1:min(k, nrow(fullalpha)), , drop = FALSE]
       ac <- alpha[, ctl, drop = FALSE]
       W <- Y[, ctl] %*% t(ac) %*% solve(ac %*% t(ac))
