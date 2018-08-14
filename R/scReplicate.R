@@ -282,7 +282,12 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
     if (!is.null(pca_current)) {
       kmeans_res <- kmeans(pca_current$x[, 1:10], centers = kmeansK[j], nstart = 1000)
       clustering_res[[j]] <- kmeans_res$cluster
-      exprs_current <- exprsMat[HVG_list[[j]], batch == batch_list[j]]
+      # exprs_current <- exprsMat[HVG_list[[j]], batch == batch_list[j]]
+      if(!is.null(marker)){
+        exprs_current <- exprsMat[marker, batch == batch_list[j]]
+      }else{
+        exprs_current <- exprsMat[HVG_list[[j]], batch == batch_list[j]]
+      }
       clustering_res_pt_dist[[j]] <- lapply(1:kmeansK[j], function(y) {
 
         # point_dist <- rowSums((pca[[j]]$x[which(kmeans_res$cluster == y), 1:10, drop = FALSE] - kmeans_res$centers[y, ])^2)
@@ -301,7 +306,13 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
       # point_dist <- colSums((exprs_batch - centroid_batch)^2)
       # point_rank <- rank(point_dist)
       # point_rank <- point_rank / length(point_rank)
-      clustering_res_pt_dist[[j]] <- centroidDist(exprsMat[HVG_list[[j]], batch == batch_list[j]])
+      # clustering_res_pt_dist[[j]] <- centroidDist(exprsMat[HVG_list[[j]], batch == batch_list[j]])
+
+      if(!is.null(marker)){
+        clustering_res_pt_dist[[j]] <- centroidDist(exprsMat[marker, batch == batch_list[j]])
+      }else{
+        clustering_res_pt_dist[[j]] <- centroidDist(exprsMat[HVG_list[[j]], batch == batch_list[j]])
+      }
     }
   }
 
