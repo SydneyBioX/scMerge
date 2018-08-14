@@ -166,9 +166,8 @@ scMerge <- function(sce_combine,
   } else {
     return(res = list(
       normalised_matrix = ruv3res$newY,
-      scRUV = ruv3res,
-      mnc = mnc,
-      kmeans = kmeans_res
+      scRUV_res = ruv3res,
+      scRep_res = repMat
     ))
   }
 }

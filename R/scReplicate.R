@@ -239,20 +239,21 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
   batch_oneType <- unlist(batch_list)[which(kmeansK == 1)]
   batch_num <- table(batch)[as.character(unique(batch))]
 
-  if(ncol(exprsMat)>=5000){
-    rpca_q = 0
-  }else if(ncol(exprsMat)>=2000){
-    rpca_q =1
-  }else{
-    rpca_q =2
-  }
+  # if(ncol(exprsMat)>=5000){
+  #   rpca_q = 0
+  # }else if(ncol(exprsMat)>=2000){
+  #   rpca_q =1
+  # }else{
+  #   rpca_q =2
+  # }
 
   if (!is.null(marker)) {
     pca <- lapply(
       batch_list,
       function(x) {
         if (!x %in% batch_oneType) {
-          rsvd::rpca(t(exprsMat[marker, batch == x]), k=10, scale = T, q = rpca_q)
+          # rsvd::rpca(t(exprsMat[marker, batch == x]), k=10, scale = T, q = 2)
+          prcomp(t(exprsMat[marker, batch == x]), scale. = TRUE)
         } else {
           NULL
         }
@@ -263,7 +264,8 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
       batch_list,
       function(x) {
         if (!x %in% batch_oneType) {
-          rsvd::rpca(t(exprsMat[HVG_list[[x]], batch == x]), k=10, scale = T, q = rpca_q)
+          # rsvd::rpca(t(exprsMat[HVG_list[[x]], batch == x]), k=10, scale = T, q = 2)
+          prcomp(t(exprsMat[HVG_list[[x]], batch == x]), scale. = TRUE)
         } else {
           NULL
         }
@@ -299,7 +301,7 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
       # point_dist <- colSums((exprs_batch - centroid_batch)^2)
       # point_rank <- rank(point_dist)
       # point_rank <- point_rank / length(point_rank)
-      clustering_res_pt_dist[[j]] <- centroidDist(exprsMat[, batch == batch_list[j]])
+      clustering_res_pt_dist[[j]] <- centroidDist(exprsMat[HVG_list[[j]], batch == batch_list[j]])
     }
   }
 
