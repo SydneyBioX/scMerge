@@ -280,7 +280,7 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
   for (j in 1:length(pca)) {
     pca_current <- pca[[j]]
     if (!is.null(pca_current)) {
-      kmeans_res <- kmeans(pca_current$x[, 1:10], centers = kmeansK[j], nstart = 100)
+      kmeans_res <- kmeans(pca_current$x[, 1:10], centers = kmeansK[j], nstart = 1000)
       clustering_res[[j]] <- kmeans_res$cluster
       exprs_current <- exprsMat[HVG_list[[j]], batch == batch_list[j]]
       clustering_res_pt_dist[[j]] <- lapply(1:kmeansK[j], function(y) {
