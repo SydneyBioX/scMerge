@@ -12,7 +12,8 @@
 #' @param cell_type An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.
 #' @param cell_type_match An optional logical input for whether to find mutual nearest cluster using cell type information.
 #' @param cell_type_inc An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.
-#' @param fast_svd If \code{TRUE}, randomised singular value decomposition will be used for singular value decomposition calculation.
+#' @param fast_svd If \code{TRUE}, randomised singular value decomposition will be used for singular value decomposition calculation. We recommend using this option when the number of cells is large (e.g. > 1000).
+#' @param propEigen If \code{fast_svd = TRUE}, then propEigen will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 #' @param dist The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.
 #' @param WV A optional vector indicating the wanted variation factor other than cell type info, such as cell stages.
 #' @param WV_marker An optional vector indicating the markers of the wanted variation.
@@ -56,6 +57,7 @@ scMerge <- function(sce_combine,
                     cell_type_match = FALSE,
                     cell_type_inc = NULL,
                     fast_svd = TRUE,
+                    propEigen = 0.1,
                     dist = "cor",
                     WV = NULL,
                     WV_marker = NULL,
@@ -135,15 +137,16 @@ scMerge <- function(sce_combine,
   cat("Performing RUV normalisation... ;) \n")
 
   ruv3res <- scRUVIII(Y = t(exprs_mat),
-                              M = repMat,
-                              ctl = ctl,
-                              k = ruvK,
-                              batch = sce_batch,
-                              fullalpha = NULL,
-                              cell_type = cell_type,
-                              return.info = T,
-                              return_all = return_all_RUV,
-                              fast_svd = fast_svd)
+                      M = repMat,
+                      ctl = ctl,
+                      k = ruvK,
+                      batch = sce_batch,
+                      fullalpha = NULL,
+                      cell_type = cell_type,
+                      return.info = T,
+                      return_all = return_all_RUV,
+                      fast_svd = fast_svd,
+                      propEigen = propEigen)
 
 
   # YXL: NEED FIX

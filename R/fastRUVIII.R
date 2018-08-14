@@ -8,7 +8,7 @@
 
 
 fastRUVIII <-
-  function(Y, M, ctl, k = NULL, eta = NULL, propEigen = 0.01, include.intercept = TRUE,
+  function(Y, M, ctl, k = NULL, eta = NULL, propEigen = 0.1, include.intercept = TRUE,
            average = FALSE, fullalpha = NULL, return.info = FALSE, inputcheck = TRUE) {
     if (is.data.frame(Y)) {
       Y <- data.matrix(Y)
@@ -45,29 +45,9 @@ fastRUVIII <-
     }
     else {
       if (is.null(fullalpha)) {
-        # Y0 = residop_fast(Y, M)
-        # if(min(m - ncol(M),sum(ctl))<=150){ rsvd_k=150}else{rsvd_k=min(m - ncol(M),sum(ctl))}
-        # fullalpha = t(rsvd(Y0 %*% t(Y0),k=rsvd_k)$u[, 1:min(m - ncol(M),
-        #    sum(ctl)), drop = FALSE]) %*% Y
-
         Y0 <- residop_fast(Y, M)
         ####################
-        ## KW: This switch was changed from sum(ctl) to 0.1*min(dim(Y0)), as we need to work with more data
-        # if (min(m - ncol(M), sum(ctl)) <= 150) {
-        #   rsvd_k <- 150
-        # } else {
-        #   rsvd_k <- sum(ctl)
-        # }
-
-        propEigen = 0.01
         rsvd_k = min(m - ncol(M), sum(ctl), ceiling(propEigen*min(dim(Y0))))
-        ####################
-        ## KW: At the advice of JO, q should not be lowered.
-        # if (nrow(M) >= 300) {
-        #   rvsd_q <- 1
-        # } else {
-        #   rvsd_q <- 2
-        # }
         ####################
         fullalpha <- t(rsvd::rsvd(Y0 %*% t(Y0), k = rsvd_k, q = 2)$u[, 1:rsvd_k, drop = FALSE]) %*% Y
       }

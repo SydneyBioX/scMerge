@@ -9,13 +9,15 @@
 
 # A function to perform loacation/scale adjustement to data as the input of RUVIII
 # which also provides the option to select optimal RUVk according to the silhouette coefficient
-scRUVIII <- function(Y = Y, M = M, ctl = ctl,
-                             fullalpha = NULL,
-                             k = k, return.info = TRUE,
-                             cell_type = NULL,
-                             batch = NULL,
-                             return_all = F,
-                             fast_svd = FALSE) {
+scRUVIII <- function(Y = Y,
+                     M = M, ctl = ctl,
+                     fullalpha = NULL,
+                     k = k, return.info = TRUE,
+                     cell_type = NULL,
+                     batch = NULL,
+                     return_all = F,
+                     fast_svd = FALSE,
+                     propEigen = propEigen) {
 
   ## Transpose the data, since RUV assumes columns are genes.
   Y <- t(Y)
@@ -46,7 +48,8 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
         k = k,
         M = M,
         fullalpha = fullalpha,
-        return.info = return.info
+        return.info = return.info,
+        propEigen = propEigen
       )
     } else { ## If the user wanted the usual svd option, we will provide that here
       ruv3res <- ruv::RUVIII(
@@ -70,7 +73,8 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
         k = k[1],
         M = M,
         fullalpha = fullalpha,
-        return.info = return.info
+        return.info = return.info,
+        propEigen = propEigen
       )
     } else {
       ruv3res_list[[1]] <- RUVIII(
@@ -92,7 +96,8 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl,
           k = k[i],
           M = M,
           fullalpha = ruv3res_list[[1]]$fullalpha,
-          return.info = return.info
+          return.info = return.info,
+          propEigen = propEigen
         )
       } else {
         ruv3res_list[[i]] <- RUVIII(
@@ -163,12 +168,14 @@ zeroOneScale <- function(v) {
 
 standardize <- function(exprsMat, batch) {
   num_cell <- ncol(exprsMat)
+  num_batch <- length(unique(batch))
   batch <- as.factor(batch)
   grand.mean <- matrix(rowMeans(exprsMat), nrow = 1)
   stand.mean <- t(grand.mean) %*% t(rep(1, num_cell))
   design <- model.matrix(~-1 + batch)
   B.hat <- solve(crossprod(design), tcrossprod(t(design), as.matrix(exprsMat)))
-  var.pooled <- ((exprsMat - t(design %*% B.hat))^2) %*% rep(1 / num_cell, num_cell)
+  # var.pooled <- ((exprsMat - t(design %*% B.hat))^2) %*% rep(1 / num_cell, num_cell)
+  var.pooled <- ((exprsMat - t(design %*% B.hat))^2) %*% rep(1 / (num_cell-num_batch), num_cell)
   s.data <- (exprsMat - stand.mean) / (sqrt(var.pooled) %*% t(rep(1, num_cell)))
   return(res = list(s.data = s.data, stand.mean = stand.mean, stand.var = var.pooled))
 }
