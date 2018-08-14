@@ -8,7 +8,7 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
   hvg_exprs = "counts", marker = NULL, marker_list = NULL,
   ruvK = 20, replicate_prop = 0.5, cell_type = NULL,
   cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = TRUE,
-  dist = "cor", WV = NULL, WV_marker = NULL,
+  propEigen = 0.1, dist = "cor", WV = NULL, WV_marker = NULL,
   return_all_RUV = FALSE, assay_name = NULL, return_sce = TRUE)
 }
 \arguments{
@@ -36,7 +36,9 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{cell_type_inc}{An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.}
 
-\item{fast_svd}{If \code{TRUE}, randomised singular value decomposition will be used for singular value decomposition calculation.}
+\item{fast_svd}{If \code{TRUE}, randomised singular value decomposition will be used for singular value decomposition calculation. We recommend using this option when the number of cells is large (e.g. > 1000).}
+
+\item{propEigen}{If \code{fast_svd = TRUE}, then propEigen will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
 
 \item{dist}{The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.}
 

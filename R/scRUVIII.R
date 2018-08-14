@@ -17,7 +17,7 @@ scRUVIII <- function(Y = Y,
                      batch = NULL,
                      return_all = F,
                      fast_svd = FALSE,
-                     propEigen = propEigen) {
+                     propEigen = 0.1) {
 
   ## Transpose the data, since RUV assumes columns are genes.
   Y <- t(Y)
