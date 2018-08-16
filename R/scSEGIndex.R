@@ -1,15 +1,15 @@
 #' scSEGIndex
 #'
-#' Calculate stably expressed gene index
+#' Calculate single-cell Stably Expressed Gene (scSEG) index
 #'
 #'
 #' @author Shila Ghazanfar, Yingxin Lin, Pengyi Yang
 #' @param exprsMat The log-transoformed SC data (assumed to be no batch effect and covered a wide range of cell types). A n by m matrix, where n is the number of genes and m is the number of cells
-#' @param cell_type A vector indicating the cell type information for each cell in the gene expression matrix.
+#' @param cell_type A vector indicating the cell type information for each cell in the gene expression matrix. If it is \code{NULL}, the function calculates the scSEG index without using F-statistics.
 #' @param ncore Number of cores that are used in parallel
 #'
 #' @return A matrix of stably expressed features.
-#'
+#' @importFrom foreach %dopar%
 #' @export
 
 
@@ -122,6 +122,7 @@ make_para_gn_parallel = function(exprsMat, ncore = 1) {
   pb <- txtProgressBar(min = 1, max = iter,style=3)
   progress <- function(n) setTxtProgressBar(pb, n)
   opts <- list(progress=progress)
+  # `%dopar%` <- foreach::`%dopar%`
   res <- foreach::foreach(i = icount(iter), .combine = rbind,
                  .options.snow = opts,.export = c("gammaNormMix","bic","aic","icl_bic"))%dopar%{
     setTxtProgressBar(pb,i)
