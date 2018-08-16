@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.7.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.7.3</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
 
     <pre class="usage"><span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>fullalpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='no'>k</span>,
   <span class='kw'>return.info</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>return_all</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>propEigen</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
+  <span class='kw'>return_all_RUV</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>rsvd_prop</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,7 +148,7 @@ See ruv::RUVIII for more details.</p></td>
       <td><p>Batch information inherited from the scMerge::scMerge function.</p></td>
     </tr>
     <tr>
-      <th>return_all</th>
+      <th>return_all_RUV</th>
       <td><p>Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function</p></td>
     </tr>
     <tr>
@@ -156,8 +156,8 @@ See ruv::RUVIII for more details.</p></td>
       <td><p>If <code>TRUE</code> we will use the randomized SVD algorithm to speed up computation. Otherwise, we will use the standard SVD built into R.</p></td>
     </tr>
     <tr>
-      <th>propEigen</th>
-      <td><p>If <code>fast_svd = TRUE</code>, then propEigen is used to control for the accuracy of the randomized SVD computation.
+      <th>rsvd_prop</th>
+      <td><p>If <code>fast_svd = TRUE</code>, then rsvd_prop is used to control for the accuracy of the randomized SVD computation.
 If a lower value is used on a lower dimensional data (say &lt; 1000 cell) will potentially yield a less accurate computed result but with a gain in speed.
 The default of 0.1 tends to achieve a balance between speed and accuracy.</p></td>
     </tr>
@@ -173,14 +173,14 @@ The default of 0.1 tends to achieve a balance between speed and accuracy.</p></t
 
     <h2>Author</h2>
     
-Yingxin Lin
+Yingxin Lin, Kevin Wang
 
   </div>
 </div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Sydney Bioinformatics and Biometrics Group.</p>
+  <p>Developed by Yingxin Lin, Kevin Wang, Sydney Bioinformatics and Biometrics Group.</p>
 </div>
 
 <div class="pkgdown">

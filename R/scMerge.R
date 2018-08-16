@@ -25,7 +25,7 @@
 #'
 #' \item{metadata}{containing the ruvK vector, ruvK_optimal based on F-score, and the replicate matrix}
 #' \item{assays}{the original matrices and also the normalised matrices}
-#' @author Yingxin Lin
+#' @author Yingxin Lin, Kevin Wang
 #' @examples
 #' suppressPackageStartupMessages({
 #' library(SingleCellExperiment)

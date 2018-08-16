@@ -3,7 +3,7 @@
 #' perform scRUVIII
 #'
 #'
-#' @author Yingxin Lin
+#' @author Yingxin Lin, Kevin Wang
 #' @param Y The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.
 #' @param M The replicate mapping matrix.
 #' The mapping matrix has m rows (one for each observation), and each column represents a set of replicates. The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.

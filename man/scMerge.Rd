@@ -81,5 +81,5 @@ scater::plotPCA(sce_mESC_normalised, colour_by = "cellTypes", shape = "batch",
                  run_args = list(exprs_values = "logcounts"))
 }
 \author{
-Yingxin Lin
+Yingxin Lin, Kevin Wang
 }

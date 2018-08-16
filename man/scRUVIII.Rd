@@ -39,5 +39,5 @@ The default of 0.1 tends to achieve a balance between speed and accuracy.}
 perform scRUVIII
 }
 \author{
-Yingxin Lin
+Yingxin Lin, Kevin Wang
 }

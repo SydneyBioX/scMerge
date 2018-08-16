@@ -40,5 +40,5 @@ See ruv::RUVIII for details.}
 perform fastRUVIII
 }
 \author{
-Yingxin Lin
+Yingxin Lin, John Ormerod, Kevin Wang
 }

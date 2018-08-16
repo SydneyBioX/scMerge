@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.7.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.7.3</span>
       </span>
     </div>
 
@@ -109,9 +109,9 @@
     <pre class="usage"><span class='fu'>scMerge</span>(<span class='no'>sce_combine</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exprs</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>,
   <span class='kw'>hvg_exprs</span> <span class='kw'>=</span> <span class='st'>"counts"</span>, <span class='kw'>marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>marker_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>ruvK</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>replicate_prop</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cell_type_match</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cell_type_inc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>propEigen</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='st'>"cor"</span>, <span class='kw'>WV</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>WV_marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>return_all_RUV</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>return_sce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>cell_type_match</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cell_type_inc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>rsvd_prop</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='st'>"cor"</span>, <span class='kw'>WV</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>WV_marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>return_all_RUV</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,8 +169,8 @@
       <td><p>If <code>TRUE</code>, randomised singular value decomposition will be used for singular value decomposition calculation. We recommend using this option when the number of cells is large (e.g. &gt; 1000).</p></td>
     </tr>
     <tr>
-      <th>propEigen</th>
-      <td><p>If <code>fast_svd = TRUE</code>, then propEigen will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.</p></td>
+      <th>rsvd_prop</th>
+      <td><p>If <code>fast_svd = TRUE</code>, then rsvd_prop will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.</p></td>
     </tr>
     <tr>
       <th>dist</th>
@@ -186,75 +186,38 @@
     </tr>
     <tr>
       <th>return_all_RUV</th>
-      <td><p>Whether to return all RUVIII outputs.</p></td>
+      <td><p>If <code>FALSE</code>, then only returns a <code>SingleCellExperiment</code> object with original data and one normalised matrix.
+Otherwise, the <code>SingleCellExperiment</code> object will contain the original data and one normalised matrix for <code>each</code> ruvK value. In this latter case, assay_name must have the same length as ruvK.</p></td>
     </tr>
     <tr>
       <th>assay_name</th>
-      <td><p>The assay name for the adjusted expression matrix.</p></td>
-    </tr>
-    <tr>
-      <th>return_sce</th>
-      <td><p>If <code>TRUE</code>, return the whole <code>SingleCellExperiment</code> object. If <code>FALSE</code>, return the adjusted expression matrix.</p></td>
+      <td><p>The assay name(s) for the adjusted expression matrix(matrices). If <code>return_all_RUV = TRUE</code> assay_name must have the same length as ruvK.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If <code>return_sce</code> is <code>TRUE</code>, return the <code>SingleCellExperiment</code> object with the adjusted assay, otherwise, the adjusted expression matrix will be returned.</p>
-<p>If <code>return_sce</code> is <code>FALSE</code>, return the followings</p>
-<dt>normalised_matrix </dt><dd><p>adjusted expression matrix</p></dd>
-<dt>scRUV </dt><dd><p>fastRUVIII output</p></dd>
-<dt>mnc </dt><dd><p>mutual nearest clusters</p></dd>
-<dt>kmeans </dt><dd><p>kmeans results</p></dd>
+    <p>Returns a <code>SingleCellExperiment</code> object with following:</p>
+<dt>metadata</dt><dd><p>containing the ruvK vector, ruvK_optimal based on F-score, and the replicate matrix</p></dd>
+<dt>assays</dt><dd><p>the original matrices and also the normalised matrices</p></dd>
 
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>SingleCellExperiment</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: SummarizedExperiment</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomicRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: stats4</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: BiocGenerics</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘BiocGenerics’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:parallel’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span>
-#&gt; <span class='message'>    clusterExport, clusterMap, parApply, parCapply, parLapply,</span>
-#&gt; <span class='message'>    parLapplyLB, parRapply, parSapply, parSapplyLB</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    IQR, mad, sd, var, xtabs</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    anyDuplicated, append, as.data.frame, basename, cbind, colMeans,</span>
-#&gt; <span class='message'>    colnames, colSums, dirname, do.call, duplicated, eval, evalq,</span>
-#&gt; <span class='message'>    Filter, Find, get, grep, grepl, intersect, is.unsorted, lapply,</span>
-#&gt; <span class='message'>    lengths, Map, mapply, match, mget, order, paste, pmax, pmax.int,</span>
-#&gt; <span class='message'>    pmin, pmin.int, Position, rank, rbind, Reduce, rowMeans, rownames,</span>
-#&gt; <span class='message'>    rowSums, sapply, setdiff, sort, table, tapply, union, unique,</span>
-#&gt; <span class='message'>    unsplit, which, which.max, which.min</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: S4Vectors</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘S4Vectors’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand.grid</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: IRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomeInfoDb</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Biobase</span></div><div class='output co'>#&gt; <span class='message'>Welcome to Bioconductor</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    Vignettes contain introductory material; view with</span>
-#&gt; <span class='message'>    'browseVignettes()'. To cite Bioconductor, see</span>
-#&gt; <span class='message'>    'citation("Biobase")', and for packages 'citation("pkgname")'.</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: DelayedArray</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: matrixStats</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘matrixStats’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:Biobase’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    anyMissing, rowMedians</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: BiocParallel</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘DelayedArray’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:matrixStats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    aperm, apply</span></div><div class='input'><span class='fu'>library</span>(<span class='no'>scater</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘scater’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:S4Vectors’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    rename</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter</span></div><div class='input'><span class='co'># Loading example data</span>
+    <pre class="examples"><div class='input'><span class='fu'>suppressPackageStartupMessages</span>({
+<span class='fu'>library</span>(<span class='no'>SingleCellExperiment</span>)
+<span class='fu'>library</span>(<span class='no'>scater</span>)
+})
+<span class='co'># Loading example data</span>
 <span class='fu'>data</span>(<span class='st'>"sce_mESC"</span>)
 <span class='co'># Previously computed stably expressed genes</span>
 <span class='fu'>data</span>(<span class='st'>"segList_ensemblGeneID"</span>)
 <span class='co'># Running an example data with minimal inputs</span>
 <span class='no'>sce_mESC_normalised</span> <span class='kw'>=</span> <span class='fu'>scMerge</span>(
-<span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>sce_mESC</span>,
-<span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>segList_ensemblGeneID</span>$<span class='no'>mouse</span>$<span class='no'>mouse_scSEG</span>,
-<span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
-<span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>)</div><div class='output co'>#&gt; Finding HVG...
+                      <span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>sce_mESC</span>,
+                      <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>segList_ensemblGeneID</span>$<span class='no'>mouse</span>$<span class='no'>mouse_scSEG</span>,
+                      <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
+                      <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>)</div><div class='output co'>#&gt; Finding HVG...
 #&gt; [1] 3082
 #&gt; Clustering within each batch...
 #&gt; Performing pca...
@@ -277,9 +240,11 @@
 #&gt; 9     1     5       1
 #&gt; Dimension of the replicates mapping matrix 
 #&gt; [1] 704 356
-#&gt; Performing RUV normalisation... ;) 
-#&gt; Return assay named 
-#&gt;  scMerge</div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC_normalised</span>, <span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-plotting arguments like 'exprs_values' should go in 'run_args'</span></div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC_normalised</span>, <span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-plotting arguments like 'exprs_values' should go in 'run_args'</span></div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
+#&gt; 
+#&gt; Performing RUV normalisation... This might take a few minutes... 
+#&gt; No cell type info, replicate matrix will be used as cell type info</div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC_normalised</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
+                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>))</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC_normalised</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
+                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>))</div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -293,14 +258,14 @@
 
     <h2>Author</h2>
     
-Yingxin Lin
+Yingxin Lin, Kevin Wang
 
   </div>
 </div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Sydney Bioinformatics and Biometrics Group.</p>
+  <p>Developed by Yingxin Lin, Kevin Wang, Sydney Bioinformatics and Biometrics Group.</p>
 </div>
 
 <div class="pkgdown">
