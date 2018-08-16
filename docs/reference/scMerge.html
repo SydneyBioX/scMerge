@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.7.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.7.2</span>
       </span>
     </div>
 
@@ -210,7 +210,7 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>require</span>(<span class='no'>SingleCellExperiment</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: SingleCellExperiment</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: SummarizedExperiment</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomicRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: stats4</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: BiocGenerics</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='output co'>#&gt; <span class='message'></span>
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>SingleCellExperiment</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: SummarizedExperiment</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomicRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: stats4</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: BiocGenerics</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘BiocGenerics’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:parallel’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span>
@@ -240,15 +240,21 @@
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    aperm, apply</span></div><div class='input'><span class='co'># Loading example data</span>
+#&gt; <span class='message'>    aperm, apply</span></div><div class='input'><span class='fu'>library</span>(<span class='no'>scater</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘scater’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:S4Vectors’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    rename</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter</span></div><div class='input'><span class='co'># Loading example data</span>
 <span class='fu'>data</span>(<span class='st'>"sce_mESC"</span>)
 <span class='co'># Previously computed stably expressed genes</span>
 <span class='fu'>data</span>(<span class='st'>"segList_ensemblGeneID"</span>)
 <span class='co'># Running an example data with minimal inputs</span>
-<span class='no'>sce_mESC</span><span class='kw'>&lt;-</span> <span class='fu'>scMerge</span>(<span class='no'>sce_mESC</span>,
-                   <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>segList_ensemblGeneID</span>$<span class='no'>mouse</span>$<span class='no'>mouse_scSEG</span>,
-                   <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
-                   <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>)</div><div class='output co'>#&gt; Finding HVG...
+<span class='no'>sce_mESC_normalised</span> <span class='kw'>=</span> <span class='fu'>scMerge</span>(
+<span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>sce_mESC</span>,
+<span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>segList_ensemblGeneID</span>$<span class='no'>mouse</span>$<span class='no'>mouse_scSEG</span>,
+<span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
+<span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>)</div><div class='output co'>#&gt; Finding HVG...
 #&gt; [1] 3082
 #&gt; Clustering within each batch...
 #&gt; Performing pca...
@@ -273,7 +279,8 @@
 #&gt; [1] 704 356
 #&gt; Performing RUV normalisation... ;) 
 #&gt; Return assay named 
-#&gt;  scMerge</div></pre>
+#&gt;  scMerge</div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-plotting arguments like 'exprs_values' should go in 'run_args'</span></div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: non-plotting arguments like 'exprs_values' should go in 'run_args'</span></div><div class='output co'>#&gt; <span class='error'>Error in assay(object, i = exprs_values): 'assay(&lt;SingleCellExperiment&gt;, i="character", ...)' invalid subscript 'i'</span>
+#&gt; <span class='error'>'scMerge' not in names(assays(&lt;SingleCellExperiment&gt;))</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
