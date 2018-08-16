@@ -1,8 +1,8 @@
 Package: scMerge
 Type: Package
 Title: Merging single-cell RNA-seq expression matrices
-Version: 0.1.7.1
-Author: Yingxin Lin
+Version: 0.1.7.2
+Authors@R: person("Sydney Bioinformatics and Biometrics", "Group", role = c("aut", "cre"))
 Maintainer: Yingxin Lin <yingxin.lin@sydney.edu.au>
 Description: Remove batch effect and unwanted variations for single-cell RNA-seq expression matrix.
     The method includes the function of identification of stably expressed genes (SEG) from single-cell data, and also creating pseudo-replicates from the data.
