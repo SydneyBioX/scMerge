@@ -6,14 +6,14 @@ output:
   prettydoc::html_pretty:
     theme: cayman
     highlight: vignette
-    toc_depth: 3
+    toc_depth: 4
     number_sections: yes
     toc: true
 vignette: >
   %\VignetteIndexEntry{scMerge}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  ---
+---
   
 ```{r setup, include = FALSE}
   knitr::opts_chunk$set(
@@ -230,7 +230,7 @@ scater::plotPCA(sce_mESC,
 
 Under most circumstances, `scMerge` is fast enough to be used on a personal laptop for a moderately large data like the mESC data (24224 features and 704 cells). For example, a basic run of the `scMerge` algorithm takes roughly 40 seconds. 
 
-```{r results='hide'}
+```{r,fig.show='hide'}
 t1 = Sys.time()
 sce_mESC <- scMerge(sce_mESC, 
                     ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
@@ -246,7 +246,7 @@ However, we do recognise the difficulties associated with computation when deali
 
 We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is more dramatic than on a smaller dataset like the example mESC data. (For instance, in a single cell data with 21700 features and 5526 cells, we saw a 5-fold reduction in computational time when `fast_svd = TRUE` was invoked.)
 
-```{r results='hide'}
+```{r,fig.show='hide'}
 t1 = Sys.time()
 sce_mESC <- scMerge(sce_mESC, 
                     ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
@@ -256,7 +256,10 @@ sce_mESC <- scMerge(sce_mESC,
                     rsvd_prop = 0.05)
 t2 = Sys.time()
 t2 - t1
+```
 
+
+```{r}
 sce_mESC <- scater::runPCA(sce_mESC, 
                            exprs_values = "scMerge_fast")
 scater::plotPCA(sce_mESC, 
