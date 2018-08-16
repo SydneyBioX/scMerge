@@ -44,7 +44,7 @@
 #' scater::plotPCA(sce_mESC_normalised, colour_by = "cellTypes", shape = "batch",
 #'                  run_args = list(exprs_values = "logcounts"))
 #' scater::plotPCA(sce_mESC_normalised, colour_by = "cellTypes", shape = "batch",
-#'                  run_args = list(exprs_values = "logcounts"))
+#'                  run_args = list(exprs_values = "scMerge"))
 #' @export
 
 

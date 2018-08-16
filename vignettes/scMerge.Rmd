@@ -1,6 +1,6 @@
 ---
-title: "scMerge"
-author: "Yingxin Lin"
+title: "An introduction to the scMerge package"
+author: "Yingxin Lin and Kevin Wang"
 date: "`r Sys.Date()`"
 output:
   prettydoc::html_pretty:
@@ -13,51 +13,95 @@ vignette: >
   %\VignetteIndexEntry{scMerge}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
----
-
+  ---
+  
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
+  knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
-)
+  )
 ```
-
-#Loading Packages and Data
+  
+  
+# Introduction
+  
+  
+The scMerge algorithm allows batch effect removal and normalisation for single cell RNA-Seq data. It comprises of three key components including: 
+  
+  1.  The identification of stably expressed genes (SEGs) as "negative controls" for estimating unwanted factors; 
+  2.  The construction of pseudo-replicates to estimate the effects of unwanted factors; and 
+  3.  The adjustment of the datasets with unwanted variation using a fastRUVIII model. 
+  
+  
+The purpose of this vignette is to illustrate some uses of `scMerge` and explain its key components. 
+  
+# Loading Packages and Data
+  
+  We will load the `scMerge` package. We designed our package to be consistent with the popular BioConductor's single cell analysis framework, namely the `SingleCellExperiment` package and `scater`. 
+  
 ```{r warning = FALSE, message = FALSE}
-library(scMerge)
-library(SingleCellExperiment)
-library(scater)
+  library(scMerge)
+  library(SingleCellExperiment)
+  library(scater)
 ```
-
-
+  
+We provided an illustrative mouse embryonic stem cell (mESC) data in our package, as well as a set of pre-computed stably expressed gene (SEG) list to be used as negative control genes. 
+  
 ```{r}
-#single-cell stably expressed gene list
-data("segList_ensemblGeneID")
-#mouse ESC data
+  # mouse ESC data
 data("sce_mESC")
-```
+# single-cell stably expressed gene list
+data("segList_ensemblGeneID")
 
-```{r}
 sce_mESC
 ```
 
+
+In the mESC data, we pooled data from 5 different batches from three different cell types. Using a PCA plot, we can see that despite strong separation of cell types, there is also a strong separation due to batch effects. This information is stored in the `colData` of `sce_mESC`. 
+
 ```{r}
-scater::plotPCA(sce_mESC,colour_by="cellTypes")
+table(sce_mESC$batch)
+table(sce_mESC$cellTypes)
+
+scater::plotPCA(sce_mESC, 
+                colour_by = "cellTypes", 
+                shape_by = "batch")
 ```
 
-#Unsupervised scMerge
 
-##Selecting 50% of cells (default)
+
+# Illustrating pseudo-replicates constructions
+
+The first major component of `scMerge` is to obtain negative controls for our normalisation. In this vignette, we will be using a set of pre-computed SEGs from a single cell mouse data.  
+
+The second major component of `scMerge` is to compute pseudo-replicates for cells so we can perform normalisation. We offer three major ways of computing this pseudo-replicate information: 
+
+1.  Unsupervised clustering, using k-means clustering;
+2.  Supervised clustering, using known cell type information; and
+3.  Semi-supervised clustering, using partially known cell type information.
+
+
+## Unsupervised `scMerge`
+
+In unsupervised `scMerge`, we will perform a k-means clustering to obtain pseudo-replicates. This requires the users to supply a `kmeansK` vector with each element indicating number of clusters in each of the batches. For example, we know the first, forth, and fifth batch contains only one cell type and the second and third batch contains three cell types. Hence, `kmeansK = c(1,3,3,1,1)` in this case. 
+
 ```{r results='hide',fig.show='hide'}
-sce_mESC <- scMerge(sce_mESC, 
+sce_mESC <- scMerge(sce_combine = sce_mESC, 
                     ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
                     kmeansK = c(1,3,3,1,1),
                     assay_name = "scMerge_unsupervised")
 ```
 
+
+We now colour construct the PCA plot again on our normalised data. We can observe a much better separation by cell type and less separation by batches. 
+
 ```{r}
-sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised")
-scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+sce_mESC <- scater::runPCA(sce_mESC, 
+                           exprs_values = "scMerge_unsupervised")
+
+scater::plotPCA(sce_mESC, 
+                colour_by = "cellTypes", 
+                shape_by = "batch")
 ```
 
 <!-- ##Selecting 80% of cells -->
@@ -75,7 +119,10 @@ scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
 <!-- ``` -->
 
 
-##Selecting all cells
+### Selecting all cells
+
+By default, `scMerge` only uses 50% of the cells to perform kmeans clustering. While this is sufficient to perform a satisfactory normalisation in most cases, users can control if they wish all cells be used in the kmeans clustering. 
+
 ```{r results='hide',fig.show='hide'}
 sce_mESC <- scMerge(sce_mESC, 
                     ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
@@ -85,8 +132,11 @@ sce_mESC <- scMerge(sce_mESC,
 ```
 
 ```{r}
-sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_all")
-scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+sce_mESC <- scater::runPCA(sce_mESC, 
+                           exprs_values = "scMerge_unsupervised_all")
+scater::plotPCA(sce_mESC, 
+                colour_by = "cellTypes", 
+                shape_by = "batch")
 ```
 
 <!-- ##Selecting 20% of cells -->
@@ -104,9 +154,9 @@ scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
 <!-- ``` -->
 
 
-#Supervised scMerge
+### Supervised `scMerge`
 
-Perform scMerge using *all* known cell type information to create pseudo-replicates
+If **all** cell type information is available to the user, then it is possible to use this information to create pseudo-replicates. This can be done through the `cell_type` argument in the `scMerge` function.
 
 ```{r results='hide',fig.show='hide'}
 sce_mESC <- scMerge(sce_mESC,
@@ -118,13 +168,17 @@ sce_mESC <- scMerge(sce_mESC,
 
 
 ```{r}
-sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_supervised")
-scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+sce_mESC <- scater::runPCA(sce_mESC, 
+                           exprs_values = "scMerge_supervised")
+scater::plotPCA(sce_mESC, 
+                colour_by = "cellTypes",
+                shape_by = "batch")
 ```
 
-#Semi-supervised scMerge I
+### Semi-supervised scMerge I
 
-Perform scMerge using *partial* known cell type information
+If the user is only able to access **partial** cell type information, then it is still possible to use this information to create pseudo-replicates. This can be done through the `cell_type` and `cell_type_inc` arguments in the `scMerge` function. `cell_type_inc` should contain a vector of indices indicating which elements in the `cell_type` vector should be used to perform semi-supervised scMerge. 
+
 
 ```{r results='hide',fig.show='hide'}
 sce_mESC <- scMerge(sce_mESC,
@@ -132,18 +186,24 @@ sce_mESC <- scMerge(sce_mESC,
                     kmeansK = c(1,3,3,1,1),
                     assay_name = "scMerge_semisupervised1",
                     cell_type = sce_mESC$cellTypes,
-                    cell_type_inc = which(sce_mESC$cellTypes=="2i"))
+                    cell_type_inc = which(sce_mESC$cellTypes == "2i"))
 ```
 
 
 ```{r}
-sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_semisupervised1")
-scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+sce_mESC <- scater::runPCA(sce_mESC, 
+                           exprs_values = "scMerge_semisupervised1")
+scater::plotPCA(sce_mESC, 
+                colour_by = "cellTypes", 
+                shape_by = "batch")
 ```
 
-#Semi-supervised scMerge II
+### Semi-supervised scMerge II
 
-Perform scMerge using known cell type information to identify mutual nearest cluster
+<!-- Perform scMerge using known cell type information to identify mutual nearest cluster -->
+
+There is alternative semi-supervised method to create pseudo-replicates for `scMerge`. This uses known cell type information to identify mutual nearest clusters and it is achieved via the `cell_type` and `cell_type_match = TRUE` options in the `scMerge` function. 
+
 
 
 ```{r results='hide',fig.show='hide'}
@@ -152,15 +212,61 @@ sce_mESC <- scMerge(sce_mESC,
                     kmeansK = c(1,3,3,1,1),
                     assay_name = "scMerge_semisupervised2",
                     cell_type = sce_mESC$cellTypes,
-                    cell_type_match = T)
+                    cell_type_match = TRUE)
 ```
+
+
 
 ```{r}
-sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_semisupervised2")
-scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
+sce_mESC <- scater::runPCA(sce_mESC, 
+                           exprs_values = "scMerge_semisupervised2")
+scater::plotPCA(sce_mESC, 
+                colour_by = "cellTypes", 
+                shape_by = "batch")
 ```
 
-#Session Info
+
+## Achieving fast computation
+
+Under most circumstances, `scMerge` is fast enough to be used on a personal laptop for a moderately large data like the mESC data (24224 features and 704 cells). For example, a basic run of the `scMerge` algorithm takes roughly 40 seconds. 
+
+```{r results='hide'}
+t1 = Sys.time()
+sce_mESC <- scMerge(sce_mESC, 
+                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                    kmeansK = c(1,3,3,1,1),
+                    assay_name = "scMerge_classical")
+t2 = Sys.time()
+t2 - t1
+```
+
+
+However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of `scMerge`. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up `scMerge`, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option `fast_svd = TRUE` and `rsvd_prop`. `rsvd_prop` is a parameter between 0 and 1, controlling the degree of approximations. 
+
+
+We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is more dramatic than on a smaller dataset like the example mESC data. (For instance, in a single cell data with 21700 features and 5526 cells, we saw a 5-fold reduction in computational time when `fast_svd = TRUE` was invoked.)
+
+```{r results='hide'}
+t1 = Sys.time()
+sce_mESC <- scMerge(sce_mESC, 
+                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                    kmeansK = c(1,3,3,1,1),
+                    assay_name = "scMerge_fast", 
+                    fast_svd = TRUE, 
+                    rsvd_prop = 0.05)
+t2 = Sys.time()
+t2 - t1
+
+sce_mESC <- scater::runPCA(sce_mESC, 
+                           exprs_values = "scMerge_fast")
+scater::plotPCA(sce_mESC, 
+                colour_by = "cellTypes", 
+                shape_by = "batch")
+```
+
+
+
+# Session Info
 
 ```{r}
 sessionInfo()
