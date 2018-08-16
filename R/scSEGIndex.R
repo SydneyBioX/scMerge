@@ -123,7 +123,7 @@ make_para_gn_parallel = function(exprsMat, ncore = 1) {
   progress <- function(n) setTxtProgressBar(pb, n)
   opts <- list(progress=progress)
   # `%dopar%` <- foreach::`%dopar%`
-  res <- foreach::foreach(i = icount(iter), .combine = rbind,
+  res <- foreach::foreach(i = iterators::icount(iter), .combine = rbind,
                  .options.snow = opts,.export = c("gammaNormMix","bic","aic","icl_bic"))%dopar%{
     setTxtProgressBar(pb,i)
     exprsMat_gene <- exprsMat[i,]
