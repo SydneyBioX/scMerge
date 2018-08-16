@@ -14,9 +14,9 @@
 #' @param return.info Additional information relating to the computation of normalised matrix. We recommend setting this to true.
 #' @param cell_type An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.
 #' @param batch Batch information inherited from the scMerge::scMerge function.
-#' @param return_all Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function
+#' @param return_all_RUV Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function
 #' @param fast_svd If \code{TRUE} we will use the randomized SVD algorithm to speed up computation. Otherwise, we will use the standard SVD built into R.
-#' @param propEigen If \code{fast_svd = TRUE}, then propEigen is used to control for the accuracy of the randomized SVD computation.
+#' @param rsvd_prop If \code{fast_svd = TRUE}, then rsvd_prop is used to control for the accuracy of the randomized SVD computation.
 #' If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a less accurate computed result but with a gain in speed.
 #' The default of 0.1 tends to achieve a balance between speed and accuracy.
 #' @export
@@ -30,9 +30,9 @@ scRUVIII <- function(Y = Y,
                      k = k, return.info = TRUE,
                      cell_type = NULL,
                      batch = NULL,
-                     return_all = F,
+                     return_all_RUV = TRUE,
                      fast_svd = FALSE,
-                     propEigen = 0.1) {
+                     rsvd_prop = 0.1) {
 
   ## Transpose the data, since RUV assumes columns are genes.
   Y <- t(Y)
@@ -52,127 +52,112 @@ scRUVIII <- function(Y = Y,
   normY <- scale_res$s.data
   geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
   geneMeanMat <- scale_res$stand.mean
-
-
-
-  if (length(k) == 1) { ## If user only specified one RUVk value
-    if (fast_svd) { ## And the user wanted the rsvd option, we will provide that
-      ruv3res <- fastRUVIII(
-        Y = t(normY),
-        ctl = ctl,
-        k = k,
-        M = M,
-        fullalpha = fullalpha,
-        return.info = return.info,
-        propEigen = propEigen
-      )
-    } else { ## If the user wanted the usual svd option, we will provide that here
-      ruv3res <- ruv::RUVIII(
-        Y = t(normY),
-        ctl = ctl,
-        k = k,
-        M = M,
-        fullalpha = fullalpha,
-        return.info = return.info
-      )
-    }
-
-    ruv3res$k <- k
-  } else { ## If user only specified more than one RUVk value, we will perform a computation with a single value first
-    ruv3res_list <- list()
-    print(paste("k =", k[1]))
-    if (fast_svd) {
-      ruv3res_list[[1]] <- fastRUVIII(
-        Y = t(normY),
-        ctl = ctl,
-        k = k[1],
-        M = M,
-        fullalpha = fullalpha,
-        return.info = return.info,
-        propEigen = propEigen
-      )
-    } else {
-      ruv3res_list[[1]] <- RUVIII(
-        Y = t(normY),
-        ctl = ctl,
-        k = k[1],
-        M = M,
-        fullalpha = fullalpha,
-        return.info = return.info
-      )
-    } ## End fast_svd criterion
-    ## If user only specified more than one RUVk value, then, all subsequent normalisation can be calculated using the first decomposition value.
-    for (i in 2:length(k)) {
-      print(paste("k =", k[i]))
-      if (fast_svd) {
-        ruv3res_list[[i]] <- fastRUVIII(
-          Y = t(normY),
-          ctl = ctl,
-          k = k[i],
-          M = M,
-          fullalpha = ruv3res_list[[1]]$fullalpha,
-          return.info = return.info,
-          propEigen = propEigen
-        )
-      } else {
-        ruv3res_list[[i]] <- RUVIII(
-          Y = t(normY),
-          ctl = ctl,
-          k = k[i],
-          M = M,
-          fullalpha = ruv3res_list[[1]]$fullalpha,
-          return.info = return.info
-        )
-      } ## End fast_svd criterion
-    } ## End length(k) == 1 criterion
-
-    if (is.null(cell_type)) {
-      cat("No cell type info, replicate matrix will be used as cell type info\n")
-      cell_type <- apply(M, 1, function(x) which(x == 1))
-    }
-
-    sil_res <- do.call(cbind, lapply(ruv3res_list,
-                                     FUN = function(x) {
-                                       pca.data <- rsvd::rpca(x$newY, k = 10, rand = 1)
-                                       # pca.data<-prcomp(x$newY)
-                                       c(
-                                         batch_sil(pca.data, as.numeric(as.factor(cell_type))),
-                                         batch_sil(pca.data, as.numeric(as.factor(batch)), nPCs = 10)
-                                       )
-                                     }
-    ))
-
-    f_score <- rep(NA, ncol(sil_res))
-    for (i in 1:length(k)) {
-      f_score[i] <- f_measure(zeroOneScale(sil_res[1, ])[i], 1 - zeroOneScale(sil_res[2, ])[i])
-    }
-    names(f_score) <- k
-
-
-    ruv3res <- ruv3res_list[[which.max(f_score)]]
-    ruv3res$k <- which.max(f_score)
-    print(sil_res)
-    print(paste("optimal k:", ruv3res$k))
-
-    plot(k, f_score, pch = 16, col = "light grey")
-    lines(k, f_score)
-    points(ruv3res$k, f_score[ruv3res$k], col = "red", pch = 16)
+  ################
+  ## We will always run an initial RUV, based on whether fast_svd is TRUE or not.
+  if (fast_svd) { ## And the user wanted the rsvd option, we will provide that
+    ruv3_initial <- fastRUVIII(
+      Y = t(normY),
+      ctl = ctl,
+      k = k[1],
+      M = M,
+      fullalpha = fullalpha,
+      return.info = return.info,
+      rsvd_prop = rsvd_prop
+    )
+  } else { ## If the user wanted the usual svd option, we will provide that here
+    ruv3_initial <- ruv::RUVIII(
+      Y = t(normY),
+      ctl = ctl,
+      k = k[1],
+      M = M,
+      fullalpha = fullalpha,
+      return.info = return.info
+    )
   }
-  if (return_all) {
-    for (i in 1:length(ruv3res_list)) {
-      ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) * geneSdMat + geneMeanMat))
-    }
-    if (is.null(batch)) {
-      return(ruv3res_list)
-    } else {
-      ruv3res_list$optimise_k <- which.max(f_score)
-      return(ruv3res_list)
-    }
+  ruv3_initial$k <- k
+  ## Finitial initial RUV3 run
+  ###################
+  ## The final computed result is always be ruv3res_list.
+  ## If we have only one ruvK value, then the result is ruv3res_list, with only one element, corresponding to our initial run.
+  ruv3res_list = vector("list", length = length(k))
+  if(length(k) == 1){
+    ruv3res_list[[1]] = ruv3_initial
   } else {
-    ruv3res$newY <- t((t(ruv3res$newY) * geneSdMat + geneMeanMat))
-    return(ruv3res)
+    ## If we have more than one ruvK value, then we feed the result to the ruv::RUVIII function
+    ## (there is no need for fast_svd, since we already have the fullalpha)
+    for(i in 2:length(k)){
+      ruv3res_list[[1]] = ruv3_initial
+      ruv3res_list[[i]] = ruv::RUVIII(
+        Y = t(normY),
+        ctl = ctl,
+        k = k[i],
+        M = M,
+        fullalpha = ruv3_initial$fullalpha,
+        return.info = return.info
+      )
+    }
   }
-}
+  names(ruv3res_list) = k
+  ##################
+  ## Cell type information
+  if (is.null(cell_type)) {
+    cat("No cell type info, replicate matrix will be used as cell type info\n")
+    cell_type <- apply(M, 1, function(x) which(x == 1))
+  }
+  ##################
+  ## Computing the silhouette coefficient from kBET package
+  sil_res <- do.call(cbind, lapply(ruv3res_list,
+                                   FUN = function(x) {
+                                     ## Computing the 10 PCA vectors using rsvd::rpca
+                                     pca.data <- rsvd::rpca(x$newY, k = 10, rand = 1)
+                                     # pca.data<-prcomp(x$newY)
+                                     c(
+                                       kBET::batch_sil(pca.data, as.numeric(as.factor(cell_type))),
+                                       kBET::batch_sil(pca.data, as.numeric(as.factor(batch)), nPCs = 10)
+                                     )
+                                   }
+  ))
+  ##################
+  ## Computing the F scores based on the 2 silhouette coefficients
+  f_score <- rep(NA, ncol(sil_res))
+
+  for (i in 1:length(k)) {
+    f_score[i] <- f_measure(zeroOneScale(sil_res[1, ])[i], 1 - zeroOneScale(sil_res[2, ])[i])
+  }
+  names(f_score) <- k
+  ##################
+  for (i in 1:length(ruv3res_list)) {
+    ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) * geneSdMat + geneMeanMat))
+  }
+  ##################
+  ## ruv3res is the normalised matrix having the maximum F-score
+  ruv3res_optimal <- ruv3res_list[[which.max(f_score)]]
+
+  # print(sil_res)
+  # print(paste("optimal ruvK:", k[which.max(f_score)]))
+
+  ## Not showing, if this needs displaying, consider implementing ggplot.
+  # plot(k, f_score, pch = 16, col = "light grey")
+  # lines(k, f_score)
+  # points(ruv3res$k, f_score[ruv3res$k], col = "red", pch = 16)
+
+
+  if (return_all_RUV) {
+    ## If return_all_RUV is TRUE, we will un-scale every normalised matrices
+    ruv3res_list$optimal_ruvK = k[which.max(f_score)] ## Always record the optimal k
+    return(ruv3res_list)
+  } else {
+    ## If reurn_all is FALSE, we will un-scale the only normalised matrices
+    ruv3res_optimal$optimal_ruvK <- k[which.max(f_score)] ## Always record the optimal k
+    return(ruv3res_optimal)
+  }
+} ## End scRUVIII function
+
+
+
+
+
+
 
 
 

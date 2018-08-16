@@ -4,7 +4,7 @@
 \alias{fastRUVIII}
 \title{fastRUVIII}
 \usage{
-fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, propEigen = 0.1,
+fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, rsvd_prop = 0.1,
   include.intercept = TRUE, average = FALSE, fullalpha = NULL,
   return.info = FALSE, inputcheck = TRUE)
 }
@@ -21,7 +21,7 @@ See ruv::RUVIII for more details.}
 
 \item{eta}{Gene-wise (as opposed to sample-wise) covariates. See ruv::RUVIII for details.}
 
-\item{propEigen}{propEigen is used to control for the accuracy of the randomized SVD computation.
+\item{rsvd_prop}{rsvd_prop is used to control for the accuracy of the randomized SVD computation.
 If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a less accurate computed result but with a gain in speed.
 The default of 0.1 tends to achieve a balance between speed and accuracy.}
 

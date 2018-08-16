@@ -7,9 +7,9 @@
 scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
   hvg_exprs = "counts", marker = NULL, marker_list = NULL,
   ruvK = 20, replicate_prop = 0.5, cell_type = NULL,
-  cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = TRUE,
-  propEigen = 0.1, dist = "cor", WV = NULL, WV_marker = NULL,
-  return_all_RUV = FALSE, assay_name = NULL, return_sce = TRUE)
+  cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE,
+  rsvd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL,
+  return_all_RUV = FALSE, assay_name = NULL)
 }
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData.}
@@ -38,7 +38,7 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{fast_svd}{If \code{TRUE}, randomised singular value decomposition will be used for singular value decomposition calculation. We recommend using this option when the number of cells is large (e.g. > 1000).}
 
-\item{propEigen}{If \code{fast_svd = TRUE}, then propEigen will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
+\item{rsvd_prop}{If \code{fast_svd = TRUE}, then rsvd_prop will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
 
 \item{dist}{The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.}
 
@@ -46,20 +46,16 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{WV_marker}{An optional vector indicating the markers of the wanted variation.}
 
-\item{return_all_RUV}{Whether to return all RUVIII outputs.}
+\item{return_all_RUV}{If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
+Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.}
 
-\item{assay_name}{The assay name for the adjusted expression matrix.}
-
-\item{return_sce}{If \code{TRUE}, return the whole \code{SingleCellExperiment} object. If \code{FALSE}, return the adjusted expression matrix.}
+\item{assay_name}{The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.}
 }
 \value{
-If \code{return_sce} is \code{TRUE}, return the \code{SingleCellExperiment} object with the adjusted assay, otherwise, the adjusted expression matrix will be returned.
+Returns a \code{SingleCellExperiment} object with following:
 
-If \code{return_sce} is \code{FALSE}, return the followings
-\item{normalised_matrix }{adjusted expression matrix}
-\item{scRUV }{fastRUVIII output}
-\item{mnc }{mutual nearest clusters}
-\item{kmeans }{kmeans results}
+\item{metadata}{containing the ruvK vector, ruvK_optimal based on F-score, and the replicate matrix}
+\item{assays}{the original matrices and also the normalised matrices}
 }
 \description{
 Merge single-cell RNA-seq data from different batches, experiments, protocols.
@@ -75,12 +71,14 @@ data("sce_mESC")
 data("segList_ensemblGeneID")
 # Running an example data with minimal inputs
 sce_mESC_normalised = scMerge(
-sce_combine = sce_mESC,
-ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
-kmeansK = c(1,3,3,1,1),
-assay_name = "scMerge")
-scater::plotPCA(sce_mESC_normalised, exprs_values = "logcounts", colour_by = "cellTypes", shape = "batch")
-scater::plotPCA(sce_mESC_normalised, exprs_values = "scMerge", colour_by = "cellTypes", shape = "batch")
+                      sce_combine = sce_mESC,
+                      ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                      kmeansK = c(1,3,3,1,1),
+                      assay_name = "scMerge")
+scater::plotPCA(sce_mESC_normalised, colour_by = "cellTypes", shape = "batch",
+                 run_args = list(exprs_values = "logcounts"))
+scater::plotPCA(sce_mESC_normalised, colour_by = "cellTypes", shape = "batch",
+                 run_args = list(exprs_values = "logcounts"))
 }
 \author{
 Yingxin Lin

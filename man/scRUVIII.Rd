@@ -6,7 +6,7 @@
 \usage{
 scRUVIII(Y = Y, M = M, ctl = ctl, fullalpha = NULL, k = k,
   return.info = TRUE, cell_type = NULL, batch = NULL,
-  return_all = F, fast_svd = FALSE, propEigen = 0.1)
+  return_all_RUV = TRUE, fast_svd = FALSE, rsvd_prop = 0.1)
 }
 \arguments{
 \item{Y}{The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.}
@@ -27,11 +27,11 @@ See ruv::RUVIII for more details.}
 
 \item{batch}{Batch information inherited from the scMerge::scMerge function.}
 
-\item{return_all}{Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function}
+\item{return_all_RUV}{Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function}
 
 \item{fast_svd}{If \code{TRUE} we will use the randomized SVD algorithm to speed up computation. Otherwise, we will use the standard SVD built into R.}
 
-\item{propEigen}{If \code{fast_svd = TRUE}, then propEigen is used to control for the accuracy of the randomized SVD computation.
+\item{rsvd_prop}{If \code{fast_svd = TRUE}, then rsvd_prop is used to control for the accuracy of the randomized SVD computation.
 If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a less accurate computed result but with a gain in speed.
 The default of 0.1 tends to achieve a balance between speed and accuracy.}
 }
