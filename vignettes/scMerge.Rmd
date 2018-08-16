@@ -46,11 +46,13 @@ scater::plotPCA(sce_mESC,colour_by="cellTypes")
 ```
 
 #Unsupervised scMerge
+
+##Selecting 50% of cells (default)
 ```{r results='hide',fig.show='hide'}
-system.time(sce_mESC <- scMerge(sce_mESC, 
+sce_mESC <- scMerge(sce_mESC, 
                     ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
                     kmeansK = c(1,3,3,1,1),
-                    assay_name = "scMerge_unsupervised"))
+                    assay_name = "scMerge_unsupervised")
 ```
 
 ```{r}
@@ -58,28 +60,28 @@ sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised")
 scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
 ```
 
-##Selecting 80% of cells
+<!-- ##Selecting 80% of cells -->
+<!-- ```{r results='hide',fig.show='hide'} -->
+<!-- system.time(sce_mESC <- scMerge(sce_mESC,  -->
+<!--                     ctl = segList_ensemblGeneID$mouse$mouse_scSEG, -->
+<!--                     kmeansK = c(1,3,3,1,1), -->
+<!--                     assay_name = "scMerge_unsupervised_80", -->
+<!--                     replicate_prop = 0.8)) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_80") -->
+<!-- scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch") -->
+<!-- ``` -->
+
+
+##Selecting all cells
 ```{r results='hide',fig.show='hide'}
-system.time(sce_mESC <- scMerge(sce_mESC, 
-                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
-                    kmeansK = c(1,3,3,1,1),
-                    assay_name = "scMerge_unsupervised_80",
-                    replicate_prop = 0.8))
-```
-
-```{r}
-sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_80")
-scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
-```
-
-
-##Selecting 50% of cells
-```{r results='hide',fig.show='hide'}
-system.time(sce_mESC <- scMerge(sce_mESC, 
+sce_mESC <- scMerge(sce_mESC, 
                     ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
                     kmeansK = c(1,3,3,1,1),
                     assay_name = "scMerge_unsupervised_50",
-                    replicate_prop = 0.5))
+                    replicate_prop = 0.5)
 ```
 
 ```{r}
@@ -87,19 +89,20 @@ sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_50")
 scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
 ```
 
-##Selecting 20% of cells
-```{r results='hide',fig.show='hide'}
-system.time(sce_mESC <- scMerge(sce_mESC, 
-                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
-                    kmeansK = c(1,3,3,1,1),
-                    assay_name = "scMerge_unsupervised_50",
-                    replicate_prop = 0.2))
-```
+<!-- ##Selecting 20% of cells -->
+<!-- ```{r results='hide',fig.show='hide'} -->
+<!-- system.time(sce_mESC <- scMerge(sce_mESC,  -->
+<!--                     ctl = segList_ensemblGeneID$mouse$mouse_scSEG, -->
+<!--                     kmeansK = c(1,3,3,1,1), -->
+<!--                     assay_name = "scMerge_unsupervised_50", -->
+<!--                     replicate_prop = 0.2)) -->
+<!-- ``` -->
 
-```{r}
-sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_50")
-scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch")
-```
+<!-- ```{r} -->
+<!-- sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_50") -->
+<!-- scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch") -->
+<!-- ``` -->
+
 
 #Supervised scMerge
 
