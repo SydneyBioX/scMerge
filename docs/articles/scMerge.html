@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.7.3</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.8</span>
       </span>
     </div>
 
@@ -101,48 +101,52 @@
 <div id="unsupervised-scmerge" class="section level1">
 <h1 class="hasAnchor">
 <a href="#unsupervised-scmerge" class="anchor"></a>Unsupervised scMerge</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
+<div id="selecting-50-of-cells-default" class="section level2">
+<h2 class="hasAnchor">
+<a href="#selecting-50-of-cells-default" class="anchor"></a>Selecting 50% of cells (default)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
                     <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
                     <span class="dt">kmeansK =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_unsupervised"</span>))</code></pre></div>
+                    <span class="dt">assay_name =</span> <span class="st">"scMerge_unsupervised"</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, <span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised"</span>)
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, <span class="dt">colour_by=</span><span class="st">"cellTypes"</span>,<span class="dt">shape_by=</span><span class="st">"batch"</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<div id="selecting-80-of-cells" class="section level2">
+<!-- ##Selecting 80% of cells -->
+<!-- ```{r results='hide',fig.show='hide'} -->
+<!-- system.time(sce_mESC <- scMerge(sce_mESC,  -->
+<!--                     ctl = segList_ensemblGeneID$mouse$mouse_scSEG, -->
+<!--                     kmeansK = c(1,3,3,1,1), -->
+<!--                     assay_name = "scMerge_unsupervised_80", -->
+<!--                     replicate_prop = 0.8)) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_80") -->
+<!-- scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch") -->
+<!-- ``` -->
+</div>
+<div id="selecting-all-cells" class="section level2">
 <h2 class="hasAnchor">
-<a href="#selecting-80-of-cells" class="anchor"></a>Selecting 80% of cells</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
+<a href="#selecting-all-cells" class="anchor"></a>Selecting all cells</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
                     <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
                     <span class="dt">kmeansK =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_unsupervised_80"</span>,
-                    <span class="dt">replicate_prop =</span> <span class="fl">0.8</span>))</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, <span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised_80"</span>)
+                    <span class="dt">assay_name =</span> <span class="st">"scMerge_unsupervised_all"</span>,
+                    <span class="dt">replicate_prop =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, <span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised_all"</span>)
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, <span class="dt">colour_by=</span><span class="st">"cellTypes"</span>,<span class="dt">shape_by=</span><span class="st">"batch"</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-</div>
-<div id="selecting-50-of-cells" class="section level2">
-<h2 class="hasAnchor">
-<a href="#selecting-50-of-cells" class="anchor"></a>Selecting 50% of cells</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
-                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                    <span class="dt">kmeansK =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_unsupervised_50"</span>,
-                    <span class="dt">replicate_prop =</span> <span class="fl">0.5</span>))</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, <span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised_50"</span>)
-scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, <span class="dt">colour_by=</span><span class="st">"cellTypes"</span>,<span class="dt">shape_by=</span><span class="st">"batch"</span>)</code></pre></div>
-<p><img src="scMerge_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
-</div>
-<div id="selecting-20-of-cells" class="section level2">
-<h2 class="hasAnchor">
-<a href="#selecting-20-of-cells" class="anchor"></a>Selecting 20% of cells</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>(sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
-                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                    <span class="dt">kmeansK =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_unsupervised_50"</span>,
-                    <span class="dt">replicate_prop =</span> <span class="fl">0.2</span>))</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, <span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised_50"</span>)
-scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, <span class="dt">colour_by=</span><span class="st">"cellTypes"</span>,<span class="dt">shape_by=</span><span class="st">"batch"</span>)</code></pre></div>
-<p><img src="scMerge_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<!-- ##Selecting 20% of cells -->
+<!-- ```{r results='hide',fig.show='hide'} -->
+<!-- system.time(sce_mESC <- scMerge(sce_mESC,  -->
+<!--                     ctl = segList_ensemblGeneID$mouse$mouse_scSEG, -->
+<!--                     kmeansK = c(1,3,3,1,1), -->
+<!--                     assay_name = "scMerge_unsupervised_50", -->
+<!--                     replicate_prop = 0.2)) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_50") -->
+<!-- scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch") -->
+<!-- ``` -->
 </div>
 </div>
 <div id="supervised-scmerge" class="section level1">
@@ -156,7 +160,7 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
                     <span class="dt">cell_type =</span> sce_mESC<span class="op">$</span>cellTypes)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, <span class="dt">exprs_values =</span> <span class="st">"scMerge_supervised"</span>)
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, <span class="dt">colour_by=</span><span class="st">"cellTypes"</span>,<span class="dt">shape_by=</span><span class="st">"batch"</span>)</code></pre></div>
-<p><img src="scMerge_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="scMerge_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
 <div id="semi-supervised-scmerge-i" class="section level1">
 <h1 class="hasAnchor">
@@ -170,7 +174,7 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
                     <span class="dt">cell_type_inc =</span> <span class="kw">which</span>(sce_mESC<span class="op">$</span>cellTypes<span class="op">==</span><span class="st">"2i"</span>))</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, <span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised1"</span>)
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, <span class="dt">colour_by=</span><span class="st">"cellTypes"</span>,<span class="dt">shape_by=</span><span class="st">"batch"</span>)</code></pre></div>
-<p><img src="scMerge_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="scMerge_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 <div id="semi-supervised-scmerge-ii" class="section level1">
 <h1 class="hasAnchor">
@@ -184,7 +188,7 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
                     <span class="dt">cell_type_match =</span> T)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, <span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised2"</span>)
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, <span class="dt">colour_by=</span><span class="st">"cellTypes"</span>,<span class="dt">shape_by=</span><span class="st">"batch"</span>)</code></pre></div>
-<p><img src="scMerge_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="scMerge_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
@@ -192,7 +196,7 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()
 <span class="co">#&gt; R version 3.5.1 (2018-07-02)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)</span>
-<span class="co">#&gt; Running under: macOS High Sierra 10.13.4</span>
+<span class="co">#&gt; Running under: macOS High Sierra 10.13.3</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
 <span class="co">#&gt; BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib</span>
@@ -206,13 +210,13 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] scater_1.8.3                ggplot2_3.0.0              </span>
-<span class="co">#&gt;  [3] SingleCellExperiment_1.2.0  SummarizedExperiment_1.10.1</span>
-<span class="co">#&gt;  [5] DelayedArray_0.6.4          BiocParallel_1.14.2        </span>
-<span class="co">#&gt;  [7] matrixStats_0.54.0          Biobase_2.40.0             </span>
-<span class="co">#&gt;  [9] GenomicRanges_1.32.6        GenomeInfoDb_1.16.0        </span>
-<span class="co">#&gt; [11] IRanges_2.14.10             S4Vectors_0.18.3           </span>
-<span class="co">#&gt; [13] BiocGenerics_0.26.0         scMerge_0.1.7.3            </span>
+<span class="co">#&gt;  [1] scater_1.9.9                ggplot2_3.0.0              </span>
+<span class="co">#&gt;  [3] SingleCellExperiment_1.3.9  SummarizedExperiment_1.11.6</span>
+<span class="co">#&gt;  [5] DelayedArray_0.7.24         BiocParallel_1.15.8        </span>
+<span class="co">#&gt;  [7] matrixStats_0.54.0          Biobase_2.41.2             </span>
+<span class="co">#&gt;  [9] GenomicRanges_1.33.11       GenomeInfoDb_1.17.1        </span>
+<span class="co">#&gt; [11] IRanges_2.15.16             S4Vectors_0.19.19          </span>
+<span class="co">#&gt; [13] BiocGenerics_0.27.1         scMerge_0.1.8              </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] bitops_1.0-6             fs_1.2.5                </span>
@@ -225,42 +229,40 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <span class="co">#&gt; [15] gridExtra_2.3            compiler_3.5.1          </span>
 <span class="co">#&gt; [17] xml2_1.2.0               desc_1.2.0              </span>
 <span class="co">#&gt; [19] labeling_0.3             caTools_1.17.1.1        </span>
-<span class="co">#&gt; [21] scales_1.0.0             pkgdown_1.1.0           </span>
+<span class="co">#&gt; [21] scales_0.5.0             pkgdown_1.1.0           </span>
 <span class="co">#&gt; [23] commonmark_1.5           stringr_1.3.1           </span>
 <span class="co">#&gt; [25] digest_0.6.15            rmarkdown_1.10          </span>
-<span class="co">#&gt; [27] XVector_0.20.0           pkgconfig_2.0.1         </span>
+<span class="co">#&gt; [27] XVector_0.21.3           pkgconfig_2.0.1         </span>
 <span class="co">#&gt; [29] htmltools_0.3.6          ruv_0.9.7               </span>
-<span class="co">#&gt; [31] bbmle_1.0.20             limma_3.36.2            </span>
+<span class="co">#&gt; [31] bbmle_1.0.20             limma_3.37.3            </span>
 <span class="co">#&gt; [33] rlang_0.2.1              rstudioapi_0.7          </span>
-<span class="co">#&gt; [35] FNN_1.1.2.1              shiny_1.1.0             </span>
-<span class="co">#&gt; [37] DelayedMatrixStats_1.2.0 prettydoc_0.2.1         </span>
-<span class="co">#&gt; [39] bindr_0.1.1              gtools_3.8.1            </span>
-<span class="co">#&gt; [41] dplyr_0.7.6              RCurl_1.95-4.11         </span>
-<span class="co">#&gt; [43] magrittr_1.5             GenomeInfoDbData_1.1.0  </span>
-<span class="co">#&gt; [45] Matrix_1.2-14            Rcpp_0.12.18            </span>
-<span class="co">#&gt; [47] ggbeeswarm_0.6.0         munsell_0.5.0           </span>
-<span class="co">#&gt; [49] Rhdf5lib_1.2.1           viridis_0.5.1           </span>
-<span class="co">#&gt; [51] stringi_1.2.4            yaml_2.2.0              </span>
-<span class="co">#&gt; [53] edgeR_3.22.3             MASS_7.3-50             </span>
-<span class="co">#&gt; [55] zlibbioc_1.26.0          rhdf5_2.24.0            </span>
-<span class="co">#&gt; [57] gplots_3.0.1             plyr_1.8.4              </span>
-<span class="co">#&gt; [59] grid_3.5.1               gdata_2.18.0            </span>
-<span class="co">#&gt; [61] promises_1.0.1           M3Drop_1.6.0            </span>
-<span class="co">#&gt; [63] shinydashboard_0.7.0     crayon_1.3.4            </span>
-<span class="co">#&gt; [65] lattice_0.20-35          locfit_1.5-9.1          </span>
-<span class="co">#&gt; [67] knitr_1.20               pillar_1.3.0            </span>
-<span class="co">#&gt; [69] igraph_1.2.2             rjson_0.2.20            </span>
-<span class="co">#&gt; [71] kBET_0.99.5              reshape2_1.4.3          </span>
-<span class="co">#&gt; [73] glue_1.3.0               evaluate_0.11           </span>
-<span class="co">#&gt; [75] data.table_1.11.4        httpuv_1.4.5            </span>
-<span class="co">#&gt; [77] gtable_0.2.0             purrr_0.2.5             </span>
-<span class="co">#&gt; [79] assertthat_0.2.0         rsvd_0.9                </span>
-<span class="co">#&gt; [81] mime_0.5                 xtable_1.8-2            </span>
-<span class="co">#&gt; [83] roxygen2_6.1.0           later_0.7.3             </span>
-<span class="co">#&gt; [85] viridisLite_0.3.0        tibble_1.4.2            </span>
-<span class="co">#&gt; [87] beeswarm_0.2.3           memoise_1.1.0           </span>
-<span class="co">#&gt; [89] cluster_2.0.7-1          tximport_1.8.0          </span>
-<span class="co">#&gt; [91] bindrcpp_0.2.2           statmod_1.4.30</span></code></pre></div>
+<span class="co">#&gt; [35] FNN_1.1                  DelayedMatrixStats_1.3.4</span>
+<span class="co">#&gt; [37] prettydoc_0.2.1          bindr_0.1.1             </span>
+<span class="co">#&gt; [39] gtools_3.8.1             dplyr_0.7.6             </span>
+<span class="co">#&gt; [41] RCurl_1.95-4.11          magrittr_1.5            </span>
+<span class="co">#&gt; [43] GenomeInfoDbData_1.1.0   Matrix_1.2-14           </span>
+<span class="co">#&gt; [45] Rcpp_0.12.18             ggbeeswarm_0.6.0        </span>
+<span class="co">#&gt; [47] munsell_0.5.0            Rhdf5lib_1.3.1          </span>
+<span class="co">#&gt; [49] viridis_0.5.1            stringi_1.2.4           </span>
+<span class="co">#&gt; [51] yaml_2.1.19              MASS_7.3-50             </span>
+<span class="co">#&gt; [53] zlibbioc_1.27.0          rhdf5_2.25.4            </span>
+<span class="co">#&gt; [55] gplots_3.0.1             plyr_1.8.4              </span>
+<span class="co">#&gt; [57] grid_3.5.1               gdata_2.18.0            </span>
+<span class="co">#&gt; [59] M3Drop_1.7.0             crayon_1.3.4            </span>
+<span class="co">#&gt; [61] lattice_0.20-35          cowplot_0.9.3           </span>
+<span class="co">#&gt; [63] knitr_1.20               pillar_1.3.0            </span>
+<span class="co">#&gt; [65] igraph_1.2.2             rjson_0.2.20            </span>
+<span class="co">#&gt; [67] kBET_0.99.5              reshape2_1.4.3          </span>
+<span class="co">#&gt; [69] codetools_0.2-15         glue_1.3.0              </span>
+<span class="co">#&gt; [71] evaluate_0.11            data.table_1.11.4       </span>
+<span class="co">#&gt; [73] foreach_1.4.4            gtable_0.2.0            </span>
+<span class="co">#&gt; [75] purrr_0.2.5              assertthat_0.2.0        </span>
+<span class="co">#&gt; [77] rsvd_0.9                 roxygen2_6.0.1          </span>
+<span class="co">#&gt; [79] viridisLite_0.3.0        tibble_1.4.2            </span>
+<span class="co">#&gt; [81] iterators_1.0.10         beeswarm_0.2.3          </span>
+<span class="co">#&gt; [83] memoise_1.1.0            cluster_2.0.7-1         </span>
+<span class="co">#&gt; [85] tximport_1.9.8           bindrcpp_0.2.2          </span>
+<span class="co">#&gt; [87] statmod_1.4.30</span></code></pre></div>
 <!-- You can enable figure captions by `fig_caption: yes` in YAML: -->
 <!--     output: -->
 <!--       rmarkdown::html_vignette: -->
@@ -277,9 +279,8 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <li><a href="#loading-packages-and-data">Loading Packages and Data</a></li>
       <li>
 <a href="#unsupervised-scmerge">Unsupervised scMerge</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#selecting-80-of-cells">Selecting 80% of cells</a></li>
-      <li><a href="#selecting-50-of-cells">Selecting 50% of cells</a></li>
-      <li><a href="#selecting-20-of-cells">Selecting 20% of cells</a></li>
+<li><a href="#selecting-50-of-cells-default">Selecting 50% of cells (default)</a></li>
+      <li><a href="#selecting-all-cells">Selecting all cells</a></li>
       </ul>
 </li>
       <li><a href="#supervised-scmerge">Supervised scMerge</a></li>

@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="scSEGIndex — scSEGIndex" />
 
-<meta property="og:description" content="Calculate stably expressed gene index" />
+<meta property="og:description" content="Calculate single-cell Stably Expressed Gene (scSEG) index" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.7.3</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.8</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@
 
     <div class="ref-description">
     
-    <p>Calculate stably expressed gene index</p>
+    <p>Calculate single-cell Stably Expressed Gene (scSEG) index</p>
     
     </div>
 
@@ -117,7 +117,7 @@
     </tr>
     <tr>
       <th>cell_type</th>
-      <td><p>A vector indicating the cell type information for each cell in the gene expression matrix.</p></td>
+      <td><p>A vector indicating the cell type information for each cell in the gene expression matrix. If it is <code>NULL</code>, the function calculates the scSEG index without using F-statistics.</p></td>
     </tr>
     <tr>
       <th>ncore</th>
