@@ -8,7 +8,7 @@ The installation process could take up to 5 minutes, depending if you have some 
 
 ``` r
 # Some CRAN packages required by scMerge
-install.packages(c("ruv", "rsvd", "igraph", "pdist", "proxy"))
+install.packages(c("ruv", "rsvd", "igraph", "pdist", "proxy", "foreach", "doSNOW", "distr"))
 devtools::install_github("theislab/kBET")
 
 # Some BioConductor packages required by scMerge

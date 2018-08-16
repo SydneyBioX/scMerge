@@ -80,22 +80,33 @@ scRUVIII <- function(Y = Y,
   ## The final computed result is always be ruv3res_list.
   ## If we have only one ruvK value, then the result is ruv3res_list, with only one element, corresponding to our initial run.
   ruv3res_list = vector("list", length = length(k))
+  ruv3res_list[[1]] = ruv3_initial
   if(length(k) == 1){
-    ruv3res_list[[1]] = ruv3_initial
+
   } else {
     ## If we have more than one ruvK value, then we feed the result to the ruv::RUVIII function
     ## (there is no need for fast_svd, since we already have the fullalpha)
     for(i in 2:length(k)){
-      ruv3res_list[[1]] = ruv3_initial
-      ruv3res_list[[i]] = ruv::RUVIII(
-        Y = t(normY),
-        ctl = ctl,
-        k = k[i],
-        M = M,
-        fullalpha = ruv3_initial$fullalpha,
-        return.info = return.info
-      )
-    }
+      if(fast_svd){
+        ruv3res_list[[i]] = fastRUVIII(
+          Y = t(normY),
+          ctl = ctl,
+          k = k[i],
+          M = M,
+          fullalpha = ruv3_initial$fullalpha,
+          return.info = return.info
+        )
+      } else {
+        ruv3res_list[[i]] = ruv::RUVIII(
+          Y = t(normY),
+          ctl = ctl,
+          k = k[i],
+          M = M,
+          fullalpha = ruv3_initial$fullalpha,
+          return.info = return.info
+        )
+      } ## End fast_svd criterion
+    } ## End for loop
   }
   names(ruv3res_list) = k
   ##################

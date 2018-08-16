@@ -164,33 +164,6 @@ scMerge <- function(sce_combine,
                       rsvd_prop = rsvd_prop)
 
 
-  # YXL: NEED FIX
-  ##
-  # if (return_all_RUV) {
-  #   return(res = list(
-  #     scRUV = ruv3res,
-  #     mnc = mnc,
-  #     kmeans = kmeans_res
-  #   ))
-  # }
-
-
-  # if (return_sce) {
-  #   if (is.null(assay_name)) {
-  #     assay_name <- paste("scMerge_RUVk", ruv3res$k, sep = "")
-  #   }
-  #   assay(sce_combine, assay_name) <- t(ruv3res$newY)
-  #   cat(paste("Return assay named \n", assay_name))
-  #   return(sce_combine)
-  # } else {
-  #   return(res = list(
-  #     normalised_matrix = ruv3res$newY,
-  #     scRUV_res = ruv3res,
-  #     scRep_res = repMat
-  #   ))
-  # } ## End return_sce criterion
-
-
   sce_final_result = sce_combine
   if(!return_all_RUV){
     ## If return_all_RUV is FALSE, then scRUVIII should've just returned with a single result (ruv3res_optimal)
