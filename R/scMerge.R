@@ -30,8 +30,10 @@
 #' \item{kmeans }{kmeans results}
 #' @author Yingxin Lin
 #' @examples
+#' suppressPackageStartupMessages({
 #' library(SingleCellExperiment)
 #' library(scater)
+#' })
 #' # Loading example data
 #' data("sce_mESC")
 #' # Previously computed stably expressed genes
@@ -42,8 +44,8 @@
 #' ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
 #' kmeansK = c(1,3,3,1,1),
 #' assay_name = "scMerge")
-#' scater::plotPCA(sce_mESC, exprs_values = "logcounts", colour_by = "cellTypes", shape = "batch")
-#' scater::plotPCA(sce_mESC, exprs_values = "scMerge", colour_by = "cellTypes", shape = "batch")
+#' scater::plotPCA(sce_mESC_normalised, exprs_values = "logcounts", colour_by = "cellTypes", shape = "batch")
+#' scater::plotPCA(sce_mESC_normalised, exprs_values = "scMerge", colour_by = "cellTypes", shape = "batch")
 #' @export
 
 
@@ -60,7 +62,7 @@ scMerge <- function(sce_combine,
                     cell_type = NULL,
                     cell_type_match = FALSE,
                     cell_type_inc = NULL,
-                    fast_svd = TRUE,
+                    fast_svd = FALSE,
                     propEigen = 0.1,
                     dist = "cor",
                     WV = NULL,

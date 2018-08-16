@@ -65,8 +65,10 @@ If \code{return_sce} is \code{FALSE}, return the followings
 Merge single-cell RNA-seq data from different batches, experiments, protocols.
 }
 \examples{
+suppressPackageStartupMessages({
 library(SingleCellExperiment)
 library(scater)
+})
 # Loading example data
 data("sce_mESC")
 # Previously computed stably expressed genes
@@ -77,8 +79,8 @@ sce_combine = sce_mESC,
 ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
 kmeansK = c(1,3,3,1,1),
 assay_name = "scMerge")
-scater::plotPCA(sce_mESC, exprs_values = "logcounts", colour_by = "cellTypes", shape = "batch")
-scater::plotPCA(sce_mESC, exprs_values = "scMerge", colour_by = "cellTypes", shape = "batch")
+scater::plotPCA(sce_mESC_normalised, exprs_values = "logcounts", colour_by = "cellTypes", shape = "batch")
+scater::plotPCA(sce_mESC_normalised, exprs_values = "scMerge", colour_by = "cellTypes", shape = "batch")
 }
 \author{
 Yingxin Lin
