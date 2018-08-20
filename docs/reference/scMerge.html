@@ -79,6 +79,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/gallery/Mouse_Embyronic_Data.html">Mouse Embryonic Data</a>
+    </li>
+  </ul>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -241,8 +253,7 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 #&gt; Dimension of the replicates mapping matrix 
 #&gt; [1] 704 356
 #&gt; 
-#&gt; Performing RUV normalisation... This might take a few minutes... 
-#&gt; No cell type info, replicate matrix will be used as cell type info</div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC_normalised</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
+#&gt; Performing RUV normalisation... This might take a few minutes... </div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC_normalised</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
                  <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>))</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC_normalised</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
                  <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>))</div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
   </div>

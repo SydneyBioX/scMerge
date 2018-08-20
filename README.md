@@ -29,7 +29,10 @@ You can find the vignette at our website: https://sydneybiox.github.io/scMerge/i
 
 ## Reference
 
-scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication
+**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
+
 Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
-bioRxiv 393280; doi: https://doi.org/10.1101/393280
-https://www.biorxiv.org/content/early/2018/08/16/393280
+
+doi: https://doi.org/10.1101/393280
+
+BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280

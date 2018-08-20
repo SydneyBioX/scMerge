@@ -1,0 +1,23 @@
+---
+title: "Mouse Embryonic Data"
+author: "Kevin Wang"
+date: "20/08/2018"
+output: html_document
+---
+
+# Loading pakcage
+```{r}
+suppressPackageStartupMessages({
+  library(scMerge)
+})
+```
+
+
+# Loading data
+
+```{r}
+data("sce_mESC")
+
+sce_mESC
+```
+
