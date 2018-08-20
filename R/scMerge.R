@@ -36,14 +36,14 @@
 #' # Previously computed stably expressed genes
 #' data("segList_ensemblGeneID")
 #' # Running an example data with minimal inputs
-#' sce_mESC_normalised = scMerge(
+#' sce_mESC <- scMerge(
 #'                       sce_combine = sce_mESC,
 #'                       ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
 #'                       kmeansK = c(1,3,3,1,1),
 #'                       assay_name = "scMerge")
-#' scater::plotPCA(sce_mESC_normalised, colour_by = "cellTypes", shape = "batch",
+#' scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
 #'                  run_args = list(exprs_values = "logcounts"))
-#' scater::plotPCA(sce_mESC_normalised, colour_by = "cellTypes", shape = "batch",
+#' scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
 #'                  run_args = list(exprs_values = "scMerge"))
 #' @export
 

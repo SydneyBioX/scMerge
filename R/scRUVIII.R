@@ -110,32 +110,51 @@ scRUVIII <- function(Y = Y,
   }
   names(ruv3res_list) = k
   ##################
-  ## Cell type information
-  if (is.null(cell_type)) {
-    cat("No cell type info, replicate matrix will be used as cell type info\n")
-    cell_type <- apply(M, 1, function(x) which(x == 1))
-  }
-  ##################
-  ## Computing the silhouette coefficient from kBET package
-  sil_res <- do.call(cbind, lapply(ruv3res_list,
-                                   FUN = function(x) {
-                                     ## Computing the 10 PCA vectors using rsvd::rpca
-                                     pca.data <- rsvd::rpca(x$newY, k = 10, rand = 1)
-                                     # pca.data<-prcomp(x$newY)
-                                     c(
-                                       kBET::batch_sil(pca.data, as.numeric(as.factor(cell_type))),
-                                       kBET::batch_sil(pca.data, as.numeric(as.factor(batch)), nPCs = 10)
-                                     )
-                                   }
-  ))
-  ##################
-  ## Computing the F scores based on the 2 silhouette coefficients
-  f_score <- rep(NA, ncol(sil_res))
+  ## No need to run for length(k)==1
+  if(length(k) == 1){
+    f_score <- 1
+    names(f_score) <- k
+  }else{
+    ## Cell type information
 
-  for (i in 1:length(k)) {
-    f_score[i] <- f_measure(zeroOneScale(sil_res[1, ])[i], 1 - zeroOneScale(sil_res[2, ])[i])
+    cat("Selecting optimal RUVk\n")
+
+    if (is.null(cell_type)) {
+      cat("No cell type info, replicate matrix will be used as cell type info\n")
+      cell_type <- apply(M, 1, function(x) which(x == 1))
+    }
+    ##################
+    ## Computing the silhouette coefficient from kBET package
+    sil_res <- do.call(cbind, lapply(ruv3res_list,
+                                     FUN = function(x) {
+                                       ## Computing the 10 PCA vectors using rsvd::rpca
+                                       pca.data <- rsvd::rpca(x$newY, k = 10, rand = 1)
+                                       # pca.data<-prcomp(x$newY)
+                                       c(
+                                         kBET::batch_sil(pca.data, as.numeric(as.factor(cell_type))),
+                                         kBET::batch_sil(pca.data, as.numeric(as.factor(batch)), nPCs = 10)
+                                       )
+                                     }
+    ))
+    ##################
+    ## Computing the F scores based on the 2 silhouette coefficients
+    f_score <- rep(NA, ncol(sil_res))
+
+    for (i in 1:length(k)) {
+      f_score[i] <- f_measure(zeroOneScale(sil_res[1, ])[i], 1 - zeroOneScale(sil_res[2, ])[i])
+    }
+    names(f_score) <- k
+
+    # print(sil_res)
+    print(paste("optimal ruvK:", k[which.max(f_score)]))
+
+    ## Not showing, if this needs displaying, consider implementing ggplot.
+    plot(k, f_score, pch = 16, col = "light grey")
+    lines(k, f_score)
+    points(ruv3_initial$k, f_score[ruv3_initial$k], col = "red", pch = 16)
+
   }
-  names(f_score) <- k
+
   ##################
   for (i in 1:length(ruv3res_list)) {
     ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) * geneSdMat + geneMeanMat))
@@ -144,13 +163,6 @@ scRUVIII <- function(Y = Y,
   ## ruv3res is the normalised matrix having the maximum F-score
   ruv3res_optimal <- ruv3res_list[[which.max(f_score)]]
 
-  # print(sil_res)
-  # print(paste("optimal ruvK:", k[which.max(f_score)]))
-
-  ## Not showing, if this needs displaying, consider implementing ggplot.
-  # plot(k, f_score, pch = 16, col = "light grey")
-  # lines(k, f_score)
-  # points(ruv3res$k, f_score[ruv3res$k], col = "red", pch = 16)
 
 
   if (return_all_RUV) {

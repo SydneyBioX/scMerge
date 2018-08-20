@@ -2,6 +2,7 @@
 
 `scMerge` is a R package for merging and normalising single-cell RNA-Seq datasets.
 
+
 ## Installation 
 
 The installation process could take up to 5 minutes, depending if you have some of the packages pre-installed. 
@@ -21,8 +22,14 @@ biocLite(c("SingleCellExperiment", "M3Drop"))
 devtools::install_github("SydneyBioX/scMerge")
 ```
 
+## Vignette
 
+You can find the vignette at our website: https://sydneybiox.github.io/scMerge/index.html. 
 
 
 ## Reference
-Our paper is available on bioRxiv. 
+
+scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication
+Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
+bioRxiv 393280; doi: https://doi.org/10.1101/393280
+https://www.biorxiv.org/content/early/2018/08/16/393280
