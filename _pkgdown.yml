@@ -16,7 +16,7 @@ navbar:
       text: Reference
       href: reference/index.html
     intro:
-      text: Get started
+      text: Vignette
       href: articles/scMerge.html
     articles:
       text: Gallery

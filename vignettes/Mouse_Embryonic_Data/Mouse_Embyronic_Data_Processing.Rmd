@@ -1,0 +1,48 @@
+---
+title: "Mouse Embryonic Data"
+author: "Kevin Wang"
+date: "20/08/2018"
+output: html_document
+---
+
+```{r, echo = FALSE}
+suppressPackageStartupMessages({
+  library(scMerge)
+})
+data("sce_mESC")
+```
+
+
+# Plotting raw data
+
+In the mESC data, we pooled data from 5 different batches from three different cell types. Using a PCA plot, we can see that despite strong separation of cell types, there is also a strong separation due to batch effects. This information is stored in the `colData` of `sce_mESC`. 
+
+```{r}
+sce_mESC
+
+table(sce_mESC$batch, sce_mESC$cellTypes)
+
+scater::plotPCA(sce_mESC, 
+                colour_by = "cellTypes", 
+                shape_by = "batch")
+```
+
+## Unsupervised `scMerge` with default options
+
+```{r unsupervised_default, results='hide',fig.show='hide'}
+sce_mESC <- scMerge(sce_combine = sce_mESC, 
+                    ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                    kmeansK = c(1,3,3,1,1),
+                    assay_name = "scMerge_unsupervised")
+```
+
+We can see the batch effect was corrected. 
+
+```{r unsupervised_default_plotting}
+sce_mESC <- scater::runPCA(sce_mESC, 
+                           exprs_values = "scMerge_unsupervised")
+
+scater::plotPCA(sce_mESC, 
+                colour_by = "cellTypes", 
+                shape_by = "batch")
+```
