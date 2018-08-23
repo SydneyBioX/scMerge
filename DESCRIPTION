@@ -1,6 +1,6 @@
 Package: scMerge
 Type: Package
-Title: Merging single-cell RNA-seq expression matrices
+Title: scMerge: a package for merging scRNA-seq data
 Version: 0.1.8
 Authors@R: c(
     person("Yingxin", "Lin", email = "yingxin.lin@sydney.edu.au", role = c("aut", "cre")
@@ -34,3 +34,5 @@ RoxygenNote: 6.1.0
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/SydneyBioX/scMerge
+BugReports: https://github.com/SydneyBioX/scMerge/issues

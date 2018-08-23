@@ -1,0 +1,28 @@
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    intro:
+      text: Get started
+      href: articles/scMerge.html
+    articles:
+      text: Gallery
+      menu:
+      - text: Mouse Embryonic Data
+        href: articles/gallery/Mouse_Embyronic_Data.html
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/SydneyBioX/scMerge
