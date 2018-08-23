@@ -155,10 +155,11 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <li>Supervised clustering, using known cell type information; and</li>
 <li>Semi-supervised clustering, using partially known cell type information.</li>
 </ol>
-<div id="unsupervised-scmerge" class="section level2">
-<h2 class="hasAnchor">
+</div>
+<div id="unsupervised-scmerge" class="section level1">
+<h1 class="hasAnchor">
 <a href="#unsupervised-scmerge" class="anchor"></a>Unsupervised <code>scMerge</code>
-</h2>
+</h1>
 <p>In unsupervised <code>scMerge</code>, we will perform a k-means clustering to obtain pseudo-replicates. This requires the users to supply a <code>kmeansK</code> vector with each element indicating number of clusters in each of the batches. For example, we know the first, forth, and fifth batch contains only one cell type and the second and third batch contains three cell types. Hence, <code>kmeansK = c(1,3,3,1,1)</code> in this case.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(<span class="dt">sce_combine =</span> sce_mESC, 
                     <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
@@ -184,9 +185,10 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <!-- sce_mESC <- runPCA(sce_mESC, exprs_values = "scMerge_unsupervised_80") -->
 <!-- scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch") -->
 <!-- ``` -->
-<div id="selecting-all-cells" class="section level3">
-<h3 class="hasAnchor">
-<a href="#selecting-all-cells" class="anchor"></a>Selecting all cells</h3>
+</div>
+<div id="selecting-all-cells" class="section level1">
+<h1 class="hasAnchor">
+<a href="#selecting-all-cells" class="anchor"></a>Selecting all cells</h1>
 <p>By default, <code>scMerge</code> only uses 50% of the cells to perform kmeans clustering. While this is sufficient to perform a satisfactory normalisation in most cases, users can control if they wish all cells be used in the kmeans clustering.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
                     <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
@@ -212,10 +214,10 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <!-- scater::plotPCA(sce_mESC, colour_by="cellTypes",shape_by="batch") -->
 <!-- ``` -->
 </div>
-<div id="supervised-scmerge" class="section level3">
-<h3 class="hasAnchor">
+<div id="supervised-scmerge" class="section level1">
+<h1 class="hasAnchor">
 <a href="#supervised-scmerge" class="anchor"></a>Supervised <code>scMerge</code>
-</h3>
+</h1>
 <p>If <strong>all</strong> cell type information is available to the user, then it is possible to use this information to create pseudo-replicates. This can be done through the <code>cell_type</code> argument in the <code>scMerge</code> function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC,
                     <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
@@ -229,9 +231,9 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/supervised_plotting-1.png" width="700"></p>
 </div>
-<div id="semi-supervised-scmerge-i" class="section level3">
-<h3 class="hasAnchor">
-<a href="#semi-supervised-scmerge-i" class="anchor"></a>Semi-supervised scMerge I</h3>
+<div id="semi-supervised-scmerge-i" class="section level1">
+<h1 class="hasAnchor">
+<a href="#semi-supervised-scmerge-i" class="anchor"></a>Semi-supervised scMerge I</h1>
 <p>If the user is only able to access <strong>partial</strong> cell type information, then it is still possible to use this information to create pseudo-replicates. This can be done through the <code>cell_type</code> and <code>cell_type_inc</code> arguments in the <code>scMerge</code> function. <code>cell_type_inc</code> should contain a vector of indices indicating which elements in the <code>cell_type</code> vector should be used to perform semi-supervised scMerge.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC,
                     <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
@@ -246,9 +248,9 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/semi_supervised1_plotting-1.png" width="700"></p>
 </div>
-<div id="semi-supervised-scmerge-ii" class="section level3">
-<h3 class="hasAnchor">
-<a href="#semi-supervised-scmerge-ii" class="anchor"></a>Semi-supervised scMerge II</h3>
+<div id="semi-supervised-scmerge-ii" class="section level1">
+<h1 class="hasAnchor">
+<a href="#semi-supervised-scmerge-ii" class="anchor"></a>Semi-supervised scMerge II</h1>
 <!-- Perform scMerge using known cell type information to identify mutual nearest cluster -->
 <p>There is alternative semi-supervised method to create pseudo-replicates for <code>scMerge</code>. This uses known cell type information to identify mutual nearest clusters and it is achieved via the <code>cell_type</code> and <code>cell_type_match = TRUE</code> options in the <code>scMerge</code> function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC,
@@ -264,55 +266,15 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/semi_supervised2_plotting-1.png" width="700"></p>
 </div>
-</div>
-<div id="achieving-fast-computation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#achieving-fast-computation" class="anchor"></a>Achieving fast computation</h2>
+<div id="achieving-fast-computation" class="section level1">
+<h1 class="hasAnchor">
+<a href="#achieving-fast-computation" class="anchor"></a>Achieving fast computation</h1>
 <p>Under most circumstances, <code>scMerge</code> is fast enough to be used on a personal laptop for a moderately large data like the mESC data (24224 features and 704 cells). For example, a basic run of the <code>scMerge</code> algorithm takes roughly 40 seconds.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t1 =<span class="st"> </span><span class="kw">Sys.time</span>()
 sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
                     <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
                     <span class="dt">kmeansK =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
                     <span class="dt">assay_name =</span> <span class="st">"scMerge_classical"</span>)
-<span class="co">#&gt; Finding HVG...</span>
-<span class="co">#&gt; [1] 3082</span>
-<span class="co">#&gt; Clustering within each batch...</span>
-<span class="co">#&gt; Performing pca...</span>
-<span class="co">#&gt; Creating Mutual Nearest Cluster...</span>
-<span class="co">#&gt; [1] 1</span>
-<span class="co">#&gt; [1] 2</span>
-<span class="co">#&gt; [1] 3</span>
-<span class="co">#&gt; [1] 4</span>
-<span class="co">#&gt; [1] 5</span>
-<span class="co">#&gt; [1] 6</span>
-<span class="co">#&gt; [1] 7</span>
-<span class="co">#&gt;   group batch cluster</span>
-<span class="co">#&gt; 1     3     2       1</span>
-<span class="co">#&gt; 2     3     3       3</span>
-<span class="co">#&gt; 3     2     2       2</span>
-<span class="co">#&gt; 4     2     3       1</span>
-<span class="co">#&gt; 5     1     2       3</span>
-<span class="co">#&gt; 6     1     3       2</span>
-<span class="co">#&gt; 7     2     1       1</span>
-<span class="co">#&gt; 8     1     4       1</span>
-<span class="co">#&gt; 9     1     5       1</span>
-<span class="co">#&gt; Dimension of the replicates mapping matrix </span>
-<span class="co">#&gt; [1] 704 356</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
-t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
-t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 34.43266 secs</span></code></pre></div>
-<p>However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
-<p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.</p>
-<p>For instance, in a single cell data with 21700 features and 5526 cells, we saw a 5-fold reduction in computational time when <code>fast_svd = TRUE</code> was invoked.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t1 =<span class="st"> </span><span class="kw">Sys.time</span>()
-sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
-                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                    <span class="dt">kmeansK =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_fast"</span>, 
-                    <span class="dt">fast_svd =</span> <span class="ot">TRUE</span>, 
-                    <span class="dt">rsvd_prop =</span> <span class="fl">0.05</span>)
 <span class="co">#&gt; Finding HVG...</span>
 <span class="co">#&gt; [1] 3082</span>
 <span class="co">#&gt; Clustering within each batch...</span>
@@ -341,7 +303,46 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
 t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 30.70934 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 36.97144 secs</span></code></pre></div>
+<p>However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
+<p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.</p>
+<p>For instance, in a single cell data with 21700 features and 5526 cells, we saw a 5-fold reduction in computational time when <code>fast_svd = TRUE</code> was invoked.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t1 =<span class="st"> </span><span class="kw">Sys.time</span>()
+sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
+                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
+                    <span class="dt">kmeansK =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
+                    <span class="dt">assay_name =</span> <span class="st">"scMerge_fast"</span>, 
+                    <span class="dt">fast_svd =</span> <span class="ot">TRUE</span>, 
+                    <span class="dt">rsvd_prop =</span> <span class="fl">0.05</span>)
+<span class="co">#&gt; Finding HVG...</span>
+<span class="co">#&gt; [1] 3082</span>
+<span class="co">#&gt; Clustering within each batch...</span>
+<span class="co">#&gt; Performing pca...</span>
+<span class="co">#&gt; Creating Mutual Nearest Cluster...</span>
+<span class="co">#&gt; [1] 1</span>
+<span class="co">#&gt; [1] 2</span>
+<span class="co">#&gt; [1] 3</span>
+<span class="co">#&gt; [1] 4</span>
+<span class="co">#&gt; [1] 5</span>
+<span class="co">#&gt; [1] 6</span>
+<span class="co">#&gt; [1] 7</span>
+<span class="co">#&gt;   group batch cluster</span>
+<span class="co">#&gt; 1     3     2       1</span>
+<span class="co">#&gt; 2     3     3       3</span>
+<span class="co">#&gt; 3     2     2       2</span>
+<span class="co">#&gt; 4     2     3       2</span>
+<span class="co">#&gt; 5     1     2       3</span>
+<span class="co">#&gt; 6     1     3       1</span>
+<span class="co">#&gt; 7     2     1       1</span>
+<span class="co">#&gt; 8     1     4       1</span>
+<span class="co">#&gt; 9     1     5       1</span>
+<span class="co">#&gt; Dimension of the replicates mapping matrix </span>
+<span class="co">#&gt; [1] 704 356</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
+t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
+t2 <span class="op">-</span><span class="st"> </span>t1
+<span class="co">#&gt; Time difference of 33.40586 secs</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
                            <span class="dt">exprs_values =</span> <span class="st">"scMerge_fast"</span>)
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
@@ -349,7 +350,6 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"fast_svd yields similar results to the default version"</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/computation_rsvd_plotting-1.png" width="700"></p>
-</div>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
@@ -441,12 +441,13 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
       <li><a href="#loading-packages-and-data">Loading Packages and Data</a></li>
-      <li>
-<a href="#illustrating-pseudo-replicates-constructions">Illustrating pseudo-replicates constructions</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#unsupervised-scmerge">Unsupervised <code>scMerge</code></a></li>
+      <li><a href="#illustrating-pseudo-replicates-constructions">Illustrating pseudo-replicates constructions</a></li>
+      <li><a href="#unsupervised-scmerge">Unsupervised <code>scMerge</code></a></li>
+      <li><a href="#selecting-all-cells">Selecting all cells</a></li>
+      <li><a href="#supervised-scmerge">Supervised <code>scMerge</code></a></li>
+      <li><a href="#semi-supervised-scmerge-i">Semi-supervised scMerge I</a></li>
+      <li><a href="#semi-supervised-scmerge-ii">Semi-supervised scMerge II</a></li>
       <li><a href="#achieving-fast-computation">Achieving fast computation</a></li>
-      </ul>
-</li>
       <li><a href="#session-info">Session Info</a></li>
       </ul>
 </div>
