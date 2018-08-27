@@ -21,8 +21,10 @@ navbar:
     articles:
       text: Gallery
       menu:
-      - text: Mouse Embryonic Data
-        href: articles/gallery/Mouse_Embyronic_Data.html
+      - text: Gallery Introduction
+        href: articles/gallery/Gallery_Intro.html
+      - text: Mouse Liver Data
+        href: articles/gallery/Mouse_Liver_Data.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/SydneyBioX/scMerge

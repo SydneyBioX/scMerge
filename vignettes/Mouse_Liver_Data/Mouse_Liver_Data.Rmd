@@ -1,0 +1,62 @@
+---
+title: "Mouse Liver Data"
+author: "Kevin Wang"
+date: "20/08/2018"
+output: html_document
+---
+
+
+# Introduction 
+
++ Data source: This mouse liver data was combined from 4 different sources with 3 different protocols. There are 1236 cells across 6 different cell types in the combined data.
+
+| Name  | ID       | Author | DOI or URL                | Protocol   | Organism | Tissue | # of cell types | # of cells | # of batches |
+|-------|----------|--------|---------------------------|------------|----------|--------|-----------------|------------|--------------|
+| Liver | GSE87795 | Su     | 10.1186/s12864-017-4342-x | SMARTer/C1 | Mouse    | Liver  | 6               | 1236       |              |
+|       | GSE90047 | Yang   | 10.1002/hep.29353         | Smart-Seq2 |          |        |                 |            |              |
+|       | GSE87038 | Dong   | 10.1186/s13059-018-1416-2 | STRT-seq   |          |        |                 |            |              |
+|       | GSE96981 | Camp   | 10.1038/nature22796       | SMARTer/C1 |          |        |                 |            |              |
+
+
++ `scMerge` parameters for normalisation: (Yingxin will fill this out)
+
+    - Unsupervised scMerge
+    - kmeans K = (1,2,3,4)
+    - Negative controls are
+    - RUV_k
+    
++ Relation to the `scMerge` article: Main Figure 3 and Supplementary Figure 7. 
+
+# Biological novelty
+
+In addition to normalising across 4 scRNA-Seq datasets, this `scMerge` normalisation across 4 different dataset lead to a novel result: In the face of incomplete data, `scMerge` revealed more cell trajectories more consistent with the full Liver data collection and agrees with current literature. 
+
+In our analysis, we pooled all 4 datasets listed above together, but deliberately removed cells from the E17.5 time point in the data GSE90047 (Yang et. al. This is the second dataset above) and constructed the cell development trajectory using Monocle2. 
+
+We found that the trajectory associated with `scMerge` is most consistent with the full Liver data collection and agrees with current literature, while other methods tended to generate extraneous branches with the subset of the Liver data collection.
+
+
+
+
+# tSNE plot 
+
+
+![](nFigS7_liver.pdf){width=100%}
+
+
+
+# Monocle 2
+
+
+![](nFigS13.pdf){width=100%}
+
+
+# Reference
+
+**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
+
+Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
+
+doi: https://doi.org/10.1101/393280
+
+BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280
