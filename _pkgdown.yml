@@ -19,10 +19,8 @@ navbar:
       text: Vignette
       href: articles/scMerge.html
     articles:
-      text: Gallery
+      text: Case Study
       menu:
-      - text: Gallery Introduction
-        href: articles/gallery/Gallery_Intro.html
       - text: Mouse Liver Data
         href: articles/gallery/Mouse_Liver_Data.html
     github:

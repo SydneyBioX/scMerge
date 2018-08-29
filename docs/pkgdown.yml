@@ -2,6 +2,6 @@ pandoc: 1.19.2.1
 pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
-  Mouse_Embyronic_Data: gallery/Mouse_Embyronic_Data.html
+  Mouse_Liver_Data: Mouse_Liver_Data/Mouse_Liver_Data.html
   scMerge: scMerge.html
 

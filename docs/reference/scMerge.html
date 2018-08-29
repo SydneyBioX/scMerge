@@ -74,27 +74,32 @@
   </a>
 </li>
 <li>
-  <a href="../articles/scMerge.html">Get started</a>
+  <a href="../articles/scMerge.html">Vignette</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Case Study
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/gallery/Mouse_Embyronic_Data.html">Mouse Embryonic Data</a>
+      <a href="../articles/Mouse_Liver_Data/Mouse_Liver_Data.html">Mouse Liver Data</a>
     </li>
   </ul>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/SydneyBioX/scMerge">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -108,7 +113,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Merge single-cell RNA-seq data from different batches, experiments, protocols.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/SydneyBioX/scMerge/blob/master/R/scMerge.R'><code>R/scMerge.R</code></a></small>
     <div class="hidden name"><code>scMerge.Rd</code></div>
     </div>
 
@@ -225,7 +230,7 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 <span class='co'># Previously computed stably expressed genes</span>
 <span class='fu'>data</span>(<span class='st'>"segList_ensemblGeneID"</span>)
 <span class='co'># Running an example data with minimal inputs</span>
-<span class='no'>sce_mESC_normalised</span> <span class='kw'>=</span> <span class='fu'>scMerge</span>(
+<span class='no'>sce_mESC</span> <span class='kw'>&lt;-</span> <span class='fu'>scMerge</span>(
                       <span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>sce_mESC</span>,
                       <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>segList_ensemblGeneID</span>$<span class='no'>mouse</span>$<span class='no'>mouse_scSEG</span>,
                       <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
@@ -253,8 +258,8 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 #&gt; Dimension of the replicates mapping matrix 
 #&gt; [1] 704 356
 #&gt; 
-#&gt; Performing RUV normalisation... This might take a few minutes... </div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC_normalised</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
-                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>))</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC_normalised</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
+#&gt; Performing RUV normalisation... This might take a few minutes... </div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
+                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>))</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
                  <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>))</div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
