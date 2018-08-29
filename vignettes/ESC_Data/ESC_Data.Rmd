@@ -1,0 +1,51 @@
+---
+title: "Embyronic Stem Cell Data"
+author: "Kevin Wang"
+date: "20/08/2018"
+output: html_document
+---
+
+
+# Introduction 
+
++ Data source: This embryonic stem cell (ESC) data was combined from 7 different sources with 5 different protocols. This data contains cells from both human and mouse which poses extra challenges to the normalisation. There are cells across 10 different cell types in the combined data.
+
+| Name |   | ID          | Author      | DOI or URL                 | Protocol   | Organism      | Tissue |
+|------|---|-------------|-------------|----------------------------|------------|---------------|--------|
+| ESC  |   | GSE45719    | Deng        | 10.1126/science.1245316    | Smart-Seq  | Mouse         | ESC    |
+|      |   | GSE57249    | Biase       | 10.1101/gr.177725.114      | SMARTer    |               |        |
+|      |   | GSE53386    | Fan         | 10.1186/s13059-015-0706-1  | SUPeR-seq  |               |        |
+|      |   | E-MTAB-3321 | Goolam      | 10.1016/j.cell.2016.01.047 | Smart-Seq2 |               |        |
+|      |   | GSE44183    | Xue         | 10.1038/nature12364        | Tang       | Human + mouse |        |
+|      |   | E-MTAB-3929 | Petropoulos | 10.1016/j.cell.2016.03.023 | Smart-Seq2 | human         |        |
+|      |   | GSE36552    | Yan         | 10.1038/nsmb.2660          | Tang       |               |        |
+
+
++ `scMerge` parameters for normalisation: (Yingxin will fill this out)
+
+    - Unsupervised scMerge
+    - kmeans K = (1,2,3,4)
+    - Negative controls are
+    - RUV_k
+    
++ Relation to the `scMerge` article: Main Figure 3c.
+
+# Biological novelty
+
+In addition to normalising across 7 scRNA-Seq datasets, the normalisation was performed across 2 different species (human and mouse). This demonstrated `scMerge`'s capabilities in cross-species normalisation. 
+
+# PCA Plot
+
+
+![](Fig3_v7.pdf){width=100%}
+
+
+# Reference
+
+**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
+
+Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
+
+doi: https://doi.org/10.1101/393280
+
+BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280

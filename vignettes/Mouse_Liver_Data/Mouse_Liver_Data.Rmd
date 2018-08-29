@@ -25,7 +25,7 @@ output: html_document
     - Negative controls are
     - RUV_k
     
-+ Relation to the `scMerge` article: Main Figure 3 and Supplementary Figure 7. 
++ Relation to the `scMerge` article: Main Figure 3b and Supplementary Figure 7. 
 
 # Biological novelty
 

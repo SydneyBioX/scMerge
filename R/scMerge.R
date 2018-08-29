@@ -177,11 +177,13 @@ scMerge <- function(sce_combine,
     } ## End for loop
   }
 
-  metadata(sce_final_result) = list(
-    "ruvK" = ruvK,
-    "ruvK_optimal" = ruv3res$optimal_ruvK,
-    "scRep_res" = repMat
-  )
+  metadata(sce_final_result) = c(
+    metadata(sce_combine),
+    list(
+      "ruvK" = ruvK,
+      "ruvK_optimal" = ruv3res$optimal_ruvK,
+      "scRep_res" = repMat
+    ))
 
   return(sce_final_result)
 } ## End scMerge function

@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gallery Introduction • scMerge</title>
+<title>Embyronic Stem Cell Data • scMerge</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="Gallery Introduction">
+<script src="../../pkgdown.js"></script><meta property="og:title" content="Embyronic Stem Cell Data">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -55,7 +55,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../../articles/Gallery_Intro/Gallery_Intro.html">Gallery Introduction</a>
+      <a href="../../articles/ESC_Data/ESC_Data.html">Embyronic Stem Cell Data</a>
     </li>
     <li>
       <a href="../../articles/Mouse_Liver_Data/Mouse_Liver_Data.html">Mouse Liver Data</a>
@@ -82,29 +82,140 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Gallery Introduction</h1>
+      <h1>Embyronic Stem Cell Data</h1>
                         <h4 class="author">Kevin Wang</h4>
             
-            <h4 class="date">27/08/2018</h4>
+            <h4 class="date">20/08/2018</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/Gallery_Intro/Gallery_Intro.Rmd"><code>vignettes/Gallery_Intro/Gallery_Intro.Rmd</code></a></small>
-      <div class="hidden name"><code>Gallery_Intro.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/ESC_Data/ESC_Data.Rmd"><code>vignettes/ESC_Data/ESC_Data.Rmd</code></a></small>
+      <div class="hidden name"><code>ESC_Data.Rmd</code></div>
 
     </div>
 
     
     
-<div id="aim" class="section level1">
+<div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<a href="#aim" class="anchor"></a>Aim</h1>
-<p>We aim is to provide a collection of normalised data for users to explore and gain a better understanding of our <code>scMerge</code> method. We have demonstrated the capabilities of <code>scMerge</code> in a wide collection of scRNA-Seq data with different induced batch effects, including:</p>
+<a href="#introduction" class="anchor"></a>Introduction</h1>
 <ul>
-<li>within batches: <a href="../Mouse_Liver_Data/Mouse_Liver_Data.html">Mouse Liver</a>,</li>
-<li>across independent data sets,</li>
-<li>across platforms, and</li>
-<li>across organisms.</li>
+<li>Data source: This embryonic stem cell (ESC) data was combined from 7 different sources with 5 different protocols. This data contains cells from both human and mouse which poses extra challenges to the normalisation. There are cells across 10 different cell types in the combined data.</li>
 </ul>
-<p>In our gallery, we will aim to provide a brief context to the data we have applied <code>scMerge</code> on, outline some of the challenges associated with the data and how <code>scMerge</code> was used to reveal novel biological discoveries.</p>
+<table class="table">
+<thead><tr class="header">
+<th>Name</th>
+<th></th>
+<th>ID</th>
+<th>Author</th>
+<th>DOI or URL</th>
+<th>Protocol</th>
+<th>Organism</th>
+<th>Tissue</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>ESC</td>
+<td></td>
+<td>GSE45719</td>
+<td>Deng</td>
+<td>10.1126/science.1245316</td>
+<td>Smart-Seq</td>
+<td>Mouse</td>
+<td>ESC</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>GSE57249</td>
+<td>Biase</td>
+<td>10.1101/gr.177725.114</td>
+<td>SMARTer</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GSE53386</td>
+<td>Fan</td>
+<td>10.1186/s13059-015-0706-1</td>
+<td>SUPeR-seq</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>E-MTAB-3321</td>
+<td>Goolam</td>
+<td>10.1016/j.cell.2016.01.047</td>
+<td>Smart-Seq2</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GSE44183</td>
+<td>Xue</td>
+<td>10.1038/nature12364</td>
+<td>Tang</td>
+<td>Human + mouse</td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>E-MTAB-3929</td>
+<td>Petropoulos</td>
+<td>10.1016/j.cell.2016.03.023</td>
+<td>Smart-Seq2</td>
+<td>human</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GSE36552</td>
+<td>Yan</td>
+<td>10.1038/nsmb.2660</td>
+<td>Tang</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p><code>scMerge</code> parameters for normalisation: (Yingxin will fill this out)</p>
+<ul>
+<li>Unsupervised scMerge</li>
+<li>kmeans K = (1,2,3,4)</li>
+<li>Negative controls are</li>
+<li>RUV_k</li>
+</ul>
+</li>
+<li><p>Relation to the <code>scMerge</code> article: Main Figure 3c.</p></li>
+</ul>
+</div>
+<div id="biological-novelty" class="section level1">
+<h1 class="hasAnchor">
+<a href="#biological-novelty" class="anchor"></a>Biological novelty</h1>
+<p>In addition to normalising across 7 scRNA-Seq datasets, the normalisation was performed across 2 different species (human and mouse). This demonstrated <code>scMerge</code>’s capabilities in cross-species normalisation.</p>
+</div>
+<div id="pca-plot" class="section level1">
+<h1 class="hasAnchor">
+<a href="#pca-plot" class="anchor"></a>PCA Plot</h1>
+<div class="figure">
+<embed src="Fig3_v7.pdf" style="width:100.0%"></embed>
+</div>
+</div>
+<div id="reference" class="section level1">
+<h1 class="hasAnchor">
+<a href="#reference" class="anchor"></a>Reference</h1>
+<p><strong>scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication</strong></p>
+<p>Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang</p>
+<p>doi: <a href="https://doi.org/10.1101/393280" class="uri">https://doi.org/10.1101/393280</a></p>
+<p>BioRxiv preprint: <a href="https://www.biorxiv.org/content/early/2018/08/16/393280" class="uri">https://www.biorxiv.org/content/early/2018/08/16/393280</a></p>
 </div>
   </div>
 
@@ -113,7 +224,10 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#aim">Aim</a></li>
+<li><a href="#introduction">Introduction</a></li>
+      <li><a href="#biological-novelty">Biological novelty</a></li>
+      <li><a href="#pca-plot">PCA Plot</a></li>
+      <li><a href="#reference">Reference</a></li>
       </ul>
 </div>
       </div>
