@@ -1,0 +1,54 @@
+---
+title: "Breast Cancer Data"
+author: "Kevin Wang"
+date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
+output: 
+  html_document:
+    theme: paper
+    toc_depth: 3
+    number_sections: yes
+    toc: true
+---
+
+
+# Introduction 
+
++ Data source: This breast cancer single cell data was comprised of 4 different batches from a single experiment. 
+
+
+| Type of merge |   | Name   |   | ID        | Author | DOI or URL                 | Protocol     | Organism | Tissue        | # of cell types | # of cells | # of batches |
+|---------------|---|--------|---|-----------|--------|----------------------------|--------------|----------|---------------|-----------------|------------|--------------|
+|               |   | Breast |   | GSE113197 | Nguyen | 10.1038/s41467-018-04334-1 | 10x Chromium | Human    | Breast cancer | 3               | 24520      | 4            |
+
+
+
++ `scMerge` parameters for normalisation: (Yingxin will fill this out)
+
+    - Unsupervised scMerge
+    - kmeans K = (1,2,3,4)
+    - Negative controls are
+    - RUV_k
+    
+    
++ Relation to the `scMerge` article: Supplementary Figure 6 and 12. 
+
+
+# Biological novelty
+
+In addition to the batch effects, this data is large with 24,520 cells (10x Chromium protocol) which poses dimensionality challenges to normalisation. 
+
+# tSNE plot comparing different normalisations
+
+![](FigS6_v1.pdf){width=100%}
+
+
+
+# Reference
+
+**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
+
+Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
+
+doi: https://doi.org/10.1101/393280
+
+BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280

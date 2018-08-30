@@ -55,10 +55,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/Breast_Data/Breast_Data.html">Breast Cancer Data</a>
+    </li>
+    <li>
+      <a href="../articles/CellBench_Data/CellBench_Data.html">CellBench Data</a>
+    </li>
+    <li>
       <a href="../articles/ESC_Data/ESC_Data.html">Embyronic Stem Cell Data</a>
     </li>
     <li>
       <a href="../articles/Mouse_Liver_Data/Mouse_Liver_Data.html">Mouse Liver Data</a>
+    </li>
+    <li>
+      <a href="../articles/Neuronal_Data/Neuronal_Data.html">Neuronal Single Cell Data</a>
+    </li>
+    <li>
+      <a href="../articles/Pancreas4_Data/Pancreas4_Data.html">Pancreas 4 Data</a>
+    </li>
+    <li>
+      <a href="../articles/mESC_Data/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
     </li>
   </ul>
 </li>
@@ -85,7 +100,7 @@
       <h1>An introduction to the scMerge package</h1>
                         <h4 class="author">Yingxin Lin and Kevin Wang</h4>
             
-            <h4 class="date">2018-08-29</h4>
+            <h4 class="date">`r format(Sys.time(), ‘%Y %b %d’)</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/scMerge.Rmd"><code>vignettes/scMerge.Rmd</code></a></small>
       <div class="hidden name"><code>scMerge.Rmd</code></div>
@@ -291,12 +306,12 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; [1] 6</span>
 <span class="co">#&gt; [1] 7</span>
 <span class="co">#&gt;   group batch cluster</span>
-<span class="co">#&gt; 1     1     2       1</span>
-<span class="co">#&gt; 2     1     3       3</span>
+<span class="co">#&gt; 1     2     2       1</span>
+<span class="co">#&gt; 2     2     3       3</span>
 <span class="co">#&gt; 3     3     2       2</span>
-<span class="co">#&gt; 4     3     3       1</span>
-<span class="co">#&gt; 5     2     2       3</span>
-<span class="co">#&gt; 6     2     3       2</span>
+<span class="co">#&gt; 4     3     3       2</span>
+<span class="co">#&gt; 5     1     2       3</span>
+<span class="co">#&gt; 6     1     3       1</span>
 <span class="co">#&gt; 7     2     1       1</span>
 <span class="co">#&gt; 8     1     4       1</span>
 <span class="co">#&gt; 9     1     5       1</span>
@@ -306,7 +321,7 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
 t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 43.7455 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 25.66631 secs</span></code></pre></div>
 <p>However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
 <p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.</p>
 <p>For instance, in a single cell data with 21700 features and 5526 cells, we saw a 5-fold reduction in computational time when <code>fast_svd = TRUE</code> was invoked.</p>
@@ -330,10 +345,10 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; [1] 6</span>
 <span class="co">#&gt; [1] 7</span>
 <span class="co">#&gt;   group batch cluster</span>
-<span class="co">#&gt; 1     2     2       1</span>
-<span class="co">#&gt; 2     2     3       1</span>
-<span class="co">#&gt; 3     3     2       2</span>
-<span class="co">#&gt; 4     3     3       2</span>
+<span class="co">#&gt; 1     3     2       1</span>
+<span class="co">#&gt; 2     3     3       2</span>
+<span class="co">#&gt; 3     2     2       2</span>
+<span class="co">#&gt; 4     2     3       1</span>
 <span class="co">#&gt; 5     1     2       3</span>
 <span class="co">#&gt; 6     1     3       3</span>
 <span class="co">#&gt; 7     2     1       1</span>
@@ -345,7 +360,7 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
 t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 37.77492 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 25.37388 secs</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
                            <span class="dt">exprs_values =</span> <span class="st">"scMerge_fast"</span>)
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
@@ -359,76 +374,73 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <a href="#session-info" class="anchor"></a>Session Info</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()
 <span class="co">#&gt; R version 3.5.1 (2018-07-02)</span>
-<span class="co">#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)</span>
-<span class="co">#&gt; Running under: macOS High Sierra 10.13.4</span>
+<span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
+<span class="co">#&gt; Running under: Debian GNU/Linux 9 (stretch)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
-<span class="co">#&gt; BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib</span>
-<span class="co">#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib</span>
+<span class="co">#&gt; BLAS: /usr/lib/atlas-base/atlas/libblas.so.3.0</span>
+<span class="co">#&gt; LAPACK: /usr/lib/atlas-base/atlas/liblapack.so.3.0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; locale:</span>
-<span class="co">#&gt; [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8</span>
+<span class="co">#&gt;  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span>
+<span class="co">#&gt;  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span>
+<span class="co">#&gt;  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span>
+<span class="co">#&gt; [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; attached base packages:</span>
 <span class="co">#&gt; [1] parallel  stats4    stats     graphics  grDevices utils     datasets </span>
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] scater_1.8.4                ggplot2_3.0.0              </span>
-<span class="co">#&gt;  [3] SingleCellExperiment_1.2.0  SummarizedExperiment_1.10.1</span>
-<span class="co">#&gt;  [5] DelayedArray_0.6.5          BiocParallel_1.14.2        </span>
-<span class="co">#&gt;  [7] matrixStats_0.54.0          Biobase_2.40.0             </span>
-<span class="co">#&gt;  [9] GenomicRanges_1.32.6        GenomeInfoDb_1.16.0        </span>
-<span class="co">#&gt; [11] IRanges_2.14.11             S4Vectors_0.18.3           </span>
-<span class="co">#&gt; [13] BiocGenerics_0.26.0         scMerge_0.1.8              </span>
+<span class="co">#&gt;  [1] scater_1.9.15               ggplot2_3.0.0              </span>
+<span class="co">#&gt;  [3] SingleCellExperiment_1.3.10 SummarizedExperiment_1.11.6</span>
+<span class="co">#&gt;  [5] DelayedArray_0.7.30         BiocParallel_1.15.8        </span>
+<span class="co">#&gt;  [7] matrixStats_0.54.0          Biobase_2.41.2             </span>
+<span class="co">#&gt;  [9] GenomicRanges_1.33.13       GenomeInfoDb_1.17.1        </span>
+<span class="co">#&gt; [11] IRanges_2.15.16             S4Vectors_0.19.19          </span>
+<span class="co">#&gt; [13] BiocGenerics_0.27.1         scMerge_0.1.8              </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] bitops_1.0-6             fs_1.2.6                </span>
+<span class="co">#&gt;  [1] bitops_1.0-6             fs_1.2.5                </span>
 <span class="co">#&gt;  [3] RColorBrewer_1.1-2       rprojroot_1.3-2         </span>
 <span class="co">#&gt;  [5] numDeriv_2016.8-1        tools_3.5.1             </span>
 <span class="co">#&gt;  [7] backports_1.1.2          R6_2.2.2                </span>
-<span class="co">#&gt;  [9] KernSmooth_2.23-15       vipor_0.4.5             </span>
-<span class="co">#&gt; [11] lazyeval_0.2.1           colorspace_1.3-2        </span>
-<span class="co">#&gt; [13] withr_2.1.2              tidyselect_0.2.4        </span>
-<span class="co">#&gt; [15] gridExtra_2.3            compiler_3.5.1          </span>
-<span class="co">#&gt; [17] xml2_1.2.0               desc_1.2.0              </span>
-<span class="co">#&gt; [19] labeling_0.3             caTools_1.17.1.1        </span>
-<span class="co">#&gt; [21] scales_1.0.0             pkgdown_1.1.0           </span>
-<span class="co">#&gt; [23] commonmark_1.5           stringr_1.3.1           </span>
-<span class="co">#&gt; [25] digest_0.6.16            rmarkdown_1.10          </span>
-<span class="co">#&gt; [27] XVector_0.20.0           pkgconfig_2.0.2         </span>
-<span class="co">#&gt; [29] htmltools_0.3.6          ruv_0.9.7               </span>
-<span class="co">#&gt; [31] bbmle_1.0.20             limma_3.36.3            </span>
+<span class="co">#&gt;  [9] KernSmooth_2.23-15       HDF5Array_1.9.11        </span>
+<span class="co">#&gt; [11] vipor_0.4.5              lazyeval_0.2.1          </span>
+<span class="co">#&gt; [13] colorspace_1.3-2         withr_2.1.2             </span>
+<span class="co">#&gt; [15] tidyselect_0.2.4         gridExtra_2.3           </span>
+<span class="co">#&gt; [17] compiler_3.5.1           xml2_1.2.0              </span>
+<span class="co">#&gt; [19] desc_1.2.0               labeling_0.3            </span>
+<span class="co">#&gt; [21] caTools_1.17.1.1         scales_1.0.0            </span>
+<span class="co">#&gt; [23] pkgdown_1.1.0            commonmark_1.5          </span>
+<span class="co">#&gt; [25] stringr_1.3.1            digest_0.6.16           </span>
+<span class="co">#&gt; [27] rmarkdown_1.10           XVector_0.21.3          </span>
+<span class="co">#&gt; [29] pkgconfig_2.0.2          htmltools_0.3.6         </span>
+<span class="co">#&gt; [31] ruv_0.9.7                bbmle_1.0.20            </span>
 <span class="co">#&gt; [33] rlang_0.2.2              rstudioapi_0.7          </span>
-<span class="co">#&gt; [35] shiny_1.1.0              prettydoc_0.2.1         </span>
-<span class="co">#&gt; [37] DelayedMatrixStats_1.2.0 bindr_0.1.1             </span>
-<span class="co">#&gt; [39] gtools_3.8.1             dplyr_0.7.6             </span>
-<span class="co">#&gt; [41] RCurl_1.95-4.11          magrittr_1.5            </span>
-<span class="co">#&gt; [43] GenomeInfoDbData_1.1.0   Matrix_1.2-14           </span>
-<span class="co">#&gt; [45] Rcpp_0.12.18             ggbeeswarm_0.6.0        </span>
-<span class="co">#&gt; [47] munsell_0.5.0            Rhdf5lib_1.2.1          </span>
-<span class="co">#&gt; [49] viridis_0.5.1            stringi_1.2.4           </span>
-<span class="co">#&gt; [51] yaml_2.2.0               edgeR_3.22.3            </span>
-<span class="co">#&gt; [53] MASS_7.3-50              zlibbioc_1.26.0         </span>
-<span class="co">#&gt; [55] gplots_3.0.1             rhdf5_2.24.0            </span>
-<span class="co">#&gt; [57] plyr_1.8.4               grid_3.5.1              </span>
-<span class="co">#&gt; [59] gdata_2.18.0             promises_1.0.1          </span>
-<span class="co">#&gt; [61] M3Drop_1.6.0             shinydashboard_0.7.0    </span>
-<span class="co">#&gt; [63] crayon_1.3.4             lattice_0.20-35         </span>
-<span class="co">#&gt; [65] locfit_1.5-9.1           knitr_1.20              </span>
-<span class="co">#&gt; [67] pillar_1.3.0             igraph_1.2.2            </span>
-<span class="co">#&gt; [69] rjson_0.2.20             reshape2_1.4.3          </span>
-<span class="co">#&gt; [71] codetools_0.2-15         glue_1.3.0              </span>
-<span class="co">#&gt; [73] evaluate_0.11            data.table_1.11.4       </span>
-<span class="co">#&gt; [75] httpuv_1.4.5             foreach_1.4.4           </span>
-<span class="co">#&gt; [77] gtable_0.2.0             purrr_0.2.5             </span>
-<span class="co">#&gt; [79] assertthat_0.2.0         rsvd_0.9                </span>
-<span class="co">#&gt; [81] mime_0.5                 xtable_1.8-2            </span>
-<span class="co">#&gt; [83] roxygen2_6.1.0           later_0.7.3             </span>
-<span class="co">#&gt; [85] viridisLite_0.3.0        tibble_1.4.2            </span>
-<span class="co">#&gt; [87] iterators_1.0.10         beeswarm_0.2.3          </span>
-<span class="co">#&gt; [89] memoise_1.1.0            tximport_1.8.0          </span>
-<span class="co">#&gt; [91] bindrcpp_0.2.2           statmod_1.4.30</span></code></pre></div>
+<span class="co">#&gt; [35] DelayedMatrixStats_1.3.6 prettydoc_0.2.1         </span>
+<span class="co">#&gt; [37] bindr_0.1.1              gtools_3.8.1            </span>
+<span class="co">#&gt; [39] dplyr_0.7.6              RCurl_1.95-4.11         </span>
+<span class="co">#&gt; [41] magrittr_1.5             GenomeInfoDbData_1.1.0  </span>
+<span class="co">#&gt; [43] Matrix_1.2-14            Rcpp_0.12.18            </span>
+<span class="co">#&gt; [45] ggbeeswarm_0.6.0         munsell_0.5.0           </span>
+<span class="co">#&gt; [47] Rhdf5lib_1.3.1           viridis_0.5.1           </span>
+<span class="co">#&gt; [49] stringi_1.2.4            yaml_2.2.0              </span>
+<span class="co">#&gt; [51] MASS_7.3-50              zlibbioc_1.27.0         </span>
+<span class="co">#&gt; [53] rhdf5_2.25.4             gplots_3.0.1            </span>
+<span class="co">#&gt; [55] plyr_1.8.4               grid_3.5.1              </span>
+<span class="co">#&gt; [57] gdata_2.18.0             M3Drop_1.7.0            </span>
+<span class="co">#&gt; [59] crayon_1.3.4             lattice_0.20-35         </span>
+<span class="co">#&gt; [61] knitr_1.20               pillar_1.3.0            </span>
+<span class="co">#&gt; [63] igraph_1.2.2             reshape2_1.4.3          </span>
+<span class="co">#&gt; [65] codetools_0.2-15         glue_1.3.0              </span>
+<span class="co">#&gt; [67] evaluate_0.11            foreach_1.4.4           </span>
+<span class="co">#&gt; [69] gtable_0.2.0             purrr_0.2.5             </span>
+<span class="co">#&gt; [71] assertthat_0.2.0         rsvd_0.9                </span>
+<span class="co">#&gt; [73] roxygen2_6.1.0           viridisLite_0.3.0       </span>
+<span class="co">#&gt; [75] tibble_1.4.2             iterators_1.0.10        </span>
+<span class="co">#&gt; [77] beeswarm_0.2.3           memoise_1.1.0           </span>
+<span class="co">#&gt; [79] bindrcpp_0.2.2           statmod_1.4.30</span></code></pre></div>
 <!-- You can enable figure captions by `fig_caption: yes` in YAML: -->
 <!--     output: -->
 <!--       rmarkdown::html_vignette: -->

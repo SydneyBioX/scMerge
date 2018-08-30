@@ -55,10 +55,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../../articles/Breast_Data/Breast_Data.html">Breast Cancer Data</a>
+    </li>
+    <li>
+      <a href="../../articles/CellBench_Data/CellBench_Data.html">CellBench Data</a>
+    </li>
+    <li>
       <a href="../../articles/ESC_Data/ESC_Data.html">Embyronic Stem Cell Data</a>
     </li>
     <li>
       <a href="../../articles/Mouse_Liver_Data/Mouse_Liver_Data.html">Mouse Liver Data</a>
+    </li>
+    <li>
+      <a href="../../articles/Neuronal_Data/Neuronal_Data.html">Neuronal Single Cell Data</a>
+    </li>
+    <li>
+      <a href="../../articles/Pancreas4_Data/Pancreas4_Data.html">Pancreas 4 Data</a>
+    </li>
+    <li>
+      <a href="../../articles/mESC_Data/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
     </li>
   </ul>
 </li>
@@ -85,7 +100,7 @@
       <h1>Mouse Liver Data</h1>
                         <h4 class="author">Kevin Wang</h4>
             
-            <h4 class="date">20/08/2018</h4>
+            <h4 class="date">30 Aug 2018</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/Mouse_Liver_Data/Mouse_Liver_Data.Rmd"><code>vignettes/Mouse_Liver_Data/Mouse_Liver_Data.Rmd</code></a></small>
       <div class="hidden name"><code>Mouse_Liver_Data.Rmd</code></div>
@@ -146,7 +161,7 @@
 <td>Smart-Seq2</td>
 <td></td>
 <td></td>
-<td></td>
+<td>2</td>
 <td></td>
 <td></td>
 </tr>
@@ -158,7 +173,7 @@
 <td>STRT-seq</td>
 <td></td>
 <td></td>
-<td></td>
+<td>3</td>
 <td></td>
 <td></td>
 </tr>
@@ -170,7 +185,7 @@
 <td>SMARTer/C1</td>
 <td></td>
 <td></td>
-<td></td>
+<td>3</td>
 <td></td>
 <td></td>
 </tr>
@@ -178,12 +193,13 @@
 </table>
 <ul>
 <li>
-<p><code>scMerge</code> parameters for normalisation: (Yingxin will fill this out)</p>
+<p><code>scMerge</code> parameters for normalisation:</p>
 <ul>
-<li>Unsupervised scMerge</li>
-<li>kmeans K = (1,2,3,4)</li>
-<li>Negative controls are</li>
-<li>RUV_k</li>
+<li>semi-supervised scMerge</li>
+<li>kmeans K = (6,2,3,3)</li>
+<li>Negative controls are mouse scSEG</li>
+<li>WV = developmental stage</li>
+<li>WV_marker = “Afp”,“Alb”,“Epcam”</li>
 </ul>
 </li>
 <li><p>Relation to the <code>scMerge</code> article: Main Figure 3b and Supplementary Figure 7.</p></li>
@@ -192,7 +208,8 @@
 <div id="biological-novelty" class="section level1">
 <h1 class="hasAnchor">
 <a href="#biological-novelty" class="anchor"></a>Biological novelty</h1>
-<p>In addition to normalising across 4 scRNA-Seq datasets, this <code>scMerge</code> normalisation across 4 different dataset lead to a novel result: In the face of incomplete data, <code>scMerge</code> revealed more cell trajectories more consistent with the full Liver data collection and agrees with current literature.</p>
+<p>To combine the four liver scRNA-seq datasets, we used a semi-supervised approach by considering the devlopmental stages as the wanted variation to identify the pseudo-replicates. Note that the cells of the four liver datasets are from different fetal mouse liver developmental stages (E9.5-E17.5). To identify the pseudo-replicates corresponding to the hepatoblasts, hepatocytes and cholangiocytes, we used three known markers of hepatoblasts and cholangiocytes, Alb, Afp and Epcam, to guide the scMerge algorithm. The sets of pseudo-replicates that are highly expressed the markers are further split according to the developmental stages.</p>
+<p>In addition to normalising across 4 scRNA-Seq datasets, this <code>scMerge</code> normalisation across 4 different dataset lead to a novel result: In the face of incomplete data, <code>scMerge</code> revealed cell trajectories of hepatoblasts, hepatocytes and cholangiocytes more consistent with the full Liver data collection and agrees with current literature.</p>
 <p>In our analysis, we pooled all 4 datasets listed above together, but deliberately removed cells from the E17.5 time point in the data GSE90047 (Yang et. al. This is the second dataset above) and constructed the cell development trajectory using Monocle2.</p>
 <p>We found that the trajectory associated with <code>scMerge</code> is most consistent with the full Liver data collection and agrees with current literature, while other methods tended to generate extraneous branches with the subset of the Liver data collection.</p>
 </div>

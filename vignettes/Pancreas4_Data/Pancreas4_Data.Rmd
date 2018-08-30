@@ -1,0 +1,61 @@
+---
+title: "Pancreas 4 Data"
+author: "Kevin Wang"
+date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
+output: 
+  html_document:
+    theme: paper
+    toc_depth: 3
+    number_sections: yes
+    toc: true
+---
+
+
+# Introduction 
+
++ Data source: This human pancreas single cell data was comprised of 4 different experiments using 3 different protocols.
+
+| Type of merge                                      |   | Name      | ID          | Author      | DOI or URL                 | Protocol   | Organism | Tissue   | # of cell types | # of cells | # of batches |
+|----------------------------------------------------|---|-----------|-------------|-------------|----------------------------|------------|----------|----------|-----------------|------------|--------------|
+| Across platforms with significant depth difference |   | Pancreas4 | GSE81608    | Xin         | 10.1016/j.cmet.2016.08.018 | SMARTer/C1 | Human    | Pancreas | 6               | 4566       | NA           |
+|                                                    |   |           | GSE83139    | Wang        | 10.2337/db16-0405          | Smart-Seq  |          |          |                 |            |              |
+|                                                    |   |           | GSE86469    | Lawlor      | 10.1101/gr.212720.116      | SMARTer/C1 |          |          |                 |            |              |
+|                                                    |   |           | E-MTAB-5061 | Segerstolpe | 10.1016/j.cmet.2016.08.020 | Smart-Seq2 |          |          |                 |            |              |
+
++ `scMerge` parameters for normalisation: (Yingxin will fill this out)
+
+    - Unsupervised scMerge
+    - kmeans K = (1,2,3,4)
+    - Negative controls are
+    - RUV_k
+    
+    
++ Relation to the `scMerge` article: Main Figure 2d, Figure S3.  
+
+
+# Biological novelty
+
++ In addition to the batch effects, this data is large with 4,566 cells which poses dimensionality challenges to normalisation. 
+
++ The use of different protocols meant there is another challenge with normalisation between experiments with siginificant sequencing depth. 
+
+
+
+# tSNE plots comparing different normalisations
+
+![](Fig2_v6.pdf){width=100%}
+
+# PCA plots comparing different normalisations
+
+![](FigS3_v1.pdf){width=100%}
+
+
+# Reference
+
+**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
+
+Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
+
+doi: https://doi.org/10.1101/393280
+
+BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280

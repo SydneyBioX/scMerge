@@ -20,9 +20,6 @@ navbar:
       href: articles/scMerge.html
     articles:
       text: Case Study
-      menu:
-      - text: Mouse Liver Data
-        href: articles/gallery/Mouse_Liver_Data.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/SydneyBioX/scMerge

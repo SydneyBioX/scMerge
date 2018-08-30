@@ -1,0 +1,52 @@
+---
+title: "Neuronal Single Cell Data"
+author: "Kevin Wang"
+date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
+output: 
+  html_document:
+    theme: paper
+    toc_depth: 3
+    number_sections: yes
+    toc: true
+---
+
+
+# Introduction 
+
++ Data source: This human neuronal single cell data was comprised of 2 different experiments. There are 145 cells comprising of two cell types. 
+
+| Type of merge                |   | Name     |   | ID        | Author   | DOI or URL              | Protocol   | Organism | Tissue   | # of cell types | # of cells | # of batches |
+|------------------------------|---|----------|---|-----------|----------|-------------------------|------------|----------|----------|-----------------|------------|--------------|
+| Across different experiments |   | Neuronal |   | SRP065920 | Tan      | 10.15252/msb.20156639   | Smart‐Seq2 | Mouse    | Neuronal | 2               | 145        | NA           |
+|                              |   |          |   | GSE75413  | Hanchate | 10.1126/science.aad2456 | STRT-seq   |          |          |                 |            |              |
+
++ `scMerge` parameters for normalisation: (Yingxin will fill this out)
+
+    - Unsupervised scMerge
+    - kmeans K = (1,2,3,4)
+    - Negative controls are
+    - RUV_k
+    
+    
++ Relation to the `scMerge` article: Supplementary Figure 9. 
+
+
+# Biological novelty
+
++ This data is relatively small with batch effect across experiments. The cell types (mature and immature olfactory neuronal cells) were defined using marker genes 
+
+
+# tSNE plot comparing different normalisations
+
+![](FigS9_v1.pdf){width=100%}
+
+
+# Reference
+
+**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
+
+Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
+
+doi: https://doi.org/10.1101/393280
+
+BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280

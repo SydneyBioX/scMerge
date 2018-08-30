@@ -1,0 +1,55 @@
+---
+title: "CellBench Data"
+author: "Kevin Wang"
+date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
+output: 
+  html_document:
+    theme: paper
+    toc_depth: 3
+    number_sections: yes
+    toc: true
+---
+
+
+# Introduction 
+
++ Data source: This is a benchmarking single cell data was comprised of three different human lung adenocarcinoma cell lines, which were cultured separately, and the same batch was processed in three different ways. More information can be found here: https://github.com/LuyiTian/CellBench_data. 
+
+
+
+| Type of merge |   | Name      |   | ID        | Author | DOI or URL                                 | Protocol                         | Organism | Tissue                    | # of cell types | # of cells | # of batches     |
+|---------------|---|-----------|---|-----------|--------|--------------------------------------------|----------------------------------|----------|---------------------------|-----------------|------------|------------------|
+|               |   | CellBench |   | cellBench |        | https://github.com/LuyiTian/CellBench_data | Cel-seq2, Drop-seq, 10x Chromium | Human    | Adenocarcinoma cell lines | 3               | NA         | 3 per cell types |
+
+
+
++ `scMerge` parameters for normalisation: (Yingxin will fill this out)
+
+    - Unsupervised scMerge
+    - kmeans K = (1,2,3,4)
+    - Negative controls are
+    - RUV_k
+    
+    
++ Relation to the `scMerge` article: Supplementary Figure 11.
+
+
+# Biological novelty
+
+In addition to the batch effects, the use three different technologies means there is a large difference in sequencing depth. 
+
+
+# tSNE plot comparing different normalisations
+
+![](FigS11_v1.pdf){width=100%}
+
+
+# Reference
+
+**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
+
+Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
+
+doi: https://doi.org/10.1101/393280
+
+BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280

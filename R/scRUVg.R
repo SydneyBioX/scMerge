@@ -1,4 +1,4 @@
-##Modified based on RUV2 and RUVg function
+##Modified based on RUV2 from package ruv and RUVg from package RUVseq function
 
 scRUVg <-function (Y,  ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
                    fullW = NULL, svdyc = NULL) {
@@ -21,7 +21,9 @@ scRUVg <-function (Y,  ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
     q = 0
   }
 
-  ctl = tological(ctl, n)
+  ctl2 <- rep(FALSE, n)
+  ctl2[ctl] <- TRUE
+  ctl <- ctl2
 
   if (k > sum(ctl)) {
     stop("k must not be larger than the number of controls")
@@ -49,10 +51,4 @@ scRUVg <-function (Y,  ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
   return(list(newY = newY, W = W, alpha = alpha))
 }
 
-tological <-
-  function(ctl, n) {
-    ctl2 <- rep(FALSE, n)
-    ctl2[ctl] <- TRUE
-    return(ctl2)
-  }
 

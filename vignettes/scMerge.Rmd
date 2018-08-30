@@ -1,12 +1,12 @@
 ---
 title: "An introduction to the scMerge package"
 author: "Yingxin Lin and Kevin Wang"
-date: "`r Sys.Date()`"
+date: "`r format(Sys.time(), '%Y %b %d')"
 output:
   prettydoc::html_pretty:
-    theme: cayman
+    theme: paper
     highlight: vignette
-    toc_depth: 4
+    toc_depth: 3
     number_sections: yes
     toc: true
 ---

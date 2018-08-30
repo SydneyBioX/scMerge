@@ -1,9 +1,15 @@
 ---
 title: "Mouse Liver Data"
 author: "Kevin Wang"
-date: "20/08/2018"
-output: html_document
+date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
+output: 
+  html_document:
+    theme: paper
+    toc_depth: 3
+    number_sections: yes
+    toc: true
 ---
+
 
 
 # Introduction 
@@ -13,23 +19,27 @@ output: html_document
 | Name  | ID       | Author | DOI or URL                | Protocol   | Organism | Tissue | # of cell types | # of cells | # of batches |
 |-------|----------|--------|---------------------------|------------|----------|--------|-----------------|------------|--------------|
 | Liver | GSE87795 | Su     | 10.1186/s12864-017-4342-x | SMARTer/C1 | Mouse    | Liver  | 6               | 1236       |              |
-|       | GSE90047 | Yang   | 10.1002/hep.29353         | Smart-Seq2 |          |        |                 |            |              |
-|       | GSE87038 | Dong   | 10.1186/s13059-018-1416-2 | STRT-seq   |          |        |                 |            |              |
-|       | GSE96981 | Camp   | 10.1038/nature22796       | SMARTer/C1 |          |        |                 |            |              |
+|       | GSE90047 | Yang   | 10.1002/hep.29353         | Smart-Seq2 |          |        | 2                |            |              |
+|       | GSE87038 | Dong   | 10.1186/s13059-018-1416-2 | STRT-seq   |          |        | 3               |            |              |
+|       | GSE96981 | Camp   | 10.1038/nature22796       | SMARTer/C1 |          |        | 3               |            |              |
 
 
-+ `scMerge` parameters for normalisation: (Yingxin will fill this out)
++ `scMerge` parameters for normalisation: 
 
-    - Unsupervised scMerge
-    - kmeans K = (1,2,3,4)
-    - Negative controls are
-    - RUV_k
+    - semi-supervised scMerge
+    - kmeans K = (6,2,3,3)
+    - Negative controls are mouse scSEG
+    - WV = developmental stage 
+    - WV_marker = "Afp","Alb","Epcam"
     
 + Relation to the `scMerge` article: Main Figure 3b and Supplementary Figure 7. 
 
 # Biological novelty
 
-In addition to normalising across 4 scRNA-Seq datasets, this `scMerge` normalisation across 4 different dataset lead to a novel result: In the face of incomplete data, `scMerge` revealed more cell trajectories more consistent with the full Liver data collection and agrees with current literature. 
+To combine the four liver scRNA-seq datasets, we used a semi-supervised approach by considering the devlopmental stages as the wanted variation to identify the pseudo-replicates. Note that the cells of the four liver datasets are from different fetal mouse liver developmental stages (E9.5-E17.5). To identify the pseudo-replicates corresponding to the hepatoblasts, hepatocytes and cholangiocytes, we used three known markers of hepatoblasts and cholangiocytes, Alb, Afp and Epcam, to guide the scMerge algorithm. The sets of pseudo-replicates that are highly expressed the markers are further split according to the developmental stages. 
+
+
+In addition to normalising across 4 scRNA-Seq datasets, this `scMerge` normalisation across 4 different dataset lead to a novel result: In the face of incomplete data, `scMerge` revealed cell trajectories of hepatoblasts, hepatocytes and cholangiocytes more consistent with the full Liver data collection and agrees with current literature. 
 
 In our analysis, we pooled all 4 datasets listed above together, but deliberately removed cells from the E17.5 time point in the data GSE90047 (Yang et. al. This is the second dataset above) and constructed the cell development trajectory using Monocle2. 
 

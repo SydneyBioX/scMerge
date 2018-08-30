@@ -2,7 +2,12 @@ pandoc: 1.19.2.1
 pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
+  Breast_Data: Breast_Data/Breast_Data.html
+  CellBench_Data: CellBench_Data/CellBench_Data.html
   ESC_Data: ESC_Data/ESC_Data.html
   Mouse_Liver_Data: Mouse_Liver_Data/Mouse_Liver_Data.html
+  Neuronal_Data: Neuronal_Data/Neuronal_Data.html
+  Pancreas4_Data: Pancreas4_Data/Pancreas4_Data.html
+  mESC_Data: mESC_Data/mESC_Data.html
   scMerge: scMerge.html
 

@@ -1,14 +1,20 @@
 ---
 title: "Embyronic Stem Cell Data"
 author: "Kevin Wang"
-date: "20/08/2018"
-output: html_document
+date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
+output: 
+  html_document:
+    theme: paper
+    toc_depth: 3
+    number_sections: yes
+    toc: true
 ---
+
 
 
 # Introduction 
 
-+ Data source: This embryonic stem cell (ESC) data was combined from 7 different sources with 5 different protocols. This data contains cells from both human and mouse which poses extra challenges to the normalisation. There are cells across 10 different cell types in the combined data.
++ Data source: This embryonic stem cell (ESC) data was combined from 7 different experiements with 5 different protocols. This data contains cells from both human and mouse which poses extra challenges to the normalisation. There are cells across 10 different cell types in the combined data.
 
 | Name |   | ID          | Author      | DOI or URL                 | Protocol   | Organism      | Tissue |
 |------|---|-------------|-------------|----------------------------|------------|---------------|--------|
@@ -29,6 +35,7 @@ output: html_document
     - RUV_k
     
 + Relation to the `scMerge` article: Main Figure 3c.
+
 
 # Biological novelty
 
