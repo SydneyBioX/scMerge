@@ -20,12 +20,11 @@ output:
 | Within experiment |   | mESC |   | E-MTAB-2600 | Kolodziejczyk | 10.1016/j.stem.2015.09.011 | SMARTer/C1 | Mouse    | Mouse ESC | 3               | 704        | 5            |
 
 
-+ `scMerge` parameters for normalisation: (Yingxin will fill this out)
++ `scMerge` parameters for normalisation: 
 
     - Unsupervised scMerge
-    - kmeans K = (1,2,3,4)
-    - Negative controls are
-    - RUV_k
+    - kmeans K = (1,3,3,1,1)
+    - Negative controls are mouse scSEG
     
     
 + Relation to the `scMerge` article: Main Figure 1, Supplementary Figure 5, Supplementary Figure 15. 
@@ -35,24 +34,28 @@ output:
 
 + This data is relatively small with only the usual batch effects within an experiment. Hence, it was used as an illustrative example for scMerge and also included as an example dataset in our package. 
 
-+ We used this data to illustrate the following properties of `scMerge`:
 
-    1.  High quality normalisation of scRNA-Seq data with batch effects, as shown when comparing [tSNE plots](#tsnePlots) of different normalisation methods.
-    2.  The use of scSEGs to perform normalisation is a novel invention to achieve high-quality, [biologically-guided normalisation](#scSEGs).
-    3.  [Parameter stability](#kruv) of $k_{RUV}$ in achieving high quality normalisation. 
+# PCA plot comparing different normalisations
+
+![](Kolodziejczyk_PCA.pdf){width=100%}
 
 
 # tSNE plot comparing different normalisations {#tsnePlots}
 
 ![](FigS5_v1.pdf){width=100%}
 
-# Using scSEGs to achieve biologically-guided normalisation {#scSEGs}
+# Diagnostic plot 
 
-![](FigS2_v2.pdf){width=100%}
 
-# Parameter stability of $k_{RUV}$ {#kruv}
+![](Kolodziejczyk_diagnostic.pdf){width=100%}
 
-![](FigS15_v1.pdf){width=100%}
+
+
+# Normalised scMerge data
+
+
+[Mouse ESC Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/mESC_scMerge.rds)
+
 
 
 # Reference

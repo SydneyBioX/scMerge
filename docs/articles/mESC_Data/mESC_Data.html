@@ -100,7 +100,7 @@
       <h1>Mouse Embryonic Stem Cell Data</h1>
                         <h4 class="author">Kevin Wang</h4>
             
-            <h4 class="date">30 Aug 2018</h4>
+            <h4 class="date">03 Sep 2018</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/mESC_Data/mESC_Data.Rmd"><code>vignettes/mESC_Data/mESC_Data.Rmd</code></a></small>
       <div class="hidden name"><code>mESC_Data.Rmd</code></div>
@@ -164,12 +164,11 @@
 </table>
 <ul>
 <li>
-<p><code>scMerge</code> parameters for normalisation: (Yingxin will fill this out)</p>
+<p><code>scMerge</code> parameters for normalisation:</p>
 <ul>
 <li>Unsupervised scMerge</li>
-<li>kmeans K = (1,2,3,4)</li>
-<li>Negative controls are</li>
-<li>RUV_k</li>
+<li>kmeans K = (1,3,3,1,1)</li>
+<li>Negative controls are mouse scSEG</li>
 </ul>
 </li>
 <li><p>Relation to the <code>scMerge</code> article: Main Figure 1, Supplementary Figure 5, Supplementary Figure 15.</p></li>
@@ -179,17 +178,15 @@
 <h1 class="hasAnchor">
 <a href="#biological-novelty" class="anchor"></a>Biological novelty</h1>
 <ul>
-<li><p>This data is relatively small with only the usual batch effects within an experiment. Hence, it was used as an illustrative example for scMerge and also included as an example dataset in our package.</p></li>
-<li>
-<p>We used this data to illustrate the following properties of <code>scMerge</code>:</p>
-<ol style="list-style-type: decimal">
-<li>High quality normalisation of scRNA-Seq data with batch effects, as shown when comparing <a href="#tsnePlots">tSNE plots</a> of different normalisation methods.</li>
-<li>The use of scSEGs to perform normalisation is a novel invention to achieve high-quality, <a href="#scSEGs">biologically-guided normalisation</a>.</li>
-<li>
-<a href="#kruv">Parameter stability</a> of <span class="math inline">\(k_{RUV}\)</span> in achieving high quality normalisation.</li>
-</ol>
-</li>
+<li>This data is relatively small with only the usual batch effects within an experiment. Hence, it was used as an illustrative example for scMerge and also included as an example dataset in our package.</li>
 </ul>
+</div>
+<div id="pca-plot-comparing-different-normalisations" class="section level1">
+<h1 class="hasAnchor">
+<a href="#pca-plot-comparing-different-normalisations" class="anchor"></a>PCA plot comparing different normalisations</h1>
+<div class="figure">
+<embed src="Kolodziejczyk_PCA.pdf" style="width:100.0%"></embed>
+</div>
 </div>
 <div id="tsnePlots" class="section level1">
 <h1 class="hasAnchor">
@@ -198,20 +195,17 @@
 <embed src="FigS5_v1.pdf" style="width:100.0%"></embed>
 </div>
 </div>
-<div id="scSEGs" class="section level1">
+<div id="diagnostic-plot" class="section level1">
 <h1 class="hasAnchor">
-<a href="#scSEGs" class="anchor"></a>Using scSEGs to achieve biologically-guided normalisation</h1>
+<a href="#diagnostic-plot" class="anchor"></a>Diagnostic plot</h1>
 <div class="figure">
-<embed src="FigS2_v2.pdf" style="width:100.0%"></embed>
+<embed src="Kolodziejczyk_diagnostic.pdf" style="width:100.0%"></embed>
 </div>
 </div>
-<div id="kruv" class="section level1">
+<div id="normalised-scmerge-data" class="section level1">
 <h1 class="hasAnchor">
-<a href="#kruv" class="anchor"></a>Parameter stability of <span class="math inline">\(k_{RUV}\)</span>
-</h1>
-<div class="figure">
-<embed src="FigS15_v1.pdf" style="width:100.0%"></embed>
-</div>
+<a href="#normalised-scmerge-data" class="anchor"></a>Normalised scMerge data</h1>
+<p><a href="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/mESC_scMerge.rds">Mouse ESC Data (in RData format)</a></p>
 </div>
 <div id="reference" class="section level1">
 <h1 class="hasAnchor">
@@ -230,9 +224,10 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
       <li><a href="#biological-novelty">Biological novelty</a></li>
+      <li><a href="#pca-plot-comparing-different-normalisations">PCA plot comparing different normalisations</a></li>
       <li><a href="#tsnePlots">tSNE plot comparing different normalisations</a></li>
-      <li><a href="#scSEGs">Using scSEGs to achieve biologically-guided normalisation</a></li>
-      <li><a href="#kruv">Parameter stability of <span class="math inline">\(k_{RUV}\)</span></a></li>
+      <li><a href="#diagnostic-plot">Diagnostic plot</a></li>
+      <li><a href="#normalised-scmerge-data">Normalised scMerge data</a></li>
       <li><a href="#reference">Reference</a></li>
       </ul>
 </div>

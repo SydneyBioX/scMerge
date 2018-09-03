@@ -20,12 +20,11 @@ output:
 | Across different experiments |   | Neuronal |   | SRP065920 | Tan      | 10.15252/msb.20156639   | Smart‐Seq2 | Mouse    | Neuronal | 2               | 145        | NA           |
 |                              |   |          |   | GSE75413  | Hanchate | 10.1126/science.aad2456 | STRT-seq   |          |          |                 |            |              |
 
-+ `scMerge` parameters for normalisation: (Yingxin will fill this out)
++ `scMerge` parameters for normalisation: 
 
     - Unsupervised scMerge
-    - kmeans K = (1,2,3,4)
-    - Negative controls are
-    - RUV_k
+    - kmeans K = (2,2)
+    - Negative controls are mouse scSEG
     
     
 + Relation to the `scMerge` article: Supplementary Figure 9. 
@@ -33,12 +32,29 @@ output:
 
 # Biological novelty
 
-+ This data is relatively small with batch effect across experiments. The cell types (mature and immature olfactory neuronal cells) were defined using marker genes 
++ This data is relatively small with batch effect across experiments. The cell types (mature and immature olfactory neuronal cells) were defined using marker genes
+
+
+# PCA plot comparing different normalisations
+
+![](Neuronal_PCA.pdf){width=100%}
 
 
 # tSNE plot comparing different normalisations
 
 ![](FigS9_v1.pdf){width=100%}
+
+# Diagnostic plot 
+
+![](Neuronal_diagnostic.pdf){width=100%}
+
+
+
+# Normalised scMerge data
+
+
+[Mouse Neuronal Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/neuronal_scMerge.rds)
+
 
 
 # Reference

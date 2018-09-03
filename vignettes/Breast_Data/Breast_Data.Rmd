@@ -22,25 +22,29 @@ output:
 
 
 
-+ `scMerge` parameters for normalisation: (Yingxin will fill this out)
++ `scMerge` parameters for normalisation: 
 
     - Unsupervised scMerge
-    - kmeans K = (1,2,3,4)
-    - Negative controls are
-    - RUV_k
+    - kmeans K = (4,3,4,3)
+    - Negative controls are human scSEG
+
     
-    
-+ Relation to the `scMerge` article: Supplementary Figure 6 and 12. 
++ Relation to the `scMerge` article: Supplementary Figure 6. 
 
 
 # Biological novelty
 
-In addition to the batch effects, this data is large with 24,520 cells (10x Chromium protocol) which poses dimensionality challenges to normalisation. 
+In addition to the batch effects, this data is large with 24,520 cells (10x Chromium protocol) which poses dimensionality challenges to normalisation.
 
 # tSNE plot comparing different normalisations
 
 ![](FigS6_v1.pdf){width=100%}
 
+
+# Normalised scMerge data
+
+
+[Breast Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/breast_scMerge.rds)
 
 
 # Reference

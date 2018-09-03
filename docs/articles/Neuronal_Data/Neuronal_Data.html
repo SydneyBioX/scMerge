@@ -100,7 +100,7 @@
       <h1>Neuronal Single Cell Data</h1>
                         <h4 class="author">Kevin Wang</h4>
             
-            <h4 class="date">30 Aug 2018</h4>
+            <h4 class="date">03 Sep 2018</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/Neuronal_Data/Neuronal_Data.Rmd"><code>vignettes/Neuronal_Data/Neuronal_Data.Rmd</code></a></small>
       <div class="hidden name"><code>Neuronal_Data.Rmd</code></div>
@@ -181,12 +181,11 @@
 </table>
 <ul>
 <li>
-<p><code>scMerge</code> parameters for normalisation: (Yingxin will fill this out)</p>
+<p><code>scMerge</code> parameters for normalisation:</p>
 <ul>
 <li>Unsupervised scMerge</li>
-<li>kmeans K = (1,2,3,4)</li>
-<li>Negative controls are</li>
-<li>RUV_k</li>
+<li>kmeans K = (2,2)</li>
+<li>Negative controls are mouse scSEG</li>
 </ul>
 </li>
 <li><p>Relation to the <code>scMerge</code> article: Supplementary Figure 9.</p></li>
@@ -199,12 +198,31 @@
 <li>This data is relatively small with batch effect across experiments. The cell types (mature and immature olfactory neuronal cells) were defined using marker genes</li>
 </ul>
 </div>
+<div id="pca-plot-comparing-different-normalisations" class="section level1">
+<h1 class="hasAnchor">
+<a href="#pca-plot-comparing-different-normalisations" class="anchor"></a>PCA plot comparing different normalisations</h1>
+<div class="figure">
+<embed src="Neuronal_PCA.pdf" style="width:100.0%"></embed>
+</div>
+</div>
 <div id="tsne-plot-comparing-different-normalisations" class="section level1">
 <h1 class="hasAnchor">
 <a href="#tsne-plot-comparing-different-normalisations" class="anchor"></a>tSNE plot comparing different normalisations</h1>
 <div class="figure">
 <embed src="FigS9_v1.pdf" style="width:100.0%"></embed>
 </div>
+</div>
+<div id="diagnostic-plot" class="section level1">
+<h1 class="hasAnchor">
+<a href="#diagnostic-plot" class="anchor"></a>Diagnostic plot</h1>
+<div class="figure">
+<embed src="Neuronal_diagnostic.pdf" style="width:100.0%"></embed>
+</div>
+</div>
+<div id="normalised-scmerge-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#normalised-scmerge-data" class="anchor"></a>Normalised scMerge data</h1>
+<p><a href="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/neuronal_scMerge.rds">Mouse Neuronal Data (in RData format)</a></p>
 </div>
 <div id="reference" class="section level1">
 <h1 class="hasAnchor">
@@ -223,7 +241,10 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
       <li><a href="#biological-novelty">Biological novelty</a></li>
+      <li><a href="#pca-plot-comparing-different-normalisations">PCA plot comparing different normalisations</a></li>
       <li><a href="#tsne-plot-comparing-different-normalisations">tSNE plot comparing different normalisations</a></li>
+      <li><a href="#diagnostic-plot">Diagnostic plot</a></li>
+      <li><a href="#normalised-scmerge-data">Normalised scMerge data</a></li>
       <li><a href="#reference">Reference</a></li>
       </ul>
 </div>

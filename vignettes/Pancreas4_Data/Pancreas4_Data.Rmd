@@ -22,22 +22,33 @@ output:
 |                                                    |   |           | GSE86469    | Lawlor      | 10.1101/gr.212720.116      | SMARTer/C1 |          |          |                 |            |              |
 |                                                    |   |           | E-MTAB-5061 | Segerstolpe | 10.1016/j.cmet.2016.08.020 | Smart-Seq2 |          |          |                 |            |              |
 
-+ `scMerge` parameters for normalisation: (Yingxin will fill this out)
++ `scMerge` parameters for normalisation:
 
     - Unsupervised scMerge
-    - kmeans K = (1,2,3,4)
-    - Negative controls are
-    - RUV_k
+    - kmeans K = (4,6,6,6)
+    - Negative controls are human scSEG
     
     
-+ Relation to the `scMerge` article: Main Figure 2d, Figure S3.  
++ Relation to the `scMerge` article: Main Figure 2d, Figure S3 and Figure S5.  
 
 
-# Biological novelty
+# Comments
 
-+ In addition to the batch effects, this data is large with 4,566 cells which poses dimensionality challenges to normalisation. 
+## Biological background
 
-+ The use of different protocols meant there is another challenge with normalisation between experiments with siginificant sequencing depth. 
+By integrating this across different sources of data, we are able to understand the pancreas cells better.
+
+## Integration challenges
+
++ In addition to the batch effects within experiments, this data is large with 4,566 cells which poses dimensionality challenges to normalisation. 
+
+<!-- + The use of different protocols meant there is another challenge with normalisation between experiments with siginificant sequencing depth.  -->
+
+
+
+# PCA plots comparing different normalisations
+
+![](FigS3_v1.pdf){width=100%}
 
 
 
@@ -45,9 +56,19 @@ output:
 
 ![](Fig2_v6.pdf){width=100%}
 
-# PCA plots comparing different normalisations
 
-![](FigS3_v1.pdf){width=100%}
+
+# Diagnostic plot 
+
+![](FigS5_v1.pdf){width=100%}
+
+
+
+
+# Normalised scMerge data
+
+
+[Pancreas4 (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/pancreasFour_scMerge.rds)
 
 
 # Reference

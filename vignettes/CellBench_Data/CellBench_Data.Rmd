@@ -19,16 +19,15 @@ output:
 
 | Type of merge |   | Name      |   | ID        | Author | DOI or URL                                 | Protocol                         | Organism | Tissue                    | # of cell types | # of cells | # of batches     |
 |---------------|---|-----------|---|-----------|--------|--------------------------------------------|----------------------------------|----------|---------------------------|-----------------|------------|------------------|
-|               |   | CellBench |   | cellBench |        | https://github.com/LuyiTian/CellBench_data | Cel-seq2, Drop-seq, 10x Chromium | Human    | Adenocarcinoma cell lines | 3               | NA         | 3 per cell types |
+|               |   | CellBench |   | cellBench |        | https://github.com/LuyiTian/CellBench_data | Cel-seq2, Drop-seq, 10x Chromium | Human    | Adenocarcinoma cell lines | 3               | 1401         | 3 per cell types |
 
 
 
-+ `scMerge` parameters for normalisation: (Yingxin will fill this out)
++ `scMerge` parameters for normalisation:
 
     - Unsupervised scMerge
-    - kmeans K = (1,2,3,4)
-    - Negative controls are
-    - RUV_k
+    - kmeans K = (3,3,3)
+    - Negative controls are human scSEG
     
     
 + Relation to the `scMerge` article: Supplementary Figure 11.
@@ -38,10 +37,28 @@ output:
 
 In addition to the batch effects, the use three different technologies means there is a large difference in sequencing depth. 
 
+# PCA plot comparing different normalisations
+
+![](cellBench_PCA.pdf){width=100%}
+
+
 
 # tSNE plot comparing different normalisations
 
 ![](FigS11_v1.pdf){width=100%}
+
+
+# Diagnostic plot 
+
+
+![](cellBench_diagnostic.pdf){width=100%}
+
+
+# Normalised scMerge data
+
+
+[CellBench Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/cellBench_scMerge.rds)
+
 
 
 # Reference

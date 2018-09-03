@@ -14,12 +14,12 @@ output:
 
 # Introduction 
 
-+ Data source: This mouse liver data was combined from 4 different sources with 3 different protocols. There are 1236 cells across 6 different cell types in the combined data.
++ Data source: This mouse liver data was combined from 4 different sources with 3 different protocols. There are 1236 cells across 8 different cell types in the combined data.
 
 | Name  | ID       | Author | DOI or URL                | Protocol   | Organism | Tissue | # of cell types | # of cells | # of batches |
 |-------|----------|--------|---------------------------|------------|----------|--------|-----------------|------------|--------------|
 | Liver | GSE87795 | Su     | 10.1186/s12864-017-4342-x | SMARTer/C1 | Mouse    | Liver  | 6               | 1236       |              |
-|       | GSE90047 | Yang   | 10.1002/hep.29353         | Smart-Seq2 |          |        | 2                |            |              |
+|       | GSE90047 | Yang   | 10.1002/hep.29353         | Smart-Seq2 |          |        | 2               |            |              |
 |       | GSE87038 | Dong   | 10.1186/s13059-018-1416-2 | STRT-seq   |          |        | 3               |            |              |
 |       | GSE96981 | Camp   | 10.1038/nature22796       | SMARTer/C1 |          |        | 3               |            |              |
 
@@ -34,18 +34,20 @@ output:
     
 + Relation to the `scMerge` article: Main Figure 3b and Supplementary Figure 7. 
 
-# Biological novelty
+# Comments
 
+## Biological background 
 To combine the four liver scRNA-seq datasets, we used a semi-supervised approach by considering the devlopmental stages as the wanted variation to identify the pseudo-replicates. Note that the cells of the four liver datasets are from different fetal mouse liver developmental stages (E9.5-E17.5). To identify the pseudo-replicates corresponding to the hepatoblasts, hepatocytes and cholangiocytes, we used three known markers of hepatoblasts and cholangiocytes, Alb, Afp and Epcam, to guide the scMerge algorithm. The sets of pseudo-replicates that are highly expressed the markers are further split according to the developmental stages. 
 
 
-In addition to normalising across 4 scRNA-Seq datasets, this `scMerge` normalisation across 4 different dataset lead to a novel result: In the face of incomplete data, `scMerge` revealed cell trajectories of hepatoblasts, hepatocytes and cholangiocytes more consistent with the full Liver data collection and agrees with current literature. 
+In addition to normalising across 4 scRNA-Seq datasets, this `scMerge` normalisation across 4 different dataset lead to a novel result: We reconstructed the cell trajectories, using Monocle 2, of hepatoblasts, hepatocytes, and cholangiocytes for both the full Liver data collection and for a subset of the original Liver data collection, where cells corresponding to the E17.5 time point of GSE90047 were removed. We found that the trajectory associated with `scMerge` is most consistent with the full Liver data collection and agrees with current literature, while other methods tended to generate extraneous branches with the subset of the Liver data collection. 
 
-In our analysis, we pooled all 4 datasets listed above together, but deliberately removed cells from the E17.5 time point in the data GSE90047 (Yang et. al. This is the second dataset above) and constructed the cell development trajectory using Monocle2. 
+We further performed SC3 on the `scMerge` normalized data (k=9). We found that the SC3 clustering results have high concordance with the original cell types. 
 
-We found that the trajectory associated with `scMerge` is most consistent with the full Liver data collection and agrees with current literature, while other methods tended to generate extraneous branches with the subset of the Liver data collection.
+# PCA plot 
 
 
+![](liver_PCA.pdf){width=100%}
 
 
 # tSNE plot 
@@ -54,11 +56,31 @@ We found that the trajectory associated with `scMerge` is most consistent with t
 ![](nFigS7_liver.pdf){width=100%}
 
 
+# Diagnostic plot 
+
+
+![](liver_diagnostic.pdf){width=100%}
+
+
 
 # Monocle 2
 
 
 ![](nFigS13.pdf){width=100%}
+
+#SC3
+
+![](liver_TSNE_SC3.pdf){width=100%}
+
+
+
+# Normalised scMerge data
+
+
+[Mouse Liver Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/liver_scMerge.rds)
+
+
+
 
 
 # Reference
