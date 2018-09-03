@@ -11,58 +11,46 @@ output:
 ---
 
 
-# Introduction 
 
-+ Data source: This human neuronal single cell data was comprised of 2 different experiments. There are 145 cells comprising of two cell types. 
+## Introduction 
+
+This is a mouse neuronal single-cell data comprising of 2 different experiments. 
+
+
+### Integration challenge
+
++ Prior to integration, there is a strong separation effect by experiments and batches.  
+
+
+## Data description
+
++ Data source: 
+
 
 | Type of merge                |   | Name     |   | ID        | Author   | DOI or URL              | Protocol   | Organism | Tissue   | # of cell types | # of cells | # of batches |
 |------------------------------|---|----------|---|-----------|----------|-------------------------|------------|----------|----------|-----------------|------------|--------------|
 | Across different experiments |   | Neuronal |   | SRP065920 | Tan      | 10.15252/msb.20156639   | Smart‐Seq2 | Mouse    | Neuronal | 2               | 145        | NA           |
 |                              |   |          |   | GSE75413  | Hanchate | 10.1126/science.aad2456 | STRT-seq   |          |          |                 |            |              |
 
-+ `scMerge` parameters for normalisation: 
+
++ Relation to the `scMerge` article: Supplementary Figure 10. 
+
+## Data visualisation
+
+
+
+### tSNE plots by cell types and batch
+
+![](FigS10_v1.png){width=100%}
+
+
+
+## Integrated `scMerge` data
+
++ Data availability: [Mouse Neuronal Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/neuronal_scMerge.rds)
+
++ `scMerge` parameters for integration: 
 
     - Unsupervised scMerge
     - kmeans K = (2,2)
     - Negative controls are mouse scSEG
-    
-    
-+ Relation to the `scMerge` article: Supplementary Figure 9. 
-
-
-# Biological novelty
-
-+ This data is relatively small with batch effect across experiments. The cell types (mature and immature olfactory neuronal cells) were defined using marker genes
-
-
-# PCA plot comparing different normalisations
-
-![](Neuronal_PCA.pdf){width=100%}
-
-
-# tSNE plot comparing different normalisations
-
-![](FigS9_v1.pdf){width=100%}
-
-# Diagnostic plot 
-
-![](Neuronal_diagnostic.pdf){width=100%}
-
-
-
-# Normalised scMerge data
-
-
-[Mouse Neuronal Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/neuronal_scMerge.rds)
-
-
-
-# Reference
-
-**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
-
-Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
-
-doi: https://doi.org/10.1101/393280
-
-BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280

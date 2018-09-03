@@ -10,63 +10,45 @@ output:
     toc: true
 ---
 
+## Introduction 
 
-# Introduction 
+This is a benchmarking single-cell data comprising of 3 different human lung adenocarcinoma cell lines. This experiment was designed induce different batch effects into the data. 
 
-+ Data source: This is a benchmarking single cell data was comprised of three different human lung adenocarcinoma cell lines, which were cultured separately, and the same batch was processed in three different ways. More information can be found here: https://github.com/LuyiTian/CellBench_data. 
+### Integration challenge
+
++ Prior to integration, there is a strong separation effect by multiple batch effects.
++ One of the batch effects is the different protocols with significant depth differences. 
++ The experimental design poses extra difficulties as cell lines were cultured separatedly and the same batch was processed in 3 different ways. 
 
 
+
+## Data description
+
++ Data source: 
 
 | Type of merge |   | Name      |   | ID        | Author | DOI or URL                                 | Protocol                         | Organism | Tissue                    | # of cell types | # of cells | # of batches     |
 |---------------|---|-----------|---|-----------|--------|--------------------------------------------|----------------------------------|----------|---------------------------|-----------------|------------|------------------|
-|               |   | CellBench |   | cellBench |        | https://github.com/LuyiTian/CellBench_data | Cel-seq2, Drop-seq, 10x Chromium | Human    | Adenocarcinoma cell lines | 3               | 1401         | 3 per cell types |
+|  Across platforms with significant depth difference     |   | CellBench |   | cellBench |        | https://github.com/LuyiTian/CellBench_data | Cel-seq2, Drop-seq, 10x Chromium | Human    | Adenocarcinoma cell lines | 3               | 1401         | 3 per cell types |
+
++ Relation to the `scMerge` article: Supplementary Figure 12. 
+
+
+## Data visualisation
+
+
+### tSNE plots by cell types and batch
+
+
+![](FigS12_v1.png){width=100%}
 
 
 
-+ `scMerge` parameters for normalisation:
+## Integrated `scMerge` data
+
++ Data availability: [CellBench Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/cellBench_scMerge.rds)
+
++ `scMerge` parameters for integration:
 
     - Unsupervised scMerge
     - kmeans K = (3,3,3)
     - Negative controls are human scSEG
-    
-    
-+ Relation to the `scMerge` article: Supplementary Figure 11.
-
-
-# Biological novelty
-
-In addition to the batch effects, the use three different technologies means there is a large difference in sequencing depth. 
-
-# PCA plot comparing different normalisations
-
-![](cellBench_PCA.pdf){width=100%}
-
-
-
-# tSNE plot comparing different normalisations
-
-![](FigS11_v1.pdf){width=100%}
-
-
-# Diagnostic plot 
-
-
-![](cellBench_diagnostic.pdf){width=100%}
-
-
-# Normalised scMerge data
-
-
-[CellBench Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/cellBench_scMerge.rds)
-
-
-
-# Reference
-
-**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
-
-Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
-
-doi: https://doi.org/10.1101/393280
-
-BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280

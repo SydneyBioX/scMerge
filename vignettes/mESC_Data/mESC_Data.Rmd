@@ -11,59 +11,59 @@ output:
 ---
 
 
-# Introduction 
+## Introduction 
 
-+ Data source: This mouse embryonic stem cell single cell data was comprised of 3 different batches from a single experiment. 
+This is a mouse embryonic stem cell (mESC) single-cell data comprising of 3 different batches from a single experiment. 
+
+
+
+### Integration challenge
+
++ Prior to integration, there is a strong separation effect by batches. 
++ This data is relatively simple with only the usual batch effects within an experiment. Hence, in the `scMerge` article it was used as an illustrative example for various aspects of the methodology and also included as an example dataset in our package. 
+
+
+
+## Data description
+
++ Data source:
+
 
 | Type of merge     |   | Name |   | ID          | Author        | DOI or URL                 | Protocol   | Organism | Tissue    | # of cell types | # of cells | # of batches |
 |-------------------|---|------|---|-------------|---------------|----------------------------|------------|----------|-----------|-----------------|------------|--------------|
 | Within experiment |   | mESC |   | E-MTAB-2600 | Kolodziejczyk | 10.1016/j.stem.2015.09.011 | SMARTer/C1 | Mouse    | Mouse ESC | 3               | 704        | 5            |
 
 
-+ `scMerge` parameters for normalisation: 
++ Relation to the `scMerge` article: Main Figure 1, Supplementary Figure 6 and 17. 
+
+
+## Data visualisation
+
+
+### tSNE plots by cell types and batch
+
+
+![](FigS6_v1.png){width=100%}
+
+
+
+### Illustrating the robustness of the parameters $k_{RUVIII}$ and $k_{Cluster}$
+
+![](FigS17_v3.png){width=100%}
+
+
+
+
+
+## Integrated `scMerge` data
+
++ Data availability: [Mouse ESC Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/mESC_scMerge.rds)
+
++ `scMerge` parameters for integration:
 
     - Unsupervised scMerge
     - kmeans K = (1,3,3,1,1)
     - Negative controls are mouse scSEG
+
     
     
-+ Relation to the `scMerge` article: Main Figure 1, Supplementary Figure 5, Supplementary Figure 15. 
-
-
-# Biological novelty
-
-+ This data is relatively small with only the usual batch effects within an experiment. Hence, it was used as an illustrative example for scMerge and also included as an example dataset in our package. 
-
-
-# PCA plot comparing different normalisations
-
-![](Kolodziejczyk_PCA.pdf){width=100%}
-
-
-# tSNE plot comparing different normalisations {#tsnePlots}
-
-![](FigS5_v1.pdf){width=100%}
-
-# Diagnostic plot 
-
-
-![](Kolodziejczyk_diagnostic.pdf){width=100%}
-
-
-
-# Normalised scMerge data
-
-
-[Mouse ESC Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/mESC_scMerge.rds)
-
-
-
-# Reference
-
-**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
-
-Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
-
-doi: https://doi.org/10.1101/393280
-
-BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280

@@ -27,6 +27,15 @@ devtools::install_github("SydneyBioX/scMerge")
 You can find the vignette at our website: https://sydneybiox.github.io/scMerge/index.html. 
 
 
+## Case studies
+
+You can find a list of case studies here: https://sydneybiox.github.io/scMerge/articles/.
+
+
+## Contact us
+
+If you have any enquires, especially about performing `scMerge` integration on your data, then please contact bioinformatics@maths.usyd.edu.au. 
+
 ## Reference
 
 **scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**

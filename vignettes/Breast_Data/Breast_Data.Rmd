@@ -5,54 +5,50 @@ date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
 output: 
   html_document:
     theme: paper
-    toc_depth: 3
+    toc_depth: 2
     number_sections: yes
     toc: true
 ---
 
 
-# Introduction 
+## Introduction 
 
-+ Data source: This breast cancer single cell data was comprised of 4 different batches from a single experiment. 
+This is a human breast cancer single-cell data comprising of 4 different batches from a single experiment. 
 
+### Integration challenge
+
++ Prior to integration, there is a strong separation effect by batches. 
++ With 24,520 cells, this data poses dimensionality challenge to data integration. 
+
+
+## Data description
+
++ Data source: 
 
 | Type of merge |   | Name   |   | ID        | Author | DOI or URL                 | Protocol     | Organism | Tissue        | # of cell types | # of cells | # of batches |
 |---------------|---|--------|---|-----------|--------|----------------------------|--------------|----------|---------------|-----------------|------------|--------------|
-|               |   | Breast |   | GSE113197 | Nguyen | 10.1038/s41467-018-04334-1 | 10x Chromium | Human    | Breast cancer | 3               | 24520      | 4            |
+|  Within experiment  |   | Breast |   | GSE113197 | Nguyen | 10.1038/s41467-018-04334-1 | 10x Chromium | Human    | Breast cancer | 3               | 24520      | 4            |
 
 
 
-+ `scMerge` parameters for normalisation: 
++ Relation to the `scMerge` article: Supplementary Figure 7. 
+
+
+## Data visualisation
+
+
+### tSNE plots by cell types and batch
+
+![](FigS7_v1.png){width=100%}
+
+
+
+## Integrated `scMerge` data
+
++ Data availability: [Breast Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/breast_scMerge.rds)
+
++ `scMerge` parameters for integration: 
 
     - Unsupervised scMerge
     - kmeans K = (4,3,4,3)
     - Negative controls are human scSEG
-
-    
-+ Relation to the `scMerge` article: Supplementary Figure 6. 
-
-
-# Biological novelty
-
-In addition to the batch effects, this data is large with 24,520 cells (10x Chromium protocol) which poses dimensionality challenges to normalisation.
-
-# tSNE plot comparing different normalisations
-
-![](FigS6_v1.pdf){width=100%}
-
-
-# Normalised scMerge data
-
-
-[Breast Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/breast_scMerge.rds)
-
-
-# Reference
-
-**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
-
-Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
-
-doi: https://doi.org/10.1101/393280
-
-BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280

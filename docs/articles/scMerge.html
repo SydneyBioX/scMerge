@@ -100,7 +100,7 @@
       <h1>An introduction to the scMerge package</h1>
                         <h4 class="author">Yingxin Lin and Kevin Wang</h4>
             
-            <h4 class="date">`r format(Sys.time(), ‘%Y %b %d’)</h4>
+            <h4 class="date">03 Sep 2018</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/scMerge.Rmd"><code>vignettes/scMerge.Rmd</code></a></small>
       <div class="hidden name"><code>scMerge.Rmd</code></div>
@@ -307,11 +307,11 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; [1] 7</span>
 <span class="co">#&gt;   group batch cluster</span>
 <span class="co">#&gt; 1     3     2       1</span>
-<span class="co">#&gt; 2     3     3       2</span>
-<span class="co">#&gt; 3     1     2       2</span>
-<span class="co">#&gt; 4     1     3       3</span>
-<span class="co">#&gt; 5     2     2       3</span>
-<span class="co">#&gt; 6     2     3       1</span>
+<span class="co">#&gt; 2     3     3       1</span>
+<span class="co">#&gt; 3     2     2       2</span>
+<span class="co">#&gt; 4     2     3       3</span>
+<span class="co">#&gt; 5     1     2       3</span>
+<span class="co">#&gt; 6     1     3       2</span>
 <span class="co">#&gt; 7     2     1       1</span>
 <span class="co">#&gt; 8     1     4       1</span>
 <span class="co">#&gt; 9     1     5       1</span>
@@ -321,7 +321,7 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
 t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 25.77974 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 26.44978 secs</span></code></pre></div>
 <p>However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
 <p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.</p>
 <p>For instance, in a single cell data with 21700 features and 5526 cells, we saw a 5-fold reduction in computational time when <code>fast_svd = TRUE</code> was invoked.</p>
@@ -347,10 +347,10 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt;   group batch cluster</span>
 <span class="co">#&gt; 1     1     2       1</span>
 <span class="co">#&gt; 2     1     3       2</span>
-<span class="co">#&gt; 3     3     2       2</span>
-<span class="co">#&gt; 4     3     3       3</span>
-<span class="co">#&gt; 5     2     2       3</span>
-<span class="co">#&gt; 6     2     3       1</span>
+<span class="co">#&gt; 3     2     2       2</span>
+<span class="co">#&gt; 4     2     3       1</span>
+<span class="co">#&gt; 5     3     2       3</span>
+<span class="co">#&gt; 6     3     3       3</span>
 <span class="co">#&gt; 7     2     1       1</span>
 <span class="co">#&gt; 8     1     4       1</span>
 <span class="co">#&gt; 9     1     5       1</span>
@@ -360,7 +360,7 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
 t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 24.50038 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 23.55364 secs</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
                            <span class="dt">exprs_values =</span> <span class="st">"scMerge_fast"</span>)
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 

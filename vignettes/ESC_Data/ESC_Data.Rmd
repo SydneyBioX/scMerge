@@ -10,58 +10,57 @@ output:
     toc: true
 ---
 
+## Introduction 
+
+This is an inter-organism single-cell embryonic stem cell (ESC) data comprising of 8 different experiements across 2 (human + mouse) organisms. 
 
 
-# Introduction 
+### Integration challenge
 
-+ Data source: This embryonic stem cell (ESC) data was combined from 7 different experiements with 5 different protocols. This data contains cells from both human and mouse which poses extra challenges to the normalisation. There are cells across 10 different cell types in the combined data.
++ The data is comprising of both human and mouse ESC data, this inter-organism integration is challenging from both a technical and biological perspective. 
++ Prior to integration, there is a strong separation effect by different experiments. 
++ Another batch effect is the different protocols with significant depth differences. 
 
-| Name |   | ID          | Author      | DOI or URL                 | Protocol   | Organism      | Tissue |
-|------|---|-------------|-------------|----------------------------|------------|---------------|--------|
-| ESC  |   | GSE45719    | Deng        | 10.1126/science.1245316    | Smart-Seq  | Mouse         | ESC    |
-|      |   | GSE57249    | Biase       | 10.1101/gr.177725.114      | SMARTer    |               |        |
-|      |   | E-MTAB-3321 | Goolam      | 10.1016/j.cell.2016.01.047 | Smart-Seq2 |               |        |
-|      |   | GSE44183    | Xue         | 10.1038/nature12364        | Tang       | Human + mouse |        |
-|      |   | E-MTAB-3929 | Petropoulos | 10.1016/j.cell.2016.03.023 | Smart-Seq2 | human         |        |
-|      |   | GSE36552    | Yan         | 10.1038/nsmb.2660          | Tang       |               |        |
-|      |   |GEO66507     | Blakeley         | 10.1186/s13059-015-0706-1  | SMARTer  |               |        |
+## Data description
 
-<!-- + `scMerge` parameters for normalisation: (Yingxin will fill this out) -->
++ Data source:
 
-<!--     - Unsupervised scMerge -->
-<!--     - kmeans K = (1,2,3,4) -->
-<!--     - Negative controls are -->
-<!--     - RUV_k -->
-
-<!-- + Relation to the `scMerge` article: Main Figure 3c. -->
-
-
-# Biological novelty
-
-In addition to normalising across 7 scRNA-Seq datasets, the normalisation was performed across 2 different species (human and mouse). This demonstrated `scMerge`'s capabilities in cross-species normalisation. 
-
-<!-- # PCA Plot -->
-
-
-<!-- ![](Fig3_v7.pdf){width=100%} -->
+| Type of merge    | Name | ID          | Author      | DOI or URL                 | Protocol           | Organism      | Tissue          | # of cell types | # of cells | # of batches      |
+|------------------|------|-------------|-------------|----------------------------|--------------------|---------------|-----------------|-----------------|------------|-------------------|
+| Across Organisms | ESC  | GSE84133    | Baron       | 10.1016/j.cels.2016.08.011 | inDrop             | Human+ mouse  | Pancreas Islets | 13              | 8569       | 2 (human & mouse) |
+|                  |      | GSE45719    | Deng        | 10.1126/science.1245316    | Smart-Seq          | Mouse         | ESC             | 10+             | 2144       | NA                |
+|                  |      | GSE57249    | Biase       | 10.1101/gr.177725.114      | SMARTer            |               |                 |                 |            |                   |
+|                  |      | E-MTAB-3321 | Goolam      | 10.1016/j.cell.2016.01.047 | Smart-Seq2         |               |                 |                 |            |                   |
+|                  |      | GSE44183    | Xue         | 10.1038/nature12364        | Tang et al., 2010* | Human + mouse |                 |                 |            |                   |
+|                  |      | E-MTAB-3929 | Petropoulos | 10.1016/j.cell.2016.03.023 | Smart-Seq2         | human         |                 |                 |            |                   |
+|                  |      | GEO66507    | Blakeley    | 10.1242/dev.123547         | SMARTer            |               |                 |                 |            |                   |
+|                  |      | GSE36552    | Yan         | 10.1038/nsmb.2660          | Than et al., 2010* |               |                 |                 |            |                   |
 
 
 
-# Normalised scMerge data
-
-
-[ESC Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/ESCcollection_scMerge.rds)
++ Relation to the `scMerge` article: Main Figure 3d.
 
 
 
+## Data visualisation
 
 
-# Reference
 
-**scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication**
+### PCA plots by cell types and batch
 
-Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang
 
-doi: https://doi.org/10.1101/393280
+![](Fig3_v9_PCA.png){width=100%}
 
-BioRxiv preprint: https://www.biorxiv.org/content/early/2018/08/16/393280
+
+
+### Monocle2 cell trajectory plot
+
+![](Fig3_v9_Trajectory.png){width=100%}
+
+
+
+## Integrated scMerge data
+
++ Data availability: [ESC Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/ESCcollection_scMerge.rds)
+
++ `scMerge` parameters for integration:

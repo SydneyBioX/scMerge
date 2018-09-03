@@ -109,26 +109,69 @@
 
     
     
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h2>
+<p>This is an inter-organism single-cell embryonic stem cell (ESC) data comprising of 8 different experiements across 2 (human + mouse) organisms.</p>
+<div id="integration-challenge" class="section level3">
+<h3 class="hasAnchor">
+<a href="#integration-challenge" class="anchor"></a>Integration challenge</h3>
 <ul>
-<li>Data source: This embryonic stem cell (ESC) data was combined from 7 different experiements with 5 different protocols. This data contains cells from both human and mouse which poses extra challenges to the normalisation. There are cells across 10 different cell types in the combined data.</li>
+<li>The data is comprising of both human and mouse ESC data, this inter-organism integration is challenging from both a technical and biological perspective.</li>
+<li>Prior to integration, there is a strong separation effect by different experiments.</li>
+<li>Another batch effect is the different protocols with significant depth differences.</li>
 </ul>
-<table class="table">
+</div>
+</div>
+<div id="data-description" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-description" class="anchor"></a>Data description</h2>
+<ul>
+<li>Data source:</li>
+</ul>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="10%">
+<col width="3%">
+<col width="7%">
+<col width="7%">
+<col width="15%">
+<col width="11%">
+<col width="8%">
+<col width="9%">
+<col width="9%">
+<col width="6%">
+<col width="10%">
+</colgroup>
 <thead><tr class="header">
+<th>Type of merge</th>
 <th>Name</th>
-<th></th>
 <th>ID</th>
 <th>Author</th>
 <th>DOI or URL</th>
 <th>Protocol</th>
 <th>Organism</th>
 <th>Tissue</th>
+<th># of cell types</th>
+<th># of cells</th>
+<th># of batches</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td>Across Organisms</td>
 <td>ESC</td>
+<td>GSE84133</td>
+<td>Baron</td>
+<td>10.1016/j.cels.2016.08.011</td>
+<td>inDrop</td>
+<td>Human+ mouse</td>
+<td>Pancreas Islets</td>
+<td>13</td>
+<td>8569</td>
+<td>2 (human &amp; mouse)</td>
+</tr>
+<tr class="even">
+<td></td>
 <td></td>
 <td>GSE45719</td>
 <td>Deng</td>
@@ -136,8 +179,11 @@
 <td>Smart-Seq</td>
 <td>Mouse</td>
 <td>ESC</td>
+<td>10+</td>
+<td>2144</td>
+<td>NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td>GSE57249</td>
@@ -146,8 +192,11 @@
 <td>SMARTer</td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td>E-MTAB-3321</td>
@@ -156,18 +205,24 @@
 <td>Smart-Seq2</td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td>GSE44183</td>
 <td>Xue</td>
 <td>10.1038/nature12364</td>
-<td>Tang</td>
+<td>Tang et al., 2010*</td>
 <td>Human + mouse</td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td>E-MTAB-3929</td>
@@ -176,14 +231,7 @@
 <td>Smart-Seq2</td>
 <td>human</td>
 <td></td>
-</tr>
-<tr class="even">
 <td></td>
-<td></td>
-<td>GSE36552</td>
-<td>Yan</td>
-<td>10.1038/nsmb.2660</td>
-<td>Tang</td>
 <td></td>
 <td></td>
 </tr>
@@ -192,34 +240,58 @@
 <td></td>
 <td>GEO66507</td>
 <td>Blakeley</td>
-<td>10.1186/s13059-015-0706-1</td>
+<td>10.1242/dev.123547</td>
 <td>SMARTer</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>GSE36552</td>
+<td>Yan</td>
+<td>10.1038/nsmb.2660</td>
+<td>Than et al., 2010*</td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<!-- + `scMerge` parameters for normalisation: (Yingxin will fill this out) --><!--     - Unsupervised scMerge --><!--     - kmeans K = (1,2,3,4) --><!--     - Negative controls are --><!--     - RUV_k --><!-- + Relation to the `scMerge` article: Main Figure 3c. -->
+<ul>
+<li>Relation to the <code>scMerge</code> article: Main Figure 3d.</li>
+</ul>
 </div>
-<div id="biological-novelty" class="section level1">
-<h1 class="hasAnchor">
-<a href="#biological-novelty" class="anchor"></a>Biological novelty</h1>
-<p>In addition to normalising across 7 scRNA-Seq datasets, the normalisation was performed across 2 different species (human and mouse). This demonstrated <code>scMerge</code>’s capabilities in cross-species normalisation.</p>
-<!-- # PCA Plot -->
-<!-- ![](Fig3_v7.pdf){width=100%} -->
+<div id="data-visualisation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-visualisation" class="anchor"></a>Data visualisation</h2>
+<div id="pca-plots-by-cell-types-and-batch" class="section level3">
+<h3 class="hasAnchor">
+<a href="#pca-plots-by-cell-types-and-batch" class="anchor"></a>PCA plots by cell types and batch</h3>
+<div class="figure">
+<img src="../../../../../../Single%20Cell%20Reserach/SCProj-Normalization/codes/scMerge/vignettes/ESC_Data/Fig3_v9_PCA.png" style="width:100.0%">
 </div>
-<div id="normalised-scmerge-data" class="section level1">
-<h1 class="hasAnchor">
-<a href="#normalised-scmerge-data" class="anchor"></a>Normalised scMerge data</h1>
-<p><a href="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/ESCcollection_scMerge.rds">ESC Data (in RData format)</a></p>
 </div>
-<div id="reference" class="section level1">
-<h1 class="hasAnchor">
-<a href="#reference" class="anchor"></a>Reference</h1>
-<p><strong>scMerge: Integration of multiple single-cell transcriptomics datasets leveraging stable expression and pseudo-replication</strong></p>
-<p>Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang</p>
-<p>doi: <a href="https://doi.org/10.1101/393280" class="uri">https://doi.org/10.1101/393280</a></p>
-<p>BioRxiv preprint: <a href="https://www.biorxiv.org/content/early/2018/08/16/393280" class="uri">https://www.biorxiv.org/content/early/2018/08/16/393280</a></p>
+<div id="monocle2-cell-trajectory-plot" class="section level3">
+<h3 class="hasAnchor">
+<a href="#monocle2-cell-trajectory-plot" class="anchor"></a>Monocle2 cell trajectory plot</h3>
+<div class="figure">
+<img src="../../../../../../Single%20Cell%20Reserach/SCProj-Normalization/codes/scMerge/vignettes/ESC_Data/Fig3_v9_Trajectory.png" style="width:100.0%">
+</div>
+</div>
+</div>
+<div id="integrated-scmerge-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#integrated-scmerge-data" class="anchor"></a>Integrated scMerge data</h2>
+<ul>
+<li><p>Data availability: <a href="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/ESCcollection_scMerge.rds">ESC Data (in RData format)</a></p></li>
+<li><p><code>scMerge</code> parameters for integration:</p></li>
+</ul>
 </div>
   </div>
 
@@ -229,9 +301,9 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
-      <li><a href="#biological-novelty">Biological novelty</a></li>
-      <li><a href="#normalised-scmerge-data">Normalised scMerge data</a></li>
-      <li><a href="#reference">Reference</a></li>
+      <li><a href="#data-description">Data description</a></li>
+      <li><a href="#data-visualisation">Data visualisation</a></li>
+      <li><a href="#integrated-scmerge-data">Integrated scMerge data</a></li>
       </ul>
 </div>
       </div>
