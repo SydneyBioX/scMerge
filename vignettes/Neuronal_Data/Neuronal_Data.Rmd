@@ -41,7 +41,7 @@ This is a mouse neuronal single-cell data comprising of 2 different experiments.
 
 ### tSNE plots by cell types and batch
 
-![](FigS10_v1.png){width=100%}
+![](https://github.com/SydneyBioX/scMerge/blob/master/docs/articles/Neuronal_Data/FigS10_v1.png?raw=true){width=100%}
 
 
 

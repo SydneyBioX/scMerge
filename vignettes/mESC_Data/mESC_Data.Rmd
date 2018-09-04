@@ -43,13 +43,13 @@ This is a mouse embryonic stem cell (mESC) single-cell data comprising of 3 diff
 ### tSNE plots by cell types and batch
 
 
-![](FigS6_v1.png){width=100%}
+![](https://github.com/SydneyBioX/scMerge/blob/master/docs/articles/mESC_Data/FigS6_v1.png?raw=true){width=100%}
 
 
 
 ### Illustrating the robustness of the parameters $k_{RUVIII}$ and $k_{Cluster}$
 
-![](FigS17_v3.png){width=100%}
+![](https://github.com/SydneyBioX/scMerge/blob/master/docs/articles/mESC_Data/FigS17_v3.png?raw=true){width=100%}
 
 
 

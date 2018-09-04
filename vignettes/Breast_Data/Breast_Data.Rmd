@@ -1,9 +1,12 @@
 ---
 title: "Breast Cancer Data"
+resource_files:
+  - FigS7_v1.png
 author: "Kevin Wang"
 date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
 output: 
   html_document:
+    self_contained: yes
     theme: paper
     toc_depth: 2
     number_sections: yes
@@ -39,7 +42,16 @@ This is a human breast cancer single-cell data comprising of 4 different batches
 
 ### tSNE plots by cell types and batch
 
-![](FigS7_v1.png){width=100%}
+<!-- <img src="/FigS7_v1.png"> -->
+
+![](https://github.com/SydneyBioX/scMerge/blob/master/docs/articles/Breast_Data/FigS7_v1.png?raw=true)
+
+<!-- ![](FigS7_v1.pdf) -->
+
+<!-- ```{r, out.width = '100%'} -->
+<!-- knitr::include_graphics("FigS7_v1.png") -->
+<!-- ``` -->
+
 
 
 

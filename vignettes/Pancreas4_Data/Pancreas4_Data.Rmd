@@ -44,12 +44,12 @@ This is a human pancreas single-cell data comprising of 4 experiments.
 
 ### PCA plots by cell types and batch
 
-![](FigS4_v1.png){width=100%}
+![](https://github.com/SydneyBioX/scMerge/blob/master/docs/articles/Pancreas4_Data/FigS4_v1.png?raw=true){width=100%}
 
 
 ### RLE plots and percentage of explained variance plots
 
-![](FigS5_v1.png){width=100%}
+![](https://github.com/SydneyBioX/scMerge/blob/master/docs/articles/Pancreas4_Data/FigS5_v1.png?raw=true){width=100%}
 
 
 ## Integrated `scMerge` data

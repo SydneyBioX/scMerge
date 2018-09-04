@@ -50,7 +50,10 @@ data("sce_mESC")
 ## single-cell stably expressed gene list
 data("segList_ensemblGeneID")
 
-sce_mESC
+set.seed(2)
+sce_mESC = sce_mESC[,sample(1:ncol(sce_mESC), 200)]
+sce_mESC = sce_mESC[rowSums(counts(sce_mESC)) != 0,colSums(counts(sce_mESC)) != 0]
+dim(sce_mESC)
 ```
 
 
