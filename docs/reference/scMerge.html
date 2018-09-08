@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.8</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.9</span>
       </span>
     </div>
 
@@ -242,9 +242,11 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
     <pre class="examples"><div class='input'><span class='fu'>suppressPackageStartupMessages</span>({
 <span class='fu'>library</span>(<span class='no'>SingleCellExperiment</span>)
 <span class='fu'>library</span>(<span class='no'>scater</span>)
+<span class='fu'>library</span>(<span class='no'>scMerge</span>)
+<span class='fu'>library</span>(<span class='no'>scMerge.data</span>)
 })
 <span class='co'># Loading example data</span>
-<span class='fu'>data</span>(<span class='st'>"sce_mESC"</span>)
+<span class='fu'>data</span>(<span class='st'>"sce_mESC"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"scMerge.data"</span>)
 <span class='co'># Previously computed stably expressed genes</span>
 <span class='fu'>data</span>(<span class='st'>"segList_ensemblGeneID"</span>)
 <span class='co'># Running an example data with minimal inputs</span>

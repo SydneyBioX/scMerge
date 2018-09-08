@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.8</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.9</span>
       </span>
     </div>
 
@@ -132,28 +132,21 @@
 })</code></pre></div>
 <p>We provided an illustrative mouse embryonic stem cell (mESC) data in our package, as well as a set of pre-computed stably expressed gene (SEG) list to be used as negative control genes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## mouse ESC data
-<span class="co"># data("sce_mESC", package = "scMerge")</span>
 <span class="kw">data</span>(<span class="st">"sce_mESC"</span>, <span class="dt">package =</span> <span class="st">"scMerge.data"</span>)
 ## single-cell stably expressed gene list
 <span class="kw">data</span>(<span class="st">"segList_ensemblGeneID"</span>)
 
 ## single-cell stably expressed gene list
-<span class="kw">data</span>(<span class="st">"segList_ensemblGeneID"</span>)
-
-<span class="kw">set.seed</span>(<span class="dv">2</span>)
-sce_mESC =<span class="st"> </span>sce_mESC[,<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(sce_mESC), <span class="dv">200</span>)]
-sce_mESC =<span class="st"> </span>sce_mESC[<span class="kw">rowSums</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/SingleCellExperiment/topics/namedAssays">counts</a></span>(sce_mESC)) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>,<span class="kw">colSums</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/SingleCellExperiment/topics/namedAssays">counts</a></span>(sce_mESC)) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>]
-<span class="kw">dim</span>(sce_mESC)
-<span class="co">#&gt; [1] 24123   200</span></code></pre></div>
+<span class="kw">data</span>(<span class="st">"segList_ensemblGeneID"</span>)</code></pre></div>
 <p>In the mESC data, we pooled data from 5 different batches from three different cell types. Using a PCA plot, we can see that despite strong separation of cell types, there is also a strong separation due to batch effects. This information is stored in the <code>colData</code> of <code>sce_mESC</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(sce_mESC<span class="op">$</span>batch, sce_mESC<span class="op">$</span>cellTypes)
 <span class="co">#&gt;         </span>
 <span class="co">#&gt;          2i a2i lif</span>
-<span class="co">#&gt;   batch1  0   0  24</span>
-<span class="co">#&gt;   batch2 29  30  21</span>
-<span class="co">#&gt;   batch3 13  18  18</span>
-<span class="co">#&gt;   batch4 20   0   0</span>
-<span class="co">#&gt;   batch5 27   0   0</span>
+<span class="co">#&gt;   batch1  0   0  81</span>
+<span class="co">#&gt;   batch2 82  93  90</span>
+<span class="co">#&gt;   batch3 59  66  79</span>
+<span class="co">#&gt;   batch4 72   0   0</span>
+<span class="co">#&gt;   batch5 82   0   0</span>
 
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
@@ -291,7 +284,7 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
                     <span class="dt">kmeansK =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
                     <span class="dt">assay_name =</span> <span class="st">"scMerge_classical"</span>)
 <span class="co">#&gt; Finding HVG...</span>
-<span class="co">#&gt; [1] 1515</span>
+<span class="co">#&gt; [1] 3082</span>
 <span class="co">#&gt; Clustering within each batch...</span>
 <span class="co">#&gt; Performing pca...</span>
 <span class="co">#&gt; Creating Mutual Nearest Cluster...</span>
@@ -303,19 +296,22 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; [1] 6</span>
 <span class="co">#&gt; [1] 7</span>
 <span class="co">#&gt;   group batch cluster</span>
-<span class="co">#&gt; 1     1     2       2</span>
-<span class="co">#&gt; 2     1     3       2</span>
-<span class="co">#&gt; 3     1     1       1</span>
-<span class="co">#&gt; 4     1     4       1</span>
-<span class="co">#&gt; 5     2     5       1</span>
-<span class="co">#&gt; 6     2     2       1</span>
+<span class="co">#&gt; 1     3     2       1</span>
+<span class="co">#&gt; 2     3     3       2</span>
+<span class="co">#&gt; 3     2     2       2</span>
+<span class="co">#&gt; 4     2     3       3</span>
+<span class="co">#&gt; 5     1     2       3</span>
+<span class="co">#&gt; 6     1     3       1</span>
+<span class="co">#&gt; 7     2     1       1</span>
+<span class="co">#&gt; 8     1     4       1</span>
+<span class="co">#&gt; 9     1     5       1</span>
 <span class="co">#&gt; Dimension of the replicates mapping matrix </span>
-<span class="co">#&gt; [1] 200 104</span>
+<span class="co">#&gt; [1] 704 356</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
 t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 10.09805 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 36.93105 secs</span></code></pre></div>
 <p>However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
 <p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.</p>
 <p>For instance, in a single cell data with 21700 features and 5526 cells, we saw a 5-fold reduction in computational time when <code>fast_svd = TRUE</code> was invoked.</p>
@@ -327,7 +323,7 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
                     <span class="dt">fast_svd =</span> <span class="ot">TRUE</span>, 
                     <span class="dt">rsvd_prop =</span> <span class="fl">0.05</span>)
 <span class="co">#&gt; Finding HVG...</span>
-<span class="co">#&gt; [1] 1515</span>
+<span class="co">#&gt; [1] 3082</span>
 <span class="co">#&gt; Clustering within each batch...</span>
 <span class="co">#&gt; Performing pca...</span>
 <span class="co">#&gt; Creating Mutual Nearest Cluster...</span>
@@ -339,19 +335,22 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; [1] 6</span>
 <span class="co">#&gt; [1] 7</span>
 <span class="co">#&gt;   group batch cluster</span>
-<span class="co">#&gt; 1     1     2       1</span>
-<span class="co">#&gt; 2     1     3       2</span>
-<span class="co">#&gt; 3     1     1       1</span>
-<span class="co">#&gt; 4     1     4       1</span>
-<span class="co">#&gt; 5     2     5       1</span>
-<span class="co">#&gt; 6     2     2       2</span>
+<span class="co">#&gt; 1     2     2       1</span>
+<span class="co">#&gt; 2     2     3       1</span>
+<span class="co">#&gt; 3     3     2       2</span>
+<span class="co">#&gt; 4     3     3       2</span>
+<span class="co">#&gt; 5     1     2       3</span>
+<span class="co">#&gt; 6     1     3       3</span>
+<span class="co">#&gt; 7     2     1       1</span>
+<span class="co">#&gt; 8     1     4       1</span>
+<span class="co">#&gt; 9     1     5       1</span>
 <span class="co">#&gt; Dimension of the replicates mapping matrix </span>
-<span class="co">#&gt; [1] 200 104</span>
+<span class="co">#&gt; [1] 704 356</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
 t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 9.944098 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 32.83106 secs</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
                            <span class="dt">exprs_values =</span> <span class="st">"scMerge_fast"</span>)
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
@@ -381,7 +380,7 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
 <span class="co">#&gt;  [1] scater_1.8.4                ggplot2_3.0.0              </span>
-<span class="co">#&gt;  [3] scMerge.data_0.0.1          scMerge_0.1.8              </span>
+<span class="co">#&gt;  [3] scMerge.data_0.0.1          scMerge_0.1.9              </span>
 <span class="co">#&gt;  [5] SingleCellExperiment_1.2.0  SummarizedExperiment_1.10.1</span>
 <span class="co">#&gt;  [7] DelayedArray_0.6.5          BiocParallel_1.14.2        </span>
 <span class="co">#&gt;  [9] matrixStats_0.54.0          Biobase_2.40.0             </span>

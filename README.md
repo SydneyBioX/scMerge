@@ -18,7 +18,8 @@ source("https://bioconductor.org/biocLite.R")
 biocLite(c("SingleCellExperiment", "M3Drop"))
 
 
-# Installing scMerge using
+# Installing scMerge and the data files using
+devtools::install_github("SydneyBioX/scMerge.data")
 devtools::install_github("SydneyBioX/scMerge")
 ```
 

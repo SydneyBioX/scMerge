@@ -47,18 +47,12 @@ We provided an illustrative mouse embryonic stem cell (mESC) data in our package
   
 ```{r loading data}
 ## mouse ESC data
-# data("sce_mESC", package = "scMerge")
 data("sce_mESC", package = "scMerge.data")
 ## single-cell stably expressed gene list
 data("segList_ensemblGeneID")
 
 ## single-cell stably expressed gene list
 data("segList_ensemblGeneID")
-
-set.seed(2)
-sce_mESC = sce_mESC[,sample(1:ncol(sce_mESC), 200)]
-sce_mESC = sce_mESC[rowSums(counts(sce_mESC)) != 0,colSums(counts(sce_mESC)) != 0]
-dim(sce_mESC)
 ```
 
 
