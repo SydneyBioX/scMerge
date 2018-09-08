@@ -18,7 +18,7 @@ output:
 
 This is a human breast cancer single-cell data comprising of 4 different batches from a single experiment. 
 
-### Integration challenge
+**Integration challenge**
 
 + Prior to integration, there is a strong separation effect by batches. 
 + With 24,520 cells, this data poses dimensionality challenge to data integration. 

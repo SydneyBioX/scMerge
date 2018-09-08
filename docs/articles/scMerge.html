@@ -100,7 +100,7 @@
       <h1>An introduction to the scMerge package</h1>
                         <h4 class="author">Yingxin Lin and Kevin Wang</h4>
             
-            <h4 class="date">04 Sep 2018</h4>
+            <h4 class="date">08 Sep 2018</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/scMerge.Rmd"><code>vignettes/scMerge.Rmd</code></a></small>
       <div class="hidden name"><code>scMerge.Rmd</code></div>
@@ -125,13 +125,18 @@
 <a href="#loading-packages-and-data" class="anchor"></a>Loading Packages and Data</h1>
 <p>We will load the <code>scMerge</code> package. We designed our package to be consistent with the popular BioConductor’s single cell analysis framework, namely the <code>SingleCellExperiment</code> package and <code>scater</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressPackageStartupMessages</span>({
-  <span class="kw">library</span>(scMerge)
   <span class="kw">library</span>(SingleCellExperiment)
+  <span class="kw">library</span>(scMerge)
+  <span class="kw">library</span>(scMerge.data)
   <span class="kw">library</span>(scater)
 })</code></pre></div>
 <p>We provided an illustrative mouse embryonic stem cell (mESC) data in our package, as well as a set of pre-computed stably expressed gene (SEG) list to be used as negative control genes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## mouse ESC data
-<span class="kw">data</span>(<span class="st">"sce_mESC"</span>)
+<span class="co"># data("sce_mESC", package = "scMerge")</span>
+<span class="kw">data</span>(<span class="st">"sce_mESC"</span>, <span class="dt">package =</span> <span class="st">"scMerge.data"</span>)
+## single-cell stably expressed gene list
+<span class="kw">data</span>(<span class="st">"segList_ensemblGeneID"</span>)
+
 ## single-cell stably expressed gene list
 <span class="kw">data</span>(<span class="st">"segList_ensemblGeneID"</span>)
 
@@ -310,7 +315,7 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
 t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 11.32843 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 10.09805 secs</span></code></pre></div>
 <p>However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
 <p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.</p>
 <p>For instance, in a single cell data with 21700 features and 5526 cells, we saw a 5-fold reduction in computational time when <code>fast_svd = TRUE</code> was invoked.</p>
@@ -346,7 +351,7 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t2 =<span class="st"> </span><span class="kw">Sys.time</span>()
 t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 11.29448 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 9.944098 secs</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
                            <span class="dt">exprs_values =</span> <span class="st">"scMerge_fast"</span>)
 scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
@@ -376,12 +381,13 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
 <span class="co">#&gt;  [1] scater_1.8.4                ggplot2_3.0.0              </span>
-<span class="co">#&gt;  [3] SingleCellExperiment_1.2.0  SummarizedExperiment_1.10.1</span>
-<span class="co">#&gt;  [5] DelayedArray_0.6.5          BiocParallel_1.14.2        </span>
-<span class="co">#&gt;  [7] matrixStats_0.54.0          Biobase_2.40.0             </span>
-<span class="co">#&gt;  [9] GenomicRanges_1.32.6        GenomeInfoDb_1.16.0        </span>
-<span class="co">#&gt; [11] IRanges_2.14.11             S4Vectors_0.18.3           </span>
-<span class="co">#&gt; [13] BiocGenerics_0.26.0         scMerge_0.1.8              </span>
+<span class="co">#&gt;  [3] scMerge.data_0.0.1          scMerge_0.1.8              </span>
+<span class="co">#&gt;  [5] SingleCellExperiment_1.2.0  SummarizedExperiment_1.10.1</span>
+<span class="co">#&gt;  [7] DelayedArray_0.6.5          BiocParallel_1.14.2        </span>
+<span class="co">#&gt;  [9] matrixStats_0.54.0          Biobase_2.40.0             </span>
+<span class="co">#&gt; [11] GenomicRanges_1.32.6        GenomeInfoDb_1.16.0        </span>
+<span class="co">#&gt; [13] IRanges_2.14.11             S4Vectors_0.18.3           </span>
+<span class="co">#&gt; [15] BiocGenerics_0.26.0        </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] bitops_1.0-6             fs_1.2.6                </span>
@@ -426,7 +432,7 @@ scater<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <span class="co">#&gt; [79] gtable_0.2.0             purrr_0.2.5             </span>
 <span class="co">#&gt; [81] assertthat_0.2.0         rsvd_0.9                </span>
 <span class="co">#&gt; [83] mime_0.5                 xtable_1.8-3            </span>
-<span class="co">#&gt; [85] roxygen2_6.1.0           later_0.7.3             </span>
+<span class="co">#&gt; [85] roxygen2_6.1.0           later_0.7.4             </span>
 <span class="co">#&gt; [87] viridisLite_0.3.0        tibble_1.4.2            </span>
 <span class="co">#&gt; [89] iterators_1.0.10         beeswarm_0.2.3          </span>
 <span class="co">#&gt; [91] memoise_1.1.0            tximport_1.8.0          </span>

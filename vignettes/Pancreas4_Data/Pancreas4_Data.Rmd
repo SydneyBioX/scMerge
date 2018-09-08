@@ -15,7 +15,7 @@ output:
 This is a human pancreas single-cell data comprising of 4 experiments.
 
 
-### Integration challenge
+**Integration challenge**
 
 + Prior to integration, there is a strong separation effect by experiments. 
 + In addition, there are 3 different protocols, the sequencing depths poses an extra challenge. 

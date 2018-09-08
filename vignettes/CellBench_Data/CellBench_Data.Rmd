@@ -14,7 +14,7 @@ output:
 
 This is a benchmarking single-cell data comprising of 3 different human lung adenocarcinoma cell lines. This experiment was designed induce different batch effects into the data. 
 
-### Integration challenge
+**Integration challenge**
 
 + Prior to integration, there is a strong separation effect by multiple batch effects.
 + One of the batch effects is the different protocols with significant depth differences. 

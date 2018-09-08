@@ -27,15 +27,6 @@
 #' \item{HVG }{highly variable genes used in scReplicate}
 #'
 #' @author Yingxin Lin
-#' @examples
-#' require(SingleCellExperiment)
-#' #Loading the data
-#' data("sce_mESC")
-#' data("segList_ensemblGeneID")
-#' #scReplicate
-#' repMat <- scReplicate(sce_mESC,
-#'                    batch = sce_mESC$batch,
-#'                    kmeansK = c(1,3,3,1,1))
 #' @export
 
 scReplicate <- function(sce,

@@ -35,8 +35,9 @@ We will load the `scMerge` package. We designed our package to be consistent wit
   
 ```{r loading packages, warning = FALSE, message = FALSE}
 suppressPackageStartupMessages({
-  library(scMerge)
   library(SingleCellExperiment)
+  library(scMerge)
+  library(scMerge.data)
   library(scater)
 })
 ```
@@ -46,7 +47,11 @@ We provided an illustrative mouse embryonic stem cell (mESC) data in our package
   
 ```{r loading data}
 ## mouse ESC data
-data("sce_mESC")
+# data("sce_mESC", package = "scMerge")
+data("sce_mESC", package = "scMerge.data")
+## single-cell stably expressed gene list
+data("segList_ensemblGeneID")
+
 ## single-cell stably expressed gene list
 data("segList_ensemblGeneID")
 

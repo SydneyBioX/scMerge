@@ -53,16 +53,6 @@ If \code{return_sce} is \code{TRUE}, return the followings
 \description{
 Create pseudo-replicate from single-cell RNA-seq data from different batches, experiments, and protocols.
 }
-\examples{
-require(SingleCellExperiment)
-#Loading the data
-data("sce_mESC")
-data("segList_ensemblGeneID")
-#scReplicate
-repMat <- scReplicate(sce_mESC,
-                   batch = sce_mESC$batch,
-                   kmeansK = c(1,3,3,1,1))
-}
 \author{
 Yingxin Lin
 }

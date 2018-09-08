@@ -15,7 +15,7 @@ output:
 This is an inter-organism single-cell embryonic stem cell (ESC) data comprising of 8 different experiements across 2 (human + mouse) organisms. 
 
 
-### Integration challenge
+**Integration challenge**
 
 + The data is comprising of both human and mouse ESC data, this inter-organism integration is challenging from both a technical and biological perspective. 
 + Prior to integration, there is a strong separation effect by different experiments. 

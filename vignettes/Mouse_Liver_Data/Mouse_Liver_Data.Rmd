@@ -15,7 +15,7 @@ output:
 
 This is a mouse liver single-cell data comprising of 4 different experiments with 3 different protocols.
 
-### Integration challenge
+**Integration challenge**
 
 + Prior to integration, there is a strong separation effect by batches. 
 + The liver cell developments should have a clear trajectory, this biological process was not clear from the pre-integrated data. In the `scMerge`-integrated, this trajectory was estimated with higher degree of biological interpretability. 

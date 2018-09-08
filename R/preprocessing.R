@@ -15,7 +15,7 @@
 #' @author Yingxin Lin
 #' @examples
 #' require(SingleCellExperiment)
-#' data("sce_mESC")
+#' data("sce_mESC", package = "scMerge.data")
 #' batchNames<-unique(sce_mESC$batch)
 #' sce_list<-list(sce_mESC[,sce_mESC$batch==batchNames[1]],
 #'                sce_mESC[,sce_mESC$batch==batchNames[2]],

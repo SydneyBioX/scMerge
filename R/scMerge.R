@@ -30,9 +30,11 @@
 #' suppressPackageStartupMessages({
 #' library(SingleCellExperiment)
 #' library(scater)
+#' library(scMerge)
+#' library(scMerge.data)
 #' })
 #' # Loading example data
-#' data("sce_mESC")
+#' data("sce_mESC", package = "scMerge.data")
 #' # Previously computed stably expressed genes
 #' data("segList_ensemblGeneID")
 #' # Running an example data with minimal inputs

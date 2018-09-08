@@ -16,8 +16,7 @@ output:
 This is a mouse embryonic stem cell (mESC) single-cell data comprising of 3 different batches from a single experiment. 
 
 
-
-### Integration challenge
+**Integration challenge**
 
 + Prior to integration, there is a strong separation effect by batches. 
 + This data is relatively simple with only the usual batch effects within an experiment. Hence, in the `scMerge` article it was used as an illustrative example for various aspects of the methodology and also included as an example dataset in our package. 

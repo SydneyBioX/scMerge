@@ -17,7 +17,7 @@ output:
 This is a mouse neuronal single-cell data comprising of 2 different experiments. 
 
 
-### Integration challenge
+**Integration challenge**
 
 + Prior to integration, there is a strong separation effect by experiments and batches.  
 
