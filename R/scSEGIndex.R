@@ -50,6 +50,8 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
     if(nrow(exprsMat_filt) < 100) {
       stop("Not enough gene pass the QC!")
     }
+  }else{
+    exprsMat_filt <- exprsMat
   }
 
 

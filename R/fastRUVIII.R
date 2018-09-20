@@ -106,12 +106,12 @@ fastRUVIII <-
     }
   }
 
-
+############################
 residop_fast <-
   function(A, B) {
     return(A - B %*% solve(t(B) %*% B) %*% (t(B) %*% A))
   }
-
+############################
 tological <-
   function(ctl, n) {
     ctl2 <- rep(FALSE, n)

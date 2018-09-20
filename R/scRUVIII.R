@@ -183,12 +183,12 @@ scRUVIII <- function(Y = Y,
 
 
 
-
+#######################################################
 zeroOneScale <- function(v) {
   v <- (v+1)/2
   return(v)
 }
-
+#######################################################
 standardize <- function(exprsMat, batch) {
   num_cell <- ncol(exprsMat)
   num_batch <- length(unique(batch))
@@ -202,7 +202,7 @@ standardize <- function(exprsMat, batch) {
   s.data <- (exprsMat - stand.mean) / (sqrt(var.pooled) %*% t(rep(1, num_cell)))
   return(res = list(s.data = s.data, stand.mean = stand.mean, stand.var = var.pooled))
 }
-
+#######################################################
 f_measure <- function(celltypes, batch) {
   f <- 2 * (celltypes * batch) / (celltypes + batch)
   return(f)

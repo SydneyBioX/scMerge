@@ -48,8 +48,8 @@ scReplicate <- function(sce,
   exprs_mat <- SummarizedExperiment::assay(sce, exprs)
 
   if (!is.null(cell_type) & is.null(cell_type_inc) & !cell_type_match) {
-
-    cat("Performing supervised scMerge\n")
+    cat("Cell type information was supplied \n")
+    cat("Performing supervised scMerge \n")
     names(cell_type) <- colnames(exprs_mat)
 
     repVector <- supervisedReplicate(exprs_mat, cell_type, replicate_prop)
@@ -58,7 +58,7 @@ scReplicate <- function(sce,
 
 
   } else if (!is.null(cell_type) & is.null(cell_type_inc) & cell_type_match) {
-
+    cat("Cell type information was supplied and mutual nearest neighbour option was selected \n")
     cat("Finding MNC from the known cell types of different batches...\n")
     names(cell_type) <- colnames(exprs_mat)
     batch <- as.factor(batch)
@@ -66,18 +66,19 @@ scReplicate <- function(sce,
 
 
     if (is.null(marker)&is.null(marker_list)) {
-
+      cat("No maker nor marker_list information was supplied \n")
       cat("Finding HVG...\n")
-      exprsMat_HVG <- assay(sce, hvg_exprs)
+      exprsMat_HVG <- SummarizedExperiment::assay(sce, hvg_exprs)
       HVG_res <- findHVG(exprsMat_HVG, batch)
       HVG <- HVG_res$HVG
       HVG_list <- HVG_res$HVG_list
 
     } else if(!is.null(marker_list) & is.null(marker)){
+      cat("Only marker_list information was supplied \n")
       HVG_list <- marker_list
       names(HVG_list) <- batch_list
       HVG <- Reduce(union, marker_list)
-    } else{
+    } else {
       HVG <- marker
     }
     # sce$batch <- as.factor(sce$batch)
@@ -104,7 +105,7 @@ scReplicate <- function(sce,
                        dist = dist)
     print(mnc_res)
 
-    repVector <- mncRepcliate(clustering_list = cellType_list_batch,
+    repVector <- mncReplicate(clustering_list = cellType_list_batch,
                               clustering_distProp = clustering_distProp_list_batch,
                               replicate_prop = replicate_prop,
                               mnc_df = mnc_res)
@@ -133,14 +134,15 @@ scReplicate <- function(sce,
 
     # Find HVG
     if (is.null(marker)&is.null(marker_list)) {
-
+      cat("No maker nor marker_list information was supplied \n")
       cat("Finding HVG...\n")
-      exprsMat_HVG <- assay(sce, hvg_exprs)
+      exprsMat_HVG <- SummarizedExperiment::assay(sce, hvg_exprs)
       HVG_res <- findHVG(exprsMat_HVG, batch)
       HVG <- HVG_res$HVG
       HVG_list <- HVG_res$HVG_list
 
     } else if(!is.null(marker_list) & is.null(marker)){
+      cat("Only marker_list information was supplied \n")
       HVG_list <- marker_list
       names(HVG_list) <- batch_list
       HVG <- Reduce(union, marker_list)
@@ -172,7 +174,7 @@ scReplicate <- function(sce,
     print(mnc_res)
 
     # Create replicate matrix
-    repVector <- mncRepcliate(clustering_list = cluster_res$clustering_list,
+    repVector <- mncReplicate(clustering_list = cluster_res$clustering_list,
                               clustering_distProp = cluster_res$clustering_distProp,
                               replicate_prop = replicate_prop,
                               mnc_df = mnc_res)
@@ -201,7 +203,7 @@ scReplicate <- function(sce,
   }
 }
 
-
+#################################################################################################
 #Function to find HVG
 findHVG <- function(exprsMat_HVG, batch,  intersection = 1, fdr = 0.01, minBiolDisp = 0.5){
   batch_list <- as.list(as.character(unique(batch)))
@@ -222,7 +224,7 @@ findHVG <- function(exprsMat_HVG, batch,  intersection = 1, fdr = 0.01, minBiolD
   return(list(HVG = HVG, HVG_list = HVG_list))
 }
 
-
+######################################################################################################
 #Function to identify clusters from each batch
 identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
 
@@ -309,7 +311,7 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
 
   return(list(clustering_list = clustering_res, clustering_distProp = clustering_res_pt_dist))
 }
-
+######################################################################################################
 centroidDist <- function(exprsMat){
   centroid_batch <- rowMedians(exprsMat)
   point_dist <- colSums((exprsMat - centroid_batch)^2)
@@ -318,7 +320,7 @@ centroidDist <- function(exprsMat){
   return(point_rank)
 }
 
-
+######################################################################################################
 #Function to find the mutual nearest clusters
 findMNC <- function(exprMat, clustering_list, dist = "euclidean") {
 
@@ -464,9 +466,9 @@ findMNC <- function(exprMat, clustering_list, dist = "euclidean") {
 
 }
 
-
+######################################################################################################
 #Function to create replicate based on the mutual nearest cluster results
-mncRepcliate <- function(clustering_list, clustering_distProp, replicate_prop, mnc_df) {
+mncReplicate <- function(clustering_list, clustering_distProp, replicate_prop, mnc_df) {
   batch_num <- length(clustering_list)
   if (!is.null(mnc_df)) {
     idx_noRep <- list()
@@ -526,7 +528,7 @@ mncRepcliate <- function(clustering_list, clustering_distProp, replicate_prop, m
   return(replicate_vector)
 }
 
-
+######################################################################################################
 #Function to create replicates based on wanted varition
 wvReplicate <- function(exprsMat, WV, WV_marker, replicate_vector) {
   names(WV) <- colnames(exprsMat)
@@ -557,7 +559,7 @@ wvReplicate <- function(exprsMat, WV, WV_marker, replicate_vector) {
   return(replicate_vector)
 }
 
-
+######################################################################################################
 #Function to create replicates based on known cell types
 supervisedReplicate <- function(exprsMat, cell_type, replicate_prop){
   clustering_distProp <- lapply(unique(cell_type),
