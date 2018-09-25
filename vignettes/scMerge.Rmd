@@ -244,6 +244,7 @@ However, we do recognise the difficulties associated with computation when deali
 
 We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.
 
+For instance, in a single cell data with 21700 features and 5526 cells, we saw a 5-fold reduction in computational time when `fast_svd = TRUE` was invoked.
 
 ```{r computation_rsvd, fig.show='hide'}
 t1 = Sys.time()
@@ -252,7 +253,7 @@ sce_mESC <- scMerge(sce_mESC,
                     kmeansK = c(1,3,3,1,1),
                     assay_name = "scMerge_fast", 
                     fast_svd = TRUE, 
-                    rsvd_prop = 0.1)
+                    rsvd_prop = 0.05)
 t2 = Sys.time()
 t2 - t1
 ```
