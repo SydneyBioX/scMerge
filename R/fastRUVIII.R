@@ -72,13 +72,14 @@ fastRUVIII <-
     else {
       if (is.null(fullalpha)) { ## The main RUVIII process
         ## Applies the residual operator of a matrix M to a matrix Y
-        Y0 <- residop_fast(Y, M)
+        Y0 <- eigenResidop(Y, M)
         ## In RSVD, we need to specify a paritial decomposition parameter, rsvd_k.
         ## In the usual RUVIII procedure, we can set this to min(m - ncol(M), sum(ctl))
-        ## But it was found that we can lower this parameter to ceiling(rsvd_prop*min(dim(Y0))), if we want to speed up computation.
-        rsvd_k = min(m - ncol(M), sum(ctl), ceiling(rsvd_prop*min(dim(Y0))))
+        ## But it was found that we can lower this parameter to ceiling(rsvd_prop*m), if we want to speed up computation.
+        rsvd_k = min(m - ncol(M), sum(ctl), ceiling(rsvd_prop*m), na.rm = TRUE)
         ####################
-        fullalpha <- t(rsvd::rsvd(Y0 %*% t(Y0), k = rsvd_k, q = 2)$u[, 1:rsvd_k, drop = FALSE]) %*% Y
+        svdObj = rsvd::rsvd(eigenMatMult(Y0, t(Y0)), k = rsvd_k)
+        fullalpha = eigenMatMult(t(svdObj$u[, 1:rsvd_k, drop = FALSE]), Y)
       }
 
       ## alpha matrix is a subset of of the fullalpha matrix
@@ -109,7 +110,7 @@ fastRUVIII <-
 ############################
 residop_fast <-
   function(A, B) {
-    return(A - B %*% solve(t(B) %*% B) %*% (t(B) %*% A))
+    return(A - B %*% (solve(t(B) %*% B) %*% (t(B) %*% A)))
   }
 ############################
 tological <-
