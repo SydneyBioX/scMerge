@@ -1,5 +1,6 @@
 #' @title fast residop
 #' @import Rcpp
+#' @importFrom Rcpp sourceCpp
 #' @import RcppEigen
 #' @useDynLib scMerge
 #' @export
