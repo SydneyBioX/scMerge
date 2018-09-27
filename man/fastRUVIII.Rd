@@ -4,9 +4,9 @@
 \alias{fastRUVIII}
 \title{fastRUVIII}
 \usage{
-fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, rsvd_prop = 0.1,
-  include.intercept = TRUE, average = FALSE, fullalpha = NULL,
-  return.info = FALSE, inputcheck = TRUE)
+fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
+  rsvd_prop = 0.1, include.intercept = TRUE, average = FALSE,
+  fullalpha = NULL, return.info = FALSE, inputcheck = TRUE)
 }
 \arguments{
 \item{Y}{The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.}
@@ -38,6 +38,15 @@ See ruv::RUVIII for details.}
 }
 \description{
 perform fastRUVIII
+}
+\examples{
+L = scMerge::ruvSimulate(m = 700, n = 1000, nc = 50, nRep = 10)
+Y = L$Y; M = L$M; ctl = L$ctl
+improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
+improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1)
+old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
+all.equal(improved1, old)
+all.equal(improved2, old)
 }
 \author{
 Yingxin Lin, John Ormerod, Kevin Wang

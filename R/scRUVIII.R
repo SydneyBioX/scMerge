@@ -54,26 +54,18 @@ scRUVIII <- function(Y = Y,
   geneMeanMat <- scale_res$stand.mean
   ################
   ## We will always run an initial RUV, based on whether fast_svd is TRUE or not.
-  if (fast_svd) { ## And the user wanted the rsvd option, we will provide that
-    ruv3_initial <- fastRUVIII(
-      Y = t(normY),
-      ctl = ctl,
-      k = k[1],
-      M = M,
-      fullalpha = fullalpha,
-      return.info = return.info,
-      rsvd_prop = rsvd_prop
-    )
-  } else { ## If the user wanted the usual svd option, we will provide that here
-    ruv3_initial <- ruv::RUVIII(
-      Y = t(normY),
-      ctl = ctl,
-      k = k[1],
-      M = M,
-      fullalpha = fullalpha,
-      return.info = return.info
-    )
-  }
+
+  ruv3_initial <- fastRUVIII(
+    Y = t(normY),
+    ctl = ctl,
+    k = k[1],
+    M = M,
+    fullalpha = fullalpha,
+    return.info = return.info,
+    fast_svd = fast_svd,
+    rsvd_prop = rsvd_prop
+  )
+
   ruv3_initial$k <- k
   ## Finitial initial RUV3 run
   ###################
@@ -81,40 +73,32 @@ scRUVIII <- function(Y = Y,
   ## If we have only one ruvK value, then the result is ruv3res_list, with only one element, corresponding to our initial run.
   ruv3res_list = vector("list", length = length(k))
   ruv3res_list[[1]] = ruv3_initial
+
   if(length(k) == 1){
 
   } else {
     ## If we have more than one ruvK value, then we feed the result to the ruv::RUVIII function
     ## (there is no need for fast_svd, since we already have the fullalpha)
     for(i in 2:length(k)){
-      if(fast_svd){
-        ruv3res_list[[i]] = fastRUVIII(
-          Y = t(normY),
-          ctl = ctl,
-          k = k[i],
-          M = M,
-          fullalpha = ruv3_initial$fullalpha,
-          return.info = return.info
-        )
-      } else {
-        ruv3res_list[[i]] = ruv::RUVIII(
-          Y = t(normY),
-          ctl = ctl,
-          k = k[i],
-          M = M,
-          fullalpha = ruv3_initial$fullalpha,
-          return.info = return.info
-        )
-      } ## End fast_svd criterion
+      ruv3res_list[[i]] = fastRUVIII(
+        Y = t(normY),
+        ctl = ctl,
+        k = k[i],
+        M = M,
+        fullalpha = ruv3_initial$fullalpha,
+        return.info = return.info,
+        fast_svd = FALSE
+      )
     } ## End for loop
-  }
+  } ## End else(length(k) == 1)
+
   names(ruv3res_list) = k
   ##################
   ## No need to run for length(k)==1
   if(length(k) == 1){
     f_score <- 1
     names(f_score) <- k
-  }else{
+  } else {
     ## Cell type information
 
     cat("Selecting optimal RUVk\n")

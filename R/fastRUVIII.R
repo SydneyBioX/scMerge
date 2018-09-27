@@ -19,10 +19,18 @@
 #' @param return.info Additional information relating to the computation of normalised matrix. We recommend setting this to true.
 #' @param inputcheck We recommend setting this to true.
 #' @export
+#' @examples
+#' L = scMerge::ruvSimulate(m = 700, n = 1000, nc = 50, nRep = 10)
+#' Y = L$Y; M = L$M; ctl = L$ctl
+#' improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
+#' improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1)
+#' old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
+#' all.equal(improved1, old)
+#' all.equal(improved2, old)
 
 
 fastRUVIII <-
-  function(Y, M, ctl, k = NULL, eta = NULL, rsvd_prop = 0.1, include.intercept = TRUE,
+  function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_prop = 0.1, include.intercept = TRUE,
            average = FALSE, fullalpha = NULL, return.info = FALSE, inputcheck = TRUE) {
 
     if (is.data.frame(Y)) {
@@ -52,42 +60,43 @@ fastRUVIII <-
     ## RUV1 is a reprocessing step for RUVIII
     Y <- ruv::RUV1(Y, eta, ctl, include.intercept = include.intercept)
 
+    if(fast_svd){
+      svd_k = min(m - ncol(M), sum(ctl), ceiling(rsvd_prop*m), na.rm = TRUE)
+    } else {
+      svd_k = min(m - ncol(M), sum(ctl), na.rm = TRUE)
+    }
+
 
     ## m represent the number of samples/observations
     ## ncol(M) represent the number of replicates
     ## If the replicate matrix is such that we have more replicates than samples, then RUV3 is not appropriate, thus, we return the
     ## Original input matrix
-    if (ncol(M) >= m) {
-      newY <- Y
-    } else if (is.null(k)) { ## If there isn't a value for RUVk, we will compute an alternative type of normalisation. In scMerge, RUVk is a forced input.
-      ycyctinv <- solve(Y[, ctl] %*% t(Y[, ctl]))
-      newY <- (M %*% solve(t(M) %*% ycyctinv %*% M) %*% (t(M) %*%
-                                                           ycyctinv)) %*% Y
-      fullalpha <- NULL
-    }
-    else if (k == 0) { ## If RUVk = 0, there is no need for normalisation.
+    if (ncol(M) >= m | k == 0) {
       newY <- Y
       fullalpha <- NULL
-    }
-    else {
+    } else {
+
       if (is.null(fullalpha)) { ## The main RUVIII process
         ## Applies the residual operator of a matrix M to a matrix Y
-        Y0 <- eigenResidop(Y, M)
-        ## In RSVD, we need to specify a paritial decomposition parameter, rsvd_k.
-        ## In the usual RUVIII procedure, we can set this to min(m - ncol(M), sum(ctl))
-        ## But it was found that we can lower this parameter to ceiling(rsvd_prop*m), if we want to speed up computation.
-        rsvd_k = min(m - ncol(M), sum(ctl), ceiling(rsvd_prop*m), na.rm = TRUE)
-        ####################
-        svdObj = rsvd::rsvd(eigenMatMult(Y0, t(Y0)), k = rsvd_k)
-        fullalpha = eigenMatMult(t(svdObj$u[, 1:rsvd_k, drop = FALSE]), Y)
-      }
+        ## Y0 has the same dimensions as Y, i.e. m rows (observations) and n columns (genes).
 
-      ## alpha matrix is a subset of of the fullalpha matrix
+        Y0 <- eigenResidop(Y, M)
+
+        if(fast_svd){
+          svdObj = rsvd::rsvd(Y0 %*% t(Y0), k = svd_k)
+        } else {
+          svdObj = base::svd(Y0 %*% t(Y0))
+        } ## End if(fast_svd)
+
+        fullalpha = eigenMatMult(t(svdObj$u[, 1:svd_k, drop = FALSE]), Y)
+      } ## End is.null(fullalpha)
+      #########################################################
+      ## Regardless of the availibility of fullalpha, we need to compute this normalisation.
       alpha <- fullalpha[1:min(k, nrow(fullalpha)), , drop = FALSE]
       ac <- alpha[, ctl, drop = FALSE]
       W <- Y[, ctl] %*% t(ac) %*% solve(ac %*% t(ac))
-      newY <- Y - W %*% alpha
-    }
+      newY <- Y - eigenMatMult(W, alpha)
+    } ## End else(ncol(M) >= m | k == 0)
     if (average) { ## If average over the replicates is needed. This is ignored in scMerge.
       newY <- ((1 / apply(M, 2, sum)) * t(M)) %*% newY
     }
@@ -101,20 +110,19 @@ fastRUVIII <-
         rsvd_k_options = c(
           "m-ncol(M)" = m - ncol(M),
           "sum(ctl)" = sum(ctl),
-          "rsvd_prop_rsvd_prop" = ceiling(rsvd_prop*min(dim(Y0))))
+          "svd_k" = svd_k)
       )
       )
     }
   }
 
 ############################
-residop_fast <-
-  function(A, B) {
-    return(A - B %*% (solve(t(B) %*% B) %*% (t(B) %*% A)))
-  }
+# residop_fast <-
+#   function(A, B) {
+#     return(A - B %*% (solve(t(B) %*% B) %*% (t(B) %*% A)))
+#   }
 ############################
-tological <-
-  function(ctl, n) {
+tological <- function(ctl, n) {
     ctl2 <- rep(FALSE, n)
     ctl2[ctl] <- TRUE
     return(ctl2)

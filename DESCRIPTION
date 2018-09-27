@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: a package for merging scRNA-seq data
-Version: 0.1.10
+Version: 0.1.11
 Authors@R: c(
     person("Yingxin", "Lin", email = "yingxin.lin@sydney.edu.au", role = c("aut", "cre")
     ),
