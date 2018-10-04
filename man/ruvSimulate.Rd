@@ -4,7 +4,8 @@
 \alias{ruvSimulate}
 \title{Simulate a simple matrix}
 \usage{
-ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50)
+ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50,
+  lambda = 0.1)
 }
 \arguments{
 \item{m}{Number of observations}

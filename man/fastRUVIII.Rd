@@ -40,7 +40,7 @@ See ruv::RUVIII for details.}
 perform fastRUVIII
 }
 \examples{
-L = scMerge::ruvSimulate(m = 700, n = 1000, nc = 50, nRep = 10)
+L = scMerge::ruvSimulate(m = 1000, n = 3000, nc = 50, nRep = 10)
 Y = L$Y; M = L$M; ctl = L$ctl
 improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
 improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1)

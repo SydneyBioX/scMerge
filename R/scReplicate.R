@@ -47,8 +47,9 @@ scReplicate <- function(sce,
 
   exprs_mat <- SummarizedExperiment::assay(sce, exprs)
 
+  ## Based on the input cell_type info, we decide which version of scMerge to use.
   if (!is.null(cell_type) & is.null(cell_type_inc) & !cell_type_match) {
-    cat("Cell type information was supplied \n")
+    cat("Cell type information was supplied, and mutual nearest neighbour option was not selected \n")
     cat("Performing supervised scMerge \n")
     names(cell_type) <- colnames(exprs_mat)
 
@@ -58,14 +59,14 @@ scReplicate <- function(sce,
 
 
   } else if (!is.null(cell_type) & is.null(cell_type_inc) & cell_type_match) {
-    cat("Cell type information was supplied and mutual nearest neighbour option was selected \n")
+    cat("Cell type information was supplied, and mutual nearest neighbour option was selected \n")
     cat("Finding MNC from the known cell types of different batches...\n")
     names(cell_type) <- colnames(exprs_mat)
     batch <- as.factor(batch)
     batch_list <- as.list(as.character(unique(batch)))
 
-
-    if (is.null(marker)&is.null(marker_list)) {
+    ## Finding data-adaptive markers, store as object as HVG
+    if (is.null(marker) & is.null(marker_list)) {
       cat("No maker nor marker_list information was supplied \n")
       cat("Finding HVG...\n")
       exprsMat_HVG <- SummarizedExperiment::assay(sce, hvg_exprs)
@@ -74,32 +75,38 @@ scReplicate <- function(sce,
       HVG_list <- HVG_res$HVG_list
 
     } else if(!is.null(marker_list) & is.null(marker)){
+      ## Taking the union of marker_list as HVG
       cat("Only marker_list information was supplied \n")
       HVG_list <- marker_list
       names(HVG_list) <- batch_list
       HVG <- Reduce(union, marker_list)
     } else {
+      ## If there is only a list of markers, then use that as HVG
       HVG <- marker
     }
     # sce$batch <- as.factor(sce$batch)
     # batch_list <- as.list(as.character(unique(sce$batch)))
+
+    ## For every unique cell_type, calculate the centroid.
     clustering_distProp <- lapply(unique(cell_type),
                                   function(x) centroidDist(exprs_mat[,cell_type==x]))
     clustering_distProp <- unlist(clustering_distProp)[names(cell_type)]
 
+    ## For each batch in batch_list, we find the corresponding cell_type_centroid
     clustering_distProp_list_batch <- lapply(batch_list, function(x) {
       tmp <- clustering_distProp[batch == x]
       names(tmp) <- colnames(exprs_mat)[batch == x]
       tmp
     })
 
-
+    ## For each batch in batch_list, we find the corresponding cell_type
     cellType_list_batch <- lapply(batch_list, function(x) {
       tmp <- as.numeric(droplevels(as.factor(cell_type[batch == x])))
       names(tmp) <- colnames(exprs_mat)[batch == x]
       tmp
     })
 
+    ## Here, using the cell type information, we go ahead and find MNC
     mnc_res <- findMNC(exprs_mat[HVG, ],
                        clustering_list = cellType_list_batch,
                        dist = dist)
@@ -122,6 +129,7 @@ scReplicate <- function(sce,
     batch <- as.factor(batch)
     batch_list <- as.list(as.character(unique(batch)))
 
+    ## KEVIN: we should move this input check much earlier, into scMerge function
 
     if (is.null(kmeansK)) {
       stop("KmeansK is NULL", call. = FALSE)
@@ -132,8 +140,8 @@ scReplicate <- function(sce,
     }
 
 
-    # Find HVG
-    if (is.null(marker)&is.null(marker_list)) {
+    ## If there are no marker information what so ever, we find the HVG adaptively from the data
+    if (is.null(marker) & is.null(marker_list)) {
       cat("No maker nor marker_list information was supplied \n")
       cat("Finding HVG...\n")
       exprsMat_HVG <- SummarizedExperiment::assay(sce, hvg_exprs)
@@ -245,8 +253,15 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
       batch_list,
       function(x) {
         if (!x %in% batch_oneType) {
-          # rsvd::rpca(t(exprsMat[marker, batch == x]), k=10, scale = T, q = 2)
-          prcomp(t(exprsMat[marker, batch == x]), scale. = TRUE)
+          # prcomp(t(exprsMat[marker, batch == x]), scale. = TRUE)
+
+          matForPCA = exprsMat[marker, batch == x]
+          prcompObj = irlba::prcomp_irlba(t(matForPCA),
+                                          n = 10,
+                                          scale. = TRUE)
+          pcMat = prcompObj$x
+          rownames(pcMat) = colnames(matForPCA)
+          return(pcMat)
         } else {
           NULL
         }
@@ -257,8 +272,15 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
       batch_list,
       function(x) {
         if (!x %in% batch_oneType) {
-          # rsvd::rpca(t(exprsMat[HVG_list[[x]], batch == x]), k=10, scale = T, q = 2)
-          prcomp(t(exprsMat[HVG_list[[x]], batch == x]), scale. = TRUE)
+          # prcomp(t(exprsMat[HVG_list[[x]], batch == x]), scale. = TRUE)
+
+          matForPCA = exprsMat[HVG_list[[x]], batch == x]
+          prcompObj = irlba::prcomp_irlba(t(matForPCA),
+                                          n = 10,
+                                          scale. = TRUE)
+          pcMat = prcompObj$x
+          rownames(pcMat) = colnames(matForPCA)
+          return(pcMat)
         } else {
           NULL
         }
@@ -273,7 +295,7 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK){
   for (j in 1:length(pca)) {
     pca_current <- pca[[j]]
     if (!is.null(pca_current)) {
-      kmeans_res <- kmeans(pca_current$x[, 1:10], centers = kmeansK[j], nstart = 1000)
+      kmeans_res <- kmeans(pca_current[, 1:10], centers = kmeansK[j], nstart = 1000)
       clustering_res[[j]] <- kmeans_res$cluster
       # exprs_current <- exprsMat[HVG_list[[j]], batch == batch_list[j]]
       if(!is.null(marker)){
@@ -321,22 +343,28 @@ centroidDist <- function(exprsMat){
 }
 
 ######################################################################################################
-#Function to find the mutual nearest clusters
+## Function to find the mutual nearest clusters
 findMNC <- function(exprMat, clustering_list, dist = "euclidean") {
 
   batch_num <- length(clustering_list)
   names(clustering_list) <- paste("Batch", 1:batch_num, sep = "")
 
-  # Check whether there are batches that has only one cluster
-  batch_oneType <- which(unlist(lapply(clustering_list, function(x) length(levels(as.factor(x))) == 1)))
-
+  ## Check which batch has only one cluster
+  batch_oneType <- which(unlist(lapply(clustering_list,
+                                       function(x) length(levels(as.factor(x))) == 1)))
+  ## If there existsome batch_oneType
   if (length(batch_oneType) != 0) {
+    ## And if all batch_oneType == num of batches, i.e. every batch only contains one cell type
     if (length(batch_oneType) == batch_num) {
       combine_pair <- combn(batch_num, 2)
       batch_oneType <- NULL
       allones <- TRUE
     } else {
+      ## if at least some batch contains more than 1 cell type
+      ## Then take away the batches with only one cell type and then iterate through all combn
       combine_pair <- combn(c(1:batch_num)[-batch_oneType], 2)
+
+      ## And then for those batches with only one cell type, we bind to the previous generated combn
       for (i in batch_oneType) {
         for (j in c(1:batch_num)[-batch_oneType]) {
           combine_pair <- cbind(combine_pair, c(i, j))
@@ -348,22 +376,26 @@ findMNC <- function(exprMat, clustering_list, dist = "euclidean") {
     combine_pair <- combn(batch_num, 2)
     allones <- FALSE
   }
-  # combine_pair <- combn(batch_num,2)
 
 
 
 
   mnc <- list()
+
+  ## If there are only two batches containing only two cell types, then finding MNN is trivial. Return NULL
   if (allones & batch_num == 2) {
     return(NULL)
-  }else if (allones) {
+  } else if (allones) { ## If every batch contains only one cell type...
     dist_res <- matrix(NA, nrow = batch_num, ncol = batch_num)
-    for (k in 1:ncol(combine_pair)) {
+    for (k in 1:ncol(combine_pair)) { ## We go through every pairwise batches
       print(k)
+      ## Extract the cell type information and the expression matrices
       res1 <- clustering_list[[combine_pair[1, k]]]
       res2 <- clustering_list[[combine_pair[2, k]]]
       mat1 <- exprMat[, names(which(res1 == 1))]
       mat2 <- exprMat[, names(which(res2 == 1))]
+
+      ## The distance between matrices are calculated as such...
       if (dist == "cosine") {
         dist_mat <- dist(t(mat1), t(mat2), method = "cosine")
       } else if (dist == "cor") {
@@ -371,10 +403,16 @@ findMNC <- function(exprMat, clustering_list, dist = "euclidean") {
       } else {
         dist_mat <- pdist::pdist(t(mat1), t(mat2))
       }
+
+
       dist_mat <- as.matrix(dist_mat)
+
+      ## The dist_res (distance measure between batches) is then the median of all pairwise distances
       dist_res[combine_pair[1, k], combine_pair[2, k]] <- dist_res[combine_pair[2, k], combine_pair[1, k]] <- median(dist_mat)
     }
+    ## The neighbour_res is then which ever two pairs of batches that are closes to each other
     neighbour_res <- apply(dist_res, 1, which.min)
+
     mnc_mat <- c()
     for (i in 1:length(neighbour_res)) {
       if (neighbour_res[neighbour_res[i]] == i) {
@@ -426,11 +464,10 @@ findMNC <- function(exprMat, clustering_list, dist = "euclidean") {
         paste("Batch", combine_pair[2, k], sep = "")
       )
     }
-  }
+  } ## End else
 
-
-
-  # Perform network analysis
+  ###############################################################
+  ## Function to perform network analysis
 
 
   edge_list <- do.call(rbind, lapply(mnc, function(x)
@@ -467,7 +504,7 @@ findMNC <- function(exprMat, clustering_list, dist = "euclidean") {
 }
 
 ######################################################################################################
-#Function to create replicate based on the mutual nearest cluster results
+## Function to create replicate based on the mutual nearest cluster results
 mncReplicate <- function(clustering_list, clustering_distProp, replicate_prop, mnc_df) {
   batch_num <- length(clustering_list)
   if (!is.null(mnc_df)) {

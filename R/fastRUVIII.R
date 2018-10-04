@@ -20,7 +20,7 @@
 #' @param inputcheck We recommend setting this to true.
 #' @export
 #' @examples
-#' L = scMerge::ruvSimulate(m = 700, n = 1000, nc = 50, nRep = 10)
+#' L = scMerge::ruvSimulate(m = 1000, n = 3000, nc = 50, nRep = 10)
 #' Y = L$Y; M = L$M; ctl = L$ctl
 #' improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
 #' improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1)
@@ -83,9 +83,17 @@ fastRUVIII <-
         Y0 <- eigenResidop(Y, M)
 
         if(fast_svd){
-          svdObj = rsvd::rsvd(Y0 %*% t(Y0), k = svd_k)
+          if(m > n){ ## If m > n, then we break down a m by n matrix.
+            svdObj = rsvd::rsvd(Y0, k = svd_k)
+          } else{ ## If m < n, then we break down a m by m matrix.
+            svdObj = rsvd::rsvd(eigenMatMult(Y0, t(Y0)), k = svd_k)
+          }
         } else {
-          svdObj = base::svd(Y0 %*% t(Y0))
+          if(m > n){ ## If m > n, then we break down a m by n matrix.
+            svdObj = base::svd(Y0)
+          } else { ## If m < n, then we break down a m by m matrix.
+            svdObj = base::svd(eigenMatMult(Y0, t(Y0)))
+          }
         } ## End if(fast_svd)
 
         fullalpha = eigenMatMult(t(svdObj$u[, 1:svd_k, drop = FALSE]), Y)
@@ -123,7 +131,7 @@ fastRUVIII <-
 #   }
 ############################
 tological <- function(ctl, n) {
-    ctl2 <- rep(FALSE, n)
-    ctl2[ctl] <- TRUE
-    return(ctl2)
-  }
+  ctl2 <- rep(FALSE, n)
+  ctl2[ctl] <- TRUE
+  return(ctl2)
+}

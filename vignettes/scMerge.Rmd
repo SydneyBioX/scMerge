@@ -272,7 +272,7 @@ scater::plotPCA(sce_mESC,
 # Session Info
 
 ```{r}
-sessionInfo()
+sessionInfo() 
 ```
 
 

@@ -112,7 +112,8 @@ scRUVIII <- function(Y = Y,
     sil_res <- do.call(cbind, lapply(ruv3res_list,
                                      FUN = function(x) {
                                        ## Computing the 10 PCA vectors using rsvd::rpca
-                                       pca.data <- rsvd::rpca(x$newY, k = 10, rand = 1)
+                                       pca.data <- irlba::prcomp_irlba(x$newY, n = 10)
+                                       # pca.data <- rsvd::rpca(x$newY, k = 10, rand = 1)
                                        # pca.data<-prcomp(x$newY)
                                        c(
                                          kBET::batch_sil(pca.data, as.numeric(as.factor(cell_type))),
