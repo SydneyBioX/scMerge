@@ -3,17 +3,21 @@
 // [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::plugins(openmp)]]
 // [[Rcpp::depends(RcppEigen)]]
-
 #include <RcppEigen.h>
+
 #ifdef _OPENMP
   #include <omp.h>
 #endif
 
+using namespace std;
+using namespace Rcpp;
+
 //' residop
 //'
 //' @usage residop(A, B)
-//' @param A
-//' @param B
+//' @param A The first matrix
+//' @param B The second matrix
+//' @return The result
 //' @export
 // [[Rcpp::export]]
 Eigen::MatrixXd residop(Eigen::MatrixXd A, Eigen::MatrixXd B)

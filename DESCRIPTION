@@ -18,6 +18,8 @@ LazyData: true
 Depends:
     R (>= 2.10)
 Imports: 
+    Rcpp (>= 0.12.5),
+    RcppEigen,
     ruv,
     rsvd,
     SingleCellExperiment,
@@ -30,9 +32,7 @@ Imports:
     foreach,
     doSNOW,
     distr,
-    scMerge.data,
-    Rcpp (>= 0.12.5),
-    RcppEigen
+    scMerge.data
 LinkingTo: Rcpp (>= 0.12.5),
     RcppEigen
 RoxygenNote: 6.1.0

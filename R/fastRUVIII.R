@@ -120,3 +120,7 @@ tological <-
     ctl2[ctl] <- TRUE
     return(ctl2)
   }
+
+#' @useDynLib scMerge
+#' @importFrom Rcpp sourceCpp
+NULL
