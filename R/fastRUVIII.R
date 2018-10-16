@@ -51,7 +51,8 @@ fastRUVIII <-
 
     ## RUV1 is a reprocessing step for RUVIII
     Y <- ruv::RUV1(Y, eta, ctl, include.intercept = include.intercept)
-
+    write.csv(Y, file="Y.csv")
+    write.csv(M, file="M.csv")
 
     ## m represent the number of samples/observations
     ## ncol(M) represent the number of replicates
@@ -72,7 +73,8 @@ fastRUVIII <-
     else {
       if (is.null(fullalpha)) { ## The main RUVIII process
         ## Applies the residual operator of a matrix M to a matrix Y
-        Y0 <- residop_fast(Y, M)
+        # Y0 <- residop_fast(Y, M)
+        Y0 <- residop(Y, M)
         ## In RSVD, we need to specify a paritial decomposition parameter, rsvd_k.
         ## In the usual RUVIII procedure, we can set this to min(m - ncol(M), sum(ctl))
         ## But it was found that we can lower this parameter to ceiling(rsvd_prop*min(dim(Y0))), if we want to speed up computation.

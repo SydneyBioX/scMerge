@@ -30,7 +30,11 @@ Imports:
     foreach,
     doSNOW,
     distr,
-    scMerge.data
+    scMerge.data,
+    Rcpp (>= 0.12.5),
+    RcppEigen
+LinkingTo: Rcpp (>= 0.12.5),
+    RcppEigen
 RoxygenNote: 6.1.0
 Suggests: 
     scater,
