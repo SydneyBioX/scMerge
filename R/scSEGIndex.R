@@ -142,7 +142,7 @@ make_para_gn_parallel = function(exprsMat, ncore = 1) {
     return(dat_para)
   }
   close(pb)
-  stopCluster(cl)
+  parallel::stopCluster(cl)
   colnames(res)<-c("mu","sigma","rho")
   res<-data.frame(res)
   return(res)

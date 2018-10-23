@@ -130,8 +130,13 @@ fastRUVIII <-
 #     return(A - B %*% (solve(t(B) %*% B) %*% (t(B) %*% A)))
 #   }
 ############################
-tological <- function(ctl, n) {
-  ctl2 <- rep(FALSE, n)
-  ctl2[ctl] <- TRUE
-  return(ctl2)
-}
+tological <-
+  function(ctl, n) {
+    ctl2 <- rep(FALSE, n)
+    ctl2[ctl] <- TRUE
+    return(ctl2)
+  }
+
+#' @useDynLib scMerge
+#' @importFrom Rcpp sourceCpp
+NULL
