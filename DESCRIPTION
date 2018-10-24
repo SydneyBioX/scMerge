@@ -17,7 +17,7 @@ Encoding: UTF-8
 LazyData: true
 Depends:
     R (>= 2.10)
-Imports: 
+Imports:
   Rcpp (>= 0.12.18), 
   RcppEigen (>= 0.3.3.4.0),
   ruv,
@@ -33,7 +33,8 @@ Imports:
   doSNOW,
   distr,
   scMerge.data
-LinkingTo: Rcpp, RcppEigen
+LinkingTo: Rcpp (>= 0.12.5),
+	RcppEigen
 RoxygenNote: 6.1.0
 Suggests: 
     scater,
