@@ -16,3 +16,22 @@ eigenMatInverse <- function(A) {
     .Call('_scMerge_eigenMatInverse', PACKAGE = 'scMerge', A)
 }
 
+#' @title fast matrix inverse
+#' @param A a matrix
+#' @param B a matrix
+#' @export
+eigenResidop2 <- function(A, B) {
+    .Call('_scMerge_eigenResidop2', PACKAGE = 'scMerge', A, B)
+}
+
+#' residop
+#'
+#' @usage residop(A, B)
+#' @param A The first matrix
+#' @param B The second matrix
+#' @return The result
+#' @export
+residop <- function(A, B) {
+    .Call('_scMerge_residop', PACKAGE = 'scMerge', A, B)
+}
+

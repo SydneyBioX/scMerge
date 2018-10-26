@@ -19,3 +19,16 @@ ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50,
 \description{
 Simulate a simple matrix
 }
+\examples{
+L = ruvSimulate(m = 700, n = 10000, nRep = 10, lambda = 0.1)
+Y = L$Y; M = L$M; ctl = L$ctl; batch = L$batch
+
+microbenchmark::microbenchmark(
+improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE),
+old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20),
+times = 1)
+
+microbenchmark::microbenchmark(scMerge::scRUVIII(Y = Y, M = M, ctl = ctl, k = 20, batch = batch), times = 1)
+microbenchmark::microbenchmark(fakePackage::scRUVIII(Y = Y, M = M, ctl = ctl, k = 20, batch = batch), times = 1)
+
+}
