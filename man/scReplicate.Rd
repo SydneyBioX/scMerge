@@ -8,7 +8,7 @@ scReplicate(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts",
   hvg_exprs = "counts", marker = NULL, marker_list = NULL,
   replicate_prop = 1, cell_type = NULL, cell_type_match = FALSE,
   cell_type_inc = NULL, dist = "cor", WV = NULL, WV_marker = NULL,
-  return_all = FALSE)
+  parallel = FALSE, parallelParam = bpparam(), return_all = FALSE)
 }
 \arguments{
 \item{sce}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
@@ -38,6 +38,10 @@ scReplicate(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts",
 \item{WV}{A vector indicates the wanted variation factor other than cell type info, such as cell stages.}
 
 \item{WV_marker}{A vector indicates the markers of the wanted variation.}
+
+\item{parallel}{If \code{TRUE}, the algorithm will run in parallel.}
+
+\item{parallelParam}{The \code{BiocParallelParam} class is used.}
 
 \item{return_all}{If \code{FALSE}, only return the replicate matrix.}
 }

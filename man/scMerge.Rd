@@ -9,6 +9,7 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
   ruvK = 20, replicate_prop = 0.5, cell_type = NULL,
   cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE,
   rsvd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL,
+  parallel = FALSE, parallelParam = bpparam(),
   return_all_RUV = FALSE, assay_name = NULL)
 }
 \arguments{
@@ -45,6 +46,10 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 \item{WV}{A optional vector indicating the wanted variation factor other than cell type info, such as cell stages.}
 
 \item{WV_marker}{An optional vector indicating the markers of the wanted variation.}
+
+\item{parallel}{If \code{TRUE}, the algorithm will run in parallel.}
+
+\item{parallelParam}{The \code{BiocParallelParam} class is used.}
 
 \item{return_all_RUV}{If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.}

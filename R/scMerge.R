@@ -17,6 +17,8 @@
 #' @param dist The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.
 #' @param WV A optional vector indicating the wanted variation factor other than cell type info, such as cell stages.
 #' @param WV_marker An optional vector indicating the markers of the wanted variation.
+#' @param parallel If \code{TRUE}, the algorithm will run in parallel.
+#' @param parallelParam The \code{BiocParallelParam} class is used.
 #' @param return_all_RUV If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 #' Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.
 #' @param assay_name The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.
@@ -68,6 +70,8 @@ scMerge <- function(sce_combine,
                     dist = "cor",
                     WV = NULL,
                     WV_marker = NULL,
+                    parallel = FALSE,
+                    parallelParam = bpparam(),
                     return_all_RUV = FALSE,
                     assay_name = NULL) {
 
@@ -142,7 +146,9 @@ scMerge <- function(sce_combine,
                         cell_type_inc = cell_type_inc,
                         dist = dist,
                         WV = WV,
-                        WV_marker = WV_marker)
+                        WV_marker = WV_marker,
+                        parallel = parallel,
+                        parallelParam = parallelParam)
 
 
   cat("Dimension of the replicates mapping matrix \n")
