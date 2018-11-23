@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.11</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.14</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@
   <span class='kw'>hvg_exprs</span> <span class='kw'>=</span> <span class='st'>"counts"</span>, <span class='kw'>marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>marker_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>replicate_prop</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cell_type_match</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>cell_type_inc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='st'>"cor"</span>, <span class='kw'>WV</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>WV_marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>return_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>parallelParam</span> <span class='kw'>=</span> <span class='fu'>bpparam</span>(), <span class='kw'>return_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,6 +205,14 @@
     <tr>
       <th>WV_marker</th>
       <td><p>A vector indicates the markers of the wanted variation.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>If <code>TRUE</code>, the algorithm will run in parallel.</p></td>
+    </tr>
+    <tr>
+      <th>parallelParam</th>
+      <td><p>The <code>BiocParallelParam</code> class is used.</p></td>
     </tr>
     <tr>
       <th>return_all</th>

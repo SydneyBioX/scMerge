@@ -20,8 +20,8 @@ eigenMatInverse <- function(A) {
 #' @param A a matrix
 #' @param B a matrix
 #' @export
-eigenResidop2 <- function(A, B) {
-    .Call('_scMerge_eigenResidop2', PACKAGE = 'scMerge', A, B)
+eigenResidop <- function(A, B) {
+    .Call('_scMerge_eigenResidop', PACKAGE = 'scMerge', A, B)
 }
 
 #' residop

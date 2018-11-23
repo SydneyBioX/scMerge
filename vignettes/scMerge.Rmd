@@ -50,9 +50,6 @@ We provided an illustrative mouse embryonic stem cell (mESC) data in our package
 data("sce_mESC", package = "scMerge.data")
 ## single-cell stably expressed gene list
 data("segList_ensemblGeneID")
-
-## single-cell stably expressed gene list
-data("segList_ensemblGeneID")
 ```
 
 

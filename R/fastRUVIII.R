@@ -83,17 +83,9 @@ fastRUVIII <-
         Y0 <- eigenResidop(Y, M)
 
         if(fast_svd){
-          if(m > n){ ## If m > n, then we break down a m by n matrix.
-            svdObj = rsvd::rsvd(Y0, k = svd_k)
-          } else{ ## If m < n, then we break down a m by m matrix.
-            svdObj = rsvd::rsvd(eigenMatMult(Y0, t(Y0)), k = svd_k)
-          }
+          svdObj = rsvd::rsvd(Y0, k = svd_k)
         } else {
-          if(m > n){ ## If m > n, then we break down a m by n matrix.
-            svdObj = base::svd(Y0)
-          } else { ## If m < n, then we break down a m by m matrix.
-            svdObj = base::svd(eigenMatMult(Y0, t(Y0)))
-          }
+          svdObj = base::svd(Y0)
         } ## End if(fast_svd)
 
         fullalpha = eigenMatMult(t(svdObj$u[, 1:svd_k, drop = FALSE]), Y)

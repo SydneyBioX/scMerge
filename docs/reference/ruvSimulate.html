@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.11</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.14</span>
       </span>
     </div>
 
@@ -166,12 +166,31 @@
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='fu'>ruvSimulate</span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>700</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000</span>, <span class='kw'>nRep</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
+<span class='no'>Y</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>Y</span>; <span class='no'>M</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>M</span>; <span class='no'>ctl</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>ctl</span>; <span class='no'>batch</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>batch</span>
+
+<span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark'>microbenchmark</a></span>(
+<span class='kw'>improved1</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scMerge/topics/fastRUVIII'>fastRUVIII</a></span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>),
+<span class='kw'>old</span> <span class='kw'>=</span> <span class='kw pkg'>ruv</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/ruv/topics/RUVIII'>RUVIII</a></span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>),
+<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; Unit: seconds
+#&gt;       expr      min       lq     mean   median       uq      max neval
+#&gt;  improved1 15.05770 15.05770 15.05770 15.05770 15.05770 15.05770     1
+#&gt;        old 12.92653 12.92653 12.92653 12.92653 12.92653 12.92653     1</div><div class='input'>
+<span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark'>microbenchmark</a></span>(<span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/scMerge/topics/scRUVIII'>scRUVIII</a></span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>), <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; Unit: seconds
+#&gt;                                                               expr      min
+#&gt;  scMerge::scRUVIII(Y = Y, M = M, ctl = ctl, k = 20, batch = batch) 15.97562
+#&gt;        lq     mean   median       uq      max neval
+#&gt;  15.97562 15.97562 15.97562 15.97562 15.97562     1</div><div class='input'><span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark'>microbenchmark</a></span>(<span class='kw pkg'>fakePackage</span><span class='kw ns'>::</span><span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>), <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='error'>Error: 'scRUVIII' is not an exported object from 'namespace:fakePackage'</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
