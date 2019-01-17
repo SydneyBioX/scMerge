@@ -2,10 +2,10 @@
 % Please edit documentation in R/ruvSimulate.R
 \name{ruvSimulate}
 \alias{ruvSimulate}
-\title{Simulate a simple matrix}
+\title{Simulate a simple matrix to test the speed of scMerge}
 \usage{
 ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50,
-  lambda = 0.1)
+  lambda = 0.1, sce = FALSE)
 }
 \arguments{
 \item{m}{Number of observations}
@@ -15,20 +15,23 @@ ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50,
 \item{nc}{Number of negative controls}
 
 \item{nRep}{Number of replicates}
+
+\item{lambda}{Rate parameter for random Poisson generation}
+
+\item{sce}{If \code{TRUE}, returns a SingleCellExperiment object}
 }
 \description{
-Simulate a simple matrix
+This function is designed to generate Poisson-random-variable data matrix
+to test on the speed and performance of the internal algorithms of scMerge.
+It is not intended to be used by end0-users.
 }
 \examples{
-L = ruvSimulate(m = 700, n = 10000, nRep = 10, lambda = 0.1)
-Y = L$Y; M = L$M; ctl = L$ctl; batch = L$batch
+L = ruvSimulate(m = 500, n = 20000, nRep = 10, lambda = 0.1)
+Y = L$Y; M = L$M;
 
-microbenchmark::microbenchmark(
-improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE),
-old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20),
-times = 1)
+system.time(scMerge::eigenResidop(Y, M))
+system.time(ruv::residop(Y, M))
 
-microbenchmark::microbenchmark(scMerge::scRUVIII(Y = Y, M = M, ctl = ctl, k = 20, batch = batch), times = 1)
-microbenchmark::microbenchmark(fakePackage::scRUVIII(Y = Y, M = M, ctl = ctl, k = 20, batch = batch), times = 1)
+
 
 }

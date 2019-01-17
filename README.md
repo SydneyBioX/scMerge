@@ -9,16 +9,13 @@ The installation process could take up to 5 minutes, depending if you have some 
 
 ``` r
 # Some CRAN packages required by scMerge
-install.packages(c("ruv", "rsvd", "igraph", "pdist", "proxy", "foreach", "doSNOW", "distr", "Rcpp", "RcppEigen"))
-devtools::install_github("theislab/kBET")
+install.packages(c("BiocManager", "distr", "doSNOW", "foreach", "igraph", "irlba", "pdist", "proxy",  "Rcpp", "RcppEigen", "rsvd", "ruv"))
 
 # Some BioConductor packages required by scMerge
-# try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite(c("SingleCellExperiment", "M3Drop"))
+BiocManager::install(c("BiocParallel", "M3Drop", "SingleCellExperiment"))
 
-
-# Installing scMerge and the data files using
+# Some GitHub packages required by scMerge
+devtools::install_github("theislab/kBET")
 devtools::install_github("SydneyBioX/scMerge.data")
 devtools::install_github("SydneyBioX/scMerge")
 ```

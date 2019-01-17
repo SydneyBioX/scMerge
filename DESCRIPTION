@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: a package for merging scRNA-seq data
-Version: 0.1.14
+Version: 0.1.15
 Authors@R: c(
     person("Yingxin", "Lin", email = "yingxin.lin@sydney.edu.au", role = c("aut", "cre")
     ),
@@ -18,23 +18,24 @@ LazyData: true
 Depends:
     R (>= 2.10)
 Imports:
-  Rcpp (>= 0.12.18), 
-  RcppEigen (>= 0.3.3.4.0),
-  ruv,
-  rsvd,
-  SingleCellExperiment,
+  BiocParallel,
+  distr,
+  doSNOW,
+  foreach,
   igraph,
-  pdist,
-  proxy,
+  irlba,
   kBET,
   M3Drop,
   parallel,
-  foreach,
-  doSNOW,
-  distr,
-  BiocParallel,
-  scMerge.data
-LinkingTo: Rcpp (>= 0.12.5),
+  pdist,
+  proxy,
+  Rcpp (>= 0.12.18), 
+  RcppEigen (>= 0.3.3.4.0),
+  rsvd,
+  ruv,
+  scMerge.data,
+  SingleCellExperiment
+LinkingTo: Rcpp (>= 0.12.18),
 	RcppEigen
 RoxygenNote: 6.1.1
 Suggests: 

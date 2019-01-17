@@ -1,7 +1,5 @@
-#' scSEGIndex
-#'
-#' Calculate single-cell Stably Expressed Gene (scSEG) index
-#'
+#' @title scSEGIndex
+#' @description Calculate single-cell Stably Expressed Gene (scSEG) index
 #'
 #' @author Shila Ghazanfar, Yingxin Lin, Pengyi Yang
 #' @param exprsMat The log-transoformed single-cell data (assumed to be no batch effect and covered a wide range of cell types). A n by m matrix, where n is the number of genes and m is the number of cells
@@ -114,7 +112,7 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
 
 
 
-# This function perform mixture model fitting using multiple CPUs
+# This internal function perform mixture model fitting using multiple CPUs
 make_para_gn_parallel = function(exprsMat, ncore = 1) {
 
   cl <- parallel::makeCluster(ncore, type='SOCK')

@@ -291,15 +291,15 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK, par
         batch_list,
         function(x) {
           if (!x %in% batch_oneType) {
-            # prcomp(t(exprsMat[marker, batch == x]), scale. = TRUE)
+            prcomp(t(exprsMat[marker, batch == x]), scale. = TRUE)$x
 
-            matForPCA = exprsMat[marker, batch == x]
-            prcompObj = irlba::prcomp_irlba(t(matForPCA),
-                                            n = 10,
-                                            scale. = TRUE, maxit = 1000)
-            pcMat = prcompObj$x
-            rownames(pcMat) = colnames(matForPCA)
-            return(pcMat)
+            # matForPCA = exprsMat[marker, batch == x]
+            # prcompObj = irlba::prcomp_irlba(t(matForPCA),
+            #                                 n = 10,
+            #                                 scale. = TRUE, maxit = 1000)
+            # pcMat = prcompObj$x
+            # rownames(pcMat) = colnames(matForPCA)
+            # return(pcMat)
           } else {
             NULL
           }
@@ -310,15 +310,7 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK, par
         batch_list,
         function(x) {
           if (!x %in% batch_oneType) {
-            # prcomp(t(exprsMat[marker, batch == x]), scale. = TRUE)
-
-            matForPCA = exprsMat[marker, batch == x]
-            prcompObj = irlba::prcomp_irlba(t(matForPCA),
-                                            n = 10,
-                                            scale. = TRUE, maxit = 1000)
-            pcMat = prcompObj$x
-            rownames(pcMat) = colnames(matForPCA)
-            return(pcMat)
+            prcomp(t(exprsMat[marker, batch == x]), scale. = TRUE)$x
           } else {
             NULL
           }
@@ -332,15 +324,7 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK, par
         batch_list,
         function(x) {
           if (!x %in% batch_oneType) {
-            # prcomp(t(exprsMat[HVG_list[[x]], batch == x]), scale. = TRUE)
-
-            matForPCA = exprsMat[HVG_list[[x]], batch == x]
-            prcompObj = irlba::prcomp_irlba(t(matForPCA),
-                                            n = 10,
-                                            scale. = TRUE, maxit = 1000)
-            pcMat = prcompObj$x
-            rownames(pcMat) = colnames(matForPCA)
-            return(pcMat)
+            prcomp(t(exprsMat[HVG_list[[x]], batch == x]), scale. = TRUE)$x
           } else {
             NULL
           }
@@ -351,15 +335,7 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK, par
         batch_list,
         function(x) {
           if (!x %in% batch_oneType) {
-            # prcomp(t(exprsMat[HVG_list[[x]], batch == x]), scale. = TRUE)
-
-            matForPCA = exprsMat[HVG_list[[x]], batch == x]
-            prcompObj = irlba::prcomp_irlba(t(matForPCA),
-                                            n = 10,
-                                            scale. = TRUE, maxit = 1000)
-            pcMat = prcompObj$x
-            rownames(pcMat) = colnames(matForPCA)
-            return(pcMat)
+            prcomp(t(exprsMat[HVG_list[[x]], batch == x]), scale. = TRUE)$x
           } else {
             NULL
           }
@@ -378,7 +354,7 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK, par
     res <- BiocParallel::bplapply(1:length(pca), function(j){
       pca_current <- pca[[j]]
       if (!is.null(pca_current)) {
-        kmeans_res <- kmeans(pca_current[, 1:10], centers = kmeansK[j], nstart = 1000)
+        kmeans_res <- stats::kmeans(pca_current[, 1:10], centers = kmeansK[j], nstart = 1000)
         clustering_res_tmp <- kmeans_res$cluster
         # exprs_current <- exprsMat[HVG_list[[j]], batch == batch_list[j]]
         if(!is.null(marker)){
@@ -410,7 +386,7 @@ identifyCluster <- function(exprsMat, batch, marker=NULL, HVG_list, kmeansK, par
     for (j in 1:length(pca)) {
       pca_current <- pca[[j]]
       if (!is.null(pca_current)) {
-        kmeans_res <- kmeans(pca_current[, 1:10], centers = kmeansK[j], nstart = 1000)
+        kmeans_res <- stats::kmeans(pca_current[, 1:10], centers = kmeansK[j], nstart = 1000)
         clustering_res[[j]] <- kmeans_res$cluster
         # exprs_current <- exprsMat[HVG_list[[j]], batch == batch_list[j]]
         if(!is.null(marker)){
@@ -624,7 +600,7 @@ findMNC_parallel <- function(exprMat, clustering_list, dist = "euclidean", paral
   if (length(batch_oneType) != 0) {
     ## And if all batch_oneType == num of batches, i.e. every batch only contains one cell type
     if (length(batch_oneType) == batch_num) {
-      combine_pair <- combn(batch_num, 2)
+      combine_pair <- utils::combn(batch_num, 2)
       batch_oneType <- NULL
       allones <- TRUE
     } else {
@@ -856,7 +832,7 @@ wvReplicate <- function(exprsMat, WV, WV_marker, replicate_vector) {
 
     marker_expr <- do.call(cbind, lapply(marker_expr, function(x) x[, 2]))
     rownames(marker_expr) <- names(table(replicate_vector))
-    km <- kmeans(marker_expr, centers = 2)
+    km <- stats::kmeans(marker_expr, centers = 2)
     tab_max <- table(apply(km$centers, 2, which.max))
     marker_cluster <- names(tab_max)[which.max(tab_max)]
     marker_replicate <- names(which(km$cluster == marker_cluster))
@@ -885,6 +861,3 @@ supervisedReplicate <- function(exprsMat, cell_type, replicate_prop){
   replicate_vector[is.na(replicate_vector)] <- 1:sum(is.na(replicate_vector))
   return(replicate_vector)
 }
-
-
-

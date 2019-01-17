@@ -29,7 +29,7 @@ scRUVg <-function (Y,  ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
     stop("k must not be larger than the number of controls")
   }
 
-  Y0 = RUV1(Y, eta, ctl, include.intercept = include.intercept)
+  Y0 = ruv::RUV1(Y, eta, ctl, include.intercept = include.intercept)
 
   if (q > 0) {
     Y0 = residop(Y0, Z)

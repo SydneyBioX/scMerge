@@ -15,8 +15,8 @@
 #' @param cell_type An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.
 #' @param batch Batch information inherited from the scMerge::scMerge function.
 #' @param return_all_RUV Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function
-#' @param fast_svd If \code{TRUE} we will use the randomized SVD algorithm to speed up computation. Otherwise, we will use the standard SVD built into R.
-#' @param rsvd_prop If \code{fast_svd = TRUE}, then rsvd_prop is used to control for the accuracy of the randomized SVD computation.
+#' @param fast_svd If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages. We recommend using this option when the number of cells is large (e.g. more than 1000 cells).
+#' @param rsvd_prop If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 #' If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a less accurate computed result but with a gain in speed.
 #' The default of 0.1 tends to achieve a balance between speed and accuracy.
 #' @export
@@ -67,9 +67,8 @@ scRUVIII <- function(Y = Y,
   )
 
   ruv3_initial$k <- k
-  ## Finitial initial RUV3 run
   ###################
-  ## The final computed result is always be ruv3res_list.
+  ## The computed result is ruv3res_list.
   ## If we have only one ruvK value, then the result is ruv3res_list, with only one element, corresponding to our initial run.
   ruv3res_list = vector("list", length = length(k))
   ruv3res_list[[1]] = ruv3_initial
@@ -94,6 +93,7 @@ scRUVIII <- function(Y = Y,
 
   names(ruv3res_list) = k
   ##################
+  ## Caculate sil. coef and F-score to select the best RUVk value.
   ## No need to run for length(k)==1
   if(length(k) == 1){
     f_score <- 1
@@ -109,24 +109,17 @@ scRUVIII <- function(Y = Y,
     }
     ##################
     ## Computing the silhouette coefficient from kBET package
-    sil_res <- do.call(cbind, lapply(ruv3res_list,
-                                     FUN = function(x) {
-                                       ## Computing the 10 PCA vectors using rsvd::rpca
-                                       pca.data <- irlba::prcomp_irlba(x$newY, n = 10)
-                                       # pca.data <- rsvd::rpca(x$newY, k = 10, rand = 1)
-                                       # pca.data<-prcomp(x$newY)
-                                       c(
-                                         kBET::batch_sil(pca.data, as.numeric(as.factor(cell_type))),
-                                         kBET::batch_sil(pca.data, as.numeric(as.factor(batch)), nPCs = 10)
-                                       )
-                                     }
-    ))
+    sil_res <- do.call(cbind, lapply(ruv3res_list, FUN = calculateSil,
+                                     fast_svd = fast_svd,
+                                     cell_type = cell_type,
+                                     batch = batch))
     ##################
     ## Computing the F scores based on the 2 silhouette coefficients
     f_score <- rep(NA, ncol(sil_res))
 
     for (i in 1:length(k)) {
-      f_score[i] <- f_measure(zeroOneScale(sil_res[1, ])[i], 1 - zeroOneScale(sil_res[2, ])[i])
+      f_score[i] <- f_measure(zeroOneScale(sil_res[1, ])[i],
+                              1 - zeroOneScale(sil_res[2, ])[i])
     }
     names(f_score) <- k
 
@@ -141,22 +134,24 @@ scRUVIII <- function(Y = Y,
   }
 
   ##################
+  ## Add back the mean and sd to the normalised data
   for (i in 1:length(ruv3res_list)) {
     ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) * geneSdMat + geneMeanMat))
   }
   ##################
-  ## ruv3res is the normalised matrix having the maximum F-score
+  ## ruv3res_list is all the normalised matrices
+  ## ruv3res_optimal is the one matrix having the maximum F-score
   ruv3res_optimal <- ruv3res_list[[which.max(f_score)]]
 
 
 
   if (return_all_RUV) {
-    ## If return_all_RUV is TRUE, we will un-scale every normalised matrices
-    ruv3res_list$optimal_ruvK = k[which.max(f_score)] ## Always record the optimal k
+    ## If return_all_RUV is TRUE, we will return all the normalised matrices
+    ruv3res_list$optimal_ruvK = k[which.max(f_score)]
     return(ruv3res_list)
   } else {
-    ## If reurn_all is FALSE, we will un-scale the only normalised matrices
-    ruv3res_optimal$optimal_ruvK <- k[which.max(f_score)] ## Always record the optimal k
+    ## If return_all_RUV is FALSE, we will return the F-score optimal matrix
+    ruv3res_optimal$optimal_ruvK <- k[which.max(f_score)]
     return(ruv3res_optimal)
   }
 } ## End scRUVIII function
@@ -180,7 +175,7 @@ standardize <- function(exprsMat, batch) {
   batch <- as.factor(batch)
   grand.mean <- matrix(rowMeans(exprsMat), nrow = 1)
   stand.mean <- t(grand.mean) %*% t(rep(1, num_cell))
-  design <- model.matrix(~-1 + batch)
+  design <- stats::model.matrix(~-1 + batch)
   B.hat <- solve(crossprod(design), tcrossprod(t(design), as.matrix(exprsMat)))
   # var.pooled <- ((exprsMat - t(design %*% B.hat))^2) %*% rep(1 / num_cell, num_cell)
   var.pooled <- ((exprsMat - t(design %*% B.hat))^2) %*% rep(1 / (num_cell-num_batch), num_cell)
@@ -191,4 +186,16 @@ standardize <- function(exprsMat, batch) {
 f_measure <- function(celltypes, batch) {
   f <- 2 * (celltypes * batch) / (celltypes + batch)
   return(f)
+}
+#######################################################
+calculateSil = function(x, fast_svd, cell_type, batch){
+  if(fast_svd){
+    pca.data <- irlba::prcomp_irlba(x$newY, n = 10)
+  } else {
+    pca.data <- stats::prcomp(x$newY)
+  }
+
+  return(c(
+    kBET::batch_sil(pca.data, as.numeric(as.factor(cell_type))),
+    kBET::batch_sil(pca.data, as.numeric(as.factor(batch)), nPCs = 10)))
 }

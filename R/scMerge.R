@@ -12,12 +12,12 @@
 #' @param cell_type An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.
 #' @param cell_type_match An optional logical input for whether to find mutual nearest cluster using cell type information.
 #' @param cell_type_inc An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.
-#' @param fast_svd If \code{TRUE}, randomised singular value decomposition will be used for singular value decomposition calculation. We recommend using this option when the number of cells is large (e.g. > 1000).
-#' @param rsvd_prop If \code{fast_svd = TRUE}, then rsvd_prop will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
+#' @param fast_svd If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages. We recommend using this option when the number of cells is large (e.g. more than 1000 cells).
+#' @param rsvd_prop If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 #' @param dist The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.
 #' @param WV A optional vector indicating the wanted variation factor other than cell type info, such as cell stages.
 #' @param WV_marker An optional vector indicating the markers of the wanted variation.
-#' @param parallel If \code{TRUE}, the algorithm will run in parallel.
+#' @param parallel If \code{TRUE}, the algorithm will run in parallel using the \code{BiocParallel} package.
 #' @param parallelParam The \code{BiocParallelParam} class is used.
 #' @param return_all_RUV If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 #' Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.
@@ -96,7 +96,7 @@ scMerge <- function(sce_combine,
 
 
   ## Checking input expression assay name in SCE object
-  if(!exprs %in% assayNames(sce_combine)){
+  if(!exprs %in% SummarizedExperiment::assayNames(sce_combine)){
     stop(paste("No assay named", exprs))
   }
 
@@ -106,7 +106,7 @@ scMerge <- function(sce_combine,
 
   ## Checking if any rows or columns are purely zeroes
   if (sum(rowSums(exprs_mat) == 0) != 0 | sum(colSums(exprs_mat) == 0) != 0) {
-    stop("There are rows or columns that are all zeros. Please remove it.")
+    stop("There are rows or columns that are all zeros in the expression matrix. Please remove these rows/columns.")
   }
 
   ## Checking negative controls input
@@ -133,6 +133,7 @@ scMerge <- function(sce_combine,
   }
 
   ## Finding pseudo-replicates
+  t1 = Sys.time()
   repMat <- scReplicate(sce = sce_combine,
                         batch = sce_batch,
                         kmeansK = kmeansK,
@@ -149,7 +150,9 @@ scMerge <- function(sce_combine,
                         WV_marker = WV_marker,
                         parallel = parallel,
                         parallelParam = parallelParam)
+  t2 = Sys.time()
 
+  timeReplicates = t2 - t1
 
   cat("Dimension of the replicates mapping matrix \n")
   print(dim(repMat))
@@ -170,19 +173,24 @@ scMerge <- function(sce_combine,
                       return_all_RUV = return_all_RUV,
                       fast_svd = fast_svd,
                       rsvd_prop = rsvd_prop)
+  t3 = Sys.time()
 
+  timeRuv = t3 - t2
 
   sce_final_result = sce_combine
+
   if(!return_all_RUV){
     ## If return_all_RUV is FALSE, then scRUVIII should've just returned with a single result (ruv3res_optimal)
-    assay(sce_final_result, assay_name) <- t(ruv3res$newY)
+    SummarizedExperiment::assay(sce_final_result, assay_name) <- t(ruv3res$newY)
   } else{
     ## if return_all_RUV is TRUE, then the previous check ensured assay_name is not NULL and matches the length of ruvK
     ## And the scRUVIII should've just returned with a single result (ruv3res_optimal)
     listNewY = lapply(ruv3res[names(ruv3res) != "optimal_ruvK"], function(x){t(x$newY)})
+
     for(i in 1:length(listNewY)){
-      assay(sce_final_result, assay_name[i]) <- listNewY[[i]]
-    } ## End for loop
+      SummarizedExperiment::assay(sce_final_result, assay_name[i]) <- listNewY[[i]]
+    }
+
   }
 
   metadata(sce_final_result) = c(
@@ -190,7 +198,9 @@ scMerge <- function(sce_combine,
     list(
       "ruvK" = ruvK,
       "ruvK_optimal" = ruv3res$optimal_ruvK,
-      "scRep_res" = repMat
+      "scRep_res" = repMat,
+      "timeReplicates" = timeReplicates,
+      "timeRuv" = timeRuv
     ))
 
   return(sce_final_result)
