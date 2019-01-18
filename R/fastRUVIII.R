@@ -1,6 +1,6 @@
-#' fastRUVIII
+#' @title A fast version of the RUVIII algorithm
+#' @description Perform a fast version of the RUVIII algorithm
 #'
-#' perform fastRUVIII
 #' @author Yingxin Lin, John Ormerod, Kevin Wang
 #' @param Y The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.
 #' @param M The replicate mapping matrix.
@@ -17,8 +17,11 @@
 #' @param fullalpha Not used. Please ignore. See ruv::RUVIII for details.
 #' @param return.info Additional information relating to the computation of normalised matrix. We recommend setting this to true.
 #' @param inputcheck We recommend setting this to true.
+#' @useDynLib scMerge, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
 #' @export
 #' @examples
+#' \dontrun{
 #' L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nRep = 10)
 #' Y = L$Y; M = L$M; ctl = L$ctl
 #' improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
@@ -26,11 +29,7 @@
 #' old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
 #' all.equal(improved1, old)
 #' all.equal(improved2, old)
-#' ## Not run:
-#' system.time(scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE))
-#' system.time(scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1))
-#' system.time(ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20))
-#' ## End(**Not run**)
+#' }
 
 
 fastRUVIII <-
@@ -119,12 +118,6 @@ fastRUVIII <-
       )
     }
   }
-
-############################
-# residop_fast <-
-#   function(A, B) {
-#     return(A - B %*% (solve(t(B) %*% B) %*% (t(B) %*% A)))
-#   }
 ############################
 tological <-
   function(ctl, n) {
@@ -132,7 +125,3 @@ tological <-
     ctl2[ctl] <- TRUE
     return(ctl2)
   }
-
-#' @useDynLib scMerge
-#' @importFrom Rcpp sourceCpp
-NULL

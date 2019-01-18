@@ -9,7 +9,7 @@ The installation process could take up to 5 minutes, depending if you have some 
 
 ``` r
 # Some CRAN packages required by scMerge
-install.packages(c("BiocManager", "distr", "doSNOW", "foreach", "igraph", "irlba", "pdist", "proxy",  "Rcpp", "RcppEigen", "rsvd", "ruv"))
+install.packages(c("BiocManager", "distr", "doSNOW", "foreach", "igraph", "irlba", "iterators", "pdist", "proxy",  "Rcpp", "RcppEigen", "rsvd", "ruv"))
 
 # Some BioConductor packages required by scMerge
 BiocManager::install(c("BiocParallel", "M3Drop", "SingleCellExperiment"))

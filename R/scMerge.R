@@ -22,12 +22,12 @@
 #' @param return_all_RUV If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 #' Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.
 #' @param assay_name The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.
-#'
 #' @return Returns a \code{SingleCellExperiment} object with following:
 #'
 #' \item{metadata}{containing the ruvK vector, ruvK_optimal based on F-score, and the replicate matrix}
 #' \item{assays}{the original matrices and also the normalised matrices}
 #' @author Yingxin Lin, Kevin Wang
+#' @import SummarizedExperiment
 #' @examples
 #' suppressPackageStartupMessages({
 #' library(SingleCellExperiment)
@@ -46,9 +46,9 @@
 #'                       kmeansK = c(1,3,3,1,1),
 #'                       assay_name = "scMerge")
 #' scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
-#'                  run_args = list(exprs_values = "logcounts"))
+#'                  run_args = list(exprs_values = "logcounts"), add_ticks = FALSE)
 #' scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
-#'                  run_args = list(exprs_values = "scMerge"))
+#'                  run_args = list(exprs_values = "scMerge"), add_ticks = FALSE)
 #' @export
 
 

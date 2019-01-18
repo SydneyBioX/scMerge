@@ -101,7 +101,7 @@
       <h1>An introduction to the scMerge package</h1>
                         <h4 class="author">Yingxin Lin and Kevin Wang</h4>
             
-            <h4 class="date">17 Jan 2019</h4>
+            <h4 class="date">18 Jan 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/scMerge.Rmd"><code>vignettes/scMerge.Rmd</code></a></small>
       <div class="hidden name"><code>scMerge.Rmd</code></div>
@@ -148,9 +148,8 @@
 
 scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
-                <span class="dt">shape_by =</span> <span class="st">"batch"</span>)
-<span class="co">#&gt; Warning: 'add_ticks' is deprecated.</span>
-<span class="co">#&gt; Use '+ geom_rug(...)' instead.</span></code></pre></div>
+                <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/checking%20raw%20data-1.png" width="700"></p>
 </div>
 <div id="illustrating-pseudo-replicates-constructions" class="section level1">
@@ -179,9 +178,8 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 
 scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
-                <span class="dt">shape_by =</span> <span class="st">"batch"</span>)
-<span class="co">#&gt; Warning: 'add_ticks' is deprecated.</span>
-<span class="co">#&gt; Use '+ geom_rug(...)' instead.</span></code></pre></div>
+                <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/unsupervised_default_plotting-1.png" width="700"></p>
 <!-- ##Selecting 80% of cells -->
 <!-- ```{r results='hide',fig.show='hide'} -->
@@ -209,9 +207,8 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
                            <span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised_all"</span>)
 scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
-                <span class="dt">shape_by =</span> <span class="st">"batch"</span>)
-<span class="co">#&gt; Warning: 'add_ticks' is deprecated.</span>
-<span class="co">#&gt; Use '+ geom_rug(...)' instead.</span></code></pre></div>
+                <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/unsupervised_prop1_plotting-1.png" width="700"></p>
 <!-- ##Selecting 20% of cells -->
 <!-- ```{r results='hide',fig.show='hide'} -->
@@ -240,9 +237,8 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
                            <span class="dt">exprs_values =</span> <span class="st">"scMerge_supervised"</span>)
 scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>,
-                <span class="dt">shape_by =</span> <span class="st">"batch"</span>)
-<span class="co">#&gt; Warning: 'add_ticks' is deprecated.</span>
-<span class="co">#&gt; Use '+ geom_rug(...)' instead.</span></code></pre></div>
+                <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/supervised_plotting-1.png" width="700"></p>
 </div>
 <div id="semi-supervised-scmerge-i" class="section level1">
@@ -259,9 +255,8 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
                            <span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised1"</span>)
 scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
-                <span class="dt">shape_by =</span> <span class="st">"batch"</span>)
-<span class="co">#&gt; Warning: 'add_ticks' is deprecated.</span>
-<span class="co">#&gt; Use '+ geom_rug(...)' instead.</span></code></pre></div>
+                <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/semi_supervised1_plotting-1.png" width="700"></p>
 </div>
 <div id="semi-supervised-scmerge-ii" class="section level1">
@@ -279,9 +274,8 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
                            <span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised2"</span>)
 scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
-                <span class="dt">shape_by =</span> <span class="st">"batch"</span>)
-<span class="co">#&gt; Warning: 'add_ticks' is deprecated.</span>
-<span class="co">#&gt; Use '+ geom_rug(...)' instead.</span></code></pre></div>
+                <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/semi_supervised2_plotting-1.png" width="700"></p>
 </div>
 <div id="achieving-fast-computation" class="section level1">
@@ -307,12 +301,12 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; [1] 6</span>
 <span class="co">#&gt; [1] 7</span>
 <span class="co">#&gt;   group batch cluster</span>
-<span class="co">#&gt; 1     2     2       1</span>
-<span class="co">#&gt; 2     2     3       1</span>
-<span class="co">#&gt; 3     3     2       2</span>
-<span class="co">#&gt; 4     3     3       3</span>
-<span class="co">#&gt; 5     1     2       3</span>
-<span class="co">#&gt; 6     1     3       2</span>
+<span class="co">#&gt; 1     3     2       1</span>
+<span class="co">#&gt; 2     3     3       2</span>
+<span class="co">#&gt; 3     1     2       2</span>
+<span class="co">#&gt; 4     1     3       1</span>
+<span class="co">#&gt; 5     2     2       3</span>
+<span class="co">#&gt; 6     2     3       3</span>
 <span class="co">#&gt; 7     2     1       1</span>
 <span class="co">#&gt; 8     1     4       1</span>
 <span class="co">#&gt; 9     1     5       1</span>
@@ -322,7 +316,7 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t2 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 t2 <span class="op">-</span><span class="st"> </span>t1
-<span class="co">#&gt; Time difference of 46.15244 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 46.93776 secs</span></code></pre></div>
 <p>However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
 <p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t3 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
@@ -347,11 +341,11 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; [1] 7</span>
 <span class="co">#&gt;   group batch cluster</span>
 <span class="co">#&gt; 1     3     2       1</span>
-<span class="co">#&gt; 2     3     3       1</span>
+<span class="co">#&gt; 2     3     3       2</span>
 <span class="co">#&gt; 3     1     2       2</span>
-<span class="co">#&gt; 4     1     3       2</span>
+<span class="co">#&gt; 4     1     3       3</span>
 <span class="co">#&gt; 5     2     2       3</span>
-<span class="co">#&gt; 6     2     3       3</span>
+<span class="co">#&gt; 6     2     3       1</span>
 <span class="co">#&gt; 7     2     1       1</span>
 <span class="co">#&gt; 8     1     4       1</span>
 <span class="co">#&gt; 9     1     5       1</span>
@@ -361,24 +355,23 @@ sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sc
 <span class="co">#&gt; Performing RUV normalisation... This might take a few minutes...</span>
 t4 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 t4 <span class="op">-</span><span class="st"> </span>t3
-<span class="co">#&gt; Time difference of 28.36922 secs</span></code></pre></div>
+<span class="co">#&gt; Time difference of 27.90263 secs</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
                            <span class="dt">exprs_values =</span> <span class="st">"scMerge_fast"</span>)
 scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
-                <span class="dt">shape_by =</span> <span class="st">"batch"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"fast_svd yields similar results to the default version"</span>)
-<span class="co">#&gt; Warning: 'add_ticks' is deprecated.</span>
-<span class="co">#&gt; Use '+ geom_rug(...)' instead.</span></code></pre></div>
+                <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"fast_svd yields similar results to the default version"</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/computation_rsvd_plotting-1.png" width="700"></p>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>() 
-<span class="co">#&gt; R version 3.5.1 (2018-07-02)</span>
+<span class="co">#&gt; R version 3.5.2 (2018-12-20)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)</span>
-<span class="co">#&gt; Running under: macOS High Sierra 10.13.4</span>
+<span class="co">#&gt; Running under: macOS High Sierra 10.13.6</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
 <span class="co">#&gt; BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib</span>
@@ -392,10 +385,10 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] scater_1.10.0               ggplot2_3.1.0              </span>
+<span class="co">#&gt;  [1] scater_1.10.1               ggplot2_3.1.0              </span>
 <span class="co">#&gt;  [3] scMerge.data_0.0.1          scMerge_0.1.14             </span>
-<span class="co">#&gt;  [5] SingleCellExperiment_1.4.0  SummarizedExperiment_1.12.0</span>
-<span class="co">#&gt;  [7] DelayedArray_0.8.0          BiocParallel_1.16.2        </span>
+<span class="co">#&gt;  [5] SingleCellExperiment_1.4.1  SummarizedExperiment_1.12.0</span>
+<span class="co">#&gt;  [7] DelayedArray_0.8.0          BiocParallel_1.16.5        </span>
 <span class="co">#&gt;  [9] matrixStats_0.54.0          Biobase_2.42.0             </span>
 <span class="co">#&gt; [11] GenomicRanges_1.34.0        GenomeInfoDb_1.18.1        </span>
 <span class="co">#&gt; [13] IRanges_2.16.0              S4Vectors_0.20.1           </span>
@@ -404,13 +397,13 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] bitops_1.0-6             fs_1.2.6                </span>
 <span class="co">#&gt;  [3] RColorBrewer_1.1-2       rprojroot_1.3-2         </span>
-<span class="co">#&gt;  [5] numDeriv_2016.8-1        tools_3.5.1             </span>
-<span class="co">#&gt;  [7] backports_1.1.2          R6_2.3.0                </span>
+<span class="co">#&gt;  [5] numDeriv_2016.8-1        tools_3.5.2             </span>
+<span class="co">#&gt;  [7] backports_1.1.3          R6_2.3.0                </span>
 <span class="co">#&gt;  [9] KernSmooth_2.23-15       HDF5Array_1.10.1        </span>
 <span class="co">#&gt; [11] vipor_0.4.5              lazyeval_0.2.1          </span>
-<span class="co">#&gt; [13] colorspace_1.3-2         withr_2.1.2             </span>
+<span class="co">#&gt; [13] colorspace_1.4-0         withr_2.1.2             </span>
 <span class="co">#&gt; [15] tidyselect_0.2.5         gridExtra_2.3           </span>
-<span class="co">#&gt; [17] compiler_3.5.1           xml2_1.2.0              </span>
+<span class="co">#&gt; [17] compiler_3.5.2           xml2_1.2.0              </span>
 <span class="co">#&gt; [19] desc_1.2.0               labeling_0.3            </span>
 <span class="co">#&gt; [21] caTools_1.17.1.1         scales_1.0.0            </span>
 <span class="co">#&gt; [23] pkgdown_1.3.0            commonmark_1.7          </span>
@@ -418,31 +411,31 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 <span class="co">#&gt; [27] rmarkdown_1.11           XVector_0.22.0          </span>
 <span class="co">#&gt; [29] pkgconfig_2.0.2          htmltools_0.3.6         </span>
 <span class="co">#&gt; [31] ruv_0.9.7                bbmle_1.0.20            </span>
-<span class="co">#&gt; [33] rlang_0.3.0.1            rstudioapi_0.8          </span>
-<span class="co">#&gt; [35] DelayedMatrixStats_1.4.0 prettydoc_0.2.1         </span>
-<span class="co">#&gt; [37] bindr_0.1.1              gtools_3.8.1            </span>
-<span class="co">#&gt; [39] dplyr_0.7.8              RCurl_1.95-4.11         </span>
-<span class="co">#&gt; [41] magrittr_1.5             GenomeInfoDbData_1.2.0  </span>
-<span class="co">#&gt; [43] Matrix_1.2-15            Rcpp_1.0.0              </span>
-<span class="co">#&gt; [45] ggbeeswarm_0.6.0         munsell_0.5.0           </span>
-<span class="co">#&gt; [47] Rhdf5lib_1.4.2           viridis_0.5.1           </span>
-<span class="co">#&gt; [49] stringi_1.2.4            yaml_2.2.0              </span>
-<span class="co">#&gt; [51] MASS_7.3-51.1            zlibbioc_1.28.0         </span>
-<span class="co">#&gt; [53] rhdf5_2.26.0             gplots_3.0.1            </span>
-<span class="co">#&gt; [55] plyr_1.8.4               grid_3.5.1              </span>
-<span class="co">#&gt; [57] gdata_2.18.0             M3Drop_1.8.0            </span>
-<span class="co">#&gt; [59] crayon_1.3.4             lattice_0.20-38         </span>
-<span class="co">#&gt; [61] cowplot_0.9.3            knitr_1.21              </span>
-<span class="co">#&gt; [63] pillar_1.3.0             igraph_1.2.2            </span>
-<span class="co">#&gt; [65] reshape2_1.4.3           codetools_0.2-15        </span>
-<span class="co">#&gt; [67] glue_1.3.0               evaluate_0.12           </span>
-<span class="co">#&gt; [69] foreach_1.4.4            gtable_0.2.0            </span>
-<span class="co">#&gt; [71] purrr_0.2.5              assertthat_0.2.0        </span>
-<span class="co">#&gt; [73] xfun_0.4                 rsvd_1.0.0              </span>
-<span class="co">#&gt; [75] roxygen2_6.1.1           viridisLite_0.3.0       </span>
-<span class="co">#&gt; [77] tibble_1.4.2             iterators_1.0.10        </span>
-<span class="co">#&gt; [79] beeswarm_0.2.3           memoise_1.1.0           </span>
-<span class="co">#&gt; [81] bindrcpp_0.2.2           statmod_1.4.30</span></code></pre></div>
+<span class="co">#&gt; [33] rlang_0.3.1              rstudioapi_0.9.0        </span>
+<span class="co">#&gt; [35] DelayedMatrixStats_1.4.0 bindr_0.1.1             </span>
+<span class="co">#&gt; [37] gtools_3.8.1             dplyr_0.7.8             </span>
+<span class="co">#&gt; [39] RCurl_1.95-4.11          magrittr_1.5            </span>
+<span class="co">#&gt; [41] GenomeInfoDbData_1.2.0   Matrix_1.2-15           </span>
+<span class="co">#&gt; [43] Rcpp_1.0.0               ggbeeswarm_0.6.0        </span>
+<span class="co">#&gt; [45] munsell_0.5.0            Rhdf5lib_1.4.2          </span>
+<span class="co">#&gt; [47] viridis_0.5.1            stringi_1.2.4           </span>
+<span class="co">#&gt; [49] yaml_2.2.0               MASS_7.3-51.1           </span>
+<span class="co">#&gt; [51] zlibbioc_1.28.0          rhdf5_2.26.2            </span>
+<span class="co">#&gt; [53] gplots_3.0.1             plyr_1.8.4              </span>
+<span class="co">#&gt; [55] grid_3.5.2               gdata_2.18.0            </span>
+<span class="co">#&gt; [57] M3Drop_1.8.1             crayon_1.3.4            </span>
+<span class="co">#&gt; [59] lattice_0.20-38          cowplot_0.9.4           </span>
+<span class="co">#&gt; [61] knitr_1.21               pillar_1.3.1            </span>
+<span class="co">#&gt; [63] igraph_1.2.2             reshape2_1.4.3          </span>
+<span class="co">#&gt; [65] codetools_0.2-15         glue_1.3.0              </span>
+<span class="co">#&gt; [67] evaluate_0.12            foreach_1.4.4           </span>
+<span class="co">#&gt; [69] gtable_0.2.0             purrr_0.2.5             </span>
+<span class="co">#&gt; [71] assertthat_0.2.0         xfun_0.4                </span>
+<span class="co">#&gt; [73] rsvd_1.0.0               roxygen2_6.1.1          </span>
+<span class="co">#&gt; [75] viridisLite_0.3.0        tibble_2.0.1            </span>
+<span class="co">#&gt; [77] iterators_1.0.10         beeswarm_0.2.3          </span>
+<span class="co">#&gt; [79] memoise_1.1.0            bindrcpp_0.2.2          </span>
+<span class="co">#&gt; [81] statmod_1.4.30</span></code></pre></div>
 <!-- You can enable figure captions by `fig_caption: yes` in YAML: -->
 <!--     output: -->
 <!--       rmarkdown::html_vignette: -->

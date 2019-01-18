@@ -278,12 +278,12 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 #&gt; [1] 5
 #&gt; [1] 6
 #&gt; [1] 7</div><div class='img'><img src='scMerge-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;   group batch cluster
-#&gt; 1     3     2       1
-#&gt; 2     3     3       1
-#&gt; 3     1     2       2
-#&gt; 4     1     3       2
-#&gt; 5     2     2       3
-#&gt; 6     2     3       3
+#&gt; 1     1     2       1
+#&gt; 2     1     3       1
+#&gt; 3     2     2       2
+#&gt; 4     2     3       2
+#&gt; 5     3     2       3
+#&gt; 6     3     3       3
 #&gt; 7     2     1       1
 #&gt; 8     1     4       1
 #&gt; 9     1     5       1
@@ -291,10 +291,8 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 #&gt; [1] 704 356
 #&gt; 
 #&gt; Performing RUV normalisation... This might take a few minutes... </div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
-                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: 'add_ticks' is deprecated.</span>
-#&gt; <span class='warning'>Use '+ geom_rug(...)' instead.</span></div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
-                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: 'add_ticks' is deprecated.</span>
-#&gt; <span class='warning'>Use '+ geom_rug(...)' instead.</span></div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
+                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>), <span class='kw'>add_ticks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
+                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>), <span class='kw'>add_ticks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

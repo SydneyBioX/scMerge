@@ -12,7 +12,7 @@ Authors@R: c(
 Maintainer: Yingxin Lin <yingxin.lin@sydney.edu.au>
 Description: Remove batch effect and unwanted variations for single-cell RNA-seq expression matrix.
     The method includes the function of identification of stably expressed genes (SEG) from single-cell data, and also creating pseudo-replicates from the data.
-License: Unpublished work, please do not distribute.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends:
@@ -24,6 +24,7 @@ Imports:
   foreach,
   igraph,
   irlba,
+  iterators,
   kBET,
   M3Drop,
   parallel,
@@ -34,14 +35,18 @@ Imports:
   rsvd,
   ruv,
   scMerge.data,
-  SingleCellExperiment
-LinkingTo: Rcpp (>= 0.12.18),
-	RcppEigen
+  SingleCellExperiment,
+  SummarizedExperiment
+LinkingTo: 
+  Rcpp (>= 0.12.18),
+	RcppEigen,
+	testthat
 RoxygenNote: 6.1.1
 Suggests: 
     scater,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
 URL: https://github.com/SydneyBioX/scMerge
 BugReports: https://github.com/SydneyBioX/scMerge/issues

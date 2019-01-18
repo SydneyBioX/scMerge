@@ -2,7 +2,7 @@
 % Please edit documentation in R/fastRUVIII.R
 \name{fastRUVIII}
 \alias{fastRUVIII}
-\title{fastRUVIII}
+\title{A fast version of the RUVIII algorithm}
 \usage{
 fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
   rsvd_prop = 0.1, include.intercept = TRUE, average = FALSE,
@@ -37,9 +37,10 @@ See ruv::RUVIII for details.}
 \item{inputcheck}{We recommend setting this to true.}
 }
 \description{
-perform fastRUVIII
+Perform a fast version of the RUVIII algorithm
 }
 \examples{
+\dontrun{
 L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nRep = 10)
 Y = L$Y; M = L$M; ctl = L$ctl
 improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
@@ -47,11 +48,7 @@ improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE
 old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
 all.equal(improved1, old)
 all.equal(improved2, old)
-## Not run:
-system.time(scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE))
-system.time(scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1))
-system.time(ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20))
-## End(**Not run**)
+}
 }
 \author{
 Yingxin Lin, John Ormerod, Kevin Wang

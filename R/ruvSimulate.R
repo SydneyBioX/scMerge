@@ -9,15 +9,6 @@
 #' to test on the speed and performance of the internal algorithms of scMerge.
 #' It is not intended to be used by end0-users.
 #' @export
-#' @examples
-#' L = ruvSimulate(m = 500, n = 20000, nRep = 10, lambda = 0.1)
-#' Y = L$Y; M = L$M;
-#'
-#' system.time(scMerge::eigenResidop(Y, M))
-#' system.time(ruv::residop(Y, M))
-#'
-#'
-#'
 
 ruvSimulate = function(m = 100, n = 1e5, nc = 1e3, nRep = 50, lambda = 0.1, sce = FALSE){
   # m Number of observations

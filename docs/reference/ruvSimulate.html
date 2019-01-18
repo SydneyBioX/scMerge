@@ -173,31 +173,19 @@ It is not intended to be used by end0-users.</p>
       <th>lambda</th>
       <td><p>Rate parameter for random Poisson generation</p></td>
     </tr>
+    <tr>
+      <th>sce</th>
+      <td><p>If <code>TRUE</code>, returns a SingleCellExperiment object</p></td>
+    </tr>
     </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='fu'>ruvSimulate</span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>500</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>20000</span>, <span class='kw'>nRep</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
-<span class='no'>Y</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>Y</span>; <span class='no'>M</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>M</span>;
-
-<span class='kw pkg'>microbenchmark</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/microbenchmark/topics/microbenchmark'>microbenchmark</a></span>(
-<span class='kw'>improved</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scMerge/topics/eigenResidop'>eigenResidop</a></span>(<span class='no'>Y</span>, <span class='no'>M</span>),
-<span class='kw'>old</span> <span class='kw'>=</span> <span class='kw pkg'>ruv</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ruv/topics/residop'>residop</a></span>(<span class='no'>Y</span>, <span class='no'>M</span>),
-<span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; Unit: milliseconds
-#&gt;      expr       min        lq      mean    median        uq       max neval
-#&gt;  improved  187.5922  187.5922  187.5922  187.5922  187.5922  187.5922     1
-#&gt;       old 2822.0920 2822.0920 2822.0920 2822.0920 2822.0920 2822.0920     1</div><div class='input'>
-
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

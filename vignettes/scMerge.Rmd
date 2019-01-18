@@ -3,16 +3,19 @@ title: "An introduction to the scMerge package"
 author: "Yingxin Lin and Kevin Wang"
 date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
 output:
-  prettydoc::html_pretty:
-    theme: paper
-    highlight: vignette
-    toc_depth: 3
-    number_sections: yes
+  html_document:
     toc: true
+    toc_float: true
+    code_folding: hide
+    fig_retina: null
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{scMerge}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
-  knitr::opts_chunk$set(
+knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
   )
@@ -60,7 +63,8 @@ table(sce_mESC$batch, sce_mESC$cellTypes)
 
 scater::plotPCA(sce_mESC, 
                 colour_by = "cellTypes", 
-                shape_by = "batch")
+                shape_by = "batch",
+                add_ticks = FALSE)
 ```
 
 
@@ -96,7 +100,8 @@ sce_mESC <- scater::runPCA(sce_mESC,
 
 scater::plotPCA(sce_mESC, 
                 colour_by = "cellTypes", 
-                shape_by = "batch")
+                shape_by = "batch",
+                add_ticks = FALSE)
 ```
 
 <!-- ##Selecting 80% of cells -->
@@ -131,7 +136,8 @@ sce_mESC <- scater::runPCA(sce_mESC,
                            exprs_values = "scMerge_unsupervised_all")
 scater::plotPCA(sce_mESC, 
                 colour_by = "cellTypes", 
-                shape_by = "batch")
+                shape_by = "batch",
+                add_ticks = FALSE)
 ```
 
 <!-- ##Selecting 20% of cells -->
@@ -167,7 +173,8 @@ sce_mESC <- scater::runPCA(sce_mESC,
                            exprs_values = "scMerge_supervised")
 scater::plotPCA(sce_mESC, 
                 colour_by = "cellTypes",
-                shape_by = "batch")
+                shape_by = "batch",
+                add_ticks = FALSE)
 ```
 
 # Semi-supervised scMerge I
@@ -190,7 +197,8 @@ sce_mESC <- scater::runPCA(sce_mESC,
                            exprs_values = "scMerge_semisupervised1")
 scater::plotPCA(sce_mESC, 
                 colour_by = "cellTypes", 
-                shape_by = "batch")
+                shape_by = "batch",
+                add_ticks = FALSE)
 ```
 
 # Semi-supervised scMerge II
@@ -217,7 +225,8 @@ sce_mESC <- scater::runPCA(sce_mESC,
                            exprs_values = "scMerge_semisupervised2")
 scater::plotPCA(sce_mESC, 
                 colour_by = "cellTypes", 
-                shape_by = "batch")
+                shape_by = "batch",
+                add_ticks = FALSE)
 ```
 
 
@@ -260,7 +269,8 @@ sce_mESC <- scater::runPCA(sce_mESC,
                            exprs_values = "scMerge_fast")
 scater::plotPCA(sce_mESC, 
                 colour_by = "cellTypes", 
-                shape_by = "batch") +
+                shape_by = "batch",
+                add_ticks = FALSE) +
   labs(title = "fast_svd yields similar results to the default version")
 ```
 

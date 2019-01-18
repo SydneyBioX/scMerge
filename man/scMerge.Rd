@@ -83,9 +83,9 @@ sce_mESC <- scMerge(
                       kmeansK = c(1,3,3,1,1),
                       assay_name = "scMerge")
 scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
-                 run_args = list(exprs_values = "logcounts"))
+                 run_args = list(exprs_values = "logcounts"), add_ticks = FALSE)
 scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
-                 run_args = list(exprs_values = "scMerge"))
+                 run_args = list(exprs_values = "scMerge"), add_ticks = FALSE)
 }
 \author{
 Yingxin Lin, Kevin Wang

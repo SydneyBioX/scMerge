@@ -54,11 +54,14 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP run_testthat_tests();
+
 static const R_CallMethodDef CallEntries[] = {
     {"_scMerge_eigenMatMult", (DL_FUNC) &_scMerge_eigenMatMult, 2},
     {"_scMerge_eigenMatInverse", (DL_FUNC) &_scMerge_eigenMatInverse, 1},
     {"_scMerge_eigenResidop", (DL_FUNC) &_scMerge_eigenResidop, 2},
     {"_scMerge_residop", (DL_FUNC) &_scMerge_residop, 2},
+    {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 0},
     {NULL, NULL, 0}
 };
 

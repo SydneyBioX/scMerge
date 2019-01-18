@@ -25,13 +25,3 @@ This function is designed to generate Poisson-random-variable data matrix
 to test on the speed and performance of the internal algorithms of scMerge.
 It is not intended to be used by end0-users.
 }
-\examples{
-L = ruvSimulate(m = 500, n = 20000, nRep = 10, lambda = 0.1)
-Y = L$Y; M = L$M;
-
-system.time(scMerge::eigenResidop(Y, M))
-system.time(ruv::residop(Y, M))
-
-
-
-}
