@@ -117,7 +117,7 @@ scRUVIII <- function(Y = Y,
     ## Computing the F scores based on the 2 silhouette coefficients
     f_score <- rep(NA, ncol(sil_res))
 
-    for (i in 1:length(k)) {
+    for (i in seq_len(length(k))) {
       f_score[i] <- f_measure(zeroOneScale(sil_res[1, ])[i],
                               1 - zeroOneScale(sil_res[2, ])[i])
     }
@@ -135,7 +135,7 @@ scRUVIII <- function(Y = Y,
 
   ##################
   ## Add back the mean and sd to the normalised data
-  for (i in 1:length(ruv3res_list)) {
+  for (i in seq_len(length(ruv3res_list))) {
     ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) * geneSdMat + geneMeanMat))
   }
   ##################

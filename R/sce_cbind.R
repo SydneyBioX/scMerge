@@ -10,6 +10,7 @@
 #' @param exprs A string vector indicating the exprssion matrices to be combined. The first assay named will be used to determine the proportion of zeores.
 #' @param colData_names A string vector indicating the \code{colData} that are combined
 #' @param batch_names A string vector indicating the batch names for the output sce object
+#' @import SingleCellExperiment
 #'
 #' @return A combined \code{SingleCellExperiment} objects
 #' @author Yingxin Lin
@@ -40,7 +41,7 @@ sce_cbind <- function(sce_list,
   zero_list <- lapply(sce_list, function(x) apply(assay(x, exprs[1]), 1, function(z) mean(z == 0) ))
 
   expressed_list <- lapply(zero_list, function(x) names(which(x <= (1 - cut_off_batch))))
-  for (i in 1:n_batch) {
+  for (i in seq_len(n_batch)) {
     sce_list[[i]] <- sce_list[[i]][expressed_list[[i]], ]
   }
 
@@ -59,11 +60,11 @@ sce_cbind <- function(sce_list,
     keep <- Reduce(intersect, expressed_list)
     sce_list <- lapply(sce_list, function(x) x[keep, ])
     assay_list <- list()
-    for (i in 1:length(exprs)) {
+    for (i in seq_len(length(exprs))) {
       assay_list[[i]] <- do.call(cbind, lapply(sce_list, function(y) assay(y, exprs[i])))
     }
     names(assay_list) <- exprs
-    colData_list <- do.call(rbind, lapply(sce_list, function(y) colData(y)[, colData_names, drop = F]))
+    colData_list <- do.call(rbind, lapply(sce_list, function(y) colData(y)[, colData_names, drop = FALSE]))
     sce_combine <- SingleCellExperiment(
       assay = assay_list,
       colData = colData_list
@@ -74,7 +75,7 @@ sce_cbind <- function(sce_list,
     keep <- Reduce(union, expressed_list)
 
     assay_list <- list()
-    for (i in 1:length(exprs)) {
+    for (i in seq_len(length(exprs))) {
       assay_list[[i]] <- do.call(cbind, lapply(sce_list, function(x) {
         mat <- matrix(0,
           nrow = length(keep),
@@ -101,7 +102,7 @@ sce_cbind <- function(sce_list,
   }
 
   if (is.null(batch_names)) {
-    batch_names <- paste("batch", c(1:n_batch))
+    batch_names <- paste("batch", seq_len(n_batch))
   }
 
   sce_combine$batch <- rep(batch_names, unlist(lapply(sce_list, ncol)))

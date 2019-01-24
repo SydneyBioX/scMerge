@@ -66,6 +66,7 @@ Returns a \code{SingleCellExperiment} object with following:
 Merge single-cell RNA-seq data from different batches, experiments, protocols.
 }
 \examples{
+\dontrun{
 suppressPackageStartupMessages({
 library(SingleCellExperiment)
 library(scater)
@@ -86,6 +87,7 @@ scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
                  run_args = list(exprs_values = "logcounts"), add_ticks = FALSE)
 scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
                  run_args = list(exprs_values = "scMerge"), add_ticks = FALSE)
+}
 }
 \author{
 Yingxin Lin, Kevin Wang

@@ -309,11 +309,11 @@ gammaNormMix = function(data, thresh = 1e-7, maxiter = 10000,
 
 
   if (addContextData) {
-    z <- z[1:nOriginal]
+    z <- z[seq_len(nOriginal)]
   }
   if (plot){
     if(addContextData){
-      points(data[1:nOriginal],z*0,pch="|",cex=1,col=alpha(rgb(z,0,1-z),0.4))
+      points(data[seq_len(nOriginal)],z*0,pch="|",cex=1,col=alpha(rgb(z,0,1-z),0.4))
     }else{
       points(data,z*0,pch="|",cex=1,col=alpha(rgb(z,0,1-z),0.4))
     }

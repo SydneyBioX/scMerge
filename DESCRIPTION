@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: a package for merging scRNA-seq data
-Version: 0.1.15
+Version: 0.1.16
 Authors@R: c(
     person("Yingxin", "Lin", email = "yingxin.lin@sydney.edu.au", role = c("aut", "cre")
     ),
@@ -16,7 +16,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 2.10)
+    R (>= 3.5)
 Imports:
   BiocParallel,
   distr,
@@ -48,5 +48,6 @@ Suggests:
     rmarkdown,
     testthat
 VignetteBuilder: knitr
+biocViews: 	BatchEffect, GeneExpression, Normalization, RNASeq, Sequencing, SingleCell, Software, Transcriptomics
 URL: https://github.com/SydneyBioX/scMerge
 BugReports: https://github.com/SydneyBioX/scMerge/issues

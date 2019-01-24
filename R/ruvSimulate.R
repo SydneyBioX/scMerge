@@ -17,7 +17,7 @@ ruvSimulate = function(m = 100, n = 1e5, nc = 1e3, nRep = 50, lambda = 0.1, sce 
   p = 1
   k = 20
   ctl = rep(FALSE, n)
-  ctl[1:nc] = TRUE
+  ctl[seq_len(nc)] = TRUE
   X = matrix(c(rep(0,floor(m/2)), rep(1,ceiling(m/2))), m, p) ## Design matrix is simple two conditions
   beta = matrix(stats::rpois(p*n, lambda = lambda), p, n)
   beta[,ctl] = 0
@@ -33,7 +33,7 @@ ruvSimulate = function(m = 100, n = 1e5, nc = 1e3, nRep = 50, lambda = 0.1, sce 
   # batch = paste(patientID, sampleDate, sep = "_")
   # M = ruv::replicate.matrix(data.frame(patientID, sampleDate))
 
-  cellType = paste("cellType", rep_len(1:nRep, length.out = m), sep = "")
+  cellType = paste("cellType", rep_len(seq_len(nRep), length.out = m), sep = "")
   dataSource = paste("dataSource", rep_len(c(1:4), length.out = m), sep = "")
   # batch = paste(cellType, dataSource, sep = "_")
   M = ruv::replicate.matrix(data.frame(cellType, dataSource))
