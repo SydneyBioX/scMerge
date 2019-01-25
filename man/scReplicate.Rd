@@ -8,7 +8,8 @@ scReplicate(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts",
   hvg_exprs = "counts", marker = NULL, marker_list = NULL,
   replicate_prop = 1, cell_type = NULL, cell_type_match = FALSE,
   cell_type_inc = NULL, dist = "cor", WV = NULL, WV_marker = NULL,
-  parallel = FALSE, parallelParam = bpparam(), return_all = FALSE)
+  parallel = FALSE, parallelParam = bpparam(), return_all = FALSE,
+  fast_svd)
 }
 \arguments{
 \item{sce}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
@@ -58,5 +59,5 @@ If \code{return_sce} is \code{TRUE}, return the followings
 Create pseudo-replicate from single-cell RNA-seq data from different batches, experiments, and protocols.
 }
 \author{
-Yingxin Lin
+Yingxin Lin, Kevin Wang
 }

@@ -125,7 +125,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
                         exprs = exprs, hvg_exprs = hvg_exprs, marker = marker, marker_list = marker_list,
                         replicate_prop = replicate_prop, cell_type = cell_type, cell_type_match = cell_type_match,
                         cell_type_inc = cell_type_inc, dist = dist, WV = WV, WV_marker = WV_marker,
-                        parallel = parallel, parallelParam = parallelParam)
+                        parallel = parallel, parallelParam = parallelParam, fast_svd = fast_svd)
   t2 <- Sys.time()
 
   timeReplicates <- t2 - t1
