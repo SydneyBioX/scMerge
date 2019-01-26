@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{eigenResidop}
 \alias{eigenResidop}
-\title{fast matrix inverse}
+\title{fast matrix residual operator}
 \usage{
 eigenResidop(A, B)
 }
@@ -12,5 +12,10 @@ eigenResidop(A, B)
 \item{B}{a matrix}
 }
 \description{
-fast matrix inverse
+fast matrix residual operator
+}
+\examples{
+Y = M = diag(1, 500)
+system.time(scMerge::eigenResidop(Y, M))
+system.time(ruv::residop(Y, M))
 }

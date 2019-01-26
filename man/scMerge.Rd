@@ -9,8 +9,8 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
   ruvK = 20, replicate_prop = 0.5, cell_type = NULL,
   cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE,
   rsvd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL,
-  parallel = FALSE, parallelParam = bpparam(),
-  return_all_RUV = FALSE, assay_name = NULL)
+  parallel = FALSE, parallelParam = NULL, return_all_RUV = FALSE,
+  assay_name = NULL)
 }
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData.}
@@ -47,9 +47,9 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{WV_marker}{An optional vector indicating the markers of the wanted variation.}
 
-\item{parallel}{If \code{TRUE}, the algorithm will run in parallel using the \code{BiocParallel} package.}
+\item{parallel}{If \code{TRUE}, then \code{BiocParallel} package will be used to perform parallelised computations.}
 
-\item{parallelParam}{The \code{BiocParallelParam} class is used.}
+\item{parallelParam}{The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is bpparam().}
 
 \item{return_all_RUV}{If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.}
@@ -73,11 +73,11 @@ library(scater)
 library(scMerge)
 library(scMerge.data)
 })
-# Loading example data
+## Loading example data
 data("sce_mESC", package = "scMerge.data")
-# Previously computed stably expressed genes
+## Previously computed stably expressed genes
 data("segList_ensemblGeneID")
-# Running an example data with minimal inputs
+## Running an example data with minimal inputs
 sce_mESC <- scMerge(
                       sce_combine = sce_mESC,
                       ctl = segList_ensemblGeneID$mouse$mouse_scSEG,

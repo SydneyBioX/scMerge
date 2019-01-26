@@ -5,33 +5,23 @@
 #' @param A a matrix
 #' @param B a matrix
 #' @export
+#' @examples
+#' A = matrix(0, ncol = 1000, nrow = 1000)
+#' system.time(A %*% A)
+#' system.time(eigenMatMult(A, A))
 eigenMatMult <- function(A, B) {
     .Call(`_scMerge_eigenMatMult`, A, B)
 }
 
-#' @title fast matrix inverse
-#' @param A a matrix
-#' @export
-eigenMatInverse <- function(A) {
-    .Call(`_scMerge_eigenMatInverse`, A)
-}
-
-#' @title fast matrix inverse
+#' @title fast matrix residual operator
 #' @param A a matrix
 #' @param B a matrix
 #' @export
+#' @examples
+#' Y = M = diag(1, 500)
+#' system.time(scMerge::eigenResidop(Y, M))
+#' system.time(ruv::residop(Y, M))
 eigenResidop <- function(A, B) {
     .Call(`_scMerge_eigenResidop`, A, B)
-}
-
-#' residop
-#'
-#' @usage residop(A, B)
-#' @param A The first matrix
-#' @param B The second matrix
-#' @return The result
-#' @export
-residop <- function(A, B) {
-    .Call(`_scMerge_residop`, A, B)
 }
 

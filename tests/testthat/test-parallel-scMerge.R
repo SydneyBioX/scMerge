@@ -14,12 +14,14 @@ pF <- scMerge(sce_mESC,
 t2 = Sys.time()
 t2 - t1
 
+
 t3 = Sys.time()
 pT <- scMerge(sce_mESC,
               ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
               kmeansK = c(1,3,3,1,1),
               assay_name = "scMerge_classical",
-              parallel = TRUE)
+              parallel = TRUE,
+              parallelParam = SnowParam(workers = 8, type = "FORK"))
 t4 = Sys.time()
 t4 - t3
 

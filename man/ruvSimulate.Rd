@@ -4,7 +4,7 @@
 \alias{ruvSimulate}
 \title{Simulate a simple matrix to test the speed of scMerge}
 \usage{
-ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50,
+ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50, nBatch = 4,
   lambda = 0.1, sce = FALSE)
 }
 \arguments{
@@ -23,5 +23,13 @@ ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50,
 \description{
 This function is designed to generate Poisson-random-variable data matrix
 to test on the speed and performance of the internal algorithms of scMerge.
-It is not intended to be used by end0-users.
+It is not intended to be used by end-users.
+}
+\examples{
+\dontrun{
+L = ruvSimulate(m = 500, n = 20000, nRep = 10, lambda = 0.1)
+Y = L$Y; M = L$M;
+system.time(scMerge::eigenResidop(Y, M))
+system.time(ruv::residop(Y, M))
+}
 }

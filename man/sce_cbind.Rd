@@ -31,6 +31,7 @@ A combined \code{SingleCellExperiment} objects
 Combind several \code{SingleCellExperiment} objects from different batches/experiments
 }
 \examples{
+\dontrun{
 require(SingleCellExperiment)
 data("sce_mESC", package = "scMerge.data")
 batchNames<-unique(sce_mESC$batch)
@@ -40,6 +41,7 @@ sce_list<-list(sce_mESC[,sce_mESC$batch==batchNames[1]],
                sce_mESC[,sce_mESC$batch==batchNames[4]],
                sce_mESC[,sce_mESC$batch==batchNames[5]])
 sce_combine<-sce_cbind(sce_list,batch_names=batchNames)
+}
 }
 \author{
 Yingxin Lin

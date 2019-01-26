@@ -7,10 +7,17 @@
 #' @param sce If \code{TRUE}, returns a SingleCellExperiment object
 #' @description This function is designed to generate Poisson-random-variable data matrix
 #' to test on the speed and performance of the internal algorithms of scMerge.
-#' It is not intended to be used by end0-users.
+#' It is not intended to be used by end-users.
+#' @examples
+#' \dontrun{
+#' L = ruvSimulate(m = 500, n = 20000, nRep = 10, lambda = 0.1)
+#' Y = L$Y; M = L$M;
+#' system.time(scMerge::eigenResidop(Y, M))
+#' system.time(ruv::residop(Y, M))
+#' }
 #' @export
 
-ruvSimulate = function(m = 100, n = 1e5, nc = 1e3, nRep = 50, lambda = 0.1, sce = FALSE){
+ruvSimulate = function(m = 100, n = 1e5, nc = 1e3, nRep = 50, nBatch = 4, lambda = 0.1, sce = FALSE){
   # m Number of observations
   # n Number of features
   # nc Number of negative controls
@@ -25,7 +32,8 @@ ruvSimulate = function(m = 100, n = 1e5, nc = 1e3, nRep = 50, lambda = 0.1, sce 
   alpha = matrix(stats::rpois(k*n, lambda = lambda),k,n)
   epsilon = matrix(stats::rpois(m*n, lambda = lambda),m,n)
   Y = X %*% beta + W %*% alpha + epsilon
-
+  rownames(Y) = paste0("cell", seq_len(m))
+  colnames(Y) = paste0("gene", seq_len(n))
   # Define patientID and sampleDate
   # patientID = paste("patient", rep_len(1:nRep, length.out = m), sep = "")
   # #print(patientID)
@@ -34,7 +42,7 @@ ruvSimulate = function(m = 100, n = 1e5, nc = 1e3, nRep = 50, lambda = 0.1, sce 
   # M = ruv::replicate.matrix(data.frame(patientID, sampleDate))
 
   cellType = paste("cellType", rep_len(seq_len(nRep), length.out = m), sep = "")
-  dataSource = paste("dataSource", rep_len(c(1:4), length.out = m), sep = "")
+  dataSource = paste("dataSource", rep_len(seq_len(nBatch), length.out = m), sep = "")
   # batch = paste(cellType, dataSource, sep = "_")
   M = ruv::replicate.matrix(data.frame(cellType, dataSource))
 

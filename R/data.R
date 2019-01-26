@@ -8,6 +8,7 @@
 #' @format A list includes the stably expressed genes from human and mouse
 "segList"
 
+
 #' Stably expressed gene list in EnsemblGeneID
 #'
 #' Stably expressed gene list

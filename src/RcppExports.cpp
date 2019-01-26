@@ -18,17 +18,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// eigenMatInverse
-SEXP eigenMatInverse(const Eigen::Map<Eigen::MatrixXd> A);
-RcppExport SEXP _scMerge_eigenMatInverse(SEXP ASEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type A(ASEXP);
-    rcpp_result_gen = Rcpp::wrap(eigenMatInverse(A));
-    return rcpp_result_gen;
-END_RCPP
-}
 // eigenResidop
 SEXP eigenResidop(const Eigen::Map<Eigen::MatrixXd> A, Eigen::Map<Eigen::MatrixXd> B);
 RcppExport SEXP _scMerge_eigenResidop(SEXP ASEXP, SEXP BSEXP) {
@@ -41,27 +30,13 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// residop
-Eigen::MatrixXd residop(Eigen::MatrixXd A, Eigen::MatrixXd B);
-RcppExport SEXP _scMerge_residop(SEXP ASEXP, SEXP BSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type A(ASEXP);
-    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(residop(A, B));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 RcppExport SEXP run_testthat_tests();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_scMerge_eigenMatMult", (DL_FUNC) &_scMerge_eigenMatMult, 2},
-    {"_scMerge_eigenMatInverse", (DL_FUNC) &_scMerge_eigenMatInverse, 1},
     {"_scMerge_eigenResidop", (DL_FUNC) &_scMerge_eigenResidop, 2},
-    {"_scMerge_residop", (DL_FUNC) &_scMerge_residop, 2},
-    {"run_testthat_tests",       (DL_FUNC) &run_testthat_tests,       0},
+    {"run_testthat_tests",    (DL_FUNC) &run_testthat_tests,    0},
     {NULL, NULL, 0}
 };
 

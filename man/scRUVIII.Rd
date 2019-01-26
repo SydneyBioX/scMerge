@@ -38,6 +38,13 @@ The default of 0.1 tends to achieve a balance between speed and accuracy.}
 \description{
 perform scRUVIII
 }
+\examples{
+\dontrun{
+L = scMerge::ruvSimulate(m = 200, n = 1000, nc = 50, nRep = 10)
+Y = L$Y; M = L$M; ctl = L$ctl; batch = L$dataSource;
+res = scRUVIII(Y = Y, M = M, ctl = ctl, k = c(10, 20), batch = batch)
+}
+}
 \author{
 Yingxin Lin, Kevin Wang
 }

@@ -17,8 +17,8 @@
 #' @param dist The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.
 #' @param WV A optional vector indicating the wanted variation factor other than cell type info, such as cell stages.
 #' @param WV_marker An optional vector indicating the markers of the wanted variation.
-#' @param parallel If \code{TRUE}, the algorithm will run in parallel using the \code{BiocParallel} package.
-#' @param parallelParam The \code{BiocParallelParam} class is used.
+#' @param parallel If \code{TRUE}, then \code{BiocParallel} package will be used to perform parallelised computations.
+#' @param parallelParam The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is bpparam().
 #' @param return_all_RUV If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 #' Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.
 #' @param assay_name The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.
@@ -37,11 +37,11 @@
 #' library(scMerge)
 #' library(scMerge.data)
 #' })
-#' # Loading example data
+#' ## Loading example data
 #' data("sce_mESC", package = "scMerge.data")
-#' # Previously computed stably expressed genes
+#' ## Previously computed stably expressed genes
 #' data("segList_ensemblGeneID")
-#' # Running an example data with minimal inputs
+#' ## Running an example data with minimal inputs
 #' sce_mESC <- scMerge(
 #'                       sce_combine = sce_mESC,
 #'                       ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
@@ -59,7 +59,10 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
                     hvg_exprs = "counts", marker = NULL, marker_list = NULL, ruvK = 20, replicate_prop = 0.5,
                     cell_type = NULL, cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE,
                     rsvd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL, parallel = FALSE,
-                    parallelParam = bpparam(), return_all_RUV = FALSE, assay_name = NULL) {
+                    parallelParam = NULL, return_all_RUV = FALSE, assay_name = NULL) {
+
+
+
 
   ## Checking input expression
   if (is.null(exprs)) {
@@ -77,6 +80,26 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
       stop("You chose return_all_RUV = TRUE. In this case, the length of assay_name must be equal to the length of ruvK")
     }
   }
+
+  ## If the user supplied a parallelParam class, then  regardless of parallel = TRUE or FALSE, we will use that class
+  ## Hence no if statement for this case.
+  if(!is.null(parallelParam)){
+    message("Computation will run in parallel using supplied parameters")
+  }
+
+  ## If parallel is TRUE, but user did not supplied a parallelParam class, then we set it to bpparam()
+  if(parallel & is.null(parallelParam)){
+    message("Computation will run in parallel using BiocParallel::bpparam()")
+    parallelParam = BiocParallel::bpparam()
+  }
+
+  ## If parallel is FALSE, or the user did not supplied a parallelParam class, we will use SerialParam()
+  if(!parallel | is.null(parallelParam)){
+    message("Computation will run in serial")
+    parallelParam = BiocParallel::SerialParam()
+  }
+
+
 
 
 
@@ -125,7 +148,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
                         exprs = exprs, hvg_exprs = hvg_exprs, marker = marker, marker_list = marker_list,
                         replicate_prop = replicate_prop, cell_type = cell_type, cell_type_match = cell_type_match,
                         cell_type_inc = cell_type_inc, dist = dist, WV = WV, WV_marker = WV_marker,
-                        parallel = parallel, parallelParam = parallelParam, fast_svd = fast_svd)
+                        parallelParam = parallelParam, fast_svd = fast_svd)
   t2 <- Sys.time()
 
   timeReplicates <- t2 - t1

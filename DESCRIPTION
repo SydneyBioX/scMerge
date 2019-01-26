@@ -34,7 +34,6 @@ Imports:
   RcppEigen (>= 0.3.3.4.0),
   rsvd,
   ruv,
-  scMerge.data,
   SingleCellExperiment,
   SummarizedExperiment
 LinkingTo: 

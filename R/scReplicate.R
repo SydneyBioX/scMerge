@@ -16,26 +16,39 @@
 #' @param dist The distance metrics that are used in the calcualtion of the mutual nearest cluster, default is Pearson correlation.
 #' @param WV A vector indicates the wanted variation factor other than cell type info, such as cell stages.
 #' @param WV_marker A vector indicates the markers of the wanted variation.
-#' @param parallel If \code{TRUE}, the algorithm will run in parallel.
-#' @param parallelParam The \code{BiocParallelParam} class is used.
+#' @param parallelParam The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is bpparam(),
 #' @param return_all If \code{FALSE}, only return the replicate matrix.
 #' @import BiocParallel
 #'
 #' @return If \code{return_all} is \code{FALSE}, return a replicate matrix.
-#'
 #' If \code{return_sce} is \code{TRUE}, return the followings
 #' \item{repMat }{replicate matrix}
 #' \item{mnc }{mutual nearest cluster}
 #' \item{replicate vector }{replicate vector}
 #' \item{HVG }{highly variable genes used in scReplicate}
-#'
 #' @author Yingxin Lin, Kevin Wang
-#'
 #' @export
+#' @examples
+#' \dontrun{
+#' suppressPackageStartupMessages({
+#' library(SingleCellExperiment)
+#' library(scMerge)
+#' library(scMerge.data)
+#' })
+#' ## Loading example data
+#' data("sce_mESC", package = "scMerge.data")
+#'
+#' scRep_result <- scReplicate(
+#'   sce = sce_mESC,
+#'   batch = sce_mESC$batch,
+#'   kmeansK = c(1,3,3,1,1),
+#'   fast_svd = FALSE)
+#'   }
+
 
 scReplicate <- function(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts", hvg_exprs = "counts",
                         marker = NULL, marker_list = NULL, replicate_prop = 1, cell_type = NULL, cell_type_match = FALSE,
-                        cell_type_inc = NULL, dist = "cor", WV = NULL, WV_marker = NULL, parallel = FALSE,
+                        cell_type_inc = NULL, dist = "cor", WV = NULL, WV_marker = NULL,
                         parallelParam = bpparam(), return_all = FALSE, fast_svd) {
 
   exprs_mat <- SummarizedExperiment::assay(sce, exprs)
@@ -63,7 +76,7 @@ scReplicate <- function(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts", 
       cat("No maker nor marker_list information was supplied \n")
       cat("Finding HVG...\n")
       exprs_mat_HVG <- SummarizedExperiment::assay(sce, hvg_exprs)
-      HVG_res <- findHVG(exprs_mat_HVG, batch, parallel = parallel, parallelParam = parallelParam)
+      HVG_res <- findHVG(exprs_mat_HVG, batch, parallelParam = parallelParam)
       HVG <- HVG_res$HVG
       HVG_list <- HVG_res$HVG_list
 
@@ -100,13 +113,8 @@ scReplicate <- function(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts", 
     })
 
     ## Here, using the cell type information, we go ahead and find MNC
-    if (parallel) {
-      mnc_res <- findMNC_parallel(exprs_mat[HVG, ], clustering_list = cellType_list_batch,
-                                  dist = dist, parallelParam = parallelParam)
-    } else {
-      mnc_res <- findMNC(exprs_mat[HVG, ], clustering_list = cellType_list_batch,
-                         dist = dist)
-    }
+    mnc_res <- findMNC(exprs_mat[HVG, ], clustering_list = cellType_list_batch,
+                                 dist = dist, parallelParam = parallelParam)
 
     print(mnc_res)
 
@@ -142,7 +150,7 @@ scReplicate <- function(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts", 
       cat("No maker nor marker_list information was supplied \n")
       cat("Finding HVG...\n")
       exprs_mat_HVG <- SummarizedExperiment::assay(sce, hvg_exprs)
-      HVG_res <- findHVG(exprs_mat_HVG, batch, parallel = parallel, parallelParam = parallelParam)
+      HVG_res <- findHVG(exprs_mat_HVG, batch, parallelParam = parallelParam)
       HVG <- HVG_res$HVG
       HVG_list <- HVG_res$HVG_list
 
@@ -163,7 +171,7 @@ scReplicate <- function(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts", 
     cat("Performing pca...\n")
 
     cluster_res <- identifyCluster(exprs_mat = exprs_mat, batch = batch, marker = marker,
-                                   HVG_list = HVG_list, kmeansK = kmeansK, parallel = parallel, parallelParam = parallelParam, fast_svd = fast_svd)
+                                   HVG_list = HVG_list, kmeansK = kmeansK, parallelParam = parallelParam, fast_svd = fast_svd)
 
     # Find Mutual Nearest Cluster
 
@@ -178,7 +186,7 @@ scReplicate <- function(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts", 
     # }
 
     mnc_res <- findMNC(exprs_mat[HVG, ], clustering_list = cluster_res$clustering_list,
-                                dist = dist, parallelParam = parallelParam, parallel = parallel)
+                                dist = dist, parallelParam = parallelParam)
 
 
     print(mnc_res)
@@ -216,23 +224,23 @@ scReplicate <- function(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts", 
 
 
 findHVG <- function(exprs_mat_HVG, batch, intersection = 1, fdr = 0.01, minBiolDisp = 0.5,
-                    parallel = FALSE, parallelParam = bpparam()) {
+                    parallelParam) {
   batch_list <- as.list(as.character(unique(batch)))
-  if (parallel) {
+  # if (parallel) {
     HVG_list <- BiocParallel::bplapply(batch_list, function(x) {
       zeros <- apply(exprs_mat_HVG[, batch == x], 1, function(x) sum(x == 0)/length(x))
       express_gene <- names(which(zeros <= 0.9))
-      M3Drop::BrenneckeGetVariableGenes(exprs_mat_HVG[express_gene, batch ==
-                                                       x], suppress.plot = TRUE, fdr = 0.01, minBiolDisp = 0.5)
+      M3Drop::BrenneckeGetVariableGenes(exprs_mat_HVG[express_gene, batch == x], suppress.plot = TRUE,
+                                        fdr = 0.01, minBiolDisp = 0.5)
     }, BPPARAM = parallelParam)
-  } else {
-    HVG_list <- lapply(batch_list, function(x) {
-      zeros <- apply(exprs_mat_HVG[, batch == x], 1, function(x) sum(x == 0)/length(x))
-      express_gene <- names(which(zeros <= 0.9))
-      M3Drop::BrenneckeGetVariableGenes(exprs_mat_HVG[express_gene, batch ==
-                                                       x], suppress.plot = TRUE, fdr = 0.01, minBiolDisp = 0.5)
-    })
-  }
+  # } else {
+  #   HVG_list <- lapply(batch_list, function(x) {
+  #     zeros <- apply(exprs_mat_HVG[, batch == x], 1, function(x) sum(x == 0)/length(x))
+  #     express_gene <- names(which(zeros <= 0.9))
+  #     M3Drop::BrenneckeGetVariableGenes(exprs_mat_HVG[express_gene, batch == x], suppress.plot = TRUE,
+  #                                       fdr = 0.01, minBiolDisp = 0.5)
+  #   })
+  # }
 
   names(HVG_list) <- batch_list
   res <- unlist(HVG_list)
@@ -243,29 +251,28 @@ findHVG <- function(exprs_mat_HVG, batch, intersection = 1, fdr = 0.01, minBiolD
 }
 
 ###################################################################################################### Function to identify clusters from each batch
-identifyCluster <- function(exprs_mat, batch, marker = NULL, HVG_list, kmeansK, parallel = FALSE,
-                            parallelParam = bpparam(), fast_svd) {
+identifyCluster <- function(exprs_mat, batch, marker = NULL, HVG_list, kmeansK, parallelParam,
+                            fast_svd) {
 
   batch_list <- as.list(as.character(unique(batch)))
   batch_oneType <- unlist(batch_list)[which(kmeansK == 1)]
   batch_num <- table(batch)[as.character(unique(batch))]
 
-  # if(ncol(exprs_mat)>=5000){ rpca_q = 0 }else if(ncol(exprs_mat)>=2000){ rpca_q =1
-  # }else{ rpca_q =2 }
+  # if(ncol(exprs_mat)>=5000){ rpca_q = 0 }else if(ncol(exprs_mat)>=2000){ rpca_q =1 }else{ rpca_q =2 }
 
   #############################
 
-  if(parallel){
+  # if (parallel) {
     pca <- BiocParallel::bplapply(batch_list, function(this_batch_list) {
       computePCA_byHVGMarker(this_batch_list = this_batch_list, batch = batch, batch_oneType = batch_oneType,
                              marker = marker, exprs_mat = exprs_mat, HVG_list = HVG_list, fast_svd = fast_svd)
     }, BPPARAM = parallelParam)
-  } else {
-    pca <- lapply(batch_list, function(this_batch_list) {
-      computePCA_byHVGMarker(this_batch_list = this_batch_list, batch = batch, batch_oneType = batch_oneType,
-                             marker = marker, exprs_mat = exprs_mat, HVG_list = HVG_list, fast_svd = fast_svd)
-    })
-  }
+  # } else {
+  #   pca <- lapply(batch_list, function(this_batch_list) {
+  #     computePCA_byHVGMarker(this_batch_list = this_batch_list, batch = batch, batch_oneType = batch_oneType,
+  #                            marker = marker, exprs_mat = exprs_mat, HVG_list = HVG_list, fast_svd = fast_svd)
+  #   })
+  # }
 
   #############################
 
@@ -274,12 +281,11 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL, HVG_list, kmeansK, 
   clustering_res <- list()
   clustering_res_pt_dist <- list()
 
-  if (parallel) {
+  # if (parallel) {
     res <- BiocParallel::bplapply(seq_len(length(pca)), function(j) {
       pca_current <- pca[[j]]
       if (!is.null(pca_current)) {
-        kmeans_res <- stats::kmeans(pca_current[, 1:10], centers = kmeansK[j],
-                                    nstart = 1000)
+        kmeans_res <- stats::kmeans(pca_current[, 1:10], centers = kmeansK[j], nstart = 1000)
         clustering_res_tmp <- kmeans_res$cluster
         # exprs_current <- exprs_mat[HVG_list[[j]], batch == batch_list[j]]
         if (!is.null(marker)) {
@@ -297,11 +303,9 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL, HVG_list, kmeansK, 
         clustering_res_tmp <- rep(1, batch_num[j])
         names(clustering_res_tmp) <- colnames(exprs_mat[, batch == batch_list[j]])
         if (!is.null(marker)) {
-          clustering_res_pt_dist_tmp <- centroidDist(exprs_mat[marker, batch ==
-                                                                batch_list[j]])
+          clustering_res_pt_dist_tmp <- centroidDist(exprs_mat[marker, batch == batch_list[j]])
         } else {
-          clustering_res_pt_dist_tmp <- centroidDist(exprs_mat[HVG_list[[j]],
-                                                              batch == batch_list[j]])
+          clustering_res_pt_dist_tmp <- centroidDist(exprs_mat[HVG_list[[j]], batch == batch_list[j]])
         }
       }
       list(clustering_res_tmp, clustering_res_pt_dist_tmp)
@@ -309,45 +313,42 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL, HVG_list, kmeansK, 
 
     clustering_res <- lapply(res, function(x) x[[1]])
     clustering_res_pt_dist <- lapply(res, function(x) x[[2]])
-  } else {
-    for (j in 1:length(pca)) {
-      pca_current <- pca[[j]]
-      if (!is.null(pca_current)) {
-        kmeans_res <- stats::kmeans(pca_current[, 1:10], centers = kmeansK[j],
-                                    nstart = 1000)
-        clustering_res[[j]] <- kmeans_res$cluster
-        # exprs_current <- exprs_mat[HVG_list[[j]], batch == batch_list[j]]
-        if (!is.null(marker)) {
-          exprs_current <- exprs_mat[marker, batch == batch_list[j]]
-        } else {
-          exprs_current <- exprs_mat[HVG_list[[j]], batch == batch_list[j]]
-        }
-        clustering_res_pt_dist[[j]] <- lapply(1:kmeansK[j], function(y) {
-
-          centroidDist(exprs_current[, kmeans_res$cluster == y, drop = FALSE])
-        })
-        clustering_res_pt_dist[[j]] <- unlist(clustering_res_pt_dist[[j]])
-        clustering_res_pt_dist[[j]] <- clustering_res_pt_dist[[j]][names(clustering_res[[j]])]
-      } else {
-        clustering_res[[j]] <- rep(1, batch_num[j])
-        names(clustering_res[[j]]) <- colnames(exprs_mat[, batch == batch_list[j]])
-        if (!is.null(marker)) {
-          clustering_res_pt_dist[[j]] <- centroidDist(exprs_mat[marker, batch ==
-                                                                 batch_list[j]])
-        } else {
-          clustering_res_pt_dist[[j]] <- centroidDist(exprs_mat[HVG_list[[j]],
-                                                               batch == batch_list[j]])
-        }
-      }
-    }
-  }
+  # } else {
+  #   for (j in 1:length(pca)) {
+  #     pca_current <- pca[[j]]
+  #     if (!is.null(pca_current)) {
+  #       kmeans_res <- stats::kmeans(pca_current[, 1:10], centers = kmeansK[j], nstart = 1000)
+  #       clustering_res[[j]] <- kmeans_res$cluster
+  #       # exprs_current <- exprs_mat[HVG_list[[j]], batch == batch_list[j]]
+  #       if (!is.null(marker)) {
+  #         exprs_current <- exprs_mat[marker, batch == batch_list[j]]
+  #       } else {
+  #         exprs_current <- exprs_mat[HVG_list[[j]], batch == batch_list[j]]
+  #       }
+  #       clustering_res_pt_dist[[j]] <- lapply(1:kmeansK[j], function(y) {
+  #
+  #         centroidDist(exprs_current[, kmeans_res$cluster == y, drop = FALSE])
+  #       })
+  #       clustering_res_pt_dist[[j]] <- unlist(clustering_res_pt_dist[[j]])
+  #       clustering_res_pt_dist[[j]] <- clustering_res_pt_dist[[j]][names(clustering_res[[j]])]
+  #     } else {
+  #       clustering_res[[j]] <- rep(1, batch_num[j])
+  #       names(clustering_res[[j]]) <- colnames(exprs_mat[, batch == batch_list[j]])
+  #       if (!is.null(marker)) {
+  #         clustering_res_pt_dist[[j]] <- centroidDist(exprs_mat[marker, batch == batch_list[j]])
+  #       } else {
+  #         clustering_res_pt_dist[[j]] <- centroidDist(exprs_mat[HVG_list[[j]], batch == batch_list[j]])
+  #       }
+  #     }
+  #   }
+  # }
 
 
   return(list(clustering_list = clustering_res, clustering_distProp = clustering_res_pt_dist))
 }
 ######################################################################################################
 centroidDist <- function(exprs_mat) {
-  centroid_batch <- rowMedians(exprs_mat)
+  centroid_batch <- matrixStats::rowMedians(exprs_mat)
   point_dist <- colSums((exprs_mat - centroid_batch)^2)
   point_rank <- rank(point_dist)
   point_rank <- point_rank/length(point_rank)
@@ -355,9 +356,9 @@ centroidDist <- function(exprs_mat) {
 }
 
 ###################################################################################################### Function to find the mutual nearest clusters
-compute_dist_mat_med = function(k, exprs_mat, clustering_list, combine_pair, dist){
-  ## We go through every pairwise batches print(k) Extract the cell type information
-  ## and the expression matrices
+compute_dist_mat_med <- function(k, exprs_mat, clustering_list, combine_pair, dist) {
+  ## We go through every pairwise batches print(k) Extract the cell type information and the expression
+  ## matrices
   res1 <- clustering_list[[combine_pair[1, k]]]
   res2 <- clustering_list[[combine_pair[2, k]]]
   mat1 <- exprs_mat[, names(which(res1 == 1))]
@@ -375,12 +376,11 @@ compute_dist_mat_med = function(k, exprs_mat, clustering_list, combine_pair, dis
 
   dist_mat <- as.matrix(dist_mat)
 
-  ## The dist_res (distance measure between batches) is then the median of all
-  ## pairwise distances
+  ## The dist_res (distance measure between batches) is then the median of all pairwise distances
   return(median(dist_mat))
 }
 
-compute_dist_res = function(i, res1, res2, exprs_mat, dist, dist_res){
+compute_dist_res <- function(i, res1, res2, exprs_mat, dist, dist_res) {
   res_tmp <- c()
   for (j in 1:max(res2)) {
     mat1 <- exprs_mat[, names(which(res1 == i))]
@@ -398,7 +398,7 @@ compute_dist_res = function(i, res1, res2, exprs_mat, dist, dist_res){
   dist_res[[i]] <- res_tmp
 }
 
-findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelParam = bpparam(), parallel) {
+findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelParam) {
 
   batch_num <- length(clustering_list)
   names(clustering_list) <- paste("Batch", 1:batch_num, sep = "")
@@ -408,19 +408,17 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelPara
                                          1)))
   ## If there existsome batch_oneType
   if (length(batch_oneType) != 0) {
-    ## And if all batch_oneType == num of batches, i.e. every batch only contains one
-    ## cell type
+    ## And if all batch_oneType == num of batches, i.e. every batch only contains one cell type
     if (length(batch_oneType) == batch_num) {
       combine_pair <- utils::combn(batch_num, 2)
       batch_oneType <- NULL
       allones <- TRUE
     } else {
-      ## if at least some batch contains more than 1 cell type Then take away the
-      ## batches with only one cell type and then iterate through all combn
+      ## if at least some batch contains more than 1 cell type Then take away the batches with only one cell
+      ## type and then iterate through all combn
       combine_pair <- combn(c(1:batch_num)[-batch_oneType], 2)
 
-      ## And then for those batches with only one cell type, we bind to the previous
-      ## generated combn
+      ## And then for those batches with only one cell type, we bind to the previous generated combn
       for (i in batch_oneType) {
         for (j in c(1:batch_num)[-batch_oneType]) {
           combine_pair <- cbind(combine_pair, c(i, j))
@@ -438,8 +436,8 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelPara
 
   mnc <- list()
 
-  ## If there are only two batches containing only two cell types, then finding MNN
-  ## is trivial. Return NULL
+  ## If there are only two batches containing only two cell types, then finding MNN is trivial. Return
+  ## NULL
   if (allones & batch_num == 2) {
     return(NULL)
   } else if (allones) {
@@ -448,25 +446,25 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelPara
 
 
 
-    if(parallel){
+    # if (parallel) {
       dist_mat_med <- BiocParallel::bplapply(seq_len(ncol(combine_pair)), function(k) {
         compute_dist_mat_med(k = k, exprs_mat = exprs_mat, clustering_list = clustering_list,
                              combine_pair = combine_pair, dist = dist)
       }, BPPARAM = parallelParam)
-    } else {
-      dist_mat_med <- lapply(seq_len(ncol(combine_pair)), function(k) {
-        compute_dist_mat_med(k = k, exprs_mat = exprs_mat, clustering_list = clustering_list,
-                             combine_pair = combine_pair, dist = dist)
-      })
-    }
+    # } else {
+    #   dist_mat_med <- lapply(seq_len(ncol(combine_pair)), function(k) {
+    #     compute_dist_mat_med(k = k, exprs_mat = exprs_mat, clustering_list = clustering_list,
+    #                          combine_pair = combine_pair, dist = dist)
+    #   })
+    # }
 
 
     for (k in 1:ncol(combine_pair)) {
-      dist_res[combine_pair[1, k], combine_pair[2, k]] <- dist_res[combine_pair[2, k], combine_pair[1, k]] <- dist_mat_med[[k]]
+      dist_res[combine_pair[1, k], combine_pair[2, k]] <- dist_res[combine_pair[2, k], combine_pair[1,
+                                                                                                    k]] <- dist_mat_med[[k]]
     }
 
-    ## The neighbour_res is then which ever two pairs of batches that are closes to
-    ## each other
+    ## The neighbour_res is then which ever two pairs of batches that are closes to each other
     neighbour_res <- apply(dist_res, 1, which.min)
 
     mnc_mat <- c()
@@ -479,8 +477,8 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelPara
     mnc <- list()
     for (i in 1:nrow(mnc_mat)) {
       mnc[[i]] <- matrix(1, ncol = 2, nrow = 1)
-      colnames(mnc[[i]]) <- c(paste("Batch", mnc_mat[i, 1], sep = ""), paste("Batch",
-                                                                             mnc_mat[i, 2], sep = ""))
+      colnames(mnc[[i]]) <- c(paste("Batch", mnc_mat[i, 1], sep = ""), paste("Batch", mnc_mat[i,
+                                                                                              2], sep = ""))
     }
   } else {
     for (k in 1:ncol(combine_pair)) {
@@ -490,15 +488,17 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelPara
       res2 <- clustering_list[[combine_pair[2, k]]]
 
 
-      if(parallel){
+      # if (parallel) {
         dist_res <- BiocParallel::bplapply(seq_len(max(res1)), function(i) {
-          compute_dist_res(i = i, res1 = res1, res2 = res2, exprs_mat = exprs_mat, dist = dist, dist_res)
+          compute_dist_res(i = i, res1 = res1, res2 = res2, exprs_mat = exprs_mat, dist = dist,
+                           dist_res)
         }, BPPARAM = parallelParam)
-      } else {
-        dist_res <- lapply(seq_len(max(res1)), function(i) {
-          compute_dist_res(i = i, res1 = res1, res2 = res2, exprs_mat = exprs_mat, dist = dist, dist_res)
-        })
-      }
+      # } else {
+      #   dist_res <- lapply(seq_len(max(res1)), function(i) {
+      #     compute_dist_res(i = i, res1 = res1, res2 = res2, exprs_mat = exprs_mat, dist = dist,
+      #                      dist_res)
+      #   })
+      # }
 
 
       dist_res <- do.call(rbind, dist_res)
@@ -511,8 +511,8 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelPara
         }
       }
       mnc[[k]] <- mnc_tmp
-      colnames(mnc[[k]]) <- c(paste("Batch", combine_pair[1, k], sep = ""),
-                              paste("Batch", combine_pair[2, k], sep = ""))
+      colnames(mnc[[k]]) <- c(paste("Batch", combine_pair[1, k], sep = ""), paste("Batch", combine_pair[2,
+                                                                                                        k], sep = ""))
     }
   }  ## End else
 
@@ -526,11 +526,10 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelPara
     return(NULL)
   } else {
     g <- igraph::graph_from_edgelist(edge_list, directed = FALSE)
-    plot(g)
+    igraph::plot.igraph(g)
     mnc <- igraph::fastgreedy.community(g)
-    mnc_df <- data.frame(group = as.numeric(mnc$membership), batch = as.numeric(gsub("Batch",
-                                                                                     "", gsub("_.*", "", mnc$names))), cluster = as.numeric(gsub(".*_", "",
-                                                                                                                                                 mnc$names)))
+    mnc_df <- data.frame(group = as.numeric(mnc$membership), batch = as.numeric(gsub("Batch", "",
+                                                                                     gsub("_.*", "", mnc$names))), cluster = as.numeric(gsub(".*_", "", mnc$names)))
 
     if (allones) {
       mnc_df_new <- mnc_df
@@ -538,10 +537,8 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelPara
       for (i in batch_oneType) {
         print(i)
         neighbour_order <- rank(dist_res[i, ], na.last = TRUE)
-        group_order1 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order ==
-                                                            1), "group"]
-        group_order2 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order ==
-                                                            2), "group"]
+        group_order1 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order == 1), "group"]
+        group_order2 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order == 2), "group"]
         if (group_order1 == group_order2) {
           mnc_df_new <- rbind(mnc_df_new, c(group_order1, i, 1))
         }
@@ -562,12 +559,10 @@ mncReplicate <- function(clustering_list, clustering_distProp, replicate_prop, m
   if (!is.null(mnc_df)) {
     idx_noRep <- list()
 
-    # For each batches, check whether there is any clusters that do not have
-    # replicates for(j in 1:length(clustering_list)){
-    # idx_noRep[[j]]<-which(!(1:max(clustering_list[[j]]))%in%mnc[,j]) }
+    # For each batches, check whether there is any clusters that do not have replicates for(j in
+    # 1:length(clustering_list)){ idx_noRep[[j]]<-which(!(1:max(clustering_list[[j]]))%in%mnc[,j]) }
     for (j in 1:length(clustering_list)) {
-      idx_noRep[[j]] <- which(!(1:max(clustering_list[[j]])) %in% mnc_df[mnc_df$batch ==
-                                                                           j, "cluster"])
+      idx_noRep[[j]] <- which(!(1:max(clustering_list[[j]])) %in% mnc_df[mnc_df$batch == j, "cluster"])
     }
 
     replicate_vector <- rep(NA, length(unlist(clustering_list)))
@@ -582,8 +577,8 @@ mncReplicate <- function(clustering_list, clustering_distProp, replicate_prop, m
       for (l in 1:replicate_size[i]) {
         # tmp_names<-c(tmp_names,names(which(clustering_list[[l]]==mnc[i,l])))
 
-        tmp_names <- c(tmp_names, names(which(clustering_list[[mnc_df_sub[l,
-                                                                          "batch"]]] == mnc_df_sub[l, "cluster"])))
+        tmp_names <- c(tmp_names, names(which(clustering_list[[mnc_df_sub[l, "batch"]]] == mnc_df_sub[l,
+                                                                                                      "cluster"])))
       }
 
       replicate_vector[tmp_names[clustering_distProp[tmp_names] <= replicate_prop]] <- paste("Replicate",
@@ -641,8 +636,7 @@ wvReplicate <- function(exprs_mat, WV, WV_marker, replicate_vector) {
     # repMat_new <- ruv::replicate.matrix(as.factor(replicate_vector))
   } else {
     replicate_vector <- paste(replicate_vector, WV, sep = "_")
-    # repMat_new <- ruv::replicate.matrix(as.factor(paste(replicate_vector, WV, sep =
-    # '_')))
+    # repMat_new <- ruv::replicate.matrix(as.factor(paste(replicate_vector, WV, sep = '_')))
   }
 
   return(replicate_vector)
@@ -650,40 +644,40 @@ wvReplicate <- function(exprs_mat, WV, WV_marker, replicate_vector) {
 
 ###################################################################################################### Function to create replicates based on known cell types
 supervisedReplicate <- function(exprs_mat, cell_type, replicate_prop) {
-  clustering_distProp <- lapply(unique(cell_type), function(x) centroidDist(exprs_mat[,
-                                                                                     cell_type == x]))
+  clustering_distProp <- lapply(unique(cell_type), function(x) centroidDist(exprs_mat[, cell_type ==
+                                                                                        x]))
   clustering_distProp <- unlist(clustering_distProp)[names(cell_type)]
   replicate_vector <- rep(NA, length(cell_type))
-  replicate_vector[clustering_distProp <= replicate_prop] <- cell_type[clustering_distProp <=
-                                                                         replicate_prop]
+  replicate_vector[clustering_distProp <= replicate_prop] <- cell_type[clustering_distProp <= replicate_prop]
   replicate_vector[is.na(replicate_vector)] <- 1:sum(is.na(replicate_vector))
   return(replicate_vector)
 }
 
 
 ###################################################################################################### Function to create replicates based on known cell types
-computePCA_byHVGMarker = function(this_batch_list, batch, batch_oneType, marker, exprs_mat, HVG_list, fast_svd) {
+computePCA_byHVGMarker <- function(this_batch_list, batch, batch_oneType, marker, exprs_mat, HVG_list,
+                                   fast_svd) {
   ## If there is kmeansK == 1 in a batch, then we will return NULL
   if (this_batch_list %in% batch_oneType) {
     return(NULL)
   } else {
     ## If there is kmeansK > 1 in a batch, then we will return compute PCAs
 
-    ## If there exist some user-supplied markers, then we will use them to perform PCA.
-    ## Otherwise we use the HVGs computed in each batch
+    ## If there exist some user-supplied markers, then we will use them to perform PCA.  Otherwise we use
+    ## the HVGs computed in each batch
     if (!is.null(marker)) {
-      sub_exprs_mat = t(exprs_mat[marker, batch == this_batch_list])
+      sub_exprs_mat <- t(exprs_mat[marker, batch == this_batch_list])
     } else {
-      sub_exprs_mat = t(exprs_mat[HVG_list[[this_batch_list]], batch == this_batch_list])
+      sub_exprs_mat <- t(exprs_mat[HVG_list[[this_batch_list]], batch == this_batch_list])
     }
 
     ## If fast_svd option was enabled, then we will use irlba to speed up the calculations.
-    if(fast_svd){
-      result = irlba::prcomp_irlba(x = sub_exprs_mat, n = 10, scale. = TRUE, maxit = 1000)$x
+    if (fast_svd) {
+      result <- irlba::prcomp_irlba(x = sub_exprs_mat, n = 10, scale. = TRUE, maxit = 1000)$x
     } else {
-      result = prcomp(sub_exprs_mat, scale. = TRUE)$x
+      result <- prcomp(sub_exprs_mat, scale. = TRUE)$x
     }
   }
-  rownames(result) = rownames(sub_exprs_mat)
+  rownames(result) <- rownames(sub_exprs_mat)
   return(result)
 }

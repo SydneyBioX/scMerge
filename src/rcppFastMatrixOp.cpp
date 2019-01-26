@@ -6,6 +6,10 @@
 //' @param A a matrix
 //' @param B a matrix
 //' @export
+//' @examples
+//' A = matrix(0, ncol = 1000, nrow = 1000)
+//' system.time(A %*% A)
+//' system.time(eigenMatMult(A, A))
 // [[Rcpp::export]]
 SEXP eigenMatMult(const Eigen::Map<Eigen::MatrixXd> A, Eigen::Map<Eigen::MatrixXd> B){
   Eigen::MatrixXd C = A * B;
@@ -14,21 +18,14 @@ SEXP eigenMatMult(const Eigen::Map<Eigen::MatrixXd> A, Eigen::Map<Eigen::MatrixX
 }
 
 
-//' @title fast matrix inverse
-//' @param A a matrix
-//' @export
-// [[Rcpp::export]]
-SEXP eigenMatInverse(const Eigen::Map<Eigen::MatrixXd> A){
-  Eigen::MatrixXd Ainv = A.inverse();
-
-  return Rcpp::wrap(Ainv);
-}
-
-
-//' @title fast matrix inverse
+//' @title fast matrix residual operator
 //' @param A a matrix
 //' @param B a matrix
 //' @export
+//' @examples
+//' Y = M = diag(1, 500)
+//' system.time(scMerge::eigenResidop(Y, M))
+//' system.time(ruv::residop(Y, M))
 // [[Rcpp::export]]
 SEXP eigenResidop(const Eigen::Map<Eigen::MatrixXd> A, Eigen::Map<Eigen::MatrixXd> B){
   // Eigen::MatrixXd C = A - B * (B.transpose() * B).inverse() * B.transpose() * A;

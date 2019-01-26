@@ -19,6 +19,12 @@
 #' @param rsvd_prop If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 #' If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a less accurate computed result but with a gain in speed.
 #' The default of 0.1 tends to achieve a balance between speed and accuracy.
+#' @examples
+#' \dontrun{
+#' L = scMerge::ruvSimulate(m = 200, n = 1000, nc = 50, nRep = 10)
+#' Y = L$Y; M = L$M; ctl = L$ctl; batch = L$dataSource;
+#' res = scRUVIII(Y = Y, M = M, ctl = ctl, k = c(10, 20), batch = batch)
+#' }
 #' @export
 
 
@@ -101,10 +107,10 @@ scRUVIII <- function(Y = Y,
   } else {
     ## Cell type information
 
-    cat("Selecting optimal RUVk\n")
+    message("Selecting optimal RUVk\n")
 
     if (is.null(cell_type)) {
-      cat("No cell type info, replicate matrix will be used as cell type info\n")
+      message("No cell type info, replicate matrix will be used as cell type info\n")
       cell_type <- apply(M, 1, function(x) which(x == 1))
     }
     ##################
@@ -124,12 +130,12 @@ scRUVIII <- function(Y = Y,
     names(f_score) <- k
 
     # print(sil_res)
-    print(paste("optimal ruvK:", k[which.max(f_score)]))
+    message(paste("optimal ruvK:", k[which.max(f_score)]))
 
     ## Not showing, if this needs displaying, consider implementing ggplot.
-    plot(k, f_score, pch = 16, col = "light grey")
-    lines(k, f_score)
-    points(ruv3_initial$k, f_score[ruv3_initial$k], col = "red", pch = 16)
+    graphics::plot(k, f_score, pch = 16, col = "light grey")
+    graphics::lines(k, f_score)
+    graphics::points(ruv3_initial$k, f_score[ruv3_initial$k], col = "red", pch = 16)
 
   }
 

@@ -8,8 +8,7 @@ scReplicate(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts",
   hvg_exprs = "counts", marker = NULL, marker_list = NULL,
   replicate_prop = 1, cell_type = NULL, cell_type_match = FALSE,
   cell_type_inc = NULL, dist = "cor", WV = NULL, WV_marker = NULL,
-  parallel = FALSE, parallelParam = bpparam(), return_all = FALSE,
-  fast_svd)
+  parallelParam = bpparam(), return_all = FALSE, fast_svd)
 }
 \arguments{
 \item{sce}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
@@ -40,15 +39,12 @@ scReplicate(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{WV_marker}{A vector indicates the markers of the wanted variation.}
 
-\item{parallel}{If \code{TRUE}, the algorithm will run in parallel.}
-
-\item{parallelParam}{The \code{BiocParallelParam} class is used.}
+\item{parallelParam}{The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is bpparam(),}
 
 \item{return_all}{If \code{FALSE}, only return the replicate matrix.}
 }
 \value{
 If \code{return_all} is \code{FALSE}, return a replicate matrix.
-
 If \code{return_sce} is \code{TRUE}, return the followings
 \item{repMat }{replicate matrix}
 \item{mnc }{mutual nearest cluster}
@@ -57,6 +53,23 @@ If \code{return_sce} is \code{TRUE}, return the followings
 }
 \description{
 Create pseudo-replicate from single-cell RNA-seq data from different batches, experiments, and protocols.
+}
+\examples{
+\dontrun{
+suppressPackageStartupMessages({
+library(SingleCellExperiment)
+library(scMerge)
+library(scMerge.data)
+})
+## Loading example data
+data("sce_mESC", package = "scMerge.data")
+
+scRep_result <- scReplicate(
+  sce = sce_mESC,
+  batch = sce_mESC$batch,
+  kmeansK = c(1,3,3,1,1),
+  fast_svd = FALSE)
+  }
 }
 \author{
 Yingxin Lin, Kevin Wang

@@ -1,7 +1,7 @@
 context("Testing speed of cpp matrix operations")
 
 ## Generate a simulated data to test on the speed of our improved matrix operations
-L = ruvSimulate(m = 500, n = 20000, nRep = 10, lambda = 0.1)
+L = ruvSimulate(m = 100, n = 2000, nRep = 10, lambda = 0.1)
 Y = L$Y; M = L$M;
 
 

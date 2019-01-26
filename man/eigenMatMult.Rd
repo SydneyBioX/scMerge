@@ -14,3 +14,8 @@ eigenMatMult(A, B)
 \description{
 fast matrix multiplication
 }
+\examples{
+A = matrix(0, ncol = 1000, nrow = 1000)
+system.time(A \%*\% A)
+system.time(eigenMatMult(A, A))
+}
