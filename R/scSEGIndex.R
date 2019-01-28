@@ -6,9 +6,17 @@
 #' @param cell_type A vector indicating the cell type information for each cell in the gene expression matrix. If it is \code{NULL}, the function calculates the scSEG index without using F-statistics.
 #' @param ncore Number of cores that are used in parallel
 #'
-#' @return A matrix of stably expressed features.
+#' @return Returns a data frame. Each row is a gene and each column is a statistic relating to the stability of expression of each gene.
+#' The main statistic is the \code{segIdx} column, which is the SEG index.
 #' @importFrom foreach %dopar%
+#' @import proxy
 #' @export
+#' @examples
+#' ## Loading example data
+#' data("sce_mESC", package = "scMerge.data")
+#' exprsMat = assay(sce_mESC, "counts")[1:200, ]
+#' result = scSEGIndex(exprsMat = exprsMat)
+#'
 
 
 # require(distr)

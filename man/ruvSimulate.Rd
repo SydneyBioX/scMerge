@@ -20,16 +20,25 @@ ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50, nBatch = 4,
 
 \item{sce}{If \code{TRUE}, returns a SingleCellExperiment object}
 }
+\value{
+If \code{sce} is FALSE, then the output is a list consists of
+\itemize{
+\item Y,  expression matrix generated through Poisson random variables,
+\item ctl, a logical vector indicating the control genes,
+\item M, replicate mapping matrix,
+\item cellType, a vector indicating simulated cell types
+\item dataSource, a vector indicating simulated batches
+}
+if \code{sce} is TRUE, a SingleCellExperiment wrapper will be applied on all above simulated objects.
+}
 \description{
 This function is designed to generate Poisson-random-variable data matrix
 to test on the speed and performance of the internal algorithms of scMerge.
 It is not intended to be used by end-users.
 }
 \examples{
-\dontrun{
-L = ruvSimulate(m = 500, n = 20000, nRep = 10, lambda = 0.1)
-Y = L$Y; M = L$M;
-system.time(scMerge::eigenResidop(Y, M))
-system.time(ruv::residop(Y, M))
-}
+L = ruvSimulate(m = 100, n = 200, nRep = 10, lambda = 0.1)
+names(L)
+L = ruvSimulate(m = 100, n = 200, nRep = 10, lambda = 0.1, sce = TRUE)
+print(L)
 }

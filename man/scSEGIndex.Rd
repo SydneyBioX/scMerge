@@ -14,10 +14,18 @@ scSEGIndex(exprsMat, cell_type = NULL, ncore = 1)
 \item{ncore}{Number of cores that are used in parallel}
 }
 \value{
-A matrix of stably expressed features.
+Returns a data frame. Each row is a gene and each column is a statistic relating to the stability of expression of each gene.
+The main statistic is the \code{segIdx} column, which is the SEG index.
 }
 \description{
 Calculate single-cell Stably Expressed Gene (scSEG) index
+}
+\examples{
+## Loading example data
+data("sce_mESC", package = "scMerge.data")
+exprsMat = assay(sce_mESC, "counts")[1:200, ]
+result = scSEGIndex(exprsMat = exprsMat)
+
 }
 \author{
 Shila Ghazanfar, Yingxin Lin, Pengyi Yang

@@ -8,7 +8,7 @@ scReplicate(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts",
   hvg_exprs = "counts", marker = NULL, marker_list = NULL,
   replicate_prop = 1, cell_type = NULL, cell_type_match = FALSE,
   cell_type_inc = NULL, dist = "cor", WV = NULL, WV_marker = NULL,
-  parallelParam = bpparam(), return_all = FALSE, fast_svd)
+  parallelParam = SerialParam(), return_all = FALSE, fast_svd)
 }
 \arguments{
 \item{sce}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
@@ -39,7 +39,7 @@ scReplicate(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{WV_marker}{A vector indicates the markers of the wanted variation.}
 
-\item{parallelParam}{The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is bpparam(),}
+\item{parallelParam}{The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is SerialParam().}
 
 \item{return_all}{If \code{FALSE}, only return the replicate matrix.}
 }
@@ -50,26 +50,25 @@ If \code{return_sce} is \code{TRUE}, return the followings
 \item{mnc }{mutual nearest cluster}
 \item{replicate vector }{replicate vector}
 \item{HVG }{highly variable genes used in scReplicate}
+
+A cell-replicates mapping matrix.
+Each row correspond to a cell from the input expression matrix, and each column correspond to a cell-cluster/cell-type.
+An element of the mapping matrix is 1 if the scReplicate algorithm determines that this cell
+should belong to that cell cluster and 0 otherwise.
 }
 \description{
 Create pseudo-replicate from single-cell RNA-seq data from different batches, experiments, and protocols.
 }
 \examples{
-\dontrun{
-suppressPackageStartupMessages({
-library(SingleCellExperiment)
-library(scMerge)
-library(scMerge.data)
-})
 ## Loading example data
+set.seed(1)
 data("sce_mESC", package = "scMerge.data")
-
-scRep_result <- scReplicate(
+scRep_result = scReplicate(
   sce = sce_mESC,
   batch = sce_mESC$batch,
   kmeansK = c(1,3,3,1,1),
   fast_svd = FALSE)
-  }
+
 }
 \author{
 Yingxin Lin, Kevin Wang

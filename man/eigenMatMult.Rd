@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{eigenMatMult}
 \alias{eigenMatMult}
-\title{fast matrix multiplication}
+\title{Fast matrix multiplication using RcppEigen}
 \usage{
 eigenMatMult(A, B)
 }
@@ -11,11 +11,14 @@ eigenMatMult(A, B)
 
 \item{B}{a matrix}
 }
+\value{
+The matrix product of A times B
+}
 \description{
-fast matrix multiplication
+Fast matrix multiplication using RcppEigen
 }
 \examples{
-A = matrix(0, ncol = 1000, nrow = 1000)
+A = matrix(0, ncol = 500, nrow = 500)
 system.time(A \%*\% A)
 system.time(eigenMatMult(A, A))
 }

@@ -12,10 +12,10 @@
 #' @param batch_names A string vector indicating the batch names for the output sce object
 #' @import SingleCellExperiment
 #'
-#' @return A combined \code{SingleCellExperiment} objects
+#' @return A \code{SingleCellExperiment} object with the list of SCE objects combined.
 #' @author Yingxin Lin
+#' @export
 #' @examples
-#' \dontrun{
 #' require(SingleCellExperiment)
 #' data("sce_mESC", package = "scMerge.data")
 #' batchNames<-unique(sce_mESC$batch)
@@ -25,8 +25,6 @@
 #'                sce_mESC[,sce_mESC$batch==batchNames[4]],
 #'                sce_mESC[,sce_mESC$batch==batchNames[5]])
 #' sce_combine<-sce_cbind(sce_list,batch_names=batchNames)
-#' }
-#' @export
 
 
 sce_cbind <- function(sce_list,
@@ -92,7 +90,7 @@ sce_cbind <- function(sce_list,
       }))
     }
     names(assay_list) <- exprs
-    colData_list <- do.call(rbind, lapply(sce_list, function(y) colData(y)[, colData_names, drop = F]))
+    colData_list <- do.call(rbind, lapply(sce_list, function(y) colData(y)[, colData_names, drop = FALSE]))
 
     sce_combine <- SingleCellExperiment(
       assay = assay_list,

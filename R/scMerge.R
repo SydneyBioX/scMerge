@@ -22,21 +22,19 @@
 #' @param return_all_RUV If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 #' Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.
 #' @param assay_name The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.
-#' @return Returns a \code{SingleCellExperiment} object with following:
-#'
-#' \item{metadata}{containing the ruvK vector, ruvK_optimal based on F-score, and the replicate matrix}
-#' \item{assays}{the original matrices and also the normalised matrices}
+#' @return Returns a \code{SingleCellExperiment} object with following components:
+#' \itemize{
+#' \item{assays: }{the original assays and also the normalised matrix}
+#' \item{metadata: }{containing the ruvK vector, ruvK_optimal based on F-score, and the replicate matrix}
+#' }
 #' @author Yingxin Lin, Kevin Wang
 #' @import SummarizedExperiment
 #' @import BiocParallel
+#' @export
 #' @examples
-#' \dontrun{
-#' suppressPackageStartupMessages({
 #' library(SingleCellExperiment)
 #' library(scater)
-#' library(scMerge)
 #' library(scMerge.data)
-#' })
 #' ## Loading example data
 #' data("sce_mESC", package = "scMerge.data")
 #' ## Previously computed stably expressed genes
@@ -51,8 +49,6 @@
 #'                  run_args = list(exprs_values = "logcounts"), add_ticks = FALSE)
 #' scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
 #'                  run_args = list(exprs_values = "scMerge"), add_ticks = FALSE)
-#'}
-#' @export
 
 
 scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",

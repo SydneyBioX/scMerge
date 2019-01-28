@@ -2,6 +2,17 @@
 #' @description Modified based on RUV2 from package ruv and RUVg from package RUVseq function
 #' @import ruv
 #' @author Yingxin Lin
+#' @return A list consists of:
+#' \itemize{
+#' \item A matrix newY, the normalised matrix,
+#' \item A matrix W, the unwanted variation matrix, and ;
+#' \item A matrix alpha, this corresponding coefficient matrix for W.
+#' }
+#' @examples
+#' L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nRep = 10)
+#' Y = L$Y; M = L$M; ctl = L$ctl
+#' ruvgRes = scRUVg(Y = Y, ctl = ctl, k = 20)
+
 
 scRUVg <-function (Y,  ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
                    fullW = NULL, svdyc = NULL) {

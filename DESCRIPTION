@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: a package for merging scRNA-seq data
-Version: 0.1.17
+Version: 0.1.18
 Authors@R: c(
     person("Yingxin", "Lin", email = "yingxin.lin@sydney.edu.au", role = c("aut", "cre")
     ),
@@ -42,9 +42,10 @@ LinkingTo:
 	testthat
 RoxygenNote: 6.1.1
 Suggests: 
-    scater,
+    BiocStyle,
     knitr,
     rmarkdown,
+    scater,
     testthat
 VignetteBuilder: knitr
 biocViews: 	BatchEffect, GeneExpression, Normalization, RNASeq, Sequencing, SingleCell, Software, Transcriptomics

@@ -35,15 +35,22 @@ See ruv::RUVIII for more details.}
 If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a less accurate computed result but with a gain in speed.
 The default of 0.1 tends to achieve a balance between speed and accuracy.}
 }
+\value{
+A list consists of:
+\itemize{
+\item{RUV-normalised matrices:} If k has multiple values, then the RUV-normalised matrices using
+all the supplied k values will be returned.
+\item{optimal_ruvK:} The optimal RUV k value as determined by silhouette coefficient.
+}
+}
 \description{
 perform scRUVIII
 }
 \examples{
-\dontrun{
 L = scMerge::ruvSimulate(m = 200, n = 1000, nc = 50, nRep = 10)
 Y = L$Y; M = L$M; ctl = L$ctl; batch = L$dataSource;
 res = scRUVIII(Y = Y, M = M, ctl = ctl, k = c(10, 20), batch = batch)
-}
+res = scRUVIII(Y = Y, M = M, ctl = ctl, k = 10, batch = batch)
 }
 \author{
 Yingxin Lin, Kevin Wang

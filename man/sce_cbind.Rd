@@ -25,13 +25,12 @@ either \code{union} or \code{intersect}}
 \item{batch_names}{A string vector indicating the batch names for the output sce object}
 }
 \value{
-A combined \code{SingleCellExperiment} objects
+A \code{SingleCellExperiment} object with the list of SCE objects combined.
 }
 \description{
 Combind several \code{SingleCellExperiment} objects from different batches/experiments
 }
 \examples{
-\dontrun{
 require(SingleCellExperiment)
 data("sce_mESC", package = "scMerge.data")
 batchNames<-unique(sce_mESC$batch)
@@ -41,7 +40,6 @@ sce_list<-list(sce_mESC[,sce_mESC$batch==batchNames[1]],
                sce_mESC[,sce_mESC$batch==batchNames[4]],
                sce_mESC[,sce_mESC$batch==batchNames[5]])
 sce_combine<-sce_cbind(sce_list,batch_names=batchNames)
-}
 }
 \author{
 Yingxin Lin

@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{eigenResidop}
 \alias{eigenResidop}
-\title{fast matrix residual operator}
+\title{fast matrix residual operator using RcppEigen}
 \usage{
 eigenResidop(A, B)
 }
@@ -11,8 +11,12 @@ eigenResidop(A, B)
 
 \item{B}{a matrix}
 }
+\value{
+The matrix product of
+\deqn{A - B(B^t B)^{-1} B^t A}
+}
 \description{
-fast matrix residual operator
+fast matrix residual operator using RcppEigen
 }
 \examples{
 Y = M = diag(1, 500)

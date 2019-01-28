@@ -2,12 +2,13 @@
 
 #include <RcppEigen.h>
 
-//' @title fast matrix multiplication
+//' @title Fast matrix multiplication using RcppEigen
 //' @param A a matrix
 //' @param B a matrix
 //' @export
+//' @return The matrix product of A times B
 //' @examples
-//' A = matrix(0, ncol = 1000, nrow = 1000)
+//' A = matrix(0, ncol = 500, nrow = 500)
 //' system.time(A %*% A)
 //' system.time(eigenMatMult(A, A))
 // [[Rcpp::export]]
@@ -18,10 +19,12 @@ SEXP eigenMatMult(const Eigen::Map<Eigen::MatrixXd> A, Eigen::Map<Eigen::MatrixX
 }
 
 
-//' @title fast matrix residual operator
+//' @title fast matrix residual operator using RcppEigen
 //' @param A a matrix
 //' @param B a matrix
 //' @export
+//' @return The matrix product of
+//' \deqn{A - B(B^t B)^{-1} B^t A}
 //' @examples
 //' Y = M = diag(1, 500)
 //' system.time(scMerge::eigenResidop(Y, M))

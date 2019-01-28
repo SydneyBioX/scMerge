@@ -3,12 +3,12 @@
 \docType{data}
 \name{segList}
 \alias{segList}
-\title{Stably expressed gene list}
-\format{A list includes the stably expressed genes from human and mouse}
+\title{Stably expressed gene list in official gene symbols for both human and mouse}
+\format{An object of class \code{list} of length 2.}
 \usage{
-segList
+data(segList)
 }
 \description{
-Stably expressed gene list
+A list includes the stably expressed genes for both human and mouse
 }
 \keyword{datasets}

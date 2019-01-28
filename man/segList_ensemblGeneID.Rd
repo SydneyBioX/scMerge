@@ -3,12 +3,12 @@
 \docType{data}
 \name{segList_ensemblGeneID}
 \alias{segList_ensemblGeneID}
-\title{Stably expressed gene list in EnsemblGeneID}
-\format{A list includes the stably expressed genes from human and mouse}
+\title{Stably expressed gene list in EnsemblGeneID for both human and mouse}
+\format{An object of class \code{list} of length 2.}
 \usage{
-segList_ensemblGeneID
+data(segList_ensemblGeneID)
 }
 \description{
-Stably expressed gene list
+A list includes the stably expressed genes for both human and mouse
 }
 \keyword{datasets}

@@ -36,19 +36,20 @@ See ruv::RUVIII for details.}
 
 \item{inputcheck}{We recommend setting this to true.}
 }
+\value{
+A normalised matrix of the same dimensions as the input matrix Y.
+}
 \description{
 Perform a fast version of the RUVIII algorithm
 }
 \examples{
-\dontrun{
-L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nRep = 10)
+L = scMerge::ruvSimulate(m = 200, n = 500, nc = 50, nRep = 10)
 Y = L$Y; M = L$M; ctl = L$ctl
 improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
 improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1)
 old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
 all.equal(improved1, old)
 all.equal(improved2, old)
-}
 }
 \author{
 Yingxin Lin, John Ormerod, Kevin Wang

@@ -2,24 +2,14 @@
 title: "An introduction to the scMerge package"
 author: "Yingxin Lin and Kevin Wang"
 date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
-output:
-  html_document:
-    toc: true
-    toc_float: true
-    code_folding: hide
-    fig_retina: null
-vignette: >
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{scMerge}
-  %\VignetteEncoding{UTF-8}
+output: 
+    BiocStyle::html_document
+  vignette: >
+    %\VignetteIndexEntry{scMerge: Utilising cell type information to merge single cell data}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}  
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-  )
-```
 
 # Introduction
   

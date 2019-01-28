@@ -16,7 +16,7 @@
 #' @param dist The distance metrics that are used in the calcualtion of the mutual nearest cluster, default is Pearson correlation.
 #' @param WV A vector indicates the wanted variation factor other than cell type info, such as cell stages.
 #' @param WV_marker A vector indicates the markers of the wanted variation.
-#' @param parallelParam The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is bpparam(),
+#' @param parallelParam The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is SerialParam().
 #' @param return_all If \code{FALSE}, only return the replicate matrix.
 #' @import BiocParallel
 #'
@@ -28,28 +28,25 @@
 #' \item{HVG }{highly variable genes used in scReplicate}
 #' @author Yingxin Lin, Kevin Wang
 #' @export
+#' @return A cell-replicates mapping matrix.
+#' Each row correspond to a cell from the input expression matrix, and each column correspond to a cell-cluster/cell-type.
+#' An element of the mapping matrix is 1 if the scReplicate algorithm determines that this cell
+#' should belong to that cell cluster and 0 otherwise.
 #' @examples
-#' \dontrun{
-#' suppressPackageStartupMessages({
-#' library(SingleCellExperiment)
-#' library(scMerge)
-#' library(scMerge.data)
-#' })
 #' ## Loading example data
+#' set.seed(1)
 #' data("sce_mESC", package = "scMerge.data")
-#'
-#' scRep_result <- scReplicate(
+#' scRep_result = scReplicate(
 #'   sce = sce_mESC,
 #'   batch = sce_mESC$batch,
 #'   kmeansK = c(1,3,3,1,1),
 #'   fast_svd = FALSE)
-#'   }
-
+#'
 
 scReplicate <- function(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts", hvg_exprs = "counts",
                         marker = NULL, marker_list = NULL, replicate_prop = 1, cell_type = NULL, cell_type_match = FALSE,
                         cell_type_inc = NULL, dist = "cor", WV = NULL, WV_marker = NULL,
-                        parallelParam = bpparam(), return_all = FALSE, fast_svd) {
+                        parallelParam = SerialParam(), return_all = FALSE, fast_svd) {
 
   exprs_mat <- SummarizedExperiment::assay(sce, exprs)
 
