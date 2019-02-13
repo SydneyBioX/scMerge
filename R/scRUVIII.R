@@ -28,8 +28,8 @@
 #' @export
 #' @examples
 #' L = scMerge::ruvSimulate(m = 200, n = 1000, nc = 50, nRep = 10)
-#' Y = L$Y; M = L$M; ctl = L$ctl; batch = L$dataSource;
-#' res = scRUVIII(Y = Y, M = M, ctl = ctl, k = c(10, 20), batch = batch)
+#' Y = log2(L$Y + 1L); M = L$M; ctl = L$ctl; batch = L$dataSource;
+#' res = scRUVIII(Y = Y, M = M, ctl = ctl, k = c(5, 10, 15, 20), batch = batch)
 #' res = scRUVIII(Y = Y, M = M, ctl = ctl, k = 10, batch = batch)
 
 

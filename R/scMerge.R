@@ -66,7 +66,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
   }
 
   if (is.null(assay_name)) {
-    stop("assay_name is NULL")
+    stop("assay_name is NULL, please provide a name to store the results under")
   }
 
   if (return_all_RUV) {
@@ -107,6 +107,9 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
 
   ## Extracting data matrix from SCE object
   exprs_mat <- SummarizedExperiment::assay(sce_combine, exprs)
+  if(class(exprs_mat) != "matrix"){
+    stop(paste0("The assay named '", exprs, "' must be of class 'matrix', please convert this."))
+  }
   sce_rownames <- rownames(sce_combine)
 
   ## Checking if any rows or columns are purely zeroes
@@ -184,7 +187,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
 
   }
 
-  metadata(sce_final_result) <- c(metadata(sce_combine), list(ruvK = ruvK, ruvK_optimal = ruv3res$optimal_ruvK,
+  S4Vectors::metadata(sce_final_result) <- c(S4Vectors::metadata(sce_combine), list(ruvK = ruvK, ruvK_optimal = ruv3res$optimal_ruvK,
                                                               scRep_res = repMat, timeReplicates = timeReplicates, timeRuv = timeRuv))
 
   return(sce_final_result)

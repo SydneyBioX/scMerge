@@ -2,7 +2,7 @@
 #' @description Calculate single-cell Stably Expressed Gene (scSEG) index
 #'
 #' @author Shila Ghazanfar, Yingxin Lin, Pengyi Yang
-#' @param exprsMat The log-transoformed single-cell data (assumed to be no batch effect and covered a wide range of cell types). A n by m matrix, where n is the number of genes and m is the number of cells
+#' @param exprsMat A log-transoformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. A n by m matrix, where n is the number of genes and m is the number of cells.
 #' @param cell_type A vector indicating the cell type information for each cell in the gene expression matrix. If it is \code{NULL}, the function calculates the scSEG index without using F-statistics.
 #' @param ncore Number of cores that are used in parallel
 #'
@@ -14,6 +14,7 @@
 #' @examples
 #' ## Loading example data
 #' data("sce_mESC", package = "scMerge.data")
+#' ## subsetting to 200 genes to illustrate usage.
 #' exprsMat = assay(sce_mESC, "counts")[1:200, ]
 #' result = scSEGIndex(exprsMat = exprsMat)
 #'
@@ -94,7 +95,7 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
 
     print("Fitting ANOVA model for F-stats...")
     aovStats <- apply(exprsMat_filt, 1, function(x){
-      tryCatch(aov(as.numeric(x) ~ cell_type), error = function(e){NULL})
+      tryCatch(stats::aov(as.numeric(x) ~ cell_type), error = function(e){NULL})
     })
     f <- log2(sapply(aovStats, function(x){
       tryCatch(summary(x)[[1]]$`F value`[1], error = function(e){NA})
@@ -127,13 +128,13 @@ make_para_gn_parallel = function(exprsMat, ncore = 1) {
   doSNOW::registerDoSNOW(cl)
 
   iter <- nrow(exprsMat)
-  pb <- txtProgressBar(min = 1, max = iter,style=3)
-  progress <- function(n) setTxtProgressBar(pb, n)
+  pb <- utils::txtProgressBar(min = 1, max = iter,style=3)
+  progress <- function(n) utils::setTxtProgressBar(pb, n)
   opts <- list(progress=progress)
   # `%dopar%` <- foreach::`%dopar%`
   res <- foreach::foreach(i = iterators::icount(iter), .combine = rbind,
                  .options.snow = opts,.export = c("gammaNormMix","bic","aic","icl_bic"))%dopar%{
-    setTxtProgressBar(pb,i)
+    utils::setTxtProgressBar(pb,i)
     exprsMat_gene <- exprsMat[i,]
     gene_name <- rownames(exprsMat)[i]
     para <-gammaNormMix(exprsMat_gene,verbose=FALSE,plot=FALSE)
@@ -209,7 +210,7 @@ gammaNormMix = function(data, thresh = 1e-7, maxiter = 10000,
 
   # initiate
   n = length(x)
-  z = rbinom(n,1,0.5)
+  z = stats::rbinom(n,1,0.5)
   z_iter = z
   mu = -100
   mu_iter = 10
@@ -269,36 +270,36 @@ gammaNormMix = function(data, thresh = 1e-7, maxiter = 10000,
   }
 
 
-  ll<-sum(log(rho_iter*dnorm(x,mu_iter,sqrt(sig2_iter)) +
-                (1-rho_iter)*dgamma(x,shape=alpha_iter,rate=beta_iter)))
+  ll<-sum(log(rho_iter*stats::dnorm(x,mu_iter,sqrt(sig2_iter)) +
+                (1-rho_iter)*stats::dgamma(x,shape=alpha_iter,rate=beta_iter)))
 
 
   xg <- seq(0,max(x)+1,length.out=300)
-  c1g <- rho_iter*dnorm(xg,mu_iter,sqrt(sig2_iter))
+  c1g <- rho_iter*stats::dnorm(xg,mu_iter,sqrt(sig2_iter))
   # c2g <- (1-rho_iter)*dexp(xg,lambda_iter)
-  c2g <- (1-rho_iter)*dgamma(xg,shape=alpha_iter,rate=beta_iter)
-  fg <- rho_iter*dnorm(xg,mu_iter,sqrt(sig2_iter)) +
-    (1-rho_iter)*dgamma(xg,shape=alpha_iter,rate=beta_iter)
-  # fg2 <- rho_true*dnorm(xg,mu_true,sqrt(sig2_true)) + (1-rho_true)*dexp(xg,lambda_true)
+  c2g <- (1-rho_iter)*stats::dgamma(xg,shape=alpha_iter,rate=beta_iter)
+  fg <- rho_iter*stats::dnorm(xg,mu_iter,sqrt(sig2_iter)) +
+    (1-rho_iter)*stats::dgamma(xg,shape=alpha_iter,rate=beta_iter)
+  # fg2 <- rho_true*stats::dnorm(xg,mu_true,sqrt(sig2_true)) + (1-rho_true)*dexp(xg,lambda_true)
   if (plot) {
     if(hist){
       hist(x,probability=TRUE,col=hist_col,breaks=50,main=NA,xlab=NA,ylab="Density (zeroes removed)",ylim=c(0,0.6),xlim=c(0,20))
     }
     if (!onlyAddCurves) {
-      lines(density(x,from=0),lty=2,lwd=2,col=alpha("darkgrey",0.6))
+      graphics::lines(stats::density(x,from=0),lty=2,lwd=2,col=alpha("darkgrey",0.6))
     }
-    lines(xg,c1g,col=alpha("red",0.6),lwd=2)#Normal Lines
-    lines(xg,c2g,col=alpha("blue",0.6),lwd=2)#Gamma lines
-    lines(xg,fg,col=alpha("black",0.6),lwd=2)#Mixture model line
-    # lines(xg,fg2,col="green",lwd=2)
+    graphics::lines(xg,c1g,col=alpha("red",0.6),lwd=2)#Normal Lines
+    graphics::lines(xg,c2g,col=alpha("blue",0.6),lwd=2)#Gamma lines
+    graphics::lines(xg,fg,col=alpha("black",0.6),lwd=2)#Mixture model line
+    # graphics::lines(xg,fg2,col="green",lwd=2)
     if (onlyAddCurves) return(list(xg=xg,c1g=c1g,c2g=c2g,fg=fg))
   }
   if (calculateAreaDifference) {
-    f1 <- approxfun(xg, approxfun(density(x,from=0))(xg)-fg)
+    f1 <- stats::approxfun(xg, stats::approxfun(stats::density(x,from=0))(xg)-fg)
     # piecewise linear function
     f2 <- function(x) abs(f1(x))
     # take the positive value
-    AreaDifference = integrate(f2, min(x[x!=0]), max(x))$value
+    AreaDifference = stats::integrate(f2, min(x[x!=0]), max(x))$value
   } else {
     AreaDifference = NULL
   }
@@ -321,9 +322,9 @@ gammaNormMix = function(data, thresh = 1e-7, maxiter = 10000,
   }
   if (plot){
     if(addContextData){
-      points(data[seq_len(nOriginal)],z*0,pch="|",cex=1,col=alpha(rgb(z,0,1-z),0.4))
+      graphics::points(data[seq_len(nOriginal)],z*0,pch="|",cex=1,col=alpha(grDevices::rgb(z,0,1-z),0.4))
     }else{
-      points(data,z*0,pch="|",cex=1,col=alpha(rgb(z,0,1-z),0.4))
+      graphics::points(data,z*0,pch="|",cex=1,col=alpha(grDevices::rgb(z,0,1-z),0.4))
     }
   }
   model_bic<-bic(ll,n,5)

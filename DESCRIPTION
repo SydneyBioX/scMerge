@@ -1,15 +1,15 @@
 Package: scMerge
 Type: Package
 Title: scMerge: a package for merging scRNA-seq data
-Version: 0.1.18
+Version: 0.1.19
 Authors@R: c(
-    person("Yingxin", "Lin", email = "yingxin.lin@sydney.edu.au", role = c("aut", "cre")
+    person("Kevin", "Wang", email = "kevin.wang@sydney.edu.au", role = c("aut", "cre")
     ),
-    person("Kevin", "Wang", email = "kevin.wang@sydney.edu.au", role = c("aut")
+    person("Yingxin", "Lin", email = "yingxin.lin@sydney.edu.au", role = c("aut")
     ),
     person("Sydney Bioinformatics and Biometrics Group", email = "bioinformatics@maths.usyd.edu.au", role = c("fnd"))
     )
-Maintainer: Yingxin Lin <yingxin.lin@sydney.edu.au>
+Maintainer: Kevin Wang <kevin.wang@sydney.edu.au>
 Description: Remove batch effect and unwanted variations for single-cell RNA-seq expression matrix.
     The method includes the function of identification of stably expressed genes (SEG) from single-cell data, and also creating pseudo-replicates from the data.
 License: GPL-3

@@ -1,14 +1,24 @@
 ---
 title: "An introduction to the scMerge package"
-author: "Yingxin Lin and Kevin Wang"
-date: "`r paste0(format(Sys.time(), '%d %b %Y'))`"
-output: 
-    BiocStyle::html_document
-  vignette: >
-    %\VignetteIndexEntry{scMerge: Utilising cell type information to merge single cell data}
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}  
+author:
+- name: Yingxin Lin
+  affiliation: School of Mathematics and Statistics, The University of Sydney, Australia
+- name: Kevin Y.X. Wang
+  affiliation: School of Mathematics and Statistics, The University of Sydney, Australia
+output:
+  BiocStyle::html_document:
+    toc_float: true
+  BiocStyle::pdf_document: default
+package: BiocStyle
+vignette: |
+  %\VignetteIndexEntry{An introduction to the scMerge package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+```
 
 
 # Introduction
@@ -19,7 +29,7 @@ The scMerge algorithm allows batch effect removal and normalisation for single c
   2.  The construction of pseudo-replicates to estimate the effects of unwanted factors; and 
   3.  The adjustment of the datasets with unwanted variation using a fastRUVIII model. 
   
-  
+
 The purpose of this vignette is to illustrate some uses of `scMerge` and explain its key components. 
   
 # Loading Packages and Data
@@ -43,6 +53,8 @@ We provided an illustrative mouse embryonic stem cell (mESC) data in our package
 data("sce_mESC", package = "scMerge.data")
 ## single-cell stably expressed gene list
 data("segList_ensemblGeneID")
+
+set.seed(1)
 ```
 
 
