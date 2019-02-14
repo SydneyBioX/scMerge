@@ -32,8 +32,8 @@ BiocStyle::markdown()
   
   
   The purpose of this vignette is to illustrate some uses of `scMerge` and explain its key components. 
-  
-  # Loading Packages and Data
+
+# Loading Packages and Data
   
   We will load the `scMerge` package. We designed our package to be consistent with the popular BioConductor's single cell analysis framework, namely the `SingleCellExperiment` and `scater` package. 
   
@@ -265,12 +265,10 @@ scater::plotPCA(scMerge_semisupervised2,
 
 # Achieving fast computation
 
-Under most circumstances, `scMerge` is fast enough to be used on a personal laptop for a moderately large data. For example, a single run of `scMerge` on the full mESC data with 24224 features and 704 cells takes roughly 40 seconds.  
-
-However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of `scMerge`. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up `scMerge`, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option `fast_svd = TRUE` and `rsvd_prop`. `rsvd_prop` is a parameter between 0 and 1, controlling the degree of approximations. 
+Under most circumstances, `scMerge` is fast enough to be used on a personal laptop for a moderately large data. However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of `scMerge`. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up `scMerge`, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option `fast_svd = TRUE` and `rsvd_prop`. `rsvd_prop` is a parameter between 0 and 1, controlling the degree of approximations. 
 
 
-We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.
+We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data. For example, a single run of normal `scMerge` on a human [pancreas data](https://sydneybiox.github.io/scMerge/articles/Pancreas4_Data/Pancreas4_Data.html) (23699 features and 4566 cells) takes about 10 minutes whereas the speed up version takes just under 4 minutes. 
 
 
 ```{r computation_classical, fig.show='hide'}

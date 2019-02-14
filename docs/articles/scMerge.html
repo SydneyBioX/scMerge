@@ -131,7 +131,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <li>The adjustment of the datasets with unwanted variation using a fastRUVIII model.</li>
 </ol>
 <p>The purpose of this vignette is to illustrate some uses of <code>scMerge</code> and explain its key components.</p>
-<p># Loading Packages and Data</p>
+<div id="loading-packages-and-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#loading-packages-and-data" class="anchor"></a>Loading Packages and Data</h1>
 <p>We will load the <code>scMerge</code> package. We designed our package to be consistent with the popular BioConductor’s single cell analysis framework, namely the <code>SingleCellExperiment</code> and <code>scater</code> package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>({
   <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SingleCellExperiment)
@@ -151,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/checking%20raw%20data-1.png" width="700"></p>
+</div>
 <div id="illustrating-pseudo-replicates-constructions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#illustrating-pseudo-replicates-constructions" class="anchor"></a>Illustrating pseudo-replicates constructions</h1>
@@ -279,9 +282,8 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="achieving-fast-computation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#achieving-fast-computation" class="anchor"></a>Achieving fast computation</h1>
-<p>Under most circumstances, <code>scMerge</code> is fast enough to be used on a personal laptop for a moderately large data. For example, a single run of <code>scMerge</code> on the full mESC data with 24224 features and 704 cells takes roughly 40 seconds.</p>
-<p>However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
-<p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.</p>
+<p>Under most circumstances, <code>scMerge</code> is fast enough to be used on a personal laptop for a moderately large data. However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
+<p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data. For example, a single run of normal <code>scMerge</code> on a human <a href="https://sydneybiox.github.io/scMerge/articles/Pancreas4_Data/Pancreas4_Data.html">pancreas data</a> (23699 features and 4566 cells) takes about 10 minutes whereas the speed up version takes just under 4 minutes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t1 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 scMerge_classical &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce, 
                              <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
@@ -307,7 +309,7 @@ scMerge_classical &lt;-<span class="st"> </span><span class="kw"><a href="../ref
 ## Performing RUV normalisation... This might take a few minutes...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t2 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 t2 <span class="op">-</span><span class="st"> </span>t1</code></pre></div>
-<pre><code>## Time difference of 1.390175 secs</code></pre>
+<pre><code>## Time difference of 1.17317 secs</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t3 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce, 
                         <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
@@ -324,9 +326,9 @@ scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Creating Mutual Nearest Cluster...</code></pre>
 <pre><code>##   group batch cluster
 ## 1     3     1       1
-## 2     3     2       2
+## 2     3     2       3
 ## 3     1     1       2
-## 4     1     2       3
+## 4     1     2       2
 ## 5     2     1       3
 ## 6     2     2       1
 ## Dimension of the replicates mapping matrix 
@@ -335,7 +337,7 @@ scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Performing RUV normalisation... This might take a few minutes...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t4 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 t4 <span class="op">-</span><span class="st"> </span>t3</code></pre></div>
-<pre><code>## Time difference of 0.8981071 secs</code></pre>
+<pre><code>## Time difference of 0.862473 secs</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_fast, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
@@ -430,7 +432,8 @@ t4 <span class="op">-</span><span class="st"> </span>t3</code></pre></div>
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#illustrating-pseudo-replicates-constructions">Illustrating pseudo-replicates constructions</a></li>
+<li><a href="#loading-packages-and-data">Loading Packages and Data</a></li>
+      <li><a href="#illustrating-pseudo-replicates-constructions">Illustrating pseudo-replicates constructions</a></li>
       <li><a href="#unsupervised-scmerge">Unsupervised <code>scMerge</code></a></li>
       <li><a href="#selecting-all-cells">Selecting all cells</a></li>
       <li><a href="#supervised-scmerge">Supervised <code>scMerge</code></a></li>
