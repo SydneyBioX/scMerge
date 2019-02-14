@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
-Title: scMerge: a package for merging scRNA-seq data
-Version: 0.1.19
+Title: scMerge: Merging multiple batches of scRNA-seq data
+Version: 0.1.21
 Authors@R: c(
     person("Kevin", "Wang", email = "kevin.wang@sydney.edu.au", role = c("aut", "cre")
     ),

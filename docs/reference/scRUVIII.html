@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>scRUVIII — scRUVIII • scMerge</title>
+<title>scRUVIII: RUVIII algorithm optimised for single cell data — scRUVIII • scMerge</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,11 @@
 
 
 
-<meta property="og:title" content="scRUVIII — scRUVIII" />
+<meta property="og:title" content="scRUVIII: RUVIII algorithm optimised for single cell data — scRUVIII" />
 
-<meta property="og:description" content="perform scRUVIII" />
+<meta property="og:description" content="A function to perform loacation/scale adjustement to data as the input of
+RUVIII which also provides the option to select optimal RUVk according to the
+silhouette coefficient" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.21</span>
       </span>
     </div>
 
@@ -132,14 +134,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>scRUVIII</h1>
+    <h1>scRUVIII: RUVIII algorithm optimised for single cell data</h1>
     <small class="dont-index">Source: <a href='https://github.com/SydneyBioX/scMerge/blob/master/R/scRUVIII.R'><code>R/scRUVIII.R</code></a></small>
     <div class="hidden name"><code>scRUVIII.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>perform scRUVIII</p>
+    <p>A function to perform loacation/scale adjustement to data as the input of
+RUVIII which also provides the option to select optimal RUVk according to the
+silhouette coefficient</p>
     
     </div>
 
@@ -212,8 +216,8 @@ all the supplied k values will be returned.</p></li>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scMerge/topics/ruvSimulate'>ruvSimulate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>nRep</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='no'>Y</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>Y</span>; <span class='no'>M</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>M</span>; <span class='no'>ctl</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>ctl</span>; <span class='no'>batch</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>dataSource</span>;
-<span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>20</span>), <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting optimal RUVk</span></div><div class='output co'>#&gt; <span class='message'>No cell type info, replicate matrix will be used as cell type info</span></div><div class='output co'>#&gt; <span class='message'>optimal ruvK: 20</span></div><div class='img'><img src='scRUVIII-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>)</div></pre>
+<span class='no'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log2</a></span>(<span class='no'>L</span>$<span class='no'>Y</span> + <span class='fl'>1L</span>); <span class='no'>M</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>M</span>; <span class='no'>ctl</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>ctl</span>; <span class='no'>batch</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>dataSource</span>;
+<span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span>, <span class='fl'>20</span>), <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting optimal RUVk</span></div><div class='output co'>#&gt; <span class='message'>No cell type info, replicate matrix will be used as cell type info</span></div><div class='output co'>#&gt; <span class='message'>optimal ruvK: 5</span></div><div class='img'><img src='scRUVIII-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -232,7 +236,7 @@ all the supplied k values will be returned.</p></li>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Yingxin Lin, Kevin Wang, Sydney Bioinformatics and Biometrics Group.</p>
+  <p>Developed by Kevin Wang, Yingxin Lin, Sydney Bioinformatics and Biometrics Group.</p>
 </div>
 
 <div class="pkgdown">

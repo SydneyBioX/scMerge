@@ -16,7 +16,6 @@ BiocManager::install(c("BiocParallel", "M3Drop", "SingleCellExperiment"))
 
 # Some GitHub packages required by scMerge
 devtools::install_github("theislab/kBET")
-devtools::install_github("SydneyBioX/scMerge.data")
 devtools::install_github("SydneyBioX/scMerge")
 ```
 

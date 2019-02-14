@@ -49,13 +49,13 @@ This is an inter-organism single-cell embryonic stem cell (ESC) data comprising 
 ### PCA plots by cell types and batch
 
 
-![](https://github.com/SydneyBioX/scMerge/blob/master/docs/articles/ESC_Data/Fig3_v9_PCA.png?raw=true){width=100%}
+![](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeWebsite/ESC_Data/Fig3_v9_PCA.png){width=100%}
 
 
 
 ### Monocle2 cell trajectory plot
 
-![](https://github.com/SydneyBioX/scMerge/blob/master/docs/articles/ESC_Data/Fig3_v9_Trajectory.png?raw=true){width=100%}
+![](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeWebsite/ESC_Data/Fig3_v9_Trajectory.png){width=100%}
 
 
 

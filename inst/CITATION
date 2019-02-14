@@ -1,0 +1,20 @@
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+         title = "{scMerge}: Merging multiple batches of scRNA-seq data",
+         author = c(person("Yingxin", "Lin"),
+                    person("Shila", "Ghazanfar"),
+                    person("Kevin", "Wang"),
+                    person("Johann", "Gagnon-Bartsch"),
+                    person("Kitty", "Lo"),
+                    person("Xianbin", "Su"),
+                    person("Ze-Guang", "Han"),
+                    person("John", "Ormerod"),
+                    person("Terence", "Speed"),
+                    person("Pengyi", "Yang"),
+                    person("Jean", "Yang")
+                    ),
+         year = 2019,
+         note = note,
+         url = "https://github.com/SydneyBioX/scMerge",
+         header = "To cite mplot in publications please use:")

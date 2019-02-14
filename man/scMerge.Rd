@@ -69,21 +69,20 @@ Merge single-cell RNA-seq data from different batches, experiments, protocols.
 \examples{
 library(SingleCellExperiment)
 library(scater)
-library(scMerge.data)
 ## Loading example data
-data("sce_mESC", package = "scMerge.data")
+data('example_sce', package = 'scMerge')
 ## Previously computed stably expressed genes
-data("segList_ensemblGeneID")
+data('segList_ensemblGeneID', package = 'scMerge')
 ## Running an example data with minimal inputs
 sce_mESC <- scMerge(
-                      sce_combine = sce_mESC,
+                      sce_combine = example_sce,
                       ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
-                      kmeansK = c(1,3,3,1,1),
-                      assay_name = "scMerge")
-scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
-                 run_args = list(exprs_values = "logcounts"), add_ticks = FALSE)
-scater::plotPCA(sce_mESC, colour_by = "cellTypes", shape = "batch",
-                 run_args = list(exprs_values = "scMerge"), add_ticks = FALSE)
+                      kmeansK = c(3, 3),
+                      assay_name = 'scMerge')
+scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
+                 run_args = list(exprs_values = 'logcounts'), add_ticks = FALSE)
+scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
+                 run_args = list(exprs_values = 'scMerge'), add_ticks = FALSE)
 }
 \author{
 Yingxin Lin, Kevin Wang

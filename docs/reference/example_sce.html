@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • scMerge</title>
+<title>Subsetted mouse ESC `SingleCellExperiment` object — example_sce • scMerge</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,11 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Subsetted mouse ESC `SingleCellExperiment` object — example_sce" />
+
+<meta property="og:description" content="A dataset containing 300 cells and 2026 genes from two batches of mouse ESC data
+#@usage data(example_sce, package = 'scMerge')" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +51,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -127,114 +131,47 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Subsetted mouse ESC `SingleCellExperiment` object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/SydneyBioX/scMerge/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>example_sce.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>A dataset containing 300 cells and 2026 genes from two batches of mouse ESC data
+#@usage data(example_sce, package = 'scMerge')</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='no'>example_sce</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="eigenMatMult.html">eigenMatMult()</a></code> </p>
-        </td>
-        <td><p>Fast matrix multiplication using RcppEigen</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="eigenResidop.html">eigenResidop()</a></code> </p>
-        </td>
-        <td><p>fast matrix residual operator using RcppEigen</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="example_sce.html">example_sce</a></code> </p>
-        </td>
-        <td><p>Subsetted mouse ESC `SingleCellExperiment` object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fastRUVIII.html">fastRUVIII()</a></code> </p>
-        </td>
-        <td><p>A fast version of the RUVIII algorithm</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ruvSimulate.html">ruvSimulate()</a></code> </p>
-        </td>
-        <td><p>Simulate a simple matrix to test the speed of scMerge</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scMerge.html">scMerge()</a></code> </p>
-        </td>
-        <td><p>Merge single-cell RNA-seq data from different batches, experiments, protocols.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scRUVIII.html">scRUVIII()</a></code> </p>
-        </td>
-        <td><p>scRUVIII: RUVIII algorithm optimised for single cell data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scRUVg.html">scRUVg()</a></code> </p>
-        </td>
-        <td><p>RUVg function for single cell</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scReplicate.html">scReplicate()</a></code> </p>
-        </td>
-        <td><p>Create pseudo-replicate for scMerge</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scSEGIndex.html">scSEGIndex()</a></code> </p>
-        </td>
-        <td><p>scSEGIndex</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sce_cbind.html">sce_cbind()</a></code> </p>
-        </td>
-        <td><p>Combind several <code>SingleCellExperiment</code> objects from different batches/experiments</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="segList.html">segList</a></code> </p>
-        </td>
-        <td><p>Stably expressed gene list in official gene symbols for both human and mouse</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="segList_ensemblGeneID.html">segList_ensemblGeneID</a></code> </p>
-        </td>
-        <td><p>Stably expressed gene list in EnsemblGeneID for both human and mouse</p></td>
-      </tr>
-    </tbody>
-    </table>
+    <p>A `SingleCellExperiment` object</p>
+    
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://www.ebi.ac.uk/arrayexpress/experiments/E-MTAB-2600/'>https://www.ebi.ac.uk/arrayexpress/experiments/E-MTAB-2600/</a></p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Kolodziejczyk et al.</p>
+    
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+      
+      <li><a href="#format">Format</a></li>
+
+      <li><a href="#source">Source</a></li>
+
+      <li><a href="#references">References</a></li>
+          </ul>
+
   </div>
 </div>
 

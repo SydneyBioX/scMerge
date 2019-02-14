@@ -31,14 +31,11 @@ A \code{SingleCellExperiment} object with the list of SCE objects combined.
 Combind several \code{SingleCellExperiment} objects from different batches/experiments
 }
 \examples{
-require(SingleCellExperiment)
-data("sce_mESC", package = "scMerge.data")
-batchNames<-unique(sce_mESC$batch)
-sce_list<-list(sce_mESC[,sce_mESC$batch==batchNames[1]],
-               sce_mESC[,sce_mESC$batch==batchNames[2]],
-               sce_mESC[,sce_mESC$batch==batchNames[3]],
-               sce_mESC[,sce_mESC$batch==batchNames[4]],
-               sce_mESC[,sce_mESC$batch==batchNames[5]])
+library(SingleCellExperiment)
+data('example_sce', package = 'scMerge')
+batch_names<-unique(example_sce$batch)
+sce_list<-list(example_sce[,example_sce$batch=='batch2'],
+               example_sce[,example_sce$batch=='batch3'])
 sce_combine<-sce_cbind(sce_list,batch_names=batchNames)
 }
 \author{

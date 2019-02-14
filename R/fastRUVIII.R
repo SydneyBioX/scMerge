@@ -33,96 +33,87 @@
 #' all.equal(improved2, old)
 
 
-fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_prop = 0.1,
-                       include.intercept = TRUE, average = FALSE, fullalpha = NULL, return.info = FALSE,
-                       inputcheck = TRUE) {
-
-  if (is.data.frame(Y)) {
-    Y <- data.matrix(Y)
-  }
-
-  m <- nrow(Y)
-  n <- ncol(Y)
-  M <- ruv::replicate.matrix(M)
-  ctl <- tological(ctl, n)
-
-  ## Check the inputs
-  if (inputcheck) {
-    if (m > n) {
-      warning("m is greater than n!  This is not a problem itself, but may indicate that you need to transpose your data matrix.  Please ensure that rows correspond to observations (e.g. microarrays) and columns correspond to features (e.g. genes).")
+fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_prop = 0.1, include.intercept = TRUE, average = FALSE, fullalpha = NULL, 
+    return.info = FALSE, inputcheck = TRUE) {
+    
+    if (is.data.frame(Y)) {
+        Y <- data.matrix(Y)
     }
-    if (sum(is.na(Y)) > 0) {
-      warning("Y contains missing values.  This is not supported.")
+    
+    m <- nrow(Y)
+    n <- ncol(Y)
+    M <- ruv::replicate.matrix(M)
+    ctl <- tological(ctl, n)
+    
+    ## Check the inputs
+    if (inputcheck) {
+        if (m > n) {
+            warning("m is greater than n!  This is not a problem itself, but may indicate that you need to transpose your data matrix.  Please ensure that rows correspond to observations (e.g. microarrays) and columns correspond to features (e.g. genes).")
+        }
+        if (sum(is.na(Y)) > 0) {
+            warning("Y contains missing values.  This is not supported.")
+        }
+        if (sum(Y == Inf, na.rm = TRUE) + sum(Y == -Inf, na.rm = TRUE) > 0) {
+            warning("Y contains infinities.  This is not supported.")
+        }
     }
-    if (sum(Y == Inf, na.rm = TRUE) + sum(Y == -Inf, na.rm = TRUE) > 0) {
-      warning("Y contains infinities.  This is not supported.")
+    
+    
+    ## RUV1 is a reprocessing step for RUVIII
+    Y <- ruv::RUV1(Y, eta, ctl, include.intercept = include.intercept)
+    
+    if (fast_svd) {
+        svd_k <- min(m - ncol(M), sum(ctl), ceiling(rsvd_prop * m), na.rm = TRUE)
+    } else {
+        svd_k <- min(m - ncol(M), sum(ctl), na.rm = TRUE)
     }
-  }
-
-
-  ## RUV1 is a reprocessing step for RUVIII
-  Y <- ruv::RUV1(Y, eta, ctl, include.intercept = include.intercept)
-
-  if (fast_svd) {
-    svd_k <- min(m - ncol(M), sum(ctl), ceiling(rsvd_prop * m), na.rm = TRUE)
-  } else {
-    svd_k <- min(m - ncol(M), sum(ctl), na.rm = TRUE)
-  }
-
-
-  ## m represent the number of samples/observations ncol(M) represent the number of
-  ## replicates If the replicate matrix is such that we have more replicates than
-  ## samples, then RUV3 is not appropriate, thus, we return the Original input
-  ## matrix
-  if (ncol(M) >= m | k == 0) {
-    newY <- Y
-    fullalpha <- NULL
-  } else {
-
-    if (is.null(fullalpha))
-    {
-      ## The main RUVIII process Applies the residual operator of a matrix M to a matrix
-      ## Y Y0 has the same dimensions as Y, i.e. m rows (observations) and n columns
-      ## (genes).
-
-      Y0 <- eigenResidop(Y, M)
-
-      if (fast_svd) {
-        svdObj <- rsvd::rsvd(Y0, k = svd_k)
-      } else {
-        svdObj <- base::svd(Y0)
-      }  ## End if(fast_svd)
-
-      # fullalpha <- eigenMatMult(t(svdObj$u[, 1:svd_k, drop = FALSE]), Y)
-      fullalpha <- eigenMatMult(t(svdObj$u[, seq_len(svd_k), drop = FALSE]), Y)
-    }  ## End is.null(fullalpha)
-    ######################################################### Regardless of the availibility of fullalpha, we need to compute this
-    ######################################################### normalisation.
-    # alpha <- fullalpha[1:min(k, nrow(fullalpha)), , drop = FALSE]
-    alpha <- fullalpha[seq_len(min(k, nrow(fullalpha))), , drop = FALSE]
-    ac <- alpha[, ctl, drop = FALSE]
-    W <- Y[, ctl] %*% t(ac) %*% solve(ac %*% t(ac))
-    newY <- Y - eigenMatMult(W, alpha)
-  }  ## End else(ncol(M) >= m | k == 0)
-  if (average) {
-    ## If average over the replicates is needed. This is ignored in scMerge.
-    newY <- ((1/apply(M, 2, sum)) * t(M)) %*% newY
-  }
-
-  ## If the users want to get all the informations relating to the RUV, it can be
-  ## done here.
-  if (!return.info) {
-    return(newY)
-  } else {
-    return(list(newY = newY, M = M, fullalpha = fullalpha,
-                rsvd_k_options = c(`m-ncol(M)` = m - ncol(M),
-                                   `sum(ctl)` = sum(ctl),
-                                   svd_k = svd_k)))
-  }
+    
+    
+    ## m represent the number of samples/observations ncol(M) represent the number of replicates If the replicate matrix is such that we have more
+    ## replicates than samples, then RUV3 is not appropriate, thus, we return the Original input matrix
+    if (ncol(M) >= m | k == 0) {
+        newY <- Y
+        fullalpha <- NULL
+    } else {
+        
+        if (is.null(fullalpha)) 
+            {
+                ## The main RUVIII process Applies the residual operator of a matrix M to a matrix Y Y0 has the same dimensions as Y, i.e. m rows (observations)
+                ## and n columns (genes).
+                
+                Y0 <- eigenResidop(Y, M)
+                
+                if (fast_svd) {
+                  svdObj <- rsvd::rsvd(Y0, k = svd_k)
+                } else {
+                  svdObj <- base::svd(Y0)
+                }  ## End if(fast_svd)
+                
+                # fullalpha <- eigenMatMult(t(svdObj$u[, 1:svd_k, drop = FALSE]), Y)
+                fullalpha <- eigenMatMult(t(svdObj$u[, seq_len(svd_k), drop = FALSE]), Y)
+            }  ## End is.null(fullalpha)
+        ######################################################### Regardless of the availibility of fullalpha, we need to compute this normalisation.  alpha <- fullalpha[1:min(k, nrow(fullalpha)), , drop =
+        ######################################################### FALSE]
+        alpha <- fullalpha[seq_len(min(k, nrow(fullalpha))), , drop = FALSE]
+        ac <- alpha[, ctl, drop = FALSE]
+        W <- Y[, ctl] %*% t(ac) %*% solve(ac %*% t(ac))
+        newY <- Y - eigenMatMult(W, alpha)
+    }  ## End else(ncol(M) >= m | k == 0)
+    if (average) {
+        ## If average over the replicates is needed. This is ignored in scMerge.
+        newY <- ((1/apply(M, 2, sum)) * t(M)) %*% newY
+    }
+    
+    ## If the users want to get all the informations relating to the RUV, it can be done here.
+    if (!return.info) {
+        return(newY)
+    } else {
+        return(list(newY = newY, M = M, fullalpha = fullalpha, rsvd_k_options = c(`m-ncol(M)` = m - ncol(M), `sum(ctl)` = sum(ctl), svd_k = svd_k)))
+    }
 }
-############################
+############################ 
 tological <- function(ctl, n) {
-  ctl2 <- rep(FALSE, n)
-  ctl2[ctl] <- TRUE
-  return(ctl2)
+    ctl2 <- rep(FALSE, n)
+    ctl2[ctl] <- TRUE
+    return(ctl2)
 }

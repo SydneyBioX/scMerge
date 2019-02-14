@@ -25,48 +25,35 @@
 #' print(L)
 #' @export
 
-ruvSimulate = function(m = 100, n = 1e5, nc = 1e3, nRep = 50, nBatch = 4, lambda = 0.1, sce = FALSE){
-  # m Number of observations
-  # n Number of features
-  # nc Number of negative controls
-  p = 1
-  k = 20
-  ctl = rep(FALSE, n)
-  ctl[seq_len(nc)] = TRUE
-  X = matrix(c(rep(0,floor(m/2)), rep(1,ceiling(m/2))), m, p) ## Design matrix is simple two conditions
-  beta = matrix(stats::rpois(p*n, lambda = lambda), p, n)
-  beta[,ctl] = 0
-  W = matrix(stats::rpois(m*k, lambda = lambda),m,k)
-  alpha = matrix(stats::rpois(k*n, lambda = lambda),k,n)
-  epsilon = matrix(stats::rpois(m*n, lambda = lambda),m,n)
-  Y = X %*% beta + W %*% alpha + epsilon
-  rownames(Y) = paste0("cell", seq_len(m))
-  colnames(Y) = paste0("gene", seq_len(n))
-  # Define patientID and sampleDate
-  # patientID = paste("patient", rep_len(1:nRep, length.out = m), sep = "")
-  # #print(patientID)
-  # sampleDate = paste("Date", rep_len(c(1:4), length.out = m), sep = "")
-  # batch = paste(patientID, sampleDate, sep = "_")
-  # M = ruv::replicate.matrix(data.frame(patientID, sampleDate))
-
-  cellType = paste("cellType", rep_len(seq_len(nRep), length.out = m), sep = "")
-  dataSource = paste("dataSource", rep_len(seq_len(nBatch), length.out = m), sep = "")
-  # batch = paste(cellType, dataSource, sep = "_")
-  M = ruv::replicate.matrix(data.frame(cellType, dataSource))
-
-  if(sce){
-    result = SingleCellExperiment::SingleCellExperiment(
-      assays = list(counts = t(Y),
-                    logcounts = log2(t(Y) + 1L)),
-      colData = data.frame(cellType, dataSource),
-      metadata = list(M = M)
-    )
-  } else {
-    result = list(Y = Y,
-                  ctl = ctl,
-                  M = M,
-                  cellType = cellType,
-                  dataSource = dataSource)
-  }
-  return(result)
+ruvSimulate = function(m = 100, n = 1e+05, nc = 1000, nRep = 50, nBatch = 4, lambda = 0.1, sce = FALSE) {
+    # m Number of observations n Number of features nc Number of negative controls
+    p = 1
+    k = 20
+    ctl = rep(FALSE, n)
+    ctl[seq_len(nc)] = TRUE
+    X = matrix(c(rep(0, floor(m/2)), rep(1, ceiling(m/2))), m, p)  ## Design matrix is simple two conditions
+    beta = matrix(stats::rpois(p * n, lambda = lambda), p, n)
+    beta[, ctl] = 0
+    W = matrix(stats::rpois(m * k, lambda = lambda), m, k)
+    alpha = matrix(stats::rpois(k * n, lambda = lambda), k, n)
+    epsilon = matrix(stats::rpois(m * n, lambda = lambda), m, n)
+    Y = X %*% beta + W %*% alpha + epsilon
+    rownames(Y) = paste0("cell", seq_len(m))
+    colnames(Y) = paste0("gene", seq_len(n))
+    # Define patientID and sampleDate patientID = paste('patient', rep_len(1:nRep, length.out = m), sep = '') #print(patientID) sampleDate =
+    # paste('Date', rep_len(c(1:4), length.out = m), sep = '') batch = paste(patientID, sampleDate, sep = '_') M =
+    # ruv::replicate.matrix(data.frame(patientID, sampleDate))
+    
+    cellType = paste("cellType", rep_len(seq_len(nRep), length.out = m), sep = "")
+    dataSource = paste("dataSource", rep_len(seq_len(nBatch), length.out = m), sep = "")
+    # batch = paste(cellType, dataSource, sep = '_')
+    M = ruv::replicate.matrix(data.frame(cellType, dataSource))
+    
+    if (sce) {
+        result = SingleCellExperiment::SingleCellExperiment(assays = list(counts = t(Y), logcounts = log2(t(Y) + 1L)), colData = data.frame(cellType, 
+            dataSource), metadata = list(M = M))
+    } else {
+        result = list(Y = Y, ctl = ctl, M = M, cellType = cellType, dataSource = dataSource)
+    }
+    return(result)
 }

@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.21</span>
       </span>
     </div>
 
@@ -123,9 +123,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+</script><p># Introduction</p>
 <p>The scMerge algorithm allows batch effect removal and normalisation for single cell RNA-Seq data. It comprises of three key components including:</p>
 <ol style="list-style-type: decimal">
 <li>The identification of stably expressed genes (SEGs) as “negative controls” for estimating unwanted factors;</li>
@@ -133,39 +131,26 @@ document.addEventListener("DOMContentLoaded", function() {
 <li>The adjustment of the datasets with unwanted variation using a fastRUVIII model.</li>
 </ol>
 <p>The purpose of this vignette is to illustrate some uses of <code>scMerge</code> and explain its key components.</p>
-</div>
-<div id="loading-packages-and-data" class="section level1">
-<h1 class="hasAnchor">
-<a href="#loading-packages-and-data" class="anchor"></a>Loading Packages and Data</h1>
-<p>We will load the <code>scMerge</code> package. We designed our package to be consistent with the popular BioConductor’s single cell analysis framework, namely the <code>SingleCellExperiment</code> package and <code>scater</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>({
+<p># Loading Packages and Data</p>
+<p>We will load the <code>scMerge</code> package. We designed our package to be consistent with the popular BioConductor’s single cell analysis framework, namely the <code>SingleCellExperiment</code> and <code>scater</code> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>({
   <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SingleCellExperiment)
   <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(scMerge)
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(scMerge.data)
   <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(scater)
-})</code></pre></div>
+  })</code></pre></div>
 <p>We provided an illustrative mouse embryonic stem cell (mESC) data in our package, as well as a set of pre-computed stably expressed gene (SEG) list to be used as negative control genes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## mouse ESC data
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"sce_mESC"</span>, <span class="dt">package =</span> <span class="st">"scMerge.data"</span>)
-## single-cell stably expressed gene list
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"segList_ensemblGeneID"</span>)
+<p>The full curated, unnormalised mESC data can be found <a href="https://github.com/SydneyBioX/scMerge.data/raw/master/data/sce_mESC.rda">here</a>. The <code>scMerge</code> package comes with a sub-sampled, two-batches version of this data (named “batch2” and “batch3” to be consistent with the full data) .</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Subsetted mouse ESC data
+<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"example_sce"</span>, <span class="dt">package =</span> <span class="st">"scMerge"</span>)
 
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</code></pre></div>
-<p>In the mESC data, we pooled data from 5 different batches from three different cell types. Using a PCA plot, we can see that despite strong separation of cell types, there is also a strong separation due to batch effects. This information is stored in the <code>colData</code> of <code>sce_mESC</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(sce_mESC<span class="op">$</span>batch, sce_mESC<span class="op">$</span>cellTypes)</code></pre></div>
-<pre><code>##         
-##          2i a2i lif
-##   batch1  0   0  81
-##   batch2 82  93  90
-##   batch3 59  66  79
-##   batch4 72   0   0
-##   batch5 82   0   0</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
+## single-cell stably expressed gene list
+<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"segList_ensemblGeneID"</span>, <span class="dt">package =</span> <span class="st">"scMerge"</span>)</code></pre></div>
+<p>In this mESC data, we pooled data from 2 different batches from three different cell types. Using a PCA plot, we can see that despite strong separation of cell types, there is also a strong separation due to batch effects. This information is stored in the <code>colData</code> of <code>example_sce</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(example_sce, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/checking%20raw%20data-1.png" width="700"></p>
-</div>
 <div id="illustrating-pseudo-replicates-constructions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#illustrating-pseudo-replicates-constructions" class="anchor"></a>Illustrating pseudo-replicates constructions</h1>
@@ -181,19 +166,17 @@ document.addEventListener("DOMContentLoaded", function() {
 <h1 class="hasAnchor">
 <a href="#unsupervised-scmerge" class="anchor"></a>Unsupervised <code>scMerge</code>
 </h1>
-<p>In unsupervised <code>scMerge</code>, we will perform a k-means clustering to obtain pseudo-replicates. This requires the users to supply a <code>kmeansK</code> vector with each element indicating number of clusters in each of the batches. For example, we know the first, forth, and fifth batch contains only one cell type and the second and third batch contains three cell types. Hence, <code>kmeansK = c(1,3,3,1,1)</code> in this case.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(<span class="dt">sce_combine =</span> sce_mESC, 
-                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                    <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_unsupervised"</span>)</code></pre></div>
+<p>In unsupervised <code>scMerge</code>, we will perform a k-means clustering to obtain pseudo-replicates. This requires the users to supply a <code>kmeansK</code> vector with each element indicating number of clusters in each of the batches. For example, we know “batch2” and “batch3” both contain three cell types. Hence, <code>kmeansK = c(3, 3)</code> in this case.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scMerge_unsupervised &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(<span class="dt">sce_combine =</span> example_sce, 
+                                <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
+                                <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">3</span>),
+                                <span class="dt">assay_name =</span> <span class="st">"scMerge_unsupervised"</span>)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
 <p>We now colour construct the PCA plot again on our normalised data. We can observe a much better separation by cell type and less separation by batches.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
-                           <span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised"</span>)
-
-scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_unsupervised, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised"</span>),
                 <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/unsupervised_default_plotting-1.png" width="700"></p>
 <!-- ##Selecting 80% of cells -->
@@ -213,17 +196,16 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 <h1 class="hasAnchor">
 <a href="#selecting-all-cells" class="anchor"></a>Selecting all cells</h1>
 <p>By default, <code>scMerge</code> only uses 50% of the cells to perform kmeans clustering. While this is sufficient to perform a satisfactory normalisation in most cases, users can control if they wish all cells be used in the kmeans clustering.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
-                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                    <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_unsupervised_all"</span>,
-                    <span class="dt">replicate_prop =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scMerge_unsupervised_all &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce, 
+                                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
+                                    <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">3</span>),
+                                    <span class="dt">assay_name =</span> <span class="st">"scMerge_unsupervised_all"</span>,
+                                    <span class="dt">replicate_prop =</span> <span class="dv">1</span>)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
-                           <span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised_all"</span>)
-scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_unsupervised_all, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised_all"</span>),
                 <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/unsupervised_prop1_plotting-1.png" width="700"></p>
 <!-- ##Selecting 20% of cells -->
@@ -244,17 +226,16 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 <a href="#supervised-scmerge" class="anchor"></a>Supervised <code>scMerge</code>
 </h1>
 <p>If <strong>all</strong> cell type information is available to the user, then it is possible to use this information to create pseudo-replicates. This can be done through the <code>cell_type</code> argument in the <code>scMerge</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC,
-                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                    <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_supervised"</span>,
-                    <span class="dt">cell_type =</span> sce_mESC<span class="op">$</span>cellTypes)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scMerge_supervised &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce,
+                              <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
+                              <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">3</span>),
+                              <span class="dt">assay_name =</span> <span class="st">"scMerge_supervised"</span>,
+                              <span class="dt">cell_type =</span> example_sce<span class="op">$</span>cellTypes)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
-                           <span class="dt">exprs_values =</span> <span class="st">"scMerge_supervised"</span>)
-scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_supervised, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>,
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_supervised"</span>),
                 <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/supervised_plotting-1.png" width="700"></p>
 </div>
@@ -262,18 +243,17 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 <h1 class="hasAnchor">
 <a href="#semi-supervised-scmerge-i" class="anchor"></a>Semi-supervised scMerge I</h1>
 <p>If the user is only able to access <strong>partial</strong> cell type information, then it is still possible to use this information to create pseudo-replicates. This can be done through the <code>cell_type</code> and <code>cell_type_inc</code> arguments in the <code>scMerge</code> function. <code>cell_type_inc</code> should contain a vector of indices indicating which elements in the <code>cell_type</code> vector should be used to perform semi-supervised scMerge.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC,
-                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                    <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_semisupervised1"</span>,
-                    <span class="dt">cell_type =</span> sce_mESC<span class="op">$</span>cellTypes,
-                    <span class="dt">cell_type_inc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(sce_mESC<span class="op">$</span>cellTypes <span class="op">==</span><span class="st"> "2i"</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scMerge_semisupervised1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce,
+                                   <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
+                                   <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>,<span class="dv">3</span>),
+                                   <span class="dt">assay_name =</span> <span class="st">"scMerge_semisupervised1"</span>,
+                                   <span class="dt">cell_type =</span> example_sce<span class="op">$</span>cellTypes,
+                                   <span class="dt">cell_type_inc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(example_sce<span class="op">$</span>cellTypes <span class="op">==</span><span class="st"> "2i"</span>))</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
-                           <span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised1"</span>)
-scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_semisupervised1, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised1"</span>),
                 <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/semi_supervised1_plotting-1.png" width="700"></p>
 </div>
@@ -282,92 +262,84 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 <a href="#semi-supervised-scmerge-ii" class="anchor"></a>Semi-supervised scMerge II</h1>
 <!-- Perform scMerge using known cell type information to identify mutual nearest cluster -->
 <p>There is alternative semi-supervised method to create pseudo-replicates for <code>scMerge</code>. This uses known cell type information to identify mutual nearest clusters and it is achieved via the <code>cell_type</code> and <code>cell_type_match = TRUE</code> options in the <code>scMerge</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scMerge_semisupervised2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce,
                     <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                    <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
+                    <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">3</span>),
                     <span class="dt">assay_name =</span> <span class="st">"scMerge_semisupervised2"</span>,
-                    <span class="dt">cell_type =</span> sce_mESC<span class="op">$</span>cellTypes,
+                    <span class="dt">cell_type =</span> example_sce<span class="op">$</span>cellTypes,
                     <span class="dt">cell_type_match =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
-                           <span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised2"</span>)
-scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_semisupervised2, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised2"</span>),
                 <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/semi_supervised2_plotting-1.png" width="700"></p>
 </div>
 <div id="achieving-fast-computation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#achieving-fast-computation" class="anchor"></a>Achieving fast computation</h1>
-<p>Under most circumstances, <code>scMerge</code> is fast enough to be used on a personal laptop for a moderately large data like the mESC data (24224 features and 704 cells). For example, a basic run of the <code>scMerge</code> algorithm takes roughly 40 seconds.</p>
+<p>Under most circumstances, <code>scMerge</code> is fast enough to be used on a personal laptop for a moderately large data. For example, a single run of <code>scMerge</code> on the full mESC data with 24224 features and 704 cells takes roughly 40 seconds.</p>
+<p>However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
+<p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t1 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
-sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
-                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                    <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_classical"</span>)</code></pre></div>
+scMerge_classical &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce, 
+                             <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
+                             <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">3</span>),
+                             <span class="dt">assay_name =</span> <span class="st">"scMerge_classical"</span>)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
 <pre><code>## No maker nor marker_list information was supplied 
 ## Finding HVG...
-## [1] 3082
+## [1] 118
 ## Clustering within each batch...
 ## Performing pca...
 ## Creating Mutual Nearest Cluster...</code></pre>
 <pre><code>##   group batch cluster
-## 1     2     2       1
-## 2     2     3       3
-## 3     3     2       2
-## 4     3     3       1
-## 5     1     2       3
-## 6     1     3       2
-## 7     2     1       1
-## 8     1     4       1
-## 9     1     5       1
+## 1     3     1       1
+## 2     3     2       3
+## 3     1     1       2
+## 4     1     2       2
+## 5     2     1       3
+## 6     2     2       1
 ## Dimension of the replicates mapping matrix 
-## [1] 704 356
+## [1] 300 153
 ## 
 ## Performing RUV normalisation... This might take a few minutes...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t2 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 t2 <span class="op">-</span><span class="st"> </span>t1</code></pre></div>
-<pre><code>## Time difference of 56.83327 secs</code></pre>
-<p>However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
-<p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data.</p>
+<pre><code>## Time difference of 1.390175 secs</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t3 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
-sce_mESC &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(sce_mESC, 
-                    <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                    <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>),
-                    <span class="dt">assay_name =</span> <span class="st">"scMerge_fast"</span>, 
-                    <span class="dt">fast_svd =</span> <span class="ot">TRUE</span>, 
-                    <span class="dt">rsvd_prop =</span> <span class="fl">0.1</span>)</code></pre></div>
+scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce, 
+                        <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
+                        <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">3</span>),
+                        <span class="dt">assay_name =</span> <span class="st">"scMerge_fast"</span>, 
+                        <span class="dt">fast_svd =</span> <span class="ot">TRUE</span>, 
+                        <span class="dt">rsvd_prop =</span> <span class="fl">0.1</span>)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
 <pre><code>## No maker nor marker_list information was supplied 
 ## Finding HVG...
-## [1] 3082
+## [1] 118
 ## Clustering within each batch...
 ## Performing pca...
 ## Creating Mutual Nearest Cluster...</code></pre>
 <pre><code>##   group batch cluster
-## 1     1     2       1
-## 2     1     3       3
-## 3     2     2       2
-## 4     2     3       1
-## 5     3     2       3
-## 6     3     3       2
-## 7     2     1       1
-## 8     1     4       1
-## 9     1     5       1
+## 1     3     1       1
+## 2     3     2       2
+## 3     1     1       2
+## 4     1     2       3
+## 5     2     1       3
+## 6     2     2       1
 ## Dimension of the replicates mapping matrix 
-## [1] 704 356
+## [1] 300 153
 ## 
 ## Performing RUV normalisation... This might take a few minutes...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t4 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 t4 <span class="op">-</span><span class="st"> </span>t3</code></pre></div>
-<pre><code>## Time difference of 31.52849 secs</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sce_mESC &lt;-<span class="st"> </span>scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(sce_mESC, 
-                           <span class="dt">exprs_values =</span> <span class="st">"scMerge_fast"</span>)
-scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(sce_mESC, 
+<pre><code>## Time difference of 0.8981071 secs</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_fast, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
+                <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_fast"</span>),
                 <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"fast_svd yields similar results to the default version"</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/computation_rsvd_plotting-1.png" width="700"></p>
@@ -375,7 +347,7 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>() </code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</code></pre></div>
 <pre><code>## R version 3.5.2 (2018-12-20)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
 ## Running under: macOS High Sierra 10.13.6
@@ -393,19 +365,19 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 ## 
 ## other attached packages:
 ##  [1] scater_1.10.1               ggplot2_3.1.0              
-##  [3] scMerge.data_0.0.1          scMerge_0.1.17             
-##  [5] SingleCellExperiment_1.4.1  SummarizedExperiment_1.12.0
-##  [7] DelayedArray_0.8.0          BiocParallel_1.16.5        
-##  [9] matrixStats_0.54.0          Biobase_2.42.0             
-## [11] GenomicRanges_1.34.0        GenomeInfoDb_1.18.1        
-## [13] IRanges_2.16.0              S4Vectors_0.20.1           
-## [15] BiocGenerics_0.28.0         BiocStyle_2.10.0           
+##  [3] scMerge_0.1.21              SingleCellExperiment_1.4.1 
+##  [5] SummarizedExperiment_1.12.0 DelayedArray_0.8.0         
+##  [7] BiocParallel_1.16.5         matrixStats_0.54.0         
+##  [9] Biobase_2.42.0              GenomicRanges_1.34.0       
+## [11] GenomeInfoDb_1.18.1         IRanges_2.16.0             
+## [13] S4Vectors_0.20.1            BiocGenerics_0.28.0        
+## [15] BiocStyle_2.10.0           
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] bitops_1.0-6             fs_1.2.6                
 ##  [3] RColorBrewer_1.1-2       rprojroot_1.3-2         
 ##  [5] numDeriv_2016.8-1        tools_3.5.2             
-##  [7] backports_1.1.3          irlba_2.3.2             
+##  [7] backports_1.1.3          irlba_2.3.3             
 ##  [9] R6_2.3.0                 KernSmooth_2.23-15      
 ## [11] HDF5Array_1.10.1         vipor_0.4.5             
 ## [13] lazyeval_0.2.1           colorspace_1.4-0        
@@ -414,37 +386,37 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 ## [19] xml2_1.2.0               desc_1.2.0              
 ## [21] labeling_0.3             bookdown_0.9            
 ## [23] caTools_1.17.1.1         scales_1.0.0            
-## [25] pkgdown_1.3.0            commonmark_1.7          
-## [27] stringr_1.3.1            digest_0.6.18           
-## [29] rmarkdown_1.11           XVector_0.22.0          
-## [31] pkgconfig_2.0.2          htmltools_0.3.6         
-## [33] bbmle_1.0.20             ruv_0.9.7               
-## [35] rlang_0.3.1              rstudioapi_0.9.0        
-## [37] DelayedMatrixStats_1.4.0 bindr_0.1.1             
-## [39] gtools_3.8.1             dplyr_0.7.8             
-## [41] RCurl_1.95-4.11          magrittr_1.5            
-## [43] GenomeInfoDbData_1.2.0   Matrix_1.2-15           
-## [45] Rcpp_1.0.0               ggbeeswarm_0.6.0        
-## [47] munsell_0.5.0            Rhdf5lib_1.4.2          
-## [49] viridis_0.5.1            stringi_1.2.4           
-## [51] yaml_2.2.0               MASS_7.3-51.1           
-## [53] zlibbioc_1.28.0          rhdf5_2.26.2            
-## [55] gplots_3.0.1.1           plyr_1.8.4              
-## [57] grid_3.5.2               gdata_2.18.0            
-## [59] M3Drop_1.8.1             crayon_1.3.4            
-## [61] lattice_0.20-38          cowplot_0.9.4           
-## [63] knitr_1.21               pillar_1.3.1            
-## [65] igraph_1.2.2             reshape2_1.4.3          
-## [67] codetools_0.2-16         glue_1.3.0              
-## [69] evaluate_0.12            BiocManager_1.30.4      
-## [71] foreach_1.4.4            gtable_0.2.0            
-## [73] purrr_0.3.0              assertthat_0.2.0        
-## [75] xfun_0.4                 rsvd_1.0.0              
-## [77] RcppEigen_0.3.3.5.0      roxygen2_6.1.1          
-## [79] viridisLite_0.3.0        tibble_2.0.1            
-## [81] iterators_1.0.10         beeswarm_0.2.3          
-## [83] memoise_1.1.0            bindrcpp_0.2.2          
-## [85] statmod_1.4.30</code></pre>
+## [25] proxy_0.4-22             pkgdown_1.3.0           
+## [27] commonmark_1.7           stringr_1.3.1           
+## [29] digest_0.6.18            rmarkdown_1.11          
+## [31] XVector_0.22.0           pkgconfig_2.0.2         
+## [33] htmltools_0.3.6          bbmle_1.0.20            
+## [35] ruv_0.9.7                rlang_0.3.1             
+## [37] rstudioapi_0.9.0         DelayedMatrixStats_1.4.0
+## [39] bindr_0.1.1              gtools_3.8.1            
+## [41] dplyr_0.7.8              RCurl_1.95-4.11         
+## [43] magrittr_1.5             GenomeInfoDbData_1.2.0  
+## [45] Matrix_1.2-15            Rcpp_1.0.0              
+## [47] ggbeeswarm_0.6.0         munsell_0.5.0           
+## [49] Rhdf5lib_1.4.2           viridis_0.5.1           
+## [51] stringi_1.2.4            yaml_2.2.0              
+## [53] MASS_7.3-51.1            zlibbioc_1.28.0         
+## [55] rhdf5_2.26.2             gplots_3.0.1.1          
+## [57] plyr_1.8.4               grid_3.5.2              
+## [59] gdata_2.18.0             M3Drop_1.8.1            
+## [61] crayon_1.3.4             lattice_0.20-38         
+## [63] cowplot_0.9.4            knitr_1.21              
+## [65] pillar_1.3.1             igraph_1.2.2            
+## [67] reshape2_1.4.3           codetools_0.2-16        
+## [69] glue_1.3.0               evaluate_0.12           
+## [71] BiocManager_1.30.4       foreach_1.4.4           
+## [73] gtable_0.2.0             purrr_0.3.0             
+## [75] assertthat_0.2.0         xfun_0.4                
+## [77] rsvd_1.0.0               RcppEigen_0.3.3.5.0     
+## [79] roxygen2_6.1.1           viridisLite_0.3.0       
+## [81] tibble_2.0.1             iterators_1.0.10        
+## [83] beeswarm_0.2.3           memoise_1.1.0           
+## [85] bindrcpp_0.2.2           statmod_1.4.30</code></pre>
 <!-- You can enable figure captions by `fig_caption: yes` in YAML: -->
 <!--     output: -->
 <!--       rmarkdown::html_vignette: -->
@@ -458,9 +430,7 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">Introduction</a></li>
-      <li><a href="#loading-packages-and-data">Loading Packages and Data</a></li>
-      <li><a href="#illustrating-pseudo-replicates-constructions">Illustrating pseudo-replicates constructions</a></li>
+<li><a href="#illustrating-pseudo-replicates-constructions">Illustrating pseudo-replicates constructions</a></li>
       <li><a href="#unsupervised-scmerge">Unsupervised <code>scMerge</code></a></li>
       <li><a href="#selecting-all-cells">Selecting all cells</a></li>
       <li><a href="#supervised-scmerge">Supervised <code>scMerge</code></a></li>
@@ -476,7 +446,7 @@ scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumenta
 
 
       <footer><div class="copyright">
-  <p>Developed by Yingxin Lin, Kevin Wang, Sydney Bioinformatics and Biometrics Group.</p>
+  <p>Developed by Kevin Wang, Yingxin Lin, Sydney Bioinformatics and Biometrics Group.</p>
 </div>
 
 <div class="pkgdown">

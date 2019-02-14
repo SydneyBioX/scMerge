@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.21</span>
       </span>
     </div>
 
@@ -286,37 +286,33 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    rename</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>scMerge.data</span>)
-<span class='co'>## Loading example data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"sce_mESC"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"scMerge.data"</span>)
+#&gt; <span class='message'>    filter</span></div><div class='input'><span class='co'>## Loading example data</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'example_sce'</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)
 <span class='co'>## Previously computed stably expressed genes</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"segList_ensemblGeneID"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'segList_ensemblGeneID'</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)
 <span class='co'>## Running an example data with minimal inputs</span>
 <span class='no'>sce_mESC</span> <span class='kw'>&lt;-</span> <span class='fu'>scMerge</span>(
-                      <span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>sce_mESC</span>,
+                      <span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>example_sce</span>,
                       <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>segList_ensemblGeneID</span>$<span class='no'>mouse</span>$<span class='no'>mouse_scSEG</span>,
-                      <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
-                      <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>)</div><div class='output co'>#&gt; <span class='message'>Computation will run in serial</span></div><div class='output co'>#&gt; No maker nor marker_list information was supplied 
+                      <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>3</span>),
+                      <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)</div><div class='output co'>#&gt; <span class='message'>Computation will run in serial</span></div><div class='output co'>#&gt; No maker nor marker_list information was supplied 
 #&gt; Finding HVG...
-#&gt; [1] 3082
+#&gt; [1] 118
 #&gt; Clustering within each batch...
 #&gt; Performing pca...
 #&gt; Creating Mutual Nearest Cluster...</div><div class='img'><img src='scMerge-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;   group batch cluster
-#&gt; 1     1     2       1
-#&gt; 2     1     3       1
-#&gt; 3     2     2       2
-#&gt; 4     2     3       3
-#&gt; 5     3     2       3
-#&gt; 6     3     3       2
-#&gt; 7     2     1       1
-#&gt; 8     1     4       1
-#&gt; 9     1     5       1
+#&gt; 1     3     1       1
+#&gt; 2     3     2       3
+#&gt; 3     1     1       2
+#&gt; 4     1     2       1
+#&gt; 5     2     1       3
+#&gt; 6     2     2       2
 #&gt; Dimension of the replicates mapping matrix 
-#&gt; [1] 704 356
+#&gt; [1] 300 153
 #&gt; 
-#&gt; Performing RUV normalisation... This might take a few minutes... </div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
-                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>), <span class='kw'>add_ticks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>"cellTypes"</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
-                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"scMerge"</span>), <span class='kw'>add_ticks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
+#&gt; Performing RUV normalisation... This might take a few minutes... </div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,
+                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'logcounts'</span>), <span class='kw'>add_ticks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,
+                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>), <span class='kw'>add_ticks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -335,7 +331,7 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 
       <footer>
       <div class="copyright">
-  <p>Developed by Yingxin Lin, Kevin Wang, Sydney Bioinformatics and Biometrics Group.</p>
+  <p>Developed by Kevin Wang, Yingxin Lin, Sydney Bioinformatics and Biometrics Group.</p>
 </div>
 
 <div class="pkgdown">

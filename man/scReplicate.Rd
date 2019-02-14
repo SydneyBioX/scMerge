@@ -62,7 +62,7 @@ Create pseudo-replicate from single-cell RNA-seq data from different batches, ex
 \examples{
 ## Loading example data
 set.seed(1)
-data("sce_mESC", package = "scMerge.data")
+data('sce_mESC', package = 'scMerge.data')
 scRep_result = scReplicate(
   sce = sce_mESC,
   batch = sce_mESC$batch,

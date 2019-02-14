@@ -2,7 +2,7 @@
 % Please edit documentation in R/scRUVIII.R
 \name{scRUVIII}
 \alias{scRUVIII}
-\title{scRUVIII}
+\title{scRUVIII: RUVIII algorithm optimised for single cell data}
 \usage{
 scRUVIII(Y = Y, M = M, ctl = ctl, fullalpha = NULL, k = k,
   return.info = TRUE, cell_type = NULL, batch = NULL,
@@ -44,7 +44,9 @@ all the supplied k values will be returned.
 }
 }
 \description{
-perform scRUVIII
+A function to perform loacation/scale adjustement to data as the input of
+RUVIII which also provides the option to select optimal RUVk according to the
+silhouette coefficient
 }
 \examples{
 L = scMerge::ruvSimulate(m = 200, n = 1000, nc = 50, nRep = 10)

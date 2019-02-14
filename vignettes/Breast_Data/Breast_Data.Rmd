@@ -44,7 +44,7 @@ This is a human breast cancer single-cell data comprising of 4 different batches
 
 <!-- <img src="/FigS7_v1.png"> -->
 
-![](https://github.com/SydneyBioX/scMerge/blob/master/docs/articles/Breast_Data/FigS7_v1.png?raw=true)
+![](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeWebsite/Breast_Data/FigS7_v1.png)
 
 <!-- ![](FigS7_v1.pdf) -->
 

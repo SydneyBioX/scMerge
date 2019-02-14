@@ -6,7 +6,7 @@
 \title{Stably expressed gene list in official gene symbols for both human and mouse}
 \format{An object of class \code{list} of length 2.}
 \usage{
-data(segList)
+data(segList, package = 'scMerge')
 }
 \description{
 A list includes the stably expressed genes for both human and mouse
