@@ -43,6 +43,9 @@ scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
 \item{parallelParam}{The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is SerialParam().}
 
 \item{return_all}{If \code{FALSE}, only return the replicate matrix.}
+
+\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
+We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
 }
 \value{
 If \code{return_all} is \code{FALSE}, return a replicate matrix.
@@ -63,11 +66,11 @@ Create pseudo-replicate from single-cell RNA-seq data from different batches, ex
 \examples{
 ## Loading example data
 set.seed(1)
-data('sce_mESC', package = 'scMerge.data')
+data('example_sce', package = 'scMerge')
 scRep_result = scReplicate(
-  sce_combine = sce_mESC,
-  batch = sce_mESC$batch,
-  kmeansK = c(1,3,3,1,1),
+  sce_combine = example_sce,
+  batch = example_sce$batch,
+  kmeansK = c(3,3),
   fast_svd = FALSE)
 
 }

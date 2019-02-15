@@ -7,6 +7,26 @@
 scRUVg(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
   fullW = NULL, svdyc = NULL)
 }
+\arguments{
+\item{Y}{The data. A m by n matrix, where m is the number of observations and n is the number of features.}
+
+\item{ctl}{index vector to specify the negative controls.}
+
+\item{k}{The number of unwanted factors to use.}
+
+\item{Z}{Any additional covariates to include in the model.}
+
+\item{eta}{Gene-wise (as opposed to sample-wise) covariates.}
+
+\item{include.intercept}{Applies to both Z and eta. When Z or eta (or both) is
+specified (not NULL) but does not already include an intercept term, this will automatically include one.
+If only one of Z or eta should include an intercept, this variable should be set to FALSE,
+and the intercept term should be included manually where desired.}
+
+\item{fullW}{Can be included to speed up execution. Is returned by previous calls of scRUVg}
+
+\item{svdyc}{Can be included to speed up execution. For internal use; please use fullW instead.}
+}
 \value{
 A list consists of:
 \itemize{
@@ -17,11 +37,12 @@ A list consists of:
 }
 \description{
 Modified based on RUV2 from package ruv and RUVg from package RUVseq function
+(see these function's documentations for full documentations and usage)
 }
 \examples{
 L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nRep = 10)
 Y = L$Y; M = L$M; ctl = L$ctl
-ruvgRes = scRUVg(Y = Y, ctl = ctl, k = 20)
+ruvgRes = scMerge::scRUVg(Y = Y, ctl = ctl, k = 20)
 }
 \author{
 Yingxin Lin

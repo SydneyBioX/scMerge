@@ -24,7 +24,7 @@ Calculate single-cell Stably Expressed Gene (scSEG) index
 ## Loading example data
 data('example_sce', package = 'scMerge')
 ## subsetting to 200 genes to illustrate usage.
-exprsMat = assay(example_sce, 'counts')[1:200, ]
+exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:200, ]
 set.seed(1)
 result = scSEGIndex(exprsMat = exprsMat)
 head(result)

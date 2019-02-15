@@ -123,7 +123,9 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p># Introduction</p>
+</script><div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>The scMerge algorithm allows batch effect removal and normalisation for single cell RNA-Seq data. It comprises of three key components including:</p>
 <ol style="list-style-type: decimal">
 <li>The identification of stably expressed genes (SEGs) as “negative controls” for estimating unwanted factors;</li>
@@ -131,6 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <li>The adjustment of the datasets with unwanted variation using a fastRUVIII model.</li>
 </ol>
 <p>The purpose of this vignette is to illustrate some uses of <code>scMerge</code> and explain its key components.</p>
+</div>
 <div id="loading-packages-and-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#loading-packages-and-data" class="anchor"></a>Loading Packages and Data</h1>
@@ -235,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function() {
                               <span class="dt">assay_name =</span> <span class="st">"scMerge_supervised"</span>,
                               <span class="dt">cell_type =</span> example_sce<span class="op">$</span>cellTypes)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_supervised, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_supervised,
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>,
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_supervised"</span>),
@@ -290,26 +293,7 @@ scMerge_classical &lt;-<span class="st"> </span><span class="kw"><a href="../ref
                              <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">3</span>),
                              <span class="dt">assay_name =</span> <span class="st">"scMerge_classical"</span>)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
-<pre><code>## No maker nor marker_list information was supplied 
-## Finding HVG...
-## [1] 118
-## Clustering within each batch...
-## Performing pca...
-## Creating Mutual Nearest Cluster...</code></pre>
-<pre><code>##   group batch cluster
-## 1     3     1       1
-## 2     3     2       1
-## 3     1     1       2
-## 4     1     2       3
-## 5     2     1       3
-## 6     2     2       2
-## Dimension of the replicates mapping matrix 
-## [1] 300 153
-## 
-## Performing RUV normalisation... This might take a few minutes...</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t2 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
-t2 <span class="op">-</span><span class="st"> </span>t1</code></pre></div>
-<pre><code>## Time difference of 1.16514 secs</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t2 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t3 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce, 
                         <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
@@ -318,26 +302,11 @@ scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
                         <span class="dt">fast_svd =</span> <span class="ot">TRUE</span>, 
                         <span class="dt">rsvd_prop =</span> <span class="fl">0.1</span>)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
-<pre><code>## No maker nor marker_list information was supplied 
-## Finding HVG...
-## [1] 118
-## Clustering within each batch...
-## Performing pca...
-## Creating Mutual Nearest Cluster...</code></pre>
-<pre><code>##   group batch cluster
-## 1     3     1       1
-## 2     3     2       1
-## 3     1     1       2
-## 4     1     2       2
-## 5     2     1       3
-## 6     2     2       3
-## Dimension of the replicates mapping matrix 
-## [1] 300 153
-## 
-## Performing RUV normalisation... This might take a few minutes...</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t4 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
-t4 <span class="op">-</span><span class="st"> </span>t3</code></pre></div>
-<pre><code>## Time difference of 0.875828 secs</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t4 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Normally, scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t2 <span class="op">-</span><span class="st"> </span>t1, <span class="dv">2</span>), <span class="st">" seconds"</span>)</code></pre></div>
+<pre><code>## [1] "Normally, scMerge takes  1.65  seconds"</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Fast version of scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t4 <span class="op">-</span><span class="st"> </span>t3, <span class="dv">2</span>), <span class="st">" seconds"</span>)</code></pre></div>
+<pre><code>## [1] "Fast version of scMerge takes  0.95  seconds"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_fast, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
@@ -345,6 +314,29 @@ t4 <span class="op">-</span><span class="st"> </span>t3</code></pre></div>
                 <span class="dt">add_ticks =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"fast_svd yields similar results to the default version"</span>)</code></pre></div>
 <p><img src="scMerge_files/figure-html/computation_rsvd_plotting-1.png" width="700"></p>
+</div>
+<div id="reference" class="section level1">
+<h1 class="hasAnchor">
+<a href="#reference" class="anchor"></a>Reference</h1>
+<p>Please check out our paper for detailed analysis and results on multiple scRNA-Seq data. <a href="https://www.biorxiv.org/content/10.1101/393280v2" class="uri">https://www.biorxiv.org/content/10.1101/393280v2</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/citation">citation</a></span>(<span class="st">"scMerge"</span>)</code></pre></div>
+<pre><code>## 
+## To cite scMerge in publications please use:
+## 
+## Lin Y, Ghazanfar S, Wang K, Gagnon-Bartsch J, Lo K, Su X, Han Z,
+## Ormerod J, Speed T, Yang P, Yang J (2019). _scMerge: Merging
+## multiple batches of scRNA-seq data_. R package version 0.1.22,
+## &lt;URL: https://github.com/SydneyBioX/scMerge&gt;.
+## 
+## A BibTeX entry for LaTeX users is
+## 
+##   @Manual{,
+##     title = {{scMerge}: Merging multiple batches of scRNA-seq data},
+##     author = {Yingxin Lin and Shila Ghazanfar and Kevin Wang and Johann Gagnon-Bartsch and Kitty Lo and Xianbin Su and Ze-Guang Han and John Ormerod and Terence Speed and Pengyi Yang and Jean Yang},
+##     year = {2019},
+##     note = {R package version 0.1.22},
+##     url = {https://github.com/SydneyBioX/scMerge},
+##   }</code></pre>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
@@ -367,7 +359,7 @@ t4 <span class="op">-</span><span class="st"> </span>t3</code></pre></div>
 ## 
 ## other attached packages:
 ##  [1] scater_1.10.1               ggplot2_3.1.0              
-##  [3] scMerge_0.1.21              SingleCellExperiment_1.4.1 
+##  [3] scMerge_0.1.22              SingleCellExperiment_1.4.1 
 ##  [5] SummarizedExperiment_1.12.0 DelayedArray_0.8.0         
 ##  [7] BiocParallel_1.16.5         matrixStats_0.54.0         
 ##  [9] Biobase_2.42.0              GenomicRanges_1.34.0       
@@ -432,7 +424,8 @@ t4 <span class="op">-</span><span class="st"> </span>t3</code></pre></div>
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#loading-packages-and-data">Loading Packages and Data</a></li>
+<li><a href="#introduction">Introduction</a></li>
+      <li><a href="#loading-packages-and-data">Loading Packages and Data</a></li>
       <li><a href="#illustrating-pseudo-replicates-constructions">Illustrating pseudo-replicates constructions</a></li>
       <li><a href="#unsupervised-scmerge">Unsupervised <code>scMerge</code></a></li>
       <li><a href="#selecting-all-cells">Selecting all cells</a></li>
@@ -440,6 +433,7 @@ t4 <span class="op">-</span><span class="st"> </span>t3</code></pre></div>
       <li><a href="#semi-supervised-scmerge-i">Semi-supervised scMerge I</a></li>
       <li><a href="#semi-supervised-scmerge-ii">Semi-supervised scMerge II</a></li>
       <li><a href="#achieving-fast-computation">Achieving fast computation</a></li>
+      <li><a href="#reference">Reference</a></li>
       <li><a href="#session-info">Session Info</a></li>
       </ul>
 </div>

@@ -37,7 +37,8 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{cell_type_inc}{An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.}
 
-\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages. We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
+\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
+We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
 
 \item{rsvd_prop}{If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
 

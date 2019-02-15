@@ -17,4 +17,4 @@ bibentry(bibtype = "Manual",
          year = 2019,
          note = note,
          url = "https://github.com/SydneyBioX/scMerge",
-         header = "To cite mplot in publications please use:")
+         header = "To cite scMerge in publications please use:")

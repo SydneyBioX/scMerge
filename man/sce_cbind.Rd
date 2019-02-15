@@ -36,7 +36,7 @@ data('example_sce', package = 'scMerge')
 batch_names<-unique(example_sce$batch)
 sce_list<-list(example_sce[,example_sce$batch=='batch2'],
                example_sce[,example_sce$batch=='batch3'])
-sce_combine<-sce_cbind(sce_list,batch_names=batchNames)
+sce_combine<-sce_cbind(sce_list,batch_names=batch_names)
 }
 \author{
 Yingxin Lin

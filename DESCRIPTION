@@ -26,6 +26,7 @@ Imports:
   irlba,
   iterators,
   kBET,
+  matrixStats,
   M3Drop,
   parallel,
   pdist,
@@ -34,6 +35,7 @@ Imports:
   RcppEigen (>= 0.3.3.4.0),
   rsvd,
   ruv,
+  S4Vectors,
   SingleCellExperiment,
   SummarizedExperiment
 LinkingTo: 

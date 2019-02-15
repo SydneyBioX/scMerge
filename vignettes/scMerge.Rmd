@@ -22,7 +22,7 @@ BiocStyle::markdown()
 ```
   
   
-  # Introduction
+# Introduction
   
   The scMerge algorithm allows batch effect removal and normalisation for single cell RNA-Seq data. It comprises of three key components including: 
   
@@ -195,6 +195,7 @@ scater::plotPCA(scMerge_unsupervised_all,
 
 If **all** cell type information is available to the user, then it is possible to use this information to create pseudo-replicates. This can be done through the `cell_type` argument in the `scMerge` function.
 
+
 ```{r supervised, results='hide',fig.show='hide'}
 scMerge_supervised <- scMerge(example_sce,
                               ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
@@ -205,12 +206,13 @@ scMerge_supervised <- scMerge(example_sce,
 
 
 ```{r supervised_plotting}
-scater::plotPCA(scMerge_supervised, 
+scater::plotPCA(scMerge_supervised,
                 colour_by = "cellTypes",
                 shape_by = "batch",
                 run_args = list(exprs_values = "scMerge_supervised"),
                 add_ticks = FALSE)
 ```
+
 
 # Semi-supervised scMerge I
 
@@ -271,18 +273,17 @@ Under most circumstances, `scMerge` is fast enough to be used on a personal lapt
 We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data. For example, a single run of normal `scMerge` on a human [pancreas data](https://sydneybiox.github.io/scMerge/articles/Pancreas4_Data/Pancreas4_Data.html) (23699 features and 4566 cells) takes about 10 minutes whereas the speed up version takes just under 4 minutes. 
 
 
-```{r computation_classical, fig.show='hide'}
+```{r computation_classical, results='hide',fig.show='hide'}
 t1 = Sys.time()
 scMerge_classical <- scMerge(example_sce, 
                              ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
                              kmeansK = c(3, 3),
                              assay_name = "scMerge_classical")
 t2 = Sys.time()
-t2 - t1
 ```
 
 
-```{r computation_fast, fig.show='hide'}
+```{r computation_fast, results='hide',fig.show='hide'}
 t3 = Sys.time()
 scMerge_fast <- scMerge(example_sce, 
                         ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
@@ -291,11 +292,13 @@ scMerge_fast <- scMerge(example_sce,
                         fast_svd = TRUE, 
                         rsvd_prop = 0.1)
 t4 = Sys.time()
-t4 - t3
 ```
 
 
 ```{r computation_rsvd_plotting}
+paste("Normally, scMerge takes ", round(t2 - t1, 2), " seconds")
+paste("Fast version of scMerge takes ", round(t4 - t3, 2), " seconds")
+
 scater::plotPCA(scMerge_fast, 
                 colour_by = "cellTypes", 
                 shape_by = "batch",
@@ -305,10 +308,18 @@ scater::plotPCA(scMerge_fast,
 ```
 
 
+# Reference
+
+Please check out our paper for detailed analysis and results on multiple scRNA-Seq data. https://www.biorxiv.org/content/10.1101/393280v2
+
+```{r reference}
+citation("scMerge")
+```
+
 
 # Session Info
 
-```{r}
+```{r session info}
 sessionInfo()
 ```
 

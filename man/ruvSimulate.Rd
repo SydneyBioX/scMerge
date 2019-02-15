@@ -16,6 +16,8 @@ ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50, nBatch = 4,
 
 \item{nRep}{Number of replicates}
 
+\item{nBatch}{Number of batches}
+
 \item{lambda}{Rate parameter for random Poisson generation}
 
 \item{sce}{If \code{TRUE}, returns a SingleCellExperiment object}
