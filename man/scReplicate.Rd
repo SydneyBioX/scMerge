@@ -4,14 +4,15 @@
 \alias{scReplicate}
 \title{Create pseudo-replicate for scMerge}
 \usage{
-scReplicate(sce, batch = NULL, kmeansK = NULL, exprs = "logcounts",
-  hvg_exprs = "counts", marker = NULL, marker_list = NULL,
-  replicate_prop = 1, cell_type = NULL, cell_type_match = FALSE,
-  cell_type_inc = NULL, dist = "cor", WV = NULL, WV_marker = NULL,
-  parallelParam = SerialParam(), return_all = FALSE, fast_svd)
+scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
+  exprs = "logcounts", hvg_exprs = "counts", marker = NULL,
+  marker_list = NULL, replicate_prop = 1, cell_type = NULL,
+  cell_type_match = FALSE, cell_type_inc = NULL, dist = "cor",
+  WV = NULL, WV_marker = NULL, parallelParam = SerialParam(),
+  return_all = FALSE, fast_svd)
 }
 \arguments{
-\item{sce}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
+\item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
 
 \item{batch}{A vector indicates the batch information for each cell in the batch-combined matrix.}
 
@@ -64,7 +65,7 @@ Create pseudo-replicate from single-cell RNA-seq data from different batches, ex
 set.seed(1)
 data('sce_mESC', package = 'scMerge.data')
 scRep_result = scReplicate(
-  sce = sce_mESC,
+  sce_combine = sce_mESC,
   batch = sce_mESC$batch,
   kmeansK = c(1,3,3,1,1),
   fast_svd = FALSE)

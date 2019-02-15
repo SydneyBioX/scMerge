@@ -70,9 +70,9 @@ Merge single-cell RNA-seq data from different batches, experiments, protocols.
 library(SingleCellExperiment)
 library(scater)
 ## Loading example data
-data('example_sce', package = 'scMerge')
+data("example_sce", package = "scMerge")
 ## Previously computed stably expressed genes
-data('segList_ensemblGeneID', package = 'scMerge')
+data("segList_ensemblGeneID", package = "scMerge")
 ## Running an example data with minimal inputs
 sce_mESC <- scMerge(
                       sce_combine = example_sce,

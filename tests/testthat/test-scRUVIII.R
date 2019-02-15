@@ -8,5 +8,6 @@ ctl = L$ctl
 batch = L$dataSource
 res = scRUVIII(Y = Y, M = M, ctl = ctl, k = 20, batch = batch)
 
-## When multiple k's are supplied, we have a message indicating a selection of k using silhoutte coefficients.
+## When multiple k's are supplied, we have a message indicating a selection
+## of k using silhoutte coefficients.
 expect_message(scRUVIII(Y = Y, M = M, ctl = ctl, k = c(10, 15, 20), batch = batch))

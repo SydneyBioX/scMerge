@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.21</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.22</span>
       </span>
     </div>
 
@@ -143,17 +143,18 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>scReplicate</span>(<span class='no'>sce</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exprs</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>,
-  <span class='kw'>hvg_exprs</span> <span class='kw'>=</span> <span class='st'>"counts"</span>, <span class='kw'>marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>marker_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>replicate_prop</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cell_type_match</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>cell_type_inc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='st'>"cor"</span>, <span class='kw'>WV</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>WV_marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallelParam</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(), <span class='kw'>return_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>fast_svd</span>)</pre>
+    <pre class="usage"><span class='fu'>scReplicate</span>(<span class='no'>sce_combine</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>exprs</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>, <span class='kw'>hvg_exprs</span> <span class='kw'>=</span> <span class='st'>"counts"</span>, <span class='kw'>marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>marker_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>replicate_prop</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cell_type_match</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cell_type_inc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='st'>"cor"</span>,
+  <span class='kw'>WV</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>WV_marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallelParam</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='kw'>return_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>fast_svd</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>sce</th>
+      <th>sce_combine</th>
       <td><p>A <code>SingleCellExperiment</code> object contains the batch-combined matrix with batch info in colData</p></td>
     </tr>
     <tr>
@@ -239,7 +240,7 @@ should belong to that cell cluster and 0 otherwise.
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'sce_mESC'</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'scMerge.data'</span>)
 <span class='no'>scRep_result</span> <span class='kw'>=</span> <span class='fu'>scReplicate</span>(
-  <span class='kw'>sce</span> <span class='kw'>=</span> <span class='no'>sce_mESC</span>,
+  <span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>sce_mESC</span>,
   <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>sce_mESC</span>$<span class='no'>batch</span>,
   <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
   <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; No maker nor marker_list information was supplied 

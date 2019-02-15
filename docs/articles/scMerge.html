@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.21</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.22</span>
       </span>
     </div>
 
@@ -298,18 +298,18 @@ scMerge_classical &lt;-<span class="st"> </span><span class="kw"><a href="../ref
 ## Creating Mutual Nearest Cluster...</code></pre>
 <pre><code>##   group batch cluster
 ## 1     3     1       1
-## 2     3     2       3
+## 2     3     2       1
 ## 3     1     1       2
-## 4     1     2       2
+## 4     1     2       3
 ## 5     2     1       3
-## 6     2     2       1
+## 6     2     2       2
 ## Dimension of the replicates mapping matrix 
 ## [1] 300 153
 ## 
 ## Performing RUV normalisation... This might take a few minutes...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t2 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 t2 <span class="op">-</span><span class="st"> </span>t1</code></pre></div>
-<pre><code>## Time difference of 1.17317 secs</code></pre>
+<pre><code>## Time difference of 1.16514 secs</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t3 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce, 
                         <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
@@ -326,18 +326,18 @@ scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Creating Mutual Nearest Cluster...</code></pre>
 <pre><code>##   group batch cluster
 ## 1     3     1       1
-## 2     3     2       3
+## 2     3     2       1
 ## 3     1     1       2
 ## 4     1     2       2
 ## 5     2     1       3
-## 6     2     2       1
+## 6     2     2       3
 ## Dimension of the replicates mapping matrix 
 ## [1] 300 153
 ## 
 ## Performing RUV normalisation... This might take a few minutes...</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t4 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
 t4 <span class="op">-</span><span class="st"> </span>t3</code></pre></div>
-<pre><code>## Time difference of 0.862473 secs</code></pre>
+<pre><code>## Time difference of 0.875828 secs</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_fast, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,

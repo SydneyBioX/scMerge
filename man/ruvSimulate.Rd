@@ -37,8 +37,8 @@ to test on the speed and performance of the internal algorithms of scMerge.
 It is not intended to be used by end-users.
 }
 \examples{
-L = ruvSimulate(m = 100, n = 200, nRep = 10, lambda = 0.1)
+L = ruvSimulate(m = 100, n = 2000, nRep = 10, lambda = 0.1)
 names(L)
-L = ruvSimulate(m = 100, n = 200, nRep = 10, lambda = 0.1, sce = TRUE)
+L = ruvSimulate(m = 100, n = 2000, nRep = 10, lambda = 0.1, sce = TRUE)
 print(L)
 }

@@ -19,14 +19,16 @@
 #' }
 #' if \code{sce} is TRUE, a SingleCellExperiment wrapper will be applied on all above simulated objects.
 #' @examples
-#' L = ruvSimulate(m = 100, n = 200, nRep = 10, lambda = 0.1)
+#' L = ruvSimulate(m = 100, n = 2000, nRep = 10, lambda = 0.1)
 #' names(L)
-#' L = ruvSimulate(m = 100, n = 200, nRep = 10, lambda = 0.1, sce = TRUE)
+#' L = ruvSimulate(m = 100, n = 2000, nRep = 10, lambda = 0.1, sce = TRUE)
 #' print(L)
 #' @export
 
-ruvSimulate = function(m = 100, n = 1e+05, nc = 1000, nRep = 50, nBatch = 4, lambda = 0.1, sce = FALSE) {
-    # m Number of observations n Number of features nc Number of negative controls
+ruvSimulate = function(m = 100, n = 1e+05, nc = 1000, nRep = 50, nBatch = 4, 
+    lambda = 0.1, sce = FALSE) {
+    # m Number of observations n Number of features nc Number of negative
+    # controls
     p = 1
     k = 20
     ctl = rep(FALSE, n)
@@ -40,18 +42,22 @@ ruvSimulate = function(m = 100, n = 1e+05, nc = 1000, nRep = 50, nBatch = 4, lam
     Y = X %*% beta + W %*% alpha + epsilon
     rownames(Y) = paste0("cell", seq_len(m))
     colnames(Y) = paste0("gene", seq_len(n))
-    # Define patientID and sampleDate patientID = paste('patient', rep_len(1:nRep, length.out = m), sep = '') #print(patientID) sampleDate =
-    # paste('Date', rep_len(c(1:4), length.out = m), sep = '') batch = paste(patientID, sampleDate, sep = '_') M =
+    # Define patientID and sampleDate patientID = paste('patient',
+    # rep_len(1:nRep, length.out = m), sep = '') #print(patientID) sampleDate =
+    # paste('Date', rep_len(c(1:4), length.out = m), sep = '') batch =
+    # paste(patientID, sampleDate, sep = '_') M =
     # ruv::replicate.matrix(data.frame(patientID, sampleDate))
     
     cellType = paste("cellType", rep_len(seq_len(nRep), length.out = m), sep = "")
-    dataSource = paste("dataSource", rep_len(seq_len(nBatch), length.out = m), sep = "")
+    dataSource = paste("dataSource", rep_len(seq_len(nBatch), length.out = m), 
+        sep = "")
     # batch = paste(cellType, dataSource, sep = '_')
     M = ruv::replicate.matrix(data.frame(cellType, dataSource))
     
     if (sce) {
-        result = SingleCellExperiment::SingleCellExperiment(assays = list(counts = t(Y), logcounts = log2(t(Y) + 1L)), colData = data.frame(cellType, 
-            dataSource), metadata = list(M = M))
+        result = SingleCellExperiment::SingleCellExperiment(assays = list(counts = t(Y), 
+            logcounts = log2(t(Y) + 1L)), colData = data.frame(cellType, dataSource), 
+            metadata = list(M = M))
     } else {
         result = list(Y = Y, ctl = ctl, M = M, cellType = cellType, dataSource = dataSource)
     }

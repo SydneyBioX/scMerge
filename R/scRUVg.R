@@ -14,7 +14,8 @@
 #' ruvgRes = scRUVg(Y = Y, ctl = ctl, k = 20)
 
 
-scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE, fullW = NULL, svdyc = NULL) {
+scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE, fullW = NULL, 
+    svdyc = NULL) {
     if (is.data.frame(Y)) {
         Y = data.matrix(Y)
     }
