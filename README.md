@@ -1,3 +1,5 @@
+[![Travis build status](https://travis-ci.org/SydneyBioX/scMerge.svg?branch=master)](https://travis-ci.org/SydneyBioX/scMerge)
+
 # scMerge
 
 `scMerge` is a R package for merging and normalising single-cell RNA-Seq datasets.

@@ -1,6 +1,8 @@
+^\.travis\.yml$
 ^Meta$
 ^doc$
 ^docs$
 ^_pkgdown\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+.travis.yml
