@@ -5,3 +5,8 @@ sudo: false
 cache: packages
 R: bioc-devel
 r_github_packages: theislab/kBET
+dist: trusty 
+os:
+  - windows
+  - linux
+  - osx
