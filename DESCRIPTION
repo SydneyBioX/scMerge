@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: Merging multiple batches of scRNA-seq data
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: c(
     person("Kevin", "Wang", email = "kevin.wang@sydney.edu.au", role = c("aut", "cre")
     ),
@@ -19,13 +19,13 @@ Depends:
     R (>= 3.5)
 Imports:
   BiocParallel,
+  cluster,
   distr,
   doSNOW,
   foreach,
   igraph,
   irlba,
   iterators,
-  kBET,
   matrixStats,
   M3Drop,
   parallel,

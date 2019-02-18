@@ -1,3 +1,14 @@
+# Changes in version 0.99.1 (2019-02-18)
+* Removed kBET package from dependency and added cluster package instead to ensure
+we comply with BioC package guidelines.
+
+# Changes in version 0.99.0 (2019-02-17)
+* Bumped version number for BioC submission
+* Using Travis to ensure building on Linux and Mac OS
+
+# Changes in version 0.1.21 (2019-02-15)
+* Bug fix: permuted columns now yields identical results
+
 # Changes in version 0.1.20 (2019-02-14)
 * Added a small mouse embryonic stem cell data to demonstrate scMerge usage
 * Package now under 5MB and vignette builds under 1 minute

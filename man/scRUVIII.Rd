@@ -12,10 +12,12 @@ scRUVIII(Y = Y, M = M, ctl = ctl, fullalpha = NULL, k = k,
 \item{Y}{The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.}
 
 \item{M}{The replicate mapping matrix.
-The mapping matrix has m rows (one for each observation), and each column represents a set of replicates. The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.
+The mapping matrix has m rows (one for each observation), and each column represents a set of replicates.
+The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.
 See ruv::RUVIII for more details.}
 
-\item{ctl}{An index vector to specify the negative controls. Either a logical vector of length n or a vector of integers.}
+\item{ctl}{An index vector to specify the negative controls.
+Either a logical vector of length n or a vector of integers.}
 
 \item{fullalpha}{Not used. Please ignore.}
 
@@ -23,16 +25,22 @@ See ruv::RUVIII for more details.}
 
 \item{return.info}{Additional information relating to the computation of normalised matrix. We recommend setting this to true.}
 
-\item{cell_type}{An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.}
+\item{cell_type}{An optional vector indicating the cell type information for each cell
+in the batch-combined matrix. If it is \code{NULL},
+pseudo-replicate procedure will be run to identify cell type.}
 
 \item{batch}{Batch information inherited from the scMerge::scMerge function.}
 
 \item{return_all_RUV}{Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function}
 
-\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages. We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
+\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
+We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
 
-\item{rsvd_prop}{If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
-If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a less accurate computed result but with a gain in speed.
+\item{rsvd_prop}{If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to
+reduce the computational cost of randomised singular value decomposition.
+We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
+If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a
+less accurate computed result but with a gain in speed.
 The default of 0.1 tends to achieve a balance between speed and accuracy.}
 }
 \value{
