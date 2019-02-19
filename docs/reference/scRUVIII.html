@@ -65,7 +65,7 @@ silhouette coefficient" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.22</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
       </span>
     </div>
 
@@ -161,12 +161,14 @@ silhouette coefficient</p>
     <tr>
       <th>M</th>
       <td><p>The replicate mapping matrix.
-The mapping matrix has m rows (one for each observation), and each column represents a set of replicates. The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.
+The mapping matrix has m rows (one for each observation), and each column represents a set of replicates.
+The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.
 See ruv::RUVIII for more details.</p></td>
     </tr>
     <tr>
       <th>ctl</th>
-      <td><p>An index vector to specify the negative controls. Either a logical vector of length n or a vector of integers.</p></td>
+      <td><p>An index vector to specify the negative controls.
+Either a logical vector of length n or a vector of integers.</p></td>
     </tr>
     <tr>
       <th>fullalpha</th>
@@ -182,7 +184,9 @@ See ruv::RUVIII for more details.</p></td>
     </tr>
     <tr>
       <th>cell_type</th>
-      <td><p>An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is <code>NULL</code>, pseudo-replicate procedure will be run to identify cell type.</p></td>
+      <td><p>An optional vector indicating the cell type information for each cell
+in the batch-combined matrix. If it is <code>NULL</code>,
+pseudo-replicate procedure will be run to identify cell type.</p></td>
     </tr>
     <tr>
       <th>batch</th>
@@ -194,12 +198,16 @@ See ruv::RUVIII for more details.</p></td>
     </tr>
     <tr>
       <th>fast_svd</th>
-      <td><p>If <code>TRUE</code>, fast algorithms will be used for singular value decomposition calculation via the <code>irlba</code> and <code>rsvd</code> packages. We recommend using this option when the number of cells is large (e.g. more than 1000 cells).</p></td>
+      <td><p>If <code>TRUE</code>, fast algorithms will be used for singular value decomposition calculation via the <code>irlba</code> and <code>rsvd</code> packages.
+We recommend using this option when the number of cells is large (e.g. more than 1000 cells).</p></td>
     </tr>
     <tr>
       <th>rsvd_prop</th>
-      <td><p>If <code>fast_svd = TRUE</code>, then <code>rsvd_prop</code> will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
-If a lower value is used on a lower dimensional data (say &lt; 1000 cell) will potentially yield a less accurate computed result but with a gain in speed.
+      <td><p>If <code>fast_svd = TRUE</code>, then <code>rsvd_prop</code> will be used to used to
+reduce the computational cost of randomised singular value decomposition.
+We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
+If a lower value is used on a lower dimensional data (say &lt; 1000 cell) will potentially yield a
+less accurate computed result but with a gain in speed.
 The default of 0.1 tends to achieve a balance between speed and accuracy.</p></td>
     </tr>
     </table>
@@ -217,7 +225,7 @@ all the supplied k values will be returned.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scMerge/topics/ruvSimulate'>ruvSimulate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>nRep</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 <span class='no'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log2</a></span>(<span class='no'>L</span>$<span class='no'>Y</span> + <span class='fl'>1L</span>); <span class='no'>M</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>M</span>; <span class='no'>ctl</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>ctl</span>; <span class='no'>batch</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>dataSource</span>;
-<span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span>, <span class='fl'>20</span>), <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting optimal RUVk</span></div><div class='output co'>#&gt; <span class='message'>No cell type info, replicate matrix will be used as cell type info</span></div><div class='output co'>#&gt; <span class='message'>optimal ruvK: 10</span></div><div class='img'><img src='scRUVIII-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>)</div></pre>
+<span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span>, <span class='fl'>20</span>), <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting optimal RUVk</span></div><div class='output co'>#&gt; <span class='message'>No cell type info, replicate matrix will be used as cell type info</span></div><div class='output co'>#&gt; <span class='message'>optimal ruvK: 5</span></div><div class='img'><img src='scRUVIII-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

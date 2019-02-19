@@ -1,3 +1,6 @@
+# Changes in version 0.99.2 (2019-02-19)
+* Removed add_ticks in vignette to comply with scater update
+
 # Changes in version 0.99.1 (2019-02-18)
 * Removed kBET package from dependency and added cluster package instead to ensure
 we comply with BioC package guidelines.

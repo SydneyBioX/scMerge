@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.22</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
       </span>
     </div>
 
@@ -98,6 +98,8 @@
       
       </header><div class="row">
   <div class="contents col-md-9">
+
+
 <div id="scmerge" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#scmerge" class="anchor"></a>scMerge</h1></div>
@@ -106,14 +108,13 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>The installation process could take up to 5 minutes, depending if you have some of the packages pre-installed.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Some CRAN packages required by scMerge</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"BiocManager"</span>, <span class="st">"distr"</span>, <span class="st">"doSNOW"</span>, <span class="st">"foreach"</span>, <span class="st">"igraph"</span>, <span class="st">"irlba"</span>, <span class="st">"iterators"</span>, <span class="st">"matrixStats"</span>, <span class="st">"pdist"</span>, <span class="st">"proxy"</span>,  <span class="st">"Rcpp"</span>, <span class="st">"RcppEigen"</span>, <span class="st">"rsvd"</span>, <span class="st">"ruv"</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Some CRAN packages required by scMerge
+<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"BiocManager"</span>, <span class="st">"cluster"</span>, <span class="st">"distr"</span>, <span class="st">"doSNOW"</span>, <span class="st">"foreach"</span>, <span class="st">"igraph"</span>, <span class="st">"irlba"</span>, <span class="st">"iterators"</span>, <span class="st">"matrixStats"</span>, <span class="st">"pdist"</span>, <span class="st">"proxy"</span>,  <span class="st">"Rcpp"</span>, <span class="st">"RcppEigen"</span>, <span class="st">"rsvd"</span>, <span class="st">"ruv"</span>))
 
-<span class="co"># Some BioConductor packages required by scMerge</span>
+## Some BioConductor packages required by scMerge
 BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"BiocParallel"</span>, <span class="st">"M3Drop"</span>, <span class="st">"SingleCellExperiment"</span>))
 
-<span class="co"># Some GitHub packages required by scMerge</span>
-devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"theislab/kBET"</span>)
+## Installing scMerge
 devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"SydneyBioX/scMerge"</span>)</code></pre></div>
 </div>
 <div id="vignette" class="section level2">
@@ -140,6 +141,7 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
 <p>BioRxiv preprint: <a href="https://www.biorxiv.org/content/early/2018/08/16/393280" class="uri">https://www.biorxiv.org/content/early/2018/08/16/393280</a></p>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -173,7 +175,13 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://travis-ci.org/SydneyBioX/scMerge"><img src="https://travis-ci.org/SydneyBioX/scMerge.svg?branch=master" alt="Travis build status"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
       <footer><div class="copyright">

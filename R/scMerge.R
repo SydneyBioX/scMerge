@@ -47,9 +47,9 @@
 #'                       kmeansK = c(3, 3),
 #'                       assay_name = 'scMerge')
 #' scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
-#'                  run_args = list(exprs_values = 'logcounts'), add_ticks = FALSE)
+#'                  run_args = list(exprs_values = 'logcounts'))
 #' scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
-#'                  run_args = list(exprs_values = 'scMerge'), add_ticks = FALSE)
+#'                  run_args = list(exprs_values = 'scMerge'))
 
 
 scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
