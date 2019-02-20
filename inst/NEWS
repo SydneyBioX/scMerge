@@ -1,3 +1,6 @@
+# Changes in version 0.99.3 (2019-02-20)
+* Updates on functions to be compatible with M3Drop V1.9.4
+
 # Changes in version 0.99.2 (2019-02-19)
 * Removed add_ticks in vignette to comply with scater update
 

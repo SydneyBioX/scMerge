@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: Merging multiple batches of scRNA-seq data
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: c(
     person("Kevin", "Wang", email = "kevin.wang@sydney.edu.au", role = c("aut", "cre")
     ),
@@ -27,7 +27,7 @@ Imports:
   irlba,
   iterators,
   matrixStats,
-  M3Drop,
+  M3Drop (>= 1.9.4),
   parallel,
   pdist,
   proxy,
