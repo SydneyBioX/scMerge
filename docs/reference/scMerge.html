@@ -298,7 +298,7 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
                       <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>3</span>),
                       <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)</div><div class='output co'>#&gt; <span class='message'>Computation will run in serial</span></div><div class='output co'>#&gt; No maker nor marker_list information was supplied 
 #&gt; Finding HVG...
-#&gt; [1] 118
+#&gt; [1] 176
 #&gt; Clustering within each batch...
 #&gt; Performing pca...
 #&gt; Creating Mutual Nearest Cluster...</div><div class='img'><img src='scMerge-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;   group batch cluster
@@ -309,7 +309,7 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 #&gt; 5     2     1       3
 #&gt; 6     2     2       3
 #&gt; Dimension of the replicates mapping matrix 
-#&gt; [1] 300 153
+#&gt; [1] 300 154
 #&gt; 
 #&gt; Performing RUV normalisation... This might take a few minutes... </div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,
                  <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'logcounts'</span>))</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,

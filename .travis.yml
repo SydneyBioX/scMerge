@@ -4,8 +4,10 @@ language: R
 sudo: false
 cache: packages
 R: bioc-devel
-r_github_packages: theislab/kBET
-dist: trusty 
+r_github_packages:
+  - tallulandrews/M3Drop
+  - davismcc/scater
+dist: trusty
 os:
   - linux
   - osx

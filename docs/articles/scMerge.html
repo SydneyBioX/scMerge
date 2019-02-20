@@ -298,9 +298,9 @@ scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <pre><code>## Computation will run in serial</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t4 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Normally, scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t2 <span class="op">-</span><span class="st"> </span>t1, <span class="dv">2</span>), <span class="st">" seconds"</span>)</code></pre></div>
-<pre><code>## [1] "Normally, scMerge takes  1.93  seconds"</code></pre>
+<pre><code>## [1] "Normally, scMerge takes  1.39  seconds"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Fast version of scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t4 <span class="op">-</span><span class="st"> </span>t3, <span class="dv">2</span>), <span class="st">" seconds"</span>)</code></pre></div>
-<pre><code>## [1] "Fast version of scMerge takes  2.01  seconds"</code></pre>
+<pre><code>## [1] "Fast version of scMerge takes  1.02  seconds"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_fast, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,

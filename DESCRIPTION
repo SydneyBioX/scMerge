@@ -15,8 +15,6 @@ Description: Remove batch effect and unwanted variations for single-cell RNA-seq
 License: GPL-3
 Encoding: UTF-8
 LazyData: false
-Depends:
-    R (>= 3.5)
 Imports:
   BiocParallel,
   cluster,

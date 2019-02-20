@@ -58,10 +58,6 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
     rsvd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL, parallel = FALSE,
     parallelParam = NULL, return_all_RUV = FALSE, assay_name = NULL) {
 
-    if (class(sce_combine) != "SingleCellExperiment") {
-      stop("Please make sure sce_combine is a SingleCellExperiment object.")
-    }
-
     ## Checking if the cell names are non-unique
     cellNames = colnames(sce_combine)
 
@@ -107,7 +103,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
     if (is.null(ctl)) {
         stop("Negative control genes are needed. \n")
     } else {
-        if (class(ctl) == "character") {
+        if (is.character(ctl)) {
             ctl <- which(sce_rownames %in% ctl)
         }
         if (length(ctl) == 0) {
@@ -121,7 +117,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
         stop("Could not find a 'batch' column in colData(sce_combine)", call. = FALSE)
     }
 
-    if (class(sce_combine$batch) == "factor") {
+    if (is.factor(sce_combine$batch)) {
         batch <- droplevels(sce_combine$batch)
     } else {
         batch <- sce_combine$batch

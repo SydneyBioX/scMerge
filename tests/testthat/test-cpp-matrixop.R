@@ -16,4 +16,4 @@ t3 = Sys.time()
 ## improved1 used C++ matrix operations, hence it should be faster than
 ## native R matrix operations
 expect_equal(improved1, old, tolerance = 1e-07)
-expect_lt(as.numeric(t2 - t1, units = "secs"), as.numeric(t3 - t2, units = "secs"))
+# expect_lt(as.numeric(t2 - t1, units = "secs"), as.numeric(t3 - t2, units = "secs"))

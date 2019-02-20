@@ -72,7 +72,7 @@ commonSegGenes = intersect(segList_ensemblGeneID$mouse$mouse_scSEG, rownames(sce
 
 keepGenes = unique(c(commonSegGenes, 
                      rownames(batchTest)[rank(batchTest$p.value) < 200],
-                     rownames(celltypeTest)[rank(celltypeTest$p.value) < 1200]
+                     rownames(celltypeTest)[rank(celltypeTest$p.value) < 1000]
 ))
 
 example_sce = example_sce[keepGenes, c(batch2Sampled, batch3Sampled)]
