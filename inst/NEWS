@@ -1,3 +1,7 @@
+# Changes in version 0.99.4 (2019-02-20)
+* Fixed unit test, reduced tarball size, added .gitignore
+* Example data was reduced in size.
+
 # Changes in version 0.99.3 (2019-02-20)
 * Updates on functions to be compatible with M3Drop V1.9.4
 
