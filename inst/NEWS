@@ -1,3 +1,6 @@
+# Changes in version 0.99.5 (2019-02-21)
+* Fixed fastRUVIII unit test and parallel unit test
+
 # Changes in version 0.99.4 (2019-02-20)
 * Fixed unit test, reduced tarball size, added .gitignore
 * Example data was reduced in size.

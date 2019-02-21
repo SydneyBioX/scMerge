@@ -8,10 +8,10 @@ ctl = L$ctl
 
 t1 = Sys.time()
 improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
-t2 = Sys.time()
-improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE,
-    rsvd_prop = 0.1)
-t3 = Sys.time()
+# t2 = Sys.time()
+# improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE,
+#     rsvd_prop = 0.1)
+# t3 = Sys.time()
 old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
 t4 = Sys.time()
 
