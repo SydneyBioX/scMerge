@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: Merging multiple batches of scRNA-seq data
-Version: 0.99.6
+Version: 0.99.7
 Authors@R: c(
     person("Kevin", "Wang", email = "kevin.wang@sydney.edu.au", role = c("aut", "cre")
     ),
@@ -15,7 +15,7 @@ Description: Remove batch effect and unwanted variations for single-cell RNA-seq
 License: GPL-3
 Encoding: UTF-8
 LazyData: false
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.6.0)
 Imports:
   BiocParallel,
   cluster,
