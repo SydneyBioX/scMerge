@@ -5,9 +5,9 @@ sudo: false
 cache: packages
 R: bioc-devel
 r_github_packages:
+  - LTLA/BiocNeighbors
   - tallulandrews/M3Drop
   - davismcc/scater
-  - LTLA/BiocNeighbors
 dist: trusty
 os:
   - linux

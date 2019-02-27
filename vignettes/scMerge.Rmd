@@ -122,6 +122,11 @@ The second major component of `scMerge` is to compute pseudo-replicates for cell
 
 In unsupervised `scMerge`, we will perform a k-means clustering to obtain pseudo-replicates. This requires the users to supply a `kmeansK` vector with each element indicating number of clusters in each of the batches. For example, we know "batch2" and "batch3" both contain three cell types. Hence, `kmeansK = c(3, 3)` in this case. 
 
+
+```{r t1, echo = FALSE}
+t1 = Sys.time()
+```
+
 ```{r unsupervised_default, results='hide',fig.show='hide'}
 scMerge_unsupervised <- scMerge(sce_combine = example_sce, 
                                 ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
@@ -129,6 +134,9 @@ scMerge_unsupervised <- scMerge(sce_combine = example_sce,
                                 assay_name = "scMerge_unsupervised")
 ```
 
+```{r t2, echo = FALSE}
+t2 = Sys.time()
+```
 
 We now colour construct the PCA plot again on our normalised data. We can observe a much better separation by cell type and less separation by batches. 
 
@@ -267,24 +275,21 @@ Under most circumstances, `scMerge` is fast enough to be used on a personal lapt
 We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data. For example, a single run of normal `scMerge` on a human [pancreas data](https://sydneybiox.github.io/scMerge/articles/Pancreas4_Data/Pancreas4_Data.html) (23699 features and 4566 cells) takes about 10 minutes whereas the speed up version takes just under 4 minutes. 
 
 
-```{r computation_classical, results='hide',fig.show='hide'}
-t1 = Sys.time()
-scMerge_classical <- scMerge(example_sce, 
-                             ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
-                             kmeansK = c(3, 3),
-                             assay_name = "scMerge_classical")
-t2 = Sys.time()
+
+```{r t3, echo = FALSE}
+t3 = Sys.time()
 ```
 
-
 ```{r computation_fast, results='hide',fig.show='hide'}
-t3 = Sys.time()
 scMerge_fast <- scMerge(example_sce, 
                         ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
                         kmeansK = c(3, 3),
                         assay_name = "scMerge_fast", 
                         fast_svd = TRUE, 
                         rsvd_prop = 0.1)
+```
+
+```{r t4, echo = FALSE}
 t4 = Sys.time()
 ```
 

@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.8</span>
       </span>
     </div>
 
@@ -154,6 +154,8 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(example_sce, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>)</code></pre></div>
+<pre><code>## Warning: 'add_ticks' is deprecated.
+## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/checking%20raw%20data-1.png" width="700"></p>
 </div>
 <div id="illustrating-pseudo-replicates-constructions" class="section level1">
@@ -182,6 +184,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised"</span>))</code></pre></div>
+<pre><code>## Warning: 'add_ticks' is deprecated.
+## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/unsupervised_default_plotting-1.png" width="700"></p>
 <!-- ##Selecting 80% of cells -->
 <!-- ```{r results='hide',fig.show='hide'} -->
@@ -210,6 +214,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised_all"</span>))</code></pre></div>
+<pre><code>## Warning: 'add_ticks' is deprecated.
+## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/unsupervised_prop1_plotting-1.png" width="700"></p>
 <!-- ##Selecting 20% of cells -->
 <!-- ```{r results='hide',fig.show='hide'} -->
@@ -239,6 +245,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>,
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_supervised"</span>))</code></pre></div>
+<pre><code>## Warning: 'add_ticks' is deprecated.
+## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/supervised_plotting-1.png" width="700"></p>
 </div>
 <div id="semi-supervised-scmerge-i" class="section level1">
@@ -256,6 +264,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised1"</span>))</code></pre></div>
+<pre><code>## Warning: 'add_ticks' is deprecated.
+## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/semi_supervised1_plotting-1.png" width="700"></p>
 </div>
 <div id="semi-supervised-scmerge-ii" class="section level1">
@@ -274,6 +284,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised2"</span>))</code></pre></div>
+<pre><code>## Warning: 'add_ticks' is deprecated.
+## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/semi_supervised2_plotting-1.png" width="700"></p>
 </div>
 <div id="achieving-fast-computation" class="section level1">
@@ -281,31 +293,24 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#achieving-fast-computation" class="anchor"></a>Achieving fast computation</h1>
 <p>Under most circumstances, <code>scMerge</code> is fast enough to be used on a personal laptop for a moderately large data. However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option <code>fast_svd = TRUE</code> and <code>rsvd_prop</code>. <code>rsvd_prop</code> is a parameter between 0 and 1, controlling the degree of approximations.</p>
 <p>We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data. For example, a single run of normal <code>scMerge</code> on a human <a href="https://sydneybiox.github.io/scMerge/articles/Pancreas4_Data/Pancreas4_Data.html">pancreas data</a> (23699 features and 4566 cells) takes about 10 minutes whereas the speed up version takes just under 4 minutes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t1 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
-scMerge_classical &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce, 
-                             <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
-                             <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">3</span>),
-                             <span class="dt">assay_name =</span> <span class="st">"scMerge_classical"</span>)</code></pre></div>
-<pre><code>## Computation will run in serial</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t2 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t3 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()
-scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scMerge.html">scMerge</a></span>(example_sce, 
                         <span class="dt">ctl =</span> segList_ensemblGeneID<span class="op">$</span>mouse<span class="op">$</span>mouse_scSEG,
                         <span class="dt">kmeansK =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">3</span>, <span class="dv">3</span>),
                         <span class="dt">assay_name =</span> <span class="st">"scMerge_fast"</span>, 
                         <span class="dt">fast_svd =</span> <span class="ot">TRUE</span>, 
                         <span class="dt">rsvd_prop =</span> <span class="fl">0.1</span>)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t4 =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.time">Sys.time</a></span>()</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Normally, scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t2 <span class="op">-</span><span class="st"> </span>t1, <span class="dv">2</span>), <span class="st">" seconds"</span>)</code></pre></div>
-<pre><code>## [1] "Normally, scMerge takes  1.39  seconds"</code></pre>
+<pre><code>## [1] "Normally, scMerge takes  2.13  seconds"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Fast version of scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t4 <span class="op">-</span><span class="st"> </span>t3, <span class="dv">2</span>), <span class="st">" seconds"</span>)</code></pre></div>
-<pre><code>## [1] "Fast version of scMerge takes  1.02  seconds"</code></pre>
+<pre><code>## [1] "Fast version of scMerge takes  1.32  seconds"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_fast, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_fast"</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"fast_svd yields similar results to the default version"</span>)</code></pre></div>
+<pre><code>## Warning: 'add_ticks' is deprecated.
+## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/computation_rsvd_plotting-1.png" width="700"></p>
 </div>
 <div id="reference" class="section level1">
@@ -318,7 +323,7 @@ scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## 
 ## Lin Y, Ghazanfar S, Wang K, Gagnon-Bartsch J, Lo K, Su X, Han Z,
 ## Ormerod J, Speed T, Yang P, Yang J (2019). _scMerge: Merging
-## multiple batches of scRNA-seq data_. R package version 0.99.3,
+## multiple batches of scRNA-seq data_. R package version 0.99.8,
 ## &lt;URL: https://github.com/SydneyBioX/scMerge&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
@@ -327,7 +332,7 @@ scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ##     title = {{scMerge}: Merging multiple batches of scRNA-seq data},
 ##     author = {Yingxin Lin and Shila Ghazanfar and Kevin Wang and Johann Gagnon-Bartsch and Kitty Lo and Xianbin Su and Ze-Guang Han and John Ormerod and Terence Speed and Pengyi Yang and Jean Yang},
 ##     year = {2019},
-##     note = {R package version 0.99.3},
+##     note = {R package version 0.99.8},
 ##     url = {https://github.com/SydneyBioX/scMerge},
 ##   }</code></pre>
 </div>
@@ -351,8 +356,8 @@ scMerge_fast &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] scater_1.9.24               ggplot2_3.1.0              
-##  [3] scMerge_0.99.3              SingleCellExperiment_1.4.1 
+##  [1] scater_1.10.1               ggplot2_3.1.0              
+##  [3] scMerge_0.99.8              SingleCellExperiment_1.4.1 
 ##  [5] SummarizedExperiment_1.12.0 DelayedArray_0.8.0         
 ##  [7] BiocParallel_1.16.6         matrixStats_0.54.0         
 ##  [9] Biobase_2.42.0              GenomicRanges_1.34.0       

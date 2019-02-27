@@ -5,6 +5,3 @@
 ## With R 3.1.0 or later, you can uncomment the following line to tell R to
 ## enable compilation with C++11 (or even C++14) where available
 #CXX_STD = CXX11
-CC=ccache clang -Qunused-arguments
-CXX=ccache clang++ -Qunused-arguments
-CCACHE_CPP2=yes
