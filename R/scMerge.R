@@ -34,9 +34,8 @@
 #' @importFrom S4Vectors metadata
 #' @export
 #' @examples
-#' library(SingleCellExperiment)
-#' library(scater)
 #' ## Loading example data
+#' library(scater)
 #' data("example_sce", package = "scMerge")
 #' ## Previously computed stably expressed genes
 #' data("segList_ensemblGeneID", package = "scMerge")

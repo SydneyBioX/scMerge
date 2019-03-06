@@ -60,8 +60,8 @@ set.seed(2019)
 
 example_sce = sce_mESC[, sce_mESC$batch %in% c("batch2", "batch3")]
 example_sce$batch = droplevels(example_sce$batch)
-batch2Sampled = sample(colnames(example_sce[,example_sce$batch == "batch2"]), 150)
-batch3Sampled = sample(colnames(example_sce[,example_sce$batch == "batch3"]), 150)
+batch2Sampled = sample(colnames(example_sce[,example_sce$batch == "batch2"]), 100)
+batch3Sampled = sample(colnames(example_sce[,example_sce$batch == "batch3"]), 100)
 
 countsMat = SingleCellExperiment::counts(example_sce)
 
@@ -72,7 +72,7 @@ commonSegGenes = intersect(segList_ensemblGeneID$mouse$mouse_scSEG, rownames(sce
 
 keepGenes = unique(c(commonSegGenes, 
                      rownames(batchTest)[rank(batchTest$p.value) < 200],
-                     rownames(celltypeTest)[rank(celltypeTest$p.value) < 1000]
+                     rownames(celltypeTest)[rank(celltypeTest$p.value) < 800]
 ))
 
 example_sce = example_sce[keepGenes, c(batch2Sampled, batch3Sampled)]

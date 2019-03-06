@@ -16,8 +16,11 @@ install.packages(c("BiocManager", "cluster", "distr", "doSNOW", "foreach", "igra
 ## Some BioConductor packages required by scMerge
 BiocManager::install(c("BiocParallel", "M3Drop", "SingleCellExperiment"))
 
-## Installing scMerge
+## Installing scMerge on R 3.6
 devtools::install_github("SydneyBioX/scMerge")
+
+## Installing scMerge on R 3.5
+devtools::install_github("SydneyBioX/scMerge", ref = "280a7724cd49f10e535f4023a085bc6dc7dc432d")
 ```
 
 ## Vignette

@@ -68,9 +68,8 @@ Returns a \code{SingleCellExperiment} object with following components:
 Merge single-cell RNA-seq data from different batches, experiments, protocols.
 }
 \examples{
-library(SingleCellExperiment)
-library(scater)
 ## Loading example data
+library(scater)
 data("example_sce", package = "scMerge")
 ## Previously computed stably expressed genes
 data("segList_ensemblGeneID", package = "scMerge")
