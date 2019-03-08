@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
       </span>
     </div>
 
@@ -154,8 +154,6 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(example_sce, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>)</code></pre></div>
-<pre><code>## Warning: 'add_ticks' is deprecated.
-## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/checking%20raw%20data-1.png" width="700"></p>
 </div>
 <div id="illustrating-pseudo-replicates-constructions" class="section level1">
@@ -184,8 +182,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised"</span>))</code></pre></div>
-<pre><code>## Warning: 'add_ticks' is deprecated.
-## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/unsupervised_default_plotting-1.png" width="700"></p>
 <!-- ##Selecting 80% of cells -->
 <!-- ```{r results='hide',fig.show='hide'} -->
@@ -214,8 +210,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_unsupervised_all"</span>))</code></pre></div>
-<pre><code>## Warning: 'add_ticks' is deprecated.
-## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/unsupervised_prop1_plotting-1.png" width="700"></p>
 <!-- ##Selecting 20% of cells -->
 <!-- ```{r results='hide',fig.show='hide'} -->
@@ -245,8 +239,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>,
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_supervised"</span>))</code></pre></div>
-<pre><code>## Warning: 'add_ticks' is deprecated.
-## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/supervised_plotting-1.png" width="700"></p>
 </div>
 <div id="semi-supervised-scmerge-i" class="section level1">
@@ -264,8 +256,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised1"</span>))</code></pre></div>
-<pre><code>## Warning: 'add_ticks' is deprecated.
-## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/semi_supervised1_plotting-1.png" width="700"></p>
 </div>
 <div id="semi-supervised-scmerge-ii" class="section level1">
@@ -284,8 +274,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_semisupervised2"</span>))</code></pre></div>
-<pre><code>## Warning: 'add_ticks' is deprecated.
-## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/semi_supervised2_plotting-1.png" width="700"></p>
 </div>
 <div id="achieving-fast-computation" class="section level1">
@@ -301,16 +289,14 @@ document.addEventListener("DOMContentLoaded", function() {
                         <span class="dt">rsvd_prop =</span> <span class="fl">0.1</span>)</code></pre></div>
 <pre><code>## Computation will run in serial</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Normally, scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t2 <span class="op">-</span><span class="st"> </span>t1, <span class="dv">2</span>), <span class="st">" seconds"</span>)</code></pre></div>
-<pre><code>## [1] "Normally, scMerge takes  1.55  seconds"</code></pre>
+<pre><code>## [1] "Normally, scMerge takes  1.73  seconds"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Fast version of scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t4 <span class="op">-</span><span class="st"> </span>t3, <span class="dv">2</span>), <span class="st">" seconds"</span>)</code></pre></div>
-<pre><code>## [1] "Fast version of scMerge takes  0.69  seconds"</code></pre>
+<pre><code>## [1] "Fast version of scMerge takes  0.78  seconds"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(scMerge_fast, 
                 <span class="dt">colour_by =</span> <span class="st">"cellTypes"</span>, 
                 <span class="dt">shape_by =</span> <span class="st">"batch"</span>,
                 <span class="dt">run_args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">exprs_values =</span> <span class="st">"scMerge_fast"</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"fast_svd yields similar results to the default version"</span>)</code></pre></div>
-<pre><code>## Warning: 'add_ticks' is deprecated.
-## Use '+ geom_rug(...)' instead.</code></pre>
 <p><img src="scMerge_files/figure-html/computation_rsvd_plotting-1.png" width="700"></p>
 </div>
 <div id="reference" class="section level1">
@@ -356,7 +342,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] scater_1.10.1               ggplot2_3.1.0              
+##  [1] scater_1.11.0               ggplot2_3.1.0              
 ##  [3] scMerge_0.99.9              SingleCellExperiment_1.4.1 
 ##  [5] SummarizedExperiment_1.12.0 DelayedArray_0.8.0         
 ##  [7] BiocParallel_1.16.6         matrixStats_0.54.0         
@@ -386,7 +372,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  [35] Rcpp_1.0.0               bbmle_1.0.20            
 ##  [37] pkgdown_1.3.0            gdata_2.18.0            
 ##  [39] nlme_3.1-137             iterators_1.0.10        
-##  [41] DelayedMatrixStats_1.4.0 xfun_0.4                
+##  [41] DelayedMatrixStats_1.4.0 xfun_0.5                
 ##  [43] stringr_1.4.0            irlba_2.3.3             
 ##  [45] gtools_3.8.1             statmod_1.4.30          
 ##  [47] zlibbioc_1.28.0          MASS_7.3-51.1           
@@ -400,7 +386,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  [63] pkgconfig_2.0.2          commonmark_1.7          
 ##  [65] bitops_1.0-6             M3Drop_1.9.4            
 ##  [67] evaluate_0.13            lattice_0.20-38         
-##  [69] purrr_0.3.0              Rhdf5lib_1.4.2          
+##  [69] purrr_0.3.1              Rhdf5lib_1.4.2          
 ##  [71] ruv_0.9.7                labeling_0.3            
 ##  [73] htmlwidgets_1.3          cowplot_0.9.4           
 ##  [75] tidyselect_0.2.5         plyr_1.8.4              
@@ -409,7 +395,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  [81] Hmisc_4.2-0              pillar_1.3.1            
 ##  [83] foreign_0.8-71           withr_2.1.2             
 ##  [85] mgcv_1.8-27              survival_2.43-3         
-##  [87] RCurl_1.95-4.11          nnet_7.3-12             
+##  [87] RCurl_1.95-4.12          nnet_7.3-12             
 ##  [89] tibble_2.0.1             crayon_1.3.4            
 ##  [91] KernSmooth_2.23-15       rmarkdown_1.11          
 ##  [93] viridis_0.5.1            grid_3.5.2              

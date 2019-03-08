@@ -71,8 +71,8 @@ celltypeTest = rowFtests(countsMat, fac = factor(example_sce$cellTypes))
 commonSegGenes = intersect(segList_ensemblGeneID$mouse$mouse_scSEG, rownames(sce_mESC))
 
 keepGenes = unique(c(commonSegGenes, 
-                     rownames(batchTest)[rank(batchTest$p.value) < 200],
-                     rownames(celltypeTest)[rank(celltypeTest$p.value) < 800]
+                     rownames(batchTest)[rank(batchTest$p.value) < 50],
+                     rownames(celltypeTest)[rank(celltypeTest$p.value) < 200]
 ))
 
 example_sce = example_sce[keepGenes, c(batch2Sampled, batch3Sampled)]
@@ -82,6 +82,10 @@ table(example_sce$batch,
       example_sce$cellTypes)
 
 dim(example_sce)
+
+scater::plotPCA(example_sce, 
+                colour_by = "cellTypes", 
+                shape_by = "batch")
 
 save(example_sce,
      file = "data/example_sce.rda")
