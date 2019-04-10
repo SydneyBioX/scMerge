@@ -2,10 +2,10 @@
 % Please edit documentation in R/ruvSimulate.R
 \name{ruvSimulate}
 \alias{ruvSimulate}
-\title{Simulate a simple matrix to test the speed of scMerge}
+\title{Simulate a simple matrix or SingleCellExperiment to test scMerge}
 \usage{
-ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50, nBatch = 4,
-  lambda = 0.1, sce = FALSE)
+ruvSimulate(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3,
+  nBatch = 2, k = 20, lambda = 0.1, sce = FALSE)
 }
 \arguments{
 \item{m}{Number of observations}
@@ -14,7 +14,7 @@ ruvSimulate(m = 100, n = 1e+05, nc = 1000, nRep = 50, nBatch = 4,
 
 \item{nc}{Number of negative controls}
 
-\item{nRep}{Number of replicates}
+\item{nCelltypes}{Number of cell-types}
 
 \item{nBatch}{Number of batches}
 
@@ -28,19 +28,29 @@ If \code{sce} is FALSE, then the output is a list consists of
 \item Y,  expression matrix generated through Poisson random variables,
 \item ctl, a logical vector indicating the control genes,
 \item M, replicate mapping matrix,
-\item cellType, a vector indicating simulated cell types
-\item dataSource, a vector indicating simulated batches
+\item cellTypes, a vector indicating simulated cell types
+\item batch, a vector indicating simulated batches
 }
 if \code{sce} is TRUE, a SingleCellExperiment wrapper will be applied on all above simulated objects.
 }
 \description{
 This function is designed to generate Poisson-random-variable data matrix
-to test on the speed and performance of the internal algorithms of scMerge.
-It is not intended to be used by end-users.
+to test on the internal algorithms of scMerge. It does not represent real biological situations 
+and it is not intended to be used by end-users.
 }
 \examples{
-L = ruvSimulate(m = 100, n = 2000, nRep = 10, lambda = 0.1)
-names(L)
-L = ruvSimulate(m = 100, n = 2000, nRep = 10, lambda = 0.1, sce = TRUE)
+set.seed(1)
+L = ruvSimulate(m = 200, n = 1000, nc = 200, nCelltypes = 3, nBatch = 2, lambda = 0.1, k = 10, sce = TRUE)
 print(L)
+example <- scMerge(sce_combine = L,
+                      ctl = paste0("gene", 1:500),
+                      cell_type = L$cellTypes,
+                      ruvK = 10,
+                      assay_name = 'scMerge')
+                      
+scater::plotPCA(L, colour_by = 'cellTypes', shape = 'batch',
+                 run_args = list(exprs_values = 'logcounts'))
+                 
+scater::plotPCA(example, colour_by = 'cellTypes', shape = 'batch',
+                 run_args = list(exprs_values = 'scMerge'))
 }

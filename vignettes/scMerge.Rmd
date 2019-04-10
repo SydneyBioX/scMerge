@@ -8,19 +8,20 @@ author:
 output:
   BiocStyle::html_document:
     toc_float: true
-  BiocStyle::pdf_document: default
 package: BiocStyle
-vignette: |
-  %\VignetteIndexEntry{An introduction to the scMerge package}
+vignette: >
+  %\VignetteIndexEntry{scMerge}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-  
-```{r style, echo = FALSE, results = 'asis'}
-BiocStyle::markdown()
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
 ```
-  
+
   
 # Introduction
   
@@ -38,7 +39,7 @@ BiocStyle::markdown()
   We will load the `scMerge` package. We designed our package to be consistent with the popular BioConductor's single cell analysis framework, namely the `SingleCellExperiment` and `scater` package. 
   
 ```{r loading packages, warning = FALSE, message = FALSE}
-  suppressPackageStartupMessages({
+suppressPackageStartupMessages({
   library(SingleCellExperiment)
   library(scMerge)
   library(scater)
@@ -72,7 +73,7 @@ commonSegGenes = intersect(segList_ensemblGeneID$mouse$mouse_scSEG, rownames(sce
 
 keepGenes = unique(c(commonSegGenes, 
                      rownames(batchTest)[rank(batchTest$p.value) < 50],
-                     rownames(celltypeTest)[rank(celltypeTest$p.value) < 200]
+                     rownames(celltypeTest)[rank(celltypeTest$p.value) < 250]
 ))
 
 example_sce = example_sce[keepGenes, c(batch2Sampled, batch3Sampled)]
@@ -324,12 +325,3 @@ citation("scMerge")
 ```{r session info}
 sessionInfo()
 ```
-
-
-<!-- You can enable figure captions by `fig_caption: yes` in YAML: -->
-
-<!--     output: -->
-<!--       rmarkdown::html_vignette: -->
-<!--         fig_caption: yes -->
-
-<!-- Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**. -- -->

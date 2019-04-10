@@ -43,7 +43,7 @@ A normalised matrix of the same dimensions as the input matrix Y.
 Perform a fast version of the RUVIII algorithm
 }
 \examples{
-L = scMerge::ruvSimulate(m = 200, n = 500, nc = 50, nRep = 10)
+L = ruvSimulate(m = 200, n = 500, nc = 400, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE)
 Y = L$Y; M = L$M; ctl = L$ctl
 improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
 improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1)

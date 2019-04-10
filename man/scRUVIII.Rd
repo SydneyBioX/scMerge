@@ -57,10 +57,9 @@ RUVIII which also provides the option to select optimal RUVk according to the
 silhouette coefficient
 }
 \examples{
-L = scMerge::ruvSimulate(m = 200, n = 1000, nc = 50, nRep = 10)
-Y = log2(L$Y + 1L); M = L$M; ctl = L$ctl; batch = L$dataSource;
+L = ruvSimulate(m = 200, n = 1000, nc = 100, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE)
+Y = log2(L$Y + 1L); M = L$M; ctl = L$ctl; batch = L$batch;
 res = scRUVIII(Y = Y, M = M, ctl = ctl, k = c(5, 10, 15, 20), batch = batch)
-res = scRUVIII(Y = Y, M = M, ctl = ctl, k = 10, batch = batch)
 }
 \author{
 Yingxin Lin, Kevin Wang

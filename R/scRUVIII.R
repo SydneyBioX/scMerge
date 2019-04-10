@@ -37,12 +37,9 @@
 #' }
 #' @export
 #' @examples
-#' L = scMerge::ruvSimulate(m = 200, n = 1000, nc = 50, nRep = 10)
-#' Y = log2(L$Y + 1L); M = L$M; ctl = L$ctl; batch = L$dataSource;
+#' L = ruvSimulate(m = 200, n = 1000, nc = 100, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE)
+#' Y = log2(L$Y + 1L); M = L$M; ctl = L$ctl; batch = L$batch;
 #' res = scRUVIII(Y = Y, M = M, ctl = ctl, k = c(5, 10, 15, 20), batch = batch)
-#' res = scRUVIII(Y = Y, M = M, ctl = ctl, k = 10, batch = batch)
-
-
 
 scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL, k = k, return.info = TRUE,
     cell_type = NULL, batch = NULL, return_all_RUV = TRUE, fast_svd = FALSE,

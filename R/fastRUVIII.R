@@ -18,13 +18,14 @@
 #' @param return.info Additional information relating to the computation of normalised matrix. We recommend setting this to true.
 #' @param inputcheck We recommend setting this to true.
 #' @useDynLib scMerge, .registration = TRUE
+#' @importFrom rsvd rsvd 
 #' @importFrom Rcpp sourceCpp
 #' @import RcppEigen
 #' @export
 #' @return
 #' A normalised matrix of the same dimensions as the input matrix Y.
 #' @examples
-#' L = scMerge::ruvSimulate(m = 200, n = 500, nc = 50, nRep = 10)
+#' L = ruvSimulate(m = 200, n = 500, nc = 400, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE)
 #' Y = L$Y; M = L$M; ctl = L$ctl
 #' improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
 #' improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1)
@@ -49,13 +50,13 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_p
     ## Check the inputs
     if (inputcheck) {
         if (m > n) {
-            warning("m is greater than n!  This is not a problem itself, but may indicate that you need to transpose your data matrix.  Please ensure that rows correspond to observations (e.g. microarrays) and columns correspond to features (e.g. genes).")
+            message("m is greater than n!  This is not a problem itself, but may indicate that you need to transpose your data matrix.  Please ensure that rows correspond to observations (e.g. microarrays) and columns correspond to features (e.g. genes).")
         }
         if (sum(is.na(Y)) > 0) {
-            warning("Y contains missing values.  This is not supported.")
+            stop("Y contains missing values.  This is not supported.")
         }
         if (sum(Y == Inf, na.rm = TRUE) + sum(Y == -Inf, na.rm = TRUE) > 0) {
-            warning("Y contains infinities.  This is not supported.")
+            stop("Y contains infinities.  This is not supported.")
         }
     }
     
@@ -88,14 +89,16 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_p
                 Y0 <- eigenResidop(Y, M)
                 
                 if (fast_svd) {
-                  svdObj <- rsvd::rsvd(Y0, k = svd_k)
+                    set.seed(1)
+                    svdObj <- rsvd::rsvd(Y0, k = svd_k)
                 } else {
-                  svdObj <- base::svd(Y0)
+                    set.seed(1)
+                    svdObj <- base::svd(Y0)
                 }  ## End if(fast_svd)
                 
                 # fullalpha <- eigenMatMult(t(svdObj$u[, 1:svd_k, drop = FALSE]), Y)
-                fullalpha <- eigenMatMult(t(svdObj$u[, seq_len(svd_k), drop = FALSE]), 
-                  Y)
+                fullalpha <- eigenMatMult(
+                    t(svdObj$u[, seq_len(svd_k), drop = FALSE]), Y)
             }  ## End is.null(fullalpha)
         ######################################################### Regardless of the availibility of fullalpha, we need to compute this
         ######################################################### normalisation.  alpha <- fullalpha[1:min(k, nrow(fullalpha)), , drop =
@@ -105,6 +108,7 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_p
         W <- Y[, ctl] %*% t(ac) %*% solve(ac %*% t(ac))
         newY <- Y - eigenMatMult(W, alpha)
     }  ## End else(ncol(M) >= m | k == 0)
+    
     if (average) {
         ## If average over the replicates is needed. This is ignored in scMerge.
         newY <- ((1/apply(M, 2, sum)) * t(M)) %*% newY
