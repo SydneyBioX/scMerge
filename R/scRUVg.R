@@ -22,7 +22,7 @@
 #' \item A matrix alpha, this corresponding coefficient matrix for W.
 #' }
 #' @examples
-#' L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nRep = 10)
+#' L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nCelltypes = 10)
 #' Y = L$Y; M = L$M; ctl = L$ctl
 #' ruvgRes = scMerge::scRUVg(Y = Y, ctl = ctl, k = 20)
 

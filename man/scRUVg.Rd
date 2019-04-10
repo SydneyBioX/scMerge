@@ -40,7 +40,7 @@ Modified based on RUV2 from package ruv and RUVg from package RUVseq function
 (see these function's documentations for full documentations and usage)
 }
 \examples{
-L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nRep = 10)
+L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nCelltypes = 10)
 Y = L$Y; M = L$M; ctl = L$ctl
 ruvgRes = scMerge::scRUVg(Y = Y, ctl = ctl, k = 20)
 }
