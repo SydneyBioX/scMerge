@@ -87,13 +87,17 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_p
                 ## columns (genes).
                 
                 Y0 <- eigenResidop(Y, M)
+                matToDecomp <- Y0
+                
+                if(max(dim(Y0))/min(dim(Y0)) >= 5){
+                    matToDecomp <- eigenMatMult(Y0, t(Y0))
+                }
+                
                 
                 if (fast_svd) {
-                    set.seed(1)
-                    svdObj <- rsvd::rsvd(Y0, k = svd_k)
+                    svdObj <- rsvd::rsvd(matToDecomp, k = svd_k)
                 } else {
-                    set.seed(1)
-                    svdObj <- base::svd(Y0)
+                    svdObj <- base::svd(matToDecomp)
                 }  ## End if(fast_svd)
                 
                 # fullalpha <- eigenMatMult(t(svdObj$u[, 1:svd_k, drop = FALSE]), Y)

@@ -4,6 +4,7 @@
 #' @param nc Number of negative controls
 #' @param nCelltypes Number of cell-types
 #' @param nBatch Number of batches
+#' @param k Number of unwanted factors in simulation
 #' @param lambda Rate parameter for random Poisson generation
 #' @param sce If \code{TRUE}, returns a SingleCellExperiment object
 #' @description This function is designed to generate Poisson-random-variable data matrix

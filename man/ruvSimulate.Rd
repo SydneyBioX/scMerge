@@ -18,6 +18,8 @@ ruvSimulate(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3,
 
 \item{nBatch}{Number of batches}
 
+\item{k}{Number of unwanted factors in simulation}
+
 \item{lambda}{Rate parameter for random Poisson generation}
 
 \item{sce}{If \code{TRUE}, returns a SingleCellExperiment object}

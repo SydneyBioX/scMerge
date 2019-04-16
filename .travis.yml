@@ -3,16 +3,14 @@
 language: R
 sudo: false
 cache: packages
-R: bioc-devel
-r_github_packages:
-  - drisso/SingleCellExperiment
-  - LTLA/BiocSingular
-  - LTLA/BiocNeighbors
-  - tallulandrews/M3Drop
-  - davismcc/scater
+R:
+  - devel
+  - bioc-devel
 dist: trusty
 os:
   - linux
   - osx
 after_success:
     - Rscript -e 'covr::codecov()'
+env:
+  - TRAVIS_R_VERSION = "3.6.0"
