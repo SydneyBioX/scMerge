@@ -115,7 +115,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL, exprs = "logc
         mnc_res <- findMNC(exprs_mat[HVG, ], clustering_list = cellType_list_batch, dist = dist, parallelParam = parallelParam)
         
         
-        print(head(mnc_res))
+        print(utils::head(mnc_res))
         
         repVector <- mncReplicate(clustering_list = cellType_list_batch, clustering_distProp = clustering_distProp_list_batch, replicate_prop = replicate_prop, 
             mnc_df = mnc_res)
@@ -174,7 +174,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL, exprs = "logc
         mnc_res <- findMNC(exprs_mat = exprs_mat[HVG, ], clustering_list = cluster_res$clustering_list, dist = dist, parallelParam = parallelParam)
         
         
-        print(head(mnc_res))
+        print(utils::head(mnc_res))
         
         repVector <- mncReplicate(clustering_list = cluster_res$clustering_list, clustering_distProp = cluster_res$clustering_distProp, replicate_prop = replicate_prop, 
             mnc_df = mnc_res)
