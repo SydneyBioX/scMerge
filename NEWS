@@ -1,3 +1,17 @@
+# Changes in version 0.99.15 (2019-04-16)
+* Major updates on the scReplicate function: more informative messages. 
+
+# Changes in version 0.99.14 (2019-04-16)
+* Fixed up BioC warnings. 
+* Using cross-product of matrix to perform SVD to speed up calculations.
+
+# Changes in version 0.99.13 (2019-04-10)
+* Fixed up examples in exported functions. 
+
+# Changes in version 0.99.12 (2019-04-10)
+* Added testing scripts. 
+* Fixed vignette text output issues.
+
 # Changes in version 0.99.11 (2019-03-08)
 * Reducing the size of example data. 
 

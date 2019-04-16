@@ -34,6 +34,8 @@
 
 <meta property="og:description" content="Modified based on RUV2 from package ruv and RUVg from package RUVseq function
 (see these function's documentations for full documentations and usage)" />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -64,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.15</span>
       </span>
     </div>
 
@@ -199,7 +201,7 @@ and the intercept term should be included manually where desired.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scMerge/topics/ruvSimulate'>ruvSimulate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>800</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>nRep</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scMerge/topics/ruvSimulate'>ruvSimulate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>800</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>nCelltypes</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 <span class='no'>Y</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>Y</span>; <span class='no'>M</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>M</span>; <span class='no'>ctl</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>ctl</span>
 <span class='no'>ruvgRes</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scMerge/topics/scRUVg'>scRUVg</a></span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div></pre>
   </div>

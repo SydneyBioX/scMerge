@@ -234,7 +234,8 @@ scMerge_semisupervised1 <- scMerge(example_sce,
                                    kmeansK = c(3,3),
                                    assay_name = "scMerge_semisupervised1",
                                    cell_type = example_sce$cellTypes,
-                                   cell_type_inc = which(example_sce$cellTypes == "2i"))
+                                   cell_type_inc = which(example_sce$cellTypes == "2i"), 
+                                   cell_type_match = FALSE)
 ```
 
 
@@ -259,6 +260,7 @@ scMerge_semisupervised2 <- scMerge(example_sce,
                     kmeansK = c(3, 3),
                     assay_name = "scMerge_semisupervised2",
                     cell_type = example_sce$cellTypes,
+                    cell_type_inc = NULL,
                     cell_type_match = TRUE)
 ```
 

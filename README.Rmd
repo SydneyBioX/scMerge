@@ -38,11 +38,12 @@ install.packages(c("BiocManager", "cluster", "distr", "doSNOW",
 ## Some BioConductor packages required by scMerge
 BiocManager::install(c("BiocParallel", "M3Drop", "SingleCellExperiment"))
 
-## Install scMerge
-BiocManager::install("scMerge", version = "3.8")
+## Install scMerge from BioConductor, requires R 3.6.0 or above
+BiocManager::install("scMerge", version = "3.9")
+
 
 ## Install the development version of scMerge
-devtools::install_github("SydneyBioX/scMerge")
+devtools::install_github("SydneyBioX/scMerge", build_vignettes = TRUE)
 ```
 
 ## Vignette

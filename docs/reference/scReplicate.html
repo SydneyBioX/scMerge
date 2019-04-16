@@ -33,6 +33,8 @@
 <meta property="og:title" content="Create pseudo-replicate for scMerge — scReplicate" />
 
 <meta property="og:description" content="Create pseudo-replicate from single-cell RNA-seq data from different batches, experiments, and protocols." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.15</span>
       </span>
     </div>
 
@@ -248,12 +250,14 @@ should belong to that cell cluster and 0 otherwise.
   <span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>example_sce</span>,
   <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>example_sce</span>$<span class='no'>batch</span>,
   <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>3</span>),
-  <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; No maker nor marker_list information was supplied 
-#&gt; Finding HVG...
-#&gt; [1] 66
-#&gt; Clustering within each batch...
-#&gt; Performing pca...
-#&gt; Creating Mutual Nearest Cluster...</div><div class='img'><img src='scReplicate-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;   group batch cluster
+  <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; Performing unsupervised scMerge with: 
+#&gt;  1. No cell type information 
+#&gt;  2. Cell type indices not revelant here 
+#&gt;  3. Mutual nearest neighbour matching 
+#&gt;  4. No supplied marker and no supplied marker_list for MNN clustering 
+#&gt;     Finding Highly Variable Genes for clustering 
+#&gt; 75 HVG were found 5. PCA and Kmeans clustering will be performed on each batch 
+#&gt;  6. Create Mutual Nearest Clusters. Preview cells-cell_type matching output matrix: </div><div class='img'><img src='scReplicate-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;   group batch cluster
 #&gt; 1     3     1       1
 #&gt; 2     3     2       1
 #&gt; 3     1     1       2

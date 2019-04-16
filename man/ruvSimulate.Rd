@@ -42,10 +42,11 @@ and it is not intended to be used by end-users.
 }
 \examples{
 set.seed(1)
-L = ruvSimulate(m = 200, n = 1000, nc = 200, nCelltypes = 3, nBatch = 2, lambda = 0.1, k = 10, sce = TRUE)
+L = ruvSimulate(m = 200, n = 1000, nc = 200, 
+nCelltypes = 3, nBatch = 2, lambda = 0.1, k = 10, sce = TRUE)
 print(L)
 example <- scMerge(sce_combine = L,
-                      ctl = paste0("gene", 1:500),
+                      ctl = paste0('gene', 1:500),
                       cell_type = L$cellTypes,
                       ruvK = 10,
                       assay_name = 'scMerge')

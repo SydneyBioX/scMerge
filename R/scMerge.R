@@ -36,9 +36,9 @@
 #' @examples
 #' ## Loading example data
 #' library(scater)
-#' data("example_sce", package = "scMerge")
+#' data('example_sce', package = 'scMerge')
 #' ## Previously computed stably expressed genes
-#' data("segList_ensemblGeneID", package = "scMerge")
+#' data('segList_ensemblGeneID', package = 'scMerge')
 #' ## Running an example data with minimal inputs
 #' sce_mESC <- scMerge(
 #'                       sce_combine = example_sce,
@@ -51,28 +51,26 @@
 #'                  run_args = list(exprs_values = 'scMerge'))
 
 
-scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
-    hvg_exprs = "counts", marker = NULL, marker_list = NULL, ruvK = 20, replicate_prop = 0.5,
-    cell_type = NULL, cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE,
-    rsvd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL, parallel = FALSE,
-    parallelParam = NULL, return_all_RUV = FALSE, assay_name = NULL) {
-
+scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts", hvg_exprs = "counts", marker = NULL, marker_list = NULL, 
+    ruvK = 20, replicate_prop = 0.5, cell_type = NULL, cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE, rsvd_prop = 0.1, 
+    dist = "cor", WV = NULL, WV_marker = NULL, parallel = FALSE, parallelParam = NULL, return_all_RUV = FALSE, assay_name = NULL) {
+    
     ## Checking if the cell names are non-unique
     cellNames = colnames(sce_combine)
-
+    
     if (length(cellNames) != length(unique(cellNames))) {
         stop("Please make sure column names are unique.")
     }
-
+    
     ## Checking input expression
     if (is.null(exprs)) {
         stop("exprs is NULL.")
     }
-
+    
     if (is.null(assay_name)) {
         stop("assay_name is NULL, please provide a name to store the results under")
     }
-
+    
     if (return_all_RUV) {
         message("You chose return_all_RUV = TRUE, the result will contain all RUV computations. This could be a very large object.")
         ## We need an assay_name for every ruvK, if return_all_RUV is TRUE
@@ -80,24 +78,24 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
             stop("You chose return_all_RUV = TRUE. In this case, the length of assay_name must be equal to the length of ruvK")
         }
     }
-
+    
     ## Checking input expression assay name in SCE object
     if (!exprs %in% SummarizedExperiment::assayNames(sce_combine)) {
         stop(paste("No assay named", exprs))
     }
-
+    
     ## Extracting data matrix from SCE object
     exprs_mat <- SummarizedExperiment::assay(sce_combine, exprs)
     if (!is.matrix(exprs_mat)) {
         stop(paste0("The assay named '", exprs, "' must be of class 'matrix', please convert this."))
     }
     sce_rownames <- rownames(sce_combine)
-
+    
     ## Checking if any rows or columns are purely zeroes
     if (any(rowSums(exprs_mat) == 0) | any(colSums(exprs_mat) == 0)) {
         stop("There are rows or columns that are all zeros in the expression matrix. Please remove these rows/columns.")
     }
-
+    
     ## Checking negative controls input
     if (is.null(ctl)) {
         stop("Negative control genes are needed. \n")
@@ -106,94 +104,85 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
             ctl <- which(sce_rownames %in% ctl)
         }
         if (length(ctl) == 0) {
-            stop("Could not find any negative control genes in the row names of the expression matrix",
-                call. = FALSE)
+            stop("Could not find any negative control genes in the row names of the expression matrix", call. = FALSE)
         }
     }
-
+    
     ## Checking the batch info
     if (is.null(sce_combine$batch)) {
         stop("Could not find a 'batch' column in colData(sce_combine)", call. = FALSE)
     }
-
+    
     if (is.factor(sce_combine$batch)) {
         batch <- droplevels(sce_combine$batch)
     } else {
         batch <- sce_combine$batch
     }
-
-
-
-    ## If the user supplied a parallelParam class, then regardless of parallel =
-    ## TRUE or FALSE, we will use that class Hence no if statement for this case.
+    
+    
+    
+    ## If the user supplied a parallelParam class, then regardless of parallel = TRUE or FALSE, we will use that class Hence no if statement
+    ## for this case.
     if (!is.null(parallelParam)) {
-      message("Computation will run in parallel using supplied parameters")
+        message("Computation will run in parallel using supplied parameters")
     }
-
-    ## If parallel is TRUE, but user did not supplied a parallelParam class, then
-    ## we set it to bpparam()
+    
+    ## If parallel is TRUE, but user did not supplied a parallelParam class, then we set it to bpparam()
     if (parallel & is.null(parallelParam)) {
-      message("Computation will run in parallel using BiocParallel::bpparam()")
-      parallelParam = BiocParallel::bpparam()
+        message("Computation will run in parallel using BiocParallel::bpparam()")
+        parallelParam = BiocParallel::bpparam()
     }
-
-    ## If parallel is FALSE, or the user did not supplied a parallelParam class,
-    ## we will use SerialParam()
+    
+    ## If parallel is FALSE, or the user did not supplied a parallelParam class, we will use SerialParam()
     if (!parallel | is.null(parallelParam)) {
-      message("Computation will run in serial")
-      parallelParam = BiocParallel::SerialParam()
+        message("Computation will run in serial")
+        parallelParam = BiocParallel::SerialParam()
     }
-
-
+    
+    
     ## Finding pseudo-replicates
     t1 <- Sys.time()
-    repMat <- scReplicate(sce_combine = sce_combine, batch = batch, kmeansK = kmeansK,
-        exprs = exprs, hvg_exprs = hvg_exprs, marker = marker, marker_list = marker_list,
-        replicate_prop = replicate_prop, cell_type = cell_type, cell_type_match = cell_type_match,
-        cell_type_inc = cell_type_inc, dist = dist, WV = WV, WV_marker = WV_marker,
-        parallelParam = parallelParam, fast_svd = fast_svd)
+    repMat <- scReplicate(sce_combine = sce_combine, batch = batch, kmeansK = kmeansK, exprs = exprs, hvg_exprs = hvg_exprs, marker = marker, 
+        marker_list = marker_list, replicate_prop = replicate_prop, cell_type = cell_type, cell_type_match = cell_type_match, cell_type_inc = cell_type_inc, 
+        dist = dist, WV = WV, WV_marker = WV_marker, parallelParam = parallelParam, fast_svd = fast_svd)
     t2 <- Sys.time()
-
+    
     timeReplicates <- t2 - t1
-
+    
     cat("Dimension of the replicates mapping matrix \n")
     print(dim(repMat))
     cat("\n")
-
+    
     ## Performing RUV normalisation
-
+    
     cat("Performing RUV normalisation... This might take a few minutes... \n")
-
-    ruv3res <- scRUVIII(Y = t(exprs_mat), M = repMat, ctl = ctl, k = ruvK, batch = batch,
-        fullalpha = NULL, cell_type = cell_type, return.info = TRUE, return_all_RUV = return_all_RUV,
-        fast_svd = fast_svd, rsvd_prop = rsvd_prop)
+    
+    ruv3res <- scRUVIII(Y = t(exprs_mat), M = repMat, ctl = ctl, k = ruvK, batch = batch, fullalpha = NULL, cell_type = cell_type, return.info = TRUE, 
+        return_all_RUV = return_all_RUV, fast_svd = fast_svd, rsvd_prop = rsvd_prop)
     t3 <- Sys.time()
-
+    
     timeRuv <- t3 - t2
-
+    
     sce_final_result <- sce_combine
-
+    
     if (!return_all_RUV) {
-        ## If return_all_RUV is FALSE, then scRUVIII should've just returned with a
-        ## single result (ruv3res_optimal)
+        ## If return_all_RUV is FALSE, then scRUVIII should've just returned with a single result (ruv3res_optimal)
         SummarizedExperiment::assay(sce_final_result, assay_name) <- t(ruv3res$newY)
     } else {
-        ## if return_all_RUV is TRUE, then the previous check ensured assay_name is
-        ## not NULL and matches the length of ruvK And the scRUVIII should've just
-        ## returned with a single result (ruv3res_optimal)
+        ## if return_all_RUV is TRUE, then the previous check ensured assay_name is not NULL and matches the length of ruvK And the scRUVIII
+        ## should've just returned with a single result (ruv3res_optimal)
         listNewY <- lapply(ruv3res[names(ruv3res) != "optimal_ruvK"], function(x) {
             t(x$newY)
         })
-
+        
         for (i in seq_len(length(listNewY))) {
             SummarizedExperiment::assay(sce_final_result, assay_name[i]) <- listNewY[[i]]
         }
-
+        
     }
-
-    S4Vectors::metadata(sce_final_result) <- c(S4Vectors::metadata(sce_combine),
-        list(ruvK = ruvK, ruvK_optimal = ruv3res$optimal_ruvK, scRep_res = repMat,
-            timeReplicates = timeReplicates, timeRuv = timeRuv))
-
+    
+    S4Vectors::metadata(sce_final_result) <- c(S4Vectors::metadata(sce_combine), list(ruvK = ruvK, ruvK_optimal = ruv3res$optimal_ruvK, scRep_res = repMat, 
+        timeReplicates = timeReplicates, timeRuv = timeRuv))
+    
     return(sce_final_result)
 }  ## End scMerge function
