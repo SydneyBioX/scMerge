@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.17</span>
       </span>
     </div>
 
@@ -60,24 +60,30 @@
       <a href="../articles/Breast_Data/Breast_Data.html">Breast Cancer Data</a>
     </li>
     <li>
-      <a href="../articles/CellBench_Data/CellBench_Data.html">CellBench Data</a>
+      <a href="../articles/pkgdown_pages/Breast_Data.html">Breast Cancer Data</a>
     </li>
     <li>
-      <a href="../articles/ESC_Data/ESC_Data.html">Embyronic Stem Cell Data</a>
+      <a href="../articles/pkgdown_pages/CellBench_Data.html">CellBench Data</a>
     </li>
     <li>
-      <a href="../articles/Mouse_Liver_Data/Mouse_Liver_Data.html">Mouse Liver Data</a>
+      <a href="../articles/pkgdown_pages/ESC_Data.html">Embyronic Stem Cell Data</a>
     </li>
     <li>
-      <a href="../articles/Neuronal_Data/Neuronal_Data.html">Neuronal Single Cell Data</a>
+      <a href="../articles/pkgdown_pages/Mouse_Liver_Data.html">Mouse Liver Data</a>
     </li>
     <li>
-      <a href="../articles/Pancreas4_Data/Pancreas4_Data.html">Pancreas 4 Data</a>
+      <a href="../articles/pkgdown_pages/Neuronal_Data.html">Neuronal Single Cell Data</a>
     </li>
     <li>
-      <a href="../articles/mESC_Data/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
+      <a href="../articles/pkgdown_pages/Pancreas4_Data.html">Pancreas 4 Data</a>
+    </li>
+    <li>
+      <a href="../articles/pkgdown_pages/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -281,7 +287,7 @@
 <a class="sourceLine" id="cb14-6" title="6">                        <span class="dt">rsvd_prop =</span> <span class="fl">0.1</span>)</a>
 <a class="sourceLine" id="cb14-7" title="7"><span class="co">#&gt; Computation will run in serial</span></a></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Normally, scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t2 <span class="op">-</span><span class="st"> </span>t1, <span class="dv">2</span>), <span class="st">" seconds"</span>)</a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="co">#&gt; [1] "Normally, scMerge takes  0.76  seconds"</span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="co">#&gt; [1] "Normally, scMerge takes  0.62  seconds"</span></a>
 <a class="sourceLine" id="cb15-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Fast version of scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t4 <span class="op">-</span><span class="st"> </span>t3, <span class="dv">2</span>), <span class="st">" seconds"</span>)</a>
 <a class="sourceLine" id="cb15-4" title="4"><span class="co">#&gt; [1] "Fast version of scMerge takes  0.46  seconds"</span></a>
 <a class="sourceLine" id="cb15-5" title="5"></a>
@@ -302,7 +308,7 @@
 <a class="sourceLine" id="cb16-4" title="4"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb16-5" title="5"><span class="co">#&gt; Lin Y, Ghazanfar S, Wang K, Gagnon-Bartsch J, Lo K, Su X, Han Z,</span></a>
 <a class="sourceLine" id="cb16-6" title="6"><span class="co">#&gt; Ormerod J, Speed T, Yang P, Yang J (2019). _scMerge: Merging</span></a>
-<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&gt; multiple batches of scRNA-seq data_. R package version 0.99.14,</span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&gt; multiple batches of scRNA-seq data_. R package version 0.99.17,</span></a>
 <a class="sourceLine" id="cb16-8" title="8"><span class="co">#&gt; &lt;URL: https://github.com/SydneyBioX/scMerge&gt;.</span></a>
 <a class="sourceLine" id="cb16-9" title="9"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb16-10" title="10"><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></a>
@@ -311,7 +317,7 @@
 <a class="sourceLine" id="cb16-13" title="13"><span class="co">#&gt;     title = {{scMerge}: Merging multiple batches of scRNA-seq data},</span></a>
 <a class="sourceLine" id="cb16-14" title="14"><span class="co">#&gt;     author = {Yingxin Lin and Shila Ghazanfar and Kevin Wang and Johann Gagnon-Bartsch and Kitty Lo and Xianbin Su and Ze-Guang Han and John Ormerod and Terence Speed and Pengyi Yang and Jean Yang},</span></a>
 <a class="sourceLine" id="cb16-15" title="15"><span class="co">#&gt;     year = {2019},</span></a>
-<a class="sourceLine" id="cb16-16" title="16"><span class="co">#&gt;     note = {R package version 0.99.14},</span></a>
+<a class="sourceLine" id="cb16-16" title="16"><span class="co">#&gt;     note = {R package version 0.99.17},</span></a>
 <a class="sourceLine" id="cb16-17" title="17"><span class="co">#&gt;     url = {https://github.com/SydneyBioX/scMerge},</span></a>
 <a class="sourceLine" id="cb16-18" title="18"><span class="co">#&gt;   }</span></a></code></pre></div>
 </div>
@@ -336,7 +342,7 @@
 <a class="sourceLine" id="cb17-16" title="16"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb17-17" title="17"><span class="co">#&gt; other attached packages:</span></a>
 <a class="sourceLine" id="cb17-18" title="18"><span class="co">#&gt;  [1] scater_1.11.16              ggplot2_3.1.1              </span></a>
-<a class="sourceLine" id="cb17-19" title="19"><span class="co">#&gt;  [3] scMerge_0.99.14             SingleCellExperiment_1.5.2 </span></a>
+<a class="sourceLine" id="cb17-19" title="19"><span class="co">#&gt;  [3] scMerge_0.99.17             SingleCellExperiment_1.5.2 </span></a>
 <a class="sourceLine" id="cb17-20" title="20"><span class="co">#&gt;  [5] SummarizedExperiment_1.13.0 DelayedArray_0.9.9         </span></a>
 <a class="sourceLine" id="cb17-21" title="21"><span class="co">#&gt;  [7] BiocParallel_1.17.18        matrixStats_0.54.0         </span></a>
 <a class="sourceLine" id="cb17-22" title="22"><span class="co">#&gt;  [9] Biobase_2.43.1              GenomicRanges_1.35.1       </span></a>

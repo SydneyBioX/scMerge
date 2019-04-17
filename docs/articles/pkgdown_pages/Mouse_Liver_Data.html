@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Breast Cancer Data • scMerge</title>
+<title>Mouse Liver Data • scMerge</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="Breast Cancer Data">
+<script src="../../pkgdown.js"></script><meta property="og:title" content="Mouse Liver Data">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
@@ -105,13 +105,13 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Breast Cancer Data</h1>
+      <h1>Mouse Liver Data</h1>
                         <h4 class="author">Kevin Wang</h4>
             
             <h4 class="date">17 Apr 2019</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/Breast_Data/Breast_Data.Rmd"><code>vignettes/Breast_Data/Breast_Data.Rmd</code></a></small>
-      <div class="hidden name"><code>Breast_Data.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/pkgdown_pages/Mouse_Liver_Data.Rmd"><code>vignettes/pkgdown_pages/Mouse_Liver_Data.Rmd</code></a></small>
+      <div class="hidden name"><code>Mouse_Liver_Data.Rmd</code></div>
 
     </div>
 
@@ -120,40 +120,27 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>This is a human breast cancer single-cell data comprising of 4 different batches from a single experiment.</p>
+<p>This is a mouse liver single-cell data comprising of 4 different experiments with 3 different protocols.</p>
 <p><strong>Integration challenge</strong></p>
 <ul>
 <li>Prior to integration, there is a strong separation effect by batches.</li>
-<li>With 24,520 cells, this data poses dimensionality challenge to data integration.</li>
-</ul>
-</div>
-<div id="data-description" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-description" class="anchor"></a>Data description</h2>
-<ul>
-<li>Data source:</li>
+<li>The liver cell developments should have a clear trajectory, this biological process was not clear from the pre-integrated data. In the <code>scMerge</code>-integrated, this trajectory was estimated with higher degree of biological interpretability.</li>
 </ul>
 <table class="table">
 <colgroup>
-<col width="9%">
-<col width="1%">
 <col width="5%">
-<col width="1%">
-<col width="6%">
-<col width="5%">
-<col width="17%">
 <col width="8%">
 <col width="6%">
+<col width="21%">
 <col width="9%">
-<col width="10%">
-<col width="7%">
 <col width="8%">
+<col width="6%">
+<col width="13%">
+<col width="9%">
+<col width="11%">
 </colgroup>
 <thead><tr class="header">
-<th>Type of merge</th>
-<th></th>
 <th>Name</th>
-<th></th>
 <th>ID</th>
 <th>Author</th>
 <th>DOI or URL</th>
@@ -164,24 +151,59 @@
 <th># of cells</th>
 <th># of batches</th>
 </tr></thead>
-<tbody><tr class="odd">
-<td>Within experiment</td>
+<tbody>
+<tr class="odd">
+<td>Liver</td>
+<td>GSE87795</td>
+<td>Su</td>
+<td>10.1186/s12864-017-4342-x</td>
+<td>SMARTer/C1</td>
+<td>Mouse</td>
+<td>Liver</td>
+<td>6</td>
+<td>1236</td>
 <td></td>
-<td>Breast</td>
+</tr>
+<tr class="even">
 <td></td>
-<td>GSE113197</td>
-<td>Nguyen</td>
-<td>10.1038/s41467-018-04334-1</td>
-<td>10x Chromium</td>
-<td>Human</td>
-<td>Breast cancer</td>
+<td>GSE90047</td>
+<td>Yang</td>
+<td>10.1002/hep.29353</td>
+<td>Smart-Seq2</td>
+<td></td>
+<td></td>
+<td>2</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>GSE87038</td>
+<td>Dong</td>
+<td>10.1186/s13059-018-1416-2</td>
+<td>STRT-seq</td>
+<td></td>
+<td></td>
 <td>3</td>
-<td>24520</td>
-<td>4</td>
-</tr></tbody>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>GSE96981</td>
+<td>Camp</td>
+<td>10.1038/nature22796</td>
+<td>SMARTer/C1</td>
+<td></td>
+<td></td>
+<td>3</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
 </table>
 <ul>
-<li>Relation to the <code>scMerge</code> article: Supplementary Figure 7.</li>
+<li>Relation to the <code>scMerge</code> article: Main Figure 3b and Supplementary Figure 8.</li>
 </ul>
 </div>
 <div id="data-visualisation" class="section level2">
@@ -190,25 +212,33 @@
 <div id="tsne-plots-by-cell-types-and-batch" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tsne-plots-by-cell-types-and-batch" class="anchor"></a>tSNE plots by cell types and batch</h3>
-<!-- <img src="/FigS7_v1.png"> -->
-<p><img src="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeWebsite/Breast_Data/FigS7_v1.png"></p>
-<!-- ![](FigS7_v1.pdf) -->
-<!-- ```{r, out.width = '100%'} -->
-<!-- knitr::include_graphics("FigS7_v1.png") -->
-<!-- ``` -->
+<p><img src="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeWebsite/Mouse_Liver_Data/FigS8_v1.png" style="width:100.0%"></p>
+</div>
+<div id="monocle2-cell-trajectory-plot" class="section level3">
+<h3 class="hasAnchor">
+<a href="#monocle2-cell-trajectory-plot" class="anchor"></a>Monocle2 cell trajectory plot</h3>
+<p><img src="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeWebsite/Mouse_Liver_Data/Fig3_v9.png" style="width:100.0%"></p>
+<p>Some remarks:</p>
+<ul>
+<li><p>To combine the four liver scRNA-seq datasets, we used a semi-supervised approach by considering the devlopmental stages as the wanted variation to identify the pseudo-replicates. Note that the cells of the four liver datasets are from different fetal mouse liver developmental stages (E9.5-E17.5). To identify the pseudo-replicates corresponding to the hepatoblasts, hepatocytes and cholangiocytes, we used three known markers of hepatoblasts and cholangiocytes, Alb, Afp and Epcam, to guide the <code>scMerge</code> algorithm. The sets of pseudo-replicates that are highly expressed the markers are further split according to the developmental stages.</p></li>
+<li><p>In addition to integrating 4 scRNA-Seq datasets, <code>scMerge</code> revealed a novel result: We constructed the cell trajectories with cells corresponding to the E17.5 time point of GSE90047 removed. We found that the trajectory associated with <code>scMerge</code> is most consistent with the full Liver data collection and agrees with current literature, while other methods tended to generate extraneous branches with the subset of the Liver data collection.</p></li>
+<li><p>We further performed SC3 on the <code>scMerge</code> integrated data (k=9). We found that the SC3 clustering results have high concordance with the original cell types.</p></li>
+</ul>
 </div>
 </div>
 <div id="integrated-scmerge-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#integrated-scmerge-data" class="anchor"></a>Integrated <code>scMerge</code> data</h2>
 <ul>
-<li><p>Data availability: <a href="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/breast_scMerge.rds">Breast Data (in RData format)</a></p></li>
+<li><p>Data availability: <a href="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/liver_scMerge.rds">Mouse Liver Data (in RData format)</a></p></li>
 <li>
 <p><code>scMerge</code> parameters for integration:</p>
 <ul>
-<li>Unsupervised scMerge</li>
-<li>kmeans K = (4,3,4,3)</li>
-<li>Negative controls are human scSEG</li>
+<li>semi-supervised scMerge</li>
+<li>kmeans K = (6,2,3,3)</li>
+<li>Negative controls are mouse scSEG</li>
+<li>WV = developmental stage</li>
+<li>WV_marker = “Afp”,“Alb”,“Epcam”</li>
 </ul>
 </li>
 </ul>
@@ -221,7 +251,6 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
-      <li><a href="#data-description">Data description</a></li>
       <li><a href="#data-visualisation">Data visualisation</a></li>
       <li><a href="#integrated-scmerge-data">Integrated <code>scMerge</code> data</a></li>
       </ul>

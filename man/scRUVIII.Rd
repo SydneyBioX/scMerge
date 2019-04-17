@@ -52,7 +52,7 @@ all the supplied k values will be returned.
 }
 }
 \description{
-A function to perform loacation/scale adjustement to data as the input of
+A function to perform loacation/scale adjustment to data as the input of
 RUVIII which also provides the option to select optimal RUVk according to the
 silhouette coefficient
 }

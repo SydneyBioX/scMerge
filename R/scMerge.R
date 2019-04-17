@@ -149,13 +149,13 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
     
     timeReplicates <- t2 - t1
     
-    cat("Dimension of the replicates mapping matrix \n")
+    cat("Dimension of the replicates mapping matrix: \n")
     print(dim(repMat))
     cat("\n")
     
     ## Performing RUV normalisation
     
-    cat("Performing RUV normalisation... This might take a few minutes... \n")
+    cat("Performing RUV normalisation... This will take a few minutes... \n")
     
     ruv3res <- scRUVIII(Y = t(exprs_mat), M = repMat, ctl = ctl, k = ruvK, batch = batch, fullalpha = NULL, cell_type = cell_type, return.info = TRUE, 
         return_all_RUV = return_all_RUV, fast_svd = fast_svd, rsvd_prop = rsvd_prop)

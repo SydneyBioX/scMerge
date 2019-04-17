@@ -111,7 +111,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL, exprs = "logc
         })
         
         ## Here, using the cell type information, we go ahead and find MNC
-        cat(" 5. Create Mutual Nearest Clusters. Preview cells-cell_type matching output matrix:\n")
+        cat(" 5. Create Mutual Nearest Clusters. Preview cells-to-cell_type matching graph and matrix:\n")
         mnc_res <- findMNC(exprs_mat[HVG, ], clustering_list = cellType_list_batch, dist = dist, parallelParam = parallelParam)
         
         
@@ -256,7 +256,7 @@ findHVG <- function(exprs_mat_HVG, batch, intersection = 1, fdr = 0.01, minBiolD
     tab <- table(res)
     HVG <- names(tab)[tab >= intersection]
     
-    cat(length(HVG), "HVG were found")
+    cat("   ", length(HVG), "HVG were found \n")
     return(list(HVG = HVG, HVG_list = HVG_list))
 }
 

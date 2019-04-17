@@ -43,7 +43,7 @@ BiocManager::install("scMerge", version = "3.9")
 
 
 ## Install the development version of scMerge
-devtools::install_github("SydneyBioX/scMerge", build_vignettes = TRUE)
+install_github("SydneyBioX/scMerge", build_opts = c("--no-resave-data", "--no-manual"), build_vignettes = TRUE)
 ```
 
 ## Vignette
