@@ -14,7 +14,7 @@
 #' @param svdyc Can be included to speed up execution. For internal use; please use fullW instead.
 #' @import ruv
 #' @export
-#' @author Yingxin Lin
+#' @author Yingxin Lin, Kevin Wang
 #' @return A list consists of:
 #' \itemize{
 #' \item A matrix newY, the normalised matrix,
@@ -27,7 +27,8 @@
 #' ruvgRes = scMerge::scRUVg(Y = Y, ctl = ctl, k = 20)
 
 
-scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE, fullW = NULL, svdyc = NULL) {
+scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE, fullW = NULL, 
+    svdyc = NULL) {
     if (is.data.frame(Y)) {
         Y = data.matrix(Y)
     }
@@ -58,11 +59,16 @@ scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE, fullW
     Y0 = ruv::RUV1(Y, eta, ctl, include.intercept = include.intercept)
     
     if (q > 0) {
-        Y0 = residop(Y0, Z)
+        Y0 = eigenResidop(Y0, Z)
     }
     if (is.null(fullW)) {
         if (is.null(svdyc)) {
-            svdyc = svd(Y0[, ctl, drop = FALSE] %*% t(Y0[, ctl, drop = FALSE]))
+            Y0ctl = Y0[, ctl, drop = FALSE]
+            matToDecomp = Y0ctl
+            if (max(dim(matToDecomp))/min(dim(matToDecomp)) >= 5) {
+                matToDecomp <- eigenMatMult(Y0ctl, t(Y0ctl))
+            }
+            svdyc = svd(matToDecomp)
             fullW = svdyc$u[, seq_len(min((m - q), sum(ctl))), drop = FALSE]
         }
     }

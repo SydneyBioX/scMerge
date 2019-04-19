@@ -38,7 +38,8 @@
 #'                  run_args = list(exprs_values = 'scMerge'))
 #' @export
 
-ruvSimulate = function(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3, nBatch = 2, k = 20, lambda = 0.1, sce = FALSE) {
+ruvSimulate = function(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3, nBatch = 2, 
+    k = 20, lambda = 0.1, sce = FALSE) {
     ## m Number of observations n Number of features nc Number of negative controls
     p = 1
     ctl = rep(FALSE, n)
@@ -68,8 +69,8 @@ ruvSimulate = function(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3, nBatc
     M = ruv::replicate.matrix(data.frame(cellTypes, batch))
     
     if (sce) {
-        result = SingleCellExperiment::SingleCellExperiment(assays = list(counts = t(Y), logcounts = log2(t(Y) + 1L)), colData = data.frame(cellTypes, 
-            batch), metadata = list(M = M))
+        result = SingleCellExperiment::SingleCellExperiment(assays = list(counts = t(Y), 
+            logcounts = log2(t(Y) + 1L)), colData = data.frame(cellTypes, batch), metadata = list(M = M))
     } else {
         result = list(Y = Y, ctl = ctl, M = M, cellTypes = cellTypes, batch = batch)
     }

@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
       </span>
     </div>
 
@@ -91,28 +91,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Breast_Data/Breast_Data.html">Breast Cancer Data</a>
+      <a href="../articles/case_study/Breast_Data.html">Breast Cancer Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Breast_Data.html">Breast Cancer Data</a>
+      <a href="../articles/case_study/CellBench_Data.html">CellBench Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/CellBench_Data.html">CellBench Data</a>
+      <a href="../articles/case_study/ESC_Data.html">Embyronic Stem Cell Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/ESC_Data.html">Embyronic Stem Cell Data</a>
+      <a href="../articles/case_study/Mouse_Liver_Data.html">Mouse Liver Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Mouse_Liver_Data.html">Mouse Liver Data</a>
+      <a href="../articles/case_study/Neuronal_Data.html">Neuronal Single Cell Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Neuronal_Data.html">Neuronal Single Cell Data</a>
+      <a href="../articles/case_study/Pancreas4_Data.html">Pancreas 4 Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Pancreas4_Data.html">Pancreas 4 Data</a>
-    </li>
-    <li>
-      <a href="../articles/pkgdown_pages/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
+      <a href="../articles/case_study/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
     </li>
   </ul>
 </li>
@@ -156,7 +153,7 @@
   <span class='kw'>marker_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>replicate_prop</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>cell_type_match</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cell_type_inc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='st'>"cor"</span>,
   <span class='kw'>WV</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>WV_marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallelParam</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
-  <span class='kw'>return_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>fast_svd</span>)</pre>
+  <span class='kw'>return_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>fast_svd</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,6 +227,10 @@
       <td><p>If <code>TRUE</code>, fast algorithms will be used for singular value decomposition calculation via the <code>irlba</code> and <code>rsvd</code> packages.
 We recommend using this option when the number of cells is large (e.g. more than 1000 cells).</p></td>
     </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>If <code>TRUE</code>, then all intermediate steps will be shown. Default to <code>FALSE</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -256,15 +257,7 @@ should belong to that cell cluster and 0 otherwise.
   <span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>example_sce</span>,
   <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>example_sce</span>$<span class='no'>batch</span>,
   <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>3</span>),
-  <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; Performing unsupervised scMerge with: 
-#&gt;  1. No cell type information 
-#&gt;  2. Cell type indices not revelant here 
-#&gt;  3. Mutual nearest neighbour matching 
-#&gt;  4. No supplied marker and no supplied marker_list for MNN clustering 
-#&gt;     Finding Highly Variable Genes for clustering 
-#&gt;     75 HVG were found 
-#&gt;  5. PCA and Kmeans clustering will be performed on each batch 
-#&gt;  6. Create Mutual Nearest Clusters. Preview cells-cell_type matching output matrix: </div><div class='img'><img src='scReplicate-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;   group batch cluster
+  <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='scReplicate-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;   group batch cluster
 #&gt; 1     3     1       1
 #&gt; 2     3     2       1
 #&gt; 3     1     1       2

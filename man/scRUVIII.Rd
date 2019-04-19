@@ -5,8 +5,8 @@
 \title{scRUVIII: RUVIII algorithm optimised for single cell data}
 \usage{
 scRUVIII(Y = Y, M = M, ctl = ctl, fullalpha = NULL, k = k,
-  return.info = TRUE, cell_type = NULL, batch = NULL,
-  return_all_RUV = TRUE, fast_svd = FALSE, rsvd_prop = 0.1)
+  cell_type = NULL, batch = NULL, return_all_RUV = TRUE,
+  fast_svd = FALSE, rsvd_prop = 0.1)
 }
 \arguments{
 \item{Y}{The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.}
@@ -22,8 +22,6 @@ Either a logical vector of length n or a vector of integers.}
 \item{fullalpha}{Not used. Please ignore.}
 
 \item{k}{The number of unwanted factors to remove. This is inherited from the ruvK argument from the scMerge::scMerge function.}
-
-\item{return.info}{Additional information relating to the computation of normalised matrix. We recommend setting this to true.}
 
 \item{cell_type}{An optional vector indicating the cell type information for each cell
 in the batch-combined matrix. If it is \code{NULL},
@@ -57,7 +55,7 @@ RUVIII which also provides the option to select optimal RUVk according to the
 silhouette coefficient
 }
 \examples{
-L = ruvSimulate(m = 200, n = 1000, nc = 100, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE)
+L = ruvSimulate(m = 200, n = 1000, nc = 100, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE, k = 2)
 Y = log2(L$Y + 1L); M = L$M; ctl = L$ctl; batch = L$batch;
 res = scRUVIII(Y = Y, M = M, ctl = ctl, k = c(5, 10, 15, 20), batch = batch)
 }

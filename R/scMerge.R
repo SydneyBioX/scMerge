@@ -23,6 +23,7 @@
 #' @param return_all_RUV If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 #' Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.
 #' @param assay_name The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.
+#' @param verbose If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.
 #' @return Returns a \code{SingleCellExperiment} object with following components:
 #' \itemize{
 #' \item{assays: }{the original assays and also the normalised matrix}
@@ -30,8 +31,9 @@
 #' }
 #' @author Yingxin Lin, Kevin Wang
 #' @import SummarizedExperiment
-#' @import BiocParallel
 #' @importFrom S4Vectors metadata
+#' @importFrom BiocParallel SerialParam
+#' @importFrom BiocParallel bpparam
 #' @export
 #' @examples
 #' ## Loading example data
@@ -51,9 +53,11 @@
 #'                  run_args = list(exprs_values = 'scMerge'))
 
 
-scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts", hvg_exprs = "counts", marker = NULL, marker_list = NULL, 
-    ruvK = 20, replicate_prop = 0.5, cell_type = NULL, cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE, rsvd_prop = 0.1, 
-    dist = "cor", WV = NULL, WV_marker = NULL, parallel = FALSE, parallelParam = NULL, return_all_RUV = FALSE, assay_name = NULL) {
+scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts", hvg_exprs = "counts", 
+    marker = NULL, marker_list = NULL, ruvK = 20, replicate_prop = 0.5, cell_type = NULL, 
+    cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE, rsvd_prop = 0.1, 
+    dist = "cor", WV = NULL, WV_marker = NULL, parallel = FALSE, parallelParam = NULL, 
+    return_all_RUV = FALSE, assay_name = NULL, verbose = FALSE) {
     
     ## Checking if the cell names are non-unique
     cellNames = colnames(sce_combine)
@@ -104,7 +108,8 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
             ctl <- which(sce_rownames %in% ctl)
         }
         if (length(ctl) == 0) {
-            stop("Could not find any negative control genes in the row names of the expression matrix", call. = FALSE)
+            stop("Could not find any negative control genes in the row names of the expression matrix", 
+                call. = FALSE)
         }
     }
     
@@ -121,44 +126,49 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
     
     
     
-    ## If the user supplied a parallelParam class, then regardless of parallel = TRUE or FALSE, we will use that class Hence no if statement
-    ## for this case.
+    ## If the user supplied a parallelParam class, then regardless of parallel = TRUE or
+    ## FALSE, we will use that class Hence no if statement for this case.
     if (!is.null(parallelParam)) {
-        message("Computation will run in parallel using supplied parameters")
+        message("Step 1: Computation will run in parallel using supplied parameters")
     }
     
-    ## If parallel is TRUE, but user did not supplied a parallelParam class, then we set it to bpparam()
+    ## If parallel is TRUE, but user did not supplied a parallelParam class, then we set
+    ## it to bpparam()
     if (parallel & is.null(parallelParam)) {
-        message("Computation will run in parallel using BiocParallel::bpparam()")
+        message("Step 1: Computation will run in parallel using BiocParallel::bpparam()")
         parallelParam = BiocParallel::bpparam()
     }
     
-    ## If parallel is FALSE, or the user did not supplied a parallelParam class, we will use SerialParam()
+    ## If parallel is FALSE, or the user did not supplied a parallelParam class, we will
+    ## use SerialParam()
     if (!parallel | is.null(parallelParam)) {
-        message("Computation will run in serial")
+        message("Step 1: Computation will run in serial")
         parallelParam = BiocParallel::SerialParam()
     }
     
     
     ## Finding pseudo-replicates
     t1 <- Sys.time()
-    repMat <- scReplicate(sce_combine = sce_combine, batch = batch, kmeansK = kmeansK, exprs = exprs, hvg_exprs = hvg_exprs, marker = marker, 
-        marker_list = marker_list, replicate_prop = replicate_prop, cell_type = cell_type, cell_type_match = cell_type_match, cell_type_inc = cell_type_inc, 
-        dist = dist, WV = WV, WV_marker = WV_marker, parallelParam = parallelParam, fast_svd = fast_svd)
+    repMat <- scReplicate(sce_combine = sce_combine, batch = batch, kmeansK = kmeansK, 
+        exprs = exprs, hvg_exprs = hvg_exprs, marker = marker, marker_list = marker_list, 
+        replicate_prop = replicate_prop, cell_type = cell_type, cell_type_match = cell_type_match, 
+        cell_type_inc = cell_type_inc, dist = dist, WV = WV, WV_marker = WV_marker, 
+        parallelParam = parallelParam, fast_svd = fast_svd, verbose = verbose)
     t2 <- Sys.time()
     
     timeReplicates <- t2 - t1
     
     cat("Dimension of the replicates mapping matrix: \n")
     print(dim(repMat))
-    cat("\n")
+    # cat('\n')
     
     ## Performing RUV normalisation
     
-    cat("Performing RUV normalisation... This will take a few minutes... \n")
+    message("Step 2: Performing RUV normalisation. This will take minutes to hours. \n")
     
-    ruv3res <- scRUVIII(Y = t(exprs_mat), M = repMat, ctl = ctl, k = ruvK, batch = batch, fullalpha = NULL, cell_type = cell_type, return.info = TRUE, 
-        return_all_RUV = return_all_RUV, fast_svd = fast_svd, rsvd_prop = rsvd_prop)
+    ruv3res <- scRUVIII(Y = t(exprs_mat), M = repMat, ctl = ctl, k = ruvK, batch = batch, 
+        fullalpha = NULL, cell_type = cell_type, return_all_RUV = return_all_RUV, fast_svd = fast_svd, 
+        rsvd_prop = rsvd_prop)
     t3 <- Sys.time()
     
     timeRuv <- t3 - t2
@@ -166,11 +176,13 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
     sce_final_result <- sce_combine
     
     if (!return_all_RUV) {
-        ## If return_all_RUV is FALSE, then scRUVIII should've just returned with a single result (ruv3res_optimal)
+        ## If return_all_RUV is FALSE, then scRUVIII should've just returned with a single
+        ## result (ruv3res_optimal)
         SummarizedExperiment::assay(sce_final_result, assay_name) <- t(ruv3res$newY)
     } else {
-        ## if return_all_RUV is TRUE, then the previous check ensured assay_name is not NULL and matches the length of ruvK And the scRUVIII
-        ## should've just returned with a single result (ruv3res_optimal)
+        ## if return_all_RUV is TRUE, then the previous check ensured assay_name is not NULL
+        ## and matches the length of ruvK And the scRUVIII should've just returned with a
+        ## single result (ruv3res_optimal)
         listNewY <- lapply(ruv3res[names(ruv3res) != "optimal_ruvK"], function(x) {
             t(x$newY)
         })
@@ -181,8 +193,11 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
         
     }
     
-    S4Vectors::metadata(sce_final_result) <- c(S4Vectors::metadata(sce_combine), list(ruvK = ruvK, ruvK_optimal = ruv3res$optimal_ruvK, scRep_res = repMat, 
-        timeReplicates = timeReplicates, timeRuv = timeRuv))
+    S4Vectors::metadata(sce_final_result) <- c(S4Vectors::metadata(sce_combine), list(ruvK = ruvK, 
+        ruvK_optimal = ruv3res$optimal_ruvK, scRep_res = repMat, timeReplicates = timeReplicates, 
+        timeRuv = timeRuv))
+    
+    message("scMerge complete!")
     
     return(sce_final_result)
 }  ## End scMerge function

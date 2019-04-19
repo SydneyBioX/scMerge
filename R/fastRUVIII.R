@@ -34,8 +34,9 @@
 #' all.equal(improved2, old)
 
 
-fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_prop = 0.1, include.intercept = TRUE, average = FALSE, fullalpha = NULL, 
-    return.info = FALSE, inputcheck = TRUE) {
+fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_prop = 0.1, 
+    include.intercept = TRUE, average = FALSE, fullalpha = NULL, return.info = FALSE, 
+    inputcheck = TRUE) {
     
     if (is.data.frame(Y)) {
         Y <- data.matrix(Y)
@@ -70,8 +71,9 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_p
     }
     
     
-    ## m represent the number of samples/observations ncol(M) represent the number of replicates If the replicate matrix is such that we have
-    ## more replicates than samples, then RUV3 is not appropriate, thus, we return the Original input matrix
+    ## m represent the number of samples/observations ncol(M) represent the number of
+    ## replicates If the replicate matrix is such that we have more replicates than
+    ## samples, then RUV3 is not appropriate, thus, we return the Original input matrix
     if (ncol(M) >= m | k == 0) {
         newY <- Y
         fullalpha <- NULL
@@ -79,8 +81,8 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_p
         
         if (is.null(fullalpha)) 
             {
-                ## The main RUVIII process Applies the residual operator of a matrix M to a matrix Y Y0 has the same dimensions as Y, i.e. m rows
-                ## (observations) and n columns (genes).
+                ## The main RUVIII process Applies the residual operator of a matrix M to a matrix Y
+                ## Y0 has the same dimensions as Y, i.e. m rows (observations) and n columns (genes).
                 
                 Y0 <- eigenResidop(Y, M)
                 matToDecomp <- Y0
@@ -97,10 +99,11 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_p
                 }  ## End if(fast_svd)
                 
                 # fullalpha <- eigenMatMult(t(svdObj$u[, 1:svd_k, drop = FALSE]), Y)
-                fullalpha <- eigenMatMult(t(svdObj$u[, seq_len(svd_k), drop = FALSE]), Y)
+                fullalpha <- eigenMatMult(t(svdObj$u[, seq_len(svd_k), drop = FALSE]), 
+                  Y)
             }  ## End is.null(fullalpha)
-        ######################################################### Regardless of the availibility of fullalpha, we need to compute this normalisation.  alpha <- fullalpha[1:min(k, nrow(fullalpha)), ,
-        ######################################################### drop = FALSE]
+        ######################################################### Regardless of the availibility of fullalpha, we need to compute this
+        ######################################################### normalisation.  alpha <- fullalpha[1:min(k, nrow(fullalpha)), , drop = FALSE]
         alpha <- fullalpha[seq_len(min(k, nrow(fullalpha))), , drop = FALSE]
         ac <- alpha[, ctl, drop = FALSE]
         W <- Y[, ctl] %*% t(ac) %*% solve(ac %*% t(ac))
@@ -112,11 +115,13 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_p
         newY <- ((1/apply(M, 2, sum)) * t(M)) %*% newY
     }
     
-    ## If the users want to get all the informations relating to the RUV, it can be done here.
+    ## If the users want to get all the informations relating to the RUV, it can be done
+    ## here.
     if (!return.info) {
         return(newY)
     } else {
-        return(list(newY = newY, M = M, fullalpha = fullalpha, rsvd_k_options = c(`m-ncol(M)` = m - ncol(M), `sum(ctl)` = sum(ctl), svd_k = svd_k)))
+        return(list(newY = newY, M = M, fullalpha = fullalpha, rsvd_k_options = c(`m-ncol(M)` = m - 
+            ncol(M), `sum(ctl)` = sum(ctl), svd_k = svd_k)))
     }
 }
 ############################ 

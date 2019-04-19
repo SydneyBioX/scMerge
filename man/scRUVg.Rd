@@ -45,5 +45,5 @@ Y = L$Y; M = L$M; ctl = L$ctl
 ruvgRes = scMerge::scRUVg(Y = Y, ctl = ctl, k = 20)
 }
 \author{
-Yingxin Lin
+Yingxin Lin, Kevin Wang
 }

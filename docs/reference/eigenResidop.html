@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
       </span>
     </div>
 
@@ -91,28 +91,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Breast_Data/Breast_Data.html">Breast Cancer Data</a>
+      <a href="../articles/case_study/Breast_Data.html">Breast Cancer Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Breast_Data.html">Breast Cancer Data</a>
+      <a href="../articles/case_study/CellBench_Data.html">CellBench Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/CellBench_Data.html">CellBench Data</a>
+      <a href="../articles/case_study/ESC_Data.html">Embyronic Stem Cell Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/ESC_Data.html">Embyronic Stem Cell Data</a>
+      <a href="../articles/case_study/Mouse_Liver_Data.html">Mouse Liver Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Mouse_Liver_Data.html">Mouse Liver Data</a>
+      <a href="../articles/case_study/Neuronal_Data.html">Neuronal Single Cell Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Neuronal_Data.html">Neuronal Single Cell Data</a>
+      <a href="../articles/case_study/Pancreas4_Data.html">Pancreas 4 Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Pancreas4_Data.html">Pancreas 4 Data</a>
-    </li>
-    <li>
-      <a href="../articles/pkgdown_pages/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
+      <a href="../articles/case_study/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
     </li>
   </ul>
 </li>
@@ -175,8 +172,8 @@ $$A - B(B^t B)^{-1} B^t A$$</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>Y</span> <span class='kw'>=</span> <span class='no'>M</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='fl'>1</span>, <span class='fl'>500</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scMerge/topics/eigenResidop'>eigenResidop</a></span>(<span class='no'>Y</span>, <span class='no'>M</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.111   0.003   0.114 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='kw pkg'>ruv</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ruv/topics/residop'>residop</a></span>(<span class='no'>Y</span>, <span class='no'>M</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.314   0.003   0.319 </div></pre>
+#&gt;   0.121   0.003   0.126 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='kw pkg'>ruv</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ruv/topics/residop'>residop</a></span>(<span class='no'>Y</span>, <span class='no'>M</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.469   0.008   0.491 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

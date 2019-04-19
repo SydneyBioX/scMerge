@@ -67,7 +67,7 @@ and it is not intended to be used by end-users." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
       </span>
     </div>
 
@@ -93,28 +93,25 @@ and it is not intended to be used by end-users." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Breast_Data/Breast_Data.html">Breast Cancer Data</a>
+      <a href="../articles/case_study/Breast_Data.html">Breast Cancer Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Breast_Data.html">Breast Cancer Data</a>
+      <a href="../articles/case_study/CellBench_Data.html">CellBench Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/CellBench_Data.html">CellBench Data</a>
+      <a href="../articles/case_study/ESC_Data.html">Embyronic Stem Cell Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/ESC_Data.html">Embyronic Stem Cell Data</a>
+      <a href="../articles/case_study/Mouse_Liver_Data.html">Mouse Liver Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Mouse_Liver_Data.html">Mouse Liver Data</a>
+      <a href="../articles/case_study/Neuronal_Data.html">Neuronal Single Cell Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Neuronal_Data.html">Neuronal Single Cell Data</a>
+      <a href="../articles/case_study/Pancreas4_Data.html">Pancreas 4 Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Pancreas4_Data.html">Pancreas 4 Data</a>
-    </li>
-    <li>
-      <a href="../articles/pkgdown_pages/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
+      <a href="../articles/case_study/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
     </li>
   </ul>
 </li>
@@ -223,14 +220,8 @@ and it is not intended to be used by end-users.</p>
                       <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>'gene'</span>, <span class='fl'>1</span>:<span class='fl'>500</span>),
                       <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>cellTypes</span>,
                       <span class='kw'>ruvK</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-                      <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)</div><div class='output co'>#&gt; <span class='message'>Computation will run in serial</span></div><div class='output co'>#&gt; Performing supervised scMerge with: 
-#&gt;  1. Cell type information 
-#&gt;  2. No cell type indices 
-#&gt;  3. No mutual nearest neighbour clustering 
-#&gt; Dimension of the replicates mapping matrix: 
-#&gt; [1] 200 101
-#&gt; 
-#&gt; Performing RUV normalisation... This will take a few minutes... </div><div class='input'>
+                      <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)</div><div class='output co'>#&gt; <span class='message'>Step 1: Computation will run in serial</span></div><div class='output co'>#&gt; Dimension of the replicates mapping matrix: 
+#&gt; [1] 200 101</div><div class='output co'>#&gt; <span class='message'>Step 2: Performing RUV normalisation. This will take minutes to hours. </span></div><div class='output co'>#&gt; <span class='message'>scMerge complete!</span></div><div class='input'>
 <span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>L</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,
                  <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'logcounts'</span>))</div><div class='img'><img src='ruvSimulate-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>example</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,

@@ -67,7 +67,7 @@ silhouette coefficient" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
       </span>
     </div>
 
@@ -93,28 +93,25 @@ silhouette coefficient" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Breast_Data/Breast_Data.html">Breast Cancer Data</a>
+      <a href="../articles/case_study/Breast_Data.html">Breast Cancer Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Breast_Data.html">Breast Cancer Data</a>
+      <a href="../articles/case_study/CellBench_Data.html">CellBench Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/CellBench_Data.html">CellBench Data</a>
+      <a href="../articles/case_study/ESC_Data.html">Embyronic Stem Cell Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/ESC_Data.html">Embyronic Stem Cell Data</a>
+      <a href="../articles/case_study/Mouse_Liver_Data.html">Mouse Liver Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Mouse_Liver_Data.html">Mouse Liver Data</a>
+      <a href="../articles/case_study/Neuronal_Data.html">Neuronal Single Cell Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Neuronal_Data.html">Neuronal Single Cell Data</a>
+      <a href="../articles/case_study/Pancreas4_Data.html">Pancreas 4 Data</a>
     </li>
     <li>
-      <a href="../articles/pkgdown_pages/Pancreas4_Data.html">Pancreas 4 Data</a>
-    </li>
-    <li>
-      <a href="../articles/pkgdown_pages/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
+      <a href="../articles/case_study/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
     </li>
   </ul>
 </li>
@@ -156,8 +153,8 @@ silhouette coefficient</p>
     </div>
 
     <pre class="usage"><span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>fullalpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='no'>k</span>,
-  <span class='kw'>return.info</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>return_all_RUV</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>rsvd_prop</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
+  <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>return_all_RUV</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>rsvd_prop</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,10 +182,6 @@ Either a logical vector of length n or a vector of integers.</p></td>
     <tr>
       <th>k</th>
       <td><p>The number of unwanted factors to remove. This is inherited from the ruvK argument from the scMerge::scMerge function.</p></td>
-    </tr>
-    <tr>
-      <th>return.info</th>
-      <td><p>Additional information relating to the computation of normalised matrix. We recommend setting this to true.</p></td>
     </tr>
     <tr>
       <th>cell_type</th>
@@ -231,10 +224,11 @@ all the supplied k values will be returned.</p></li>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='fu'><a href='ruvSimulate.html'>ruvSimulate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>nCelltypes</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>nBatch</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>sce</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='fu'><a href='ruvSimulate.html'>ruvSimulate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>nCelltypes</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>nBatch</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>sce</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='no'>Y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log2</a></span>(<span class='no'>L</span>$<span class='no'>Y</span> + <span class='fl'>1L</span>); <span class='no'>M</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>M</span>; <span class='no'>ctl</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>ctl</span>; <span class='no'>batch</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>batch</span>;
-<span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span>, <span class='fl'>20</span>), <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>)</div><div class='output co'>#&gt; Selecting optimal RUVk
-#&gt; No cell type info, replicate matrix will be used as cell type info </div><div class='output co'>#&gt; <span class='message'>optimal ruvK: 5</span></div><div class='img'><img src='scRUVIII-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>scRUVIII</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>M</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span>, <span class='fl'>20</span>), <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>batch</span>)</div><div class='output co'>#&gt; Selecting optimal RUVk 
+#&gt; No cell type info, replicate matrix will be used as cell type info 
+#&gt; optimal ruvK: 20</div><div class='img'><img src='scRUVIII-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

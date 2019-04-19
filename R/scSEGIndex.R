@@ -44,8 +44,9 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
         print("Calculating scSEG index with F-statistics ")
     }
     
-    ## Core feature 1: mixture modelling Zero%, remove those that have more than 80% missing values before fitting the mixture model
-    ## rownames(exprsMat) <- toupper(rownames(exprsMat))
+    ## Core feature 1: mixture modelling Zero%, remove those that have more than 80%
+    ## missing values before fitting the mixture model rownames(exprsMat) <-
+    ## toupper(rownames(exprsMat))
     z.all <- apply(exprsMat, 1, function(x) sum(x == 0))/dim(exprsMat)[2]
     del <- which(z.all > 0.8)
     if (length(del) > 0) {
@@ -83,7 +84,8 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
         # x4 = 1-rank(f)/(length(f)+1)
         segIdx <- rowMeans(cbind(x1, x2, x3))
         
-        resMat <- data.frame(segIdx = segIdx, rho = r, sigma = s, mu = m, mu.scaled = m.scaled, zero = z)
+        resMat <- data.frame(segIdx = segIdx, rho = r, sigma = s, mu = m, mu.scaled = m.scaled, 
+            zero = z)
         
     } else {
         
@@ -107,7 +109,8 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
         x3 = 1 - rank(z)/(length(z) + 1)
         x4 = 1 - rank(f)/(length(f) + 1)
         segIdx <- rowMeans(cbind(x1, x2, x3, x4))
-        resMat <- data.frame(segIdx = segIdx, rho = r, sigma = s, mu = m, mu.scaled = m.scaled, zero = z, f_stats = f)
+        resMat <- data.frame(segIdx = segIdx, rho = r, sigma = s, mu = m, mu.scaled = m.scaled, 
+            zero = z, f_stats = f)
         
     }
     
@@ -128,8 +131,8 @@ make_para_gn_parallel = function(exprsMat, ncore = 1) {
     progress <- function(n) utils::setTxtProgressBar(pb, n)
     opts <- list(progress = progress)
     # `%dopar%` <- foreach::`%dopar%`
-    res <- foreach::foreach(i = iterators::icount(iter), .combine = rbind, .options.snow = opts, .export = c("gammaNormMix", "bic", "aic", 
-        "icl_bic")) %dopar% {
+    res <- foreach::foreach(i = iterators::icount(iter), .combine = rbind, .options.snow = opts, 
+        .export = c("gammaNormMix", "bic", "aic", "icl_bic")) %dopar% {
         utils::setTxtProgressBar(pb, i)
         exprsMat_gene <- exprsMat[i, ]
         gene_name <- rownames(exprsMat)[i]
@@ -171,20 +174,24 @@ icl_bic <- function(loglik, postprob, n, p) {
 
 
 
-gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TRUE, plot = TRUE, hist = TRUE, hist_col = "light cyan", verbose = FALSE, 
-    forceExponential = FALSE, calculateAreaDifference = FALSE, minDataPoints = 5, onlyAddCurves = FALSE, addContextData = FALSE, contextData = NULL) {
+gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TRUE, 
+    plot = TRUE, hist = TRUE, hist_col = "light cyan", verbose = FALSE, forceExponential = FALSE, 
+    calculateAreaDifference = FALSE, minDataPoints = 5, onlyAddCurves = FALSE, addContextData = FALSE, 
+    contextData = NULL) {
     
     
     # fitting a 2 component normal and gamma mixture model
     
-    # add other data to fit the model with as well, but only return the classification for those we're interested in
+    # add other data to fit the model with as well, but only return the classification
+    # for those we're interested in
     
     if (addContextData) {
         nOriginal = length(data)
         data <- c(data, contextData)
     }
     
-    # assume all values exactly zero already belong to the gamma comp and remove them from the EM algorithm
+    # assume all values exactly zero already belong to the gamma comp and remove them
+    # from the EM algorithm
     
     if (removeZeroes) {
         nonZeroInd = which(data > 0)
@@ -215,8 +222,9 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TR
     rho_iter = 0.5
     niter = 0
     
-    while (any(c(abs(mu - mu_iter) > thresh, abs(sig2 - sig2_iter) > thresh, abs(alpha - alpha_iter) > thresh, abs(beta - beta_iter) > thresh, 
-        abs(rho - rho_iter) > thresh)) & (niter < maxiter)) {
+    while (any(c(abs(mu - mu_iter) > thresh, abs(sig2 - sig2_iter) > thresh, abs(alpha - 
+        alpha_iter) > thresh, abs(beta - beta_iter) > thresh, abs(rho - rho_iter) > 
+        thresh)) & (niter < maxiter)) {
         
         # save old parameters
         mu = mu_iter
@@ -238,7 +246,8 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TR
         if (beta_iter <= 0 | is.na(beta_iter)) 
             beta_iter = 3
         if (!forceExponential) {
-            alpha_iter = distr::igamma(sum((log(beta_iter) + log(x)) * (1 - z_iter))/sum(1 - z_iter))
+            alpha_iter = distr::igamma(sum((log(beta_iter) + log(x)) * (1 - z_iter))/sum(1 - 
+                z_iter))
         }
         if (alpha_iter > 150 | is.na(alpha_iter)) 
             alpha_iter = 150
@@ -246,8 +255,9 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TR
         
         
         # E step
-        eta_iter = -0.5 * log(2 * pi * sig2_iter) - ((x - mu_iter) * (x - mu_iter))/(2 * sig2_iter) - alpha_iter * log(beta_iter) + log(gamma(alpha_iter)) - 
-            (alpha_iter - 1) * log(x) + beta_iter * x + log(rho_iter/(1 - rho_iter))
+        eta_iter = -0.5 * log(2 * pi * sig2_iter) - ((x - mu_iter) * (x - mu_iter))/(2 * 
+            sig2_iter) - alpha_iter * log(beta_iter) + log(gamma(alpha_iter)) - (alpha_iter - 
+            1) * log(x) + beta_iter * x + log(rho_iter/(1 - rho_iter))
         z_iter = 1/(1 + exp(-eta_iter))
         
         if (verbose) 
@@ -255,22 +265,26 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TR
     }
     
     
-    ll <- sum(log(rho_iter * stats::dnorm(x, mu_iter, sqrt(sig2_iter)) + (1 - rho_iter) * stats::dgamma(x, shape = alpha_iter, rate = beta_iter)))
+    ll <- sum(log(rho_iter * stats::dnorm(x, mu_iter, sqrt(sig2_iter)) + (1 - rho_iter) * 
+        stats::dgamma(x, shape = alpha_iter, rate = beta_iter)))
     
     
     xg <- seq(0, max(x) + 1, length.out = 300)
     c1g <- rho_iter * stats::dnorm(xg, mu_iter, sqrt(sig2_iter))
     # c2g <- (1-rho_iter)*dexp(xg,lambda_iter)
     c2g <- (1 - rho_iter) * stats::dgamma(xg, shape = alpha_iter, rate = beta_iter)
-    fg <- rho_iter * stats::dnorm(xg, mu_iter, sqrt(sig2_iter)) + (1 - rho_iter) * stats::dgamma(xg, shape = alpha_iter, rate = beta_iter)
-    # fg2 <- rho_true*stats::dnorm(xg,mu_true,sqrt(sig2_true)) + (1-rho_true)*dexp(xg,lambda_true)
+    fg <- rho_iter * stats::dnorm(xg, mu_iter, sqrt(sig2_iter)) + (1 - rho_iter) * stats::dgamma(xg, 
+        shape = alpha_iter, rate = beta_iter)
+    # fg2 <- rho_true*stats::dnorm(xg,mu_true,sqrt(sig2_true)) +
+    # (1-rho_true)*dexp(xg,lambda_true)
     if (plot) {
         if (hist) {
-            hist(x, probability = TRUE, col = hist_col, breaks = 50, main = NA, xlab = NA, ylab = "Density (zeroes removed)", ylim = c(0, 
-                0.6), xlim = c(0, 20))
+            hist(x, probability = TRUE, col = hist_col, breaks = 50, main = NA, xlab = NA, 
+                ylab = "Density (zeroes removed)", ylim = c(0, 0.6), xlim = c(0, 20))
         }
         if (!onlyAddCurves) {
-            graphics::lines(stats::density(x, from = 0), lty = 2, lwd = 2, col = alpha("darkgrey", 0.6))
+            graphics::lines(stats::density(x, from = 0), lty = 2, lwd = 2, col = alpha("darkgrey", 
+                0.6))
         }
         graphics::lines(xg, c1g, col = alpha("red", 0.6), lwd = 2)  #Normal Lines
         graphics::lines(xg, c2g, col = alpha("blue", 0.6), lwd = 2)  #Gamma lines
@@ -280,7 +294,8 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TR
             return(list(xg = xg, c1g = c1g, c2g = c2g, fg = fg))
     }
     if (calculateAreaDifference) {
-        f1 <- stats::approxfun(xg, (stats::approxfun(stats::density(x, from = 0)))(xg) - fg)
+        f1 <- stats::approxfun(xg, (stats::approxfun(stats::density(x, from = 0)))(xg) - 
+            fg)
         # piecewise linear function
         f2 <- function(x) abs(f1(x))
         # take the positive value
@@ -307,17 +322,20 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TR
     }
     if (plot) {
         if (addContextData) {
-            graphics::points(data[seq_len(nOriginal)], z * 0, pch = "|", cex = 1, col = alpha(grDevices::rgb(z, 0, 1 - z), 0.4))
+            graphics::points(data[seq_len(nOriginal)], z * 0, pch = "|", cex = 1, col = alpha(grDevices::rgb(z, 
+                0, 1 - z), 0.4))
         } else {
-            graphics::points(data, z * 0, pch = "|", cex = 1, col = alpha(grDevices::rgb(z, 0, 1 - z), 0.4))
+            graphics::points(data, z * 0, pch = "|", cex = 1, col = alpha(grDevices::rgb(z, 
+                0, 1 - z), 0.4))
         }
     }
     model_bic <- bic(ll, n, 5)
     model_aic <- aic(ll, 5)
     model_icl_bic <- icl_bic(ll, z, n, 5)
-    return(list(probExpressed = z, propExpressed = n * rho_iter/length(data), numExpressed = length(which(z > 0.5)), mu = mu_iter, sd = sqrt(sig2_iter), 
-        alpha = alpha_iter, beta = beta_iter, rho = rho_iter, niter = niter, loglik = ll, BIC = model_bic, AIC = model_aic, ICL_BIC = model_icl_bic, 
-        AreaDifference = AreaDifference))
+    return(list(probExpressed = z, propExpressed = n * rho_iter/length(data), numExpressed = length(which(z > 
+        0.5)), mu = mu_iter, sd = sqrt(sig2_iter), alpha = alpha_iter, beta = beta_iter, 
+        rho = rho_iter, niter = niter, loglik = ll, BIC = model_bic, AIC = model_aic, 
+        ICL_BIC = model_icl_bic, AreaDifference = AreaDifference))
 }
 
 

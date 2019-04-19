@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Breast Cancer Data • scMerge</title>
+<title>Embyronic Stem Cell Data • scMerge</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="Breast Cancer Data">
+<script src="../../pkgdown.js"></script><meta property="og:title" content="Embyronic Stem Cell Data">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
       </span>
     </div>
 
@@ -57,28 +57,25 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../../articles/Breast_Data/Breast_Data.html">Breast Cancer Data</a>
+      <a href="../../articles/case_study/Breast_Data.html">Breast Cancer Data</a>
     </li>
     <li>
-      <a href="../../articles/pkgdown_pages/Breast_Data.html">Breast Cancer Data</a>
+      <a href="../../articles/case_study/CellBench_Data.html">CellBench Data</a>
     </li>
     <li>
-      <a href="../../articles/pkgdown_pages/CellBench_Data.html">CellBench Data</a>
+      <a href="../../articles/case_study/ESC_Data.html">Embyronic Stem Cell Data</a>
     </li>
     <li>
-      <a href="../../articles/pkgdown_pages/ESC_Data.html">Embyronic Stem Cell Data</a>
+      <a href="../../articles/case_study/Mouse_Liver_Data.html">Mouse Liver Data</a>
     </li>
     <li>
-      <a href="../../articles/pkgdown_pages/Mouse_Liver_Data.html">Mouse Liver Data</a>
+      <a href="../../articles/case_study/Neuronal_Data.html">Neuronal Single Cell Data</a>
     </li>
     <li>
-      <a href="../../articles/pkgdown_pages/Neuronal_Data.html">Neuronal Single Cell Data</a>
+      <a href="../../articles/case_study/Pancreas4_Data.html">Pancreas 4 Data</a>
     </li>
     <li>
-      <a href="../../articles/pkgdown_pages/Pancreas4_Data.html">Pancreas 4 Data</a>
-    </li>
-    <li>
-      <a href="../../articles/pkgdown_pages/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
+      <a href="../../articles/case_study/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
     </li>
   </ul>
 </li>
@@ -105,13 +102,13 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Breast Cancer Data</h1>
+      <h1>Embyronic Stem Cell Data</h1>
                         <h4 class="author">Kevin Wang</h4>
             
-            <h4 class="date">17 Apr 2019</h4>
+            <h4 class="date">20 Apr 2019</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/pkgdown_pages/Breast_Data.Rmd"><code>vignettes/pkgdown_pages/Breast_Data.Rmd</code></a></small>
-      <div class="hidden name"><code>Breast_Data.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/scMerge/blob/master/vignettes/case_study/ESC_Data.Rmd"><code>vignettes/case_study/ESC_Data.Rmd</code></a></small>
+      <div class="hidden name"><code>ESC_Data.Rmd</code></div>
 
     </div>
 
@@ -120,11 +117,12 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>This is a human breast cancer single-cell data comprising of 4 different batches from a single experiment.</p>
+<p>This is an inter-organism single-cell embryonic stem cell (ESC) data comprising of 8 different experiements across 2 (human + mouse) organisms.</p>
 <p><strong>Integration challenge</strong></p>
 <ul>
-<li>Prior to integration, there is a strong separation effect by batches.</li>
-<li>With 24,520 cells, this data poses dimensionality challenge to data integration.</li>
+<li>The data is comprising of both human and mouse ESC data, this inter-organism integration is challenging from both a technical and biological perspective.</li>
+<li>Prior to integration, there is a strong separation effect by different experiments.</li>
+<li>Another batch effect is the different protocols with significant depth differences.</li>
 </ul>
 </div>
 <div id="data-description" class="section level2">
@@ -135,25 +133,21 @@
 </ul>
 <table class="table">
 <colgroup>
-<col width="9%">
-<col width="1%">
-<col width="5%">
-<col width="1%">
-<col width="6%">
-<col width="5%">
-<col width="17%">
-<col width="8%">
-<col width="6%">
-<col width="9%">
 <col width="10%">
+<col width="3%">
 <col width="7%">
+<col width="7%">
+<col width="15%">
+<col width="11%">
 <col width="8%">
+<col width="9%">
+<col width="9%">
+<col width="6%">
+<col width="10%">
 </colgroup>
 <thead><tr class="header">
 <th>Type of merge</th>
-<th></th>
 <th>Name</th>
-<th></th>
 <th>ID</th>
 <th>Author</th>
 <th>DOI or URL</th>
@@ -164,53 +158,137 @@
 <th># of cells</th>
 <th># of batches</th>
 </tr></thead>
-<tbody><tr class="odd">
-<td>Within experiment</td>
+<tbody>
+<tr class="odd">
+<td>Across Organisms</td>
+<td>ESC</td>
+<td>GSE84133</td>
+<td>Baron</td>
+<td>10.1016/j.cels.2016.08.011</td>
+<td>inDrop</td>
+<td>Human+ mouse</td>
+<td>Pancreas Islets</td>
+<td>13</td>
+<td>8569</td>
+<td>2 (human &amp; mouse)</td>
+</tr>
+<tr class="even">
 <td></td>
-<td>Breast</td>
 <td></td>
-<td>GSE113197</td>
-<td>Nguyen</td>
-<td>10.1038/s41467-018-04334-1</td>
-<td>10x Chromium</td>
-<td>Human</td>
-<td>Breast cancer</td>
-<td>3</td>
-<td>24520</td>
-<td>4</td>
-</tr></tbody>
+<td>GSE45719</td>
+<td>Deng</td>
+<td>10.1126/science.1245316</td>
+<td>Smart-Seq</td>
+<td>Mouse</td>
+<td>ESC</td>
+<td>10+</td>
+<td>2144</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GSE57249</td>
+<td>Biase</td>
+<td>10.1101/gr.177725.114</td>
+<td>SMARTer</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>E-MTAB-3321</td>
+<td>Goolam</td>
+<td>10.1016/j.cell.2016.01.047</td>
+<td>Smart-Seq2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GSE44183</td>
+<td>Xue</td>
+<td>10.1038/nature12364</td>
+<td>Tang et al., 2010*</td>
+<td>Human + mouse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>E-MTAB-3929</td>
+<td>Petropoulos</td>
+<td>10.1016/j.cell.2016.03.023</td>
+<td>Smart-Seq2</td>
+<td>human</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>GEO66507</td>
+<td>Blakeley</td>
+<td>10.1242/dev.123547</td>
+<td>SMARTer</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>GSE36552</td>
+<td>Yan</td>
+<td>10.1038/nsmb.2660</td>
+<td>Than et al., 2010*</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
 </table>
 <ul>
-<li>Relation to the <code>scMerge</code> article: Supplementary Figure 7.</li>
+<li>Relation to the <code>scMerge</code> article: Main Figure 3d.</li>
 </ul>
 </div>
 <div id="data-visualisation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-visualisation" class="anchor"></a>Data visualisation</h2>
-<div id="tsne-plots-by-cell-types-and-batch" class="section level3">
+<div id="pca-plots-by-cell-types-and-batch" class="section level3">
 <h3 class="hasAnchor">
-<a href="#tsne-plots-by-cell-types-and-batch" class="anchor"></a>tSNE plots by cell types and batch</h3>
-<!-- <img src="/FigS7_v1.png"> -->
-<p><img src="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeWebsite/Breast_Data/FigS7_v1.png"></p>
-<!-- ![](FigS7_v1.pdf) -->
-<!-- ```{r, out.width = '100%'} -->
-<!-- knitr::include_graphics("FigS7_v1.png") -->
-<!-- ``` -->
+<a href="#pca-plots-by-cell-types-and-batch" class="anchor"></a>PCA plots by cell types and batch</h3>
+<p><img src="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeWebsite/ESC_Data/Fig3_v9_PCA.png" style="width:100.0%"></p>
+</div>
+<div id="monocle2-cell-trajectory-plot" class="section level3">
+<h3 class="hasAnchor">
+<a href="#monocle2-cell-trajectory-plot" class="anchor"></a>Monocle2 cell trajectory plot</h3>
+<p><img src="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeWebsite/ESC_Data/Fig3_v9_Trajectory.png" style="width:100.0%"></p>
 </div>
 </div>
 <div id="integrated-scmerge-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#integrated-scmerge-data" class="anchor"></a>Integrated <code>scMerge</code> data</h2>
+<a href="#integrated-scmerge-data" class="anchor"></a>Integrated scMerge data</h2>
 <ul>
-<li><p>Data availability: <a href="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/breast_scMerge.rds">Breast Data (in RData format)</a></p></li>
-<li>
-<p><code>scMerge</code> parameters for integration:</p>
-<ul>
-<li>Unsupervised scMerge</li>
-<li>kmeans K = (4,3,4,3)</li>
-<li>Negative controls are human scSEG</li>
-</ul>
-</li>
+<li><p>Data availability: <a href="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/ESCcollection_scMerge.rds">ESC Data (in RData format)</a></p></li>
+<li><p><code>scMerge</code> parameters for integration:</p></li>
 </ul>
 </div>
   </div>
@@ -223,7 +301,7 @@
 <li><a href="#introduction">Introduction</a></li>
       <li><a href="#data-description">Data description</a></li>
       <li><a href="#data-visualisation">Data visualisation</a></li>
-      <li><a href="#integrated-scmerge-data">Integrated <code>scMerge</code> data</a></li>
+      <li><a href="#integrated-scmerge-data">Integrated scMerge data</a></li>
       </ul>
 </div>
       </div>
