@@ -1,4 +1,7 @@
-#' @title Simulate a simple matrix or SingleCellExperiment to test scMerge
+#' @title Simulate a simple matrix or SingleCellExperiment to test internals of scMerge
+#' @description This function is designed to generate Poisson-random-variable data matrix
+#' to test on the internal algorithms of scMerge. It does not represent real biological situations 
+#' and it is not intended to be used by end-users.
 #' @param m Number of observations
 #' @param n Number of features
 #' @param nc Number of negative controls
@@ -7,9 +10,6 @@
 #' @param k Number of unwanted factors in simulation
 #' @param lambda Rate parameter for random Poisson generation
 #' @param sce If \code{TRUE}, returns a SingleCellExperiment object
-#' @description This function is designed to generate Poisson-random-variable data matrix
-#' to test on the internal algorithms of scMerge. It does not represent real biological situations 
-#' and it is not intended to be used by end-users.
 #' @return
 #' If \code{sce} is FALSE, then the output is a list consists of
 #' \itemize{
@@ -46,7 +46,7 @@ ruvSimulate = function(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3, nBatc
     ctl[seq_len(nc)] = TRUE
     celltypesNumbers = rep(seq_len(nCelltypes), length.out = m)
     X = matrix(celltypesNumbers, m, p)  ## Each number is an unique cell type
-    # beta = matrix(stats::rpois(p * n, lambda = lambda), p, n)
+    
     beta = matrix(stats::rpois(p * n, lambda = 2 * lambda), p, n)
     beta[, ctl] = 0
     
@@ -72,7 +72,8 @@ ruvSimulate = function(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3, nBatc
         result = SingleCellExperiment::SingleCellExperiment(assays = list(counts = t(Y), 
             logcounts = log2(t(Y) + 1L)), colData = data.frame(cellTypes, batch), metadata = list(M = M))
     } else {
-        result = list(Y = Y, ctl = ctl, M = M, cellTypes = cellTypes, batch = batch)
+        result = list(Y = Y, ctl = ctl, M = M, cellTypes = cellTypes, batch = batch, 
+            X = X)
     }
     return(result)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/fastRUVIII.R
 \name{fastRUVIII}
 \alias{fastRUVIII}
-\title{A fast version of the RUVIII algorithm}
+\title{A fast version of the ruv::RUVIII algorithm}
 \usage{
 fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
   rsvd_prop = 0.1, include.intercept = TRUE, average = FALSE,
@@ -40,7 +40,7 @@ See ruv::RUVIII for details.}
 A normalised matrix of the same dimensions as the input matrix Y.
 }
 \description{
-Perform a fast version of the RUVIII algorithm
+Perform a fast version of the ruv::RUVIII algorithm.
 }
 \examples{
 L = ruvSimulate(m = 200, n = 500, nc = 400, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE)

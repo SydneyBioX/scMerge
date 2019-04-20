@@ -1,5 +1,5 @@
-#' @title RUVg function for single cell
-#' @description Modified based on RUV2 from package ruv and RUVg from package RUVseq function
+#' @title RUVg function for single cell (under development)
+#' @description Modified based on RUV2 from package ruv and RUVg from package RUVSeq function
 #' (see these function's documentations for full documentations and usage)
 #' @param Y The data. A m by n matrix, where m is the number of observations and n is the number of features.
 #' @param ctl index vector to specify the negative controls.
@@ -22,8 +22,8 @@
 #' \item A matrix alpha, this corresponding coefficient matrix for W.
 #' }
 #' @examples
-#' L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nCelltypes = 10)
-#' Y = L$Y; M = L$M; ctl = L$ctl
+#' L = scMerge::ruvSimulate(m = 80, n = 1000, nc = 50, nCelltypes = 10)
+#' Y = L$Y; ctl = L$ctl
 #' ruvgRes = scMerge::scRUVg(Y = Y, ctl = ctl, k = 20)
 
 

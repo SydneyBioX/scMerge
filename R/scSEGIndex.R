@@ -1,8 +1,8 @@
 #' @title scSEGIndex
-#' @description Calculate single-cell Stably Expressed Gene (scSEG) index
-#'
+#' @description Calculate single-cell Stably Expressed Gene (scSEG) index from Lin. et. al. (2018). 
+
 #' @author Shila Ghazanfar, Yingxin Lin, Pengyi Yang
-#' @param exprsMat A log-transoformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. A n by m matrix, where n is the number of genes and m is the number of cells.
+#' @param exprsMat A log-transformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. A n by m matrix, where n is the number of genes and m is the number of cells.
 #' @param cell_type A vector indicating the cell type information for each cell in the gene expression matrix. If it is \code{NULL}, the function calculates the scSEG index without using F-statistics.
 #' @param ncore Number of cores that are used in parallel
 #'
@@ -14,13 +14,14 @@
 #' @examples
 #' ## Loading example data
 #' data('example_sce', package = 'scMerge')
-#' ## subsetting to 200 genes to illustrate usage.
-#' exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:150, ]
+#' ## subsetting genes to illustrate usage.
+#' exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:110, ]
 #' \dontrun{
 #' set.seed(1)
 #' result = scSEGIndex(exprsMat = exprsMat)
-#' #' head(result)
+#' head(result)
 #' }
+#' @references https://www.biorxiv.org/content/10.1101/229815v2
 
 
 
@@ -35,13 +36,13 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
     
     
     if (is.null(cell_type)) {
-        print("Calculating scSEG index without F-statistics ")
+        message("Calculating scSEG index without F-statistics \n")
     } else {
         if (length(cell_type) != ncol(exprsMat)) {
             stop("length of cell type information is not equal to the number of column of exprsMat.")
         }
         cell_type <- as.factor(cell_type)
-        print("Calculating scSEG index with F-statistics ")
+        message("Calculating scSEG index with F-statistics \n")
     }
     
     ## Core feature 1: mixture modelling Zero%, remove those that have more than 80%
@@ -61,13 +62,13 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
     
     
     # fitting the model
-    print("Fitting the mixture model...")
+    message("Fitting the mixture model... \n")
     paraMat <- make_para_gn_parallel(as.matrix(exprsMat_filt), ncore = ncore)
     r <- paraMat$rho
     s <- paraMat$sigma
     m <- paraMat$mu
     m.scaled <- (m - min(m))/(max(m) - min(m))
-    # names(r) <- names(s) <- names(m) <- names(m.scaled) <- toupper(rownames(mat))
+    
     names(r) <- names(s) <- names(m) <- names(m.scaled) <- rownames(exprsMat_filt)
     
     
@@ -81,15 +82,15 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
         x1 = rank(r)/(length(r) + 1)
         x2 = 1 - rank(s)/(length(s) + 1)
         x3 = 1 - rank(z)/(length(z) + 1)
-        # x4 = 1-rank(f)/(length(f)+1)
-        segIdx <- rowMeans(cbind(x1, x2, x3))
+        
+        segIdx <- base::rowMeans(cbind(x1, x2, x3))
         
         resMat <- data.frame(segIdx = segIdx, rho = r, sigma = s, mu = m, mu.scaled = m.scaled, 
             zero = z)
         
     } else {
         
-        print("Fitting ANOVA model for F-stats...")
+        message("Fitting ANOVA model for F-stats... \n")
         aovStats <- apply(exprsMat_filt, 1, function(x) {
             tryCatch(stats::aov(as.numeric(x) ~ cell_type), error = function(e) {
                 NULL
@@ -101,14 +102,14 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
             })
         }))
         
-        # f <- f.all[genes]
+        
         
         ### Combine all core features for creating scSEG index
         x1 = rank(r)/(length(r) + 1)
         x2 = 1 - rank(s)/(length(s) + 1)
         x3 = 1 - rank(z)/(length(z) + 1)
         x4 = 1 - rank(f)/(length(f) + 1)
-        segIdx <- rowMeans(cbind(x1, x2, x3, x4))
+        segIdx <- base::rowMeans(cbind(x1, x2, x3, x4))
         resMat <- data.frame(segIdx = segIdx, rho = r, sigma = s, mu = m, mu.scaled = m.scaled, 
             zero = z, f_stats = f)
         
@@ -233,7 +234,7 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TR
         beta = beta_iter
         rho = rho_iter
         if (forceExponential) 
-            alpha_iter = 1  # SHILA
+            alpha_iter = 1
         
         niter = niter + 1
         
@@ -271,12 +272,11 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TR
     
     xg <- seq(0, max(x) + 1, length.out = 300)
     c1g <- rho_iter * stats::dnorm(xg, mu_iter, sqrt(sig2_iter))
-    # c2g <- (1-rho_iter)*dexp(xg,lambda_iter)
+    
     c2g <- (1 - rho_iter) * stats::dgamma(xg, shape = alpha_iter, rate = beta_iter)
-    fg <- rho_iter * stats::dnorm(xg, mu_iter, sqrt(sig2_iter)) + (1 - rho_iter) * stats::dgamma(xg, 
-        shape = alpha_iter, rate = beta_iter)
-    # fg2 <- rho_true*stats::dnorm(xg,mu_true,sqrt(sig2_true)) +
-    # (1-rho_true)*dexp(xg,lambda_true)
+    fg <- rho_iter * stats::dnorm(xg, mu_iter, sqrt(sig2_iter)) + (1 - rho_iter) * 
+        stats::dgamma(xg, shape = alpha_iter, rate = beta_iter)
+    
     if (plot) {
         if (hist) {
             hist(x, probability = TRUE, col = hist_col, breaks = 50, main = NA, xlab = NA, 
@@ -289,7 +289,7 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, removeZeroes = TR
         graphics::lines(xg, c1g, col = alpha("red", 0.6), lwd = 2)  #Normal Lines
         graphics::lines(xg, c2g, col = alpha("blue", 0.6), lwd = 2)  #Gamma lines
         graphics::lines(xg, fg, col = alpha("black", 0.6), lwd = 2)  #Mixture model line
-        # graphics::lines(xg,fg2,col='green',lwd=2)
+        
         if (onlyAddCurves) 
             return(list(xg = xg, c1g = c1g, c2g = c2g, fg = fg))
     }

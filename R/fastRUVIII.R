@@ -1,5 +1,5 @@
-#' @title A fast version of the RUVIII algorithm
-#' @description Perform a fast version of the RUVIII algorithm
+#' @title A fast version of the ruv::RUVIII algorithm
+#' @description Perform a fast version of the ruv::RUVIII algorithm.
 #'
 #' @author Yingxin Lin, John Ormerod, Kevin Wang
 #' @param Y The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.
@@ -82,7 +82,8 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, rsvd_p
         if (is.null(fullalpha)) 
             {
                 ## The main RUVIII process Applies the residual operator of a matrix M to a matrix Y
-                ## Y0 has the same dimensions as Y, i.e. m rows (observations) and n columns (genes).
+                ## Y0 has the same dimensions as Y, i.e. m rows (observations) and n columns
+                ## (genes).
                 
                 Y0 <- eigenResidop(Y, M)
                 matToDecomp <- Y0

@@ -18,7 +18,7 @@ either \code{union} or \code{intersect}}
 
 \item{cut_off_overall}{A numeric vector  indicating the cut-off for the proportion of a gene is expressed overall data}
 
-\item{exprs}{A string vector indicating the exprssion matrices to be combined. The first assay named will be used to determine the proportion of zeores.}
+\item{exprs}{A string vector indicating the expression matrices to be combined. The first assay named will be used to determine the proportion of zeores.}
 
 \item{colData_names}{A string vector indicating the \code{colData} that are combined}
 
@@ -28,7 +28,7 @@ either \code{union} or \code{intersect}}
 A \code{SingleCellExperiment} object with the list of SCE objects combined.
 }
 \description{
-Combind several \code{SingleCellExperiment} objects from different batches/experiments
+Combind several \code{SingleCellExperiment} objects from different batches/experiments.
 }
 \examples{
 library(SingleCellExperiment)

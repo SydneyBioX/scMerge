@@ -2,7 +2,7 @@
 % Please edit documentation in R/scMerge.R
 \name{scMerge}
 \alias{scMerge}
-\title{Merge single-cell RNA-seq data from different batches, experiments, protocols.}
+\title{Perform the scMerge algorithm}
 \usage{
 scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
   hvg_exprs = "counts", marker = NULL, marker_list = NULL,
@@ -15,13 +15,13 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData.}
 
-\item{ctl}{A chatacter vector of negative control. It should have a non-empty intersection with the rows of sce_combine.}
+\item{ctl}{A character vector of negative control. It should have a non-empty intersection with the rows of sce_combine.}
 
 \item{kmeansK}{A vector indicates the kmeans's K for each batch. The length of kmeansK needs to be the same as the number of batch.}
 
-\item{exprs}{A string inciating the name of the assay requiring batch correction in sce_combine, default is logcounts.}
+\item{exprs}{A string indicating the name of the assay requiring batch correction in sce_combine, default is logcounts.}
 
-\item{hvg_exprs}{A string inciating the assay that to be used for highly variable genes identification in sce_combine, default is counts.}
+\item{hvg_exprs}{A string indicating the assay that to be used for highly variable genes identification in sce_combine, default is counts.}
 
 \item{marker}{An optional vector of markers, to be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead.}
 
@@ -67,7 +67,8 @@ Returns a \code{SingleCellExperiment} object with following components:
 }
 }
 \description{
-Merge single-cell RNA-seq data from different batches, experiments, protocols.
+Merge single-cell RNA-seq data from different batches and experiments 
+leveraging (pseudo)-replicates and control genes.
 }
 \examples{
 ## Loading example data

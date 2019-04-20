@@ -2,7 +2,7 @@
 % Please edit documentation in R/ruvSimulate.R
 \name{ruvSimulate}
 \alias{ruvSimulate}
-\title{Simulate a simple matrix or SingleCellExperiment to test scMerge}
+\title{Simulate a simple matrix or SingleCellExperiment to test internals of scMerge}
 \usage{
 ruvSimulate(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3,
   nBatch = 2, k = 20, lambda = 0.1, sce = FALSE)

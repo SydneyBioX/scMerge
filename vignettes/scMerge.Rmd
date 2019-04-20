@@ -77,7 +77,7 @@ keepGenes = unique(c(commonSegGenes,
 ))
 
 example_sce = example_sce[keepGenes, c(batch2Sampled, batch3Sampled)]
-example_sce = example_sce[rowSums(counts(example_sce)) != 0, colSums(counts(example_sce)) != 0]
+example_sce = example_sce[base::rowSums(counts(example_sce)) != 0, base::colSums(counts(example_sce)) != 0]
 
 table(example_sce$batch,
       example_sce$cellTypes)
@@ -279,7 +279,7 @@ scater::plotPCA(scMerge_semisupervised2,
 Under most circumstances, `scMerge` is fast enough to be used on a personal laptop for a moderately large data. However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of `scMerge`. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up `scMerge`, we used the randomised SVD algorithm, which is able to obtain a very accurate approximation of the noise structure in the data by performing a partial SVD. This option is achieved via the option `fast_svd = TRUE` and `rsvd_prop`. `rsvd_prop` is a parameter between 0 and 1, controlling the degree of approximations. 
 
 
-We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large signgle cell data is much more dramatic than on a smaller dataset like the example mESC data. For example, a single run of normal `scMerge` on a human [pancreas data](https://sydneybiox.github.io/scMerge/articles/Pancreas4_Data/Pancreas4_Data.html) (23699 features and 4566 cells) takes about 10 minutes whereas the speed up version takes just under 4 minutes. 
+We recommend only use this option when the number of cells is large in your single cell data. The speed advantage we obtain for large single cell data is much more dramatic than on a smaller dataset like the example mESC data. For example, a single run of normal `scMerge` on a human [pancreas data](https://sydneybiox.github.io/scMerge/articles/Pancreas4_Data/Pancreas4_Data.html) (23699 features and 4566 cells) takes about 10 minutes whereas the speed up version takes just under 4 minutes. 
 
 
 

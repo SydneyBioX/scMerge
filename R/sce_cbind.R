@@ -1,13 +1,13 @@
 #' @title Combind several \code{SingleCellExperiment} objects from different batches/experiments
 #'
-#' @description Combind several \code{SingleCellExperiment} objects from different batches/experiments
+#' @description Combind several \code{SingleCellExperiment} objects from different batches/experiments.
 #'
 #' @param sce_list A list contains the \code{SingleCellExperiment} Object from each batch
 #' @param method A string indicates the method of combining the gene expression matrix,
 #' either \code{union} or \code{intersect}
 #' @param cut_off_batch A numeric vector indicating the cut-off for the proportion of a gene is expressed within each batch
 #' @param cut_off_overall A numeric vector  indicating the cut-off for the proportion of a gene is expressed overall data
-#' @param exprs A string vector indicating the exprssion matrices to be combined. The first assay named will be used to determine the proportion of zeores.
+#' @param exprs A string vector indicating the expression matrices to be combined. The first assay named will be used to determine the proportion of zeores.
 #' @param colData_names A string vector indicating the \code{colData} that are combined
 #' @param batch_names A string vector indicating the batch names for the output sce object
 #' @import SingleCellExperiment
@@ -81,7 +81,8 @@ sce_cbind <- function(sce_list, method = NULL, cut_off_batch = 0.01, cut_off_ove
         
         sce_combine <- SingleCellExperiment(assay = assay_list, colData = colData_list)
         
-        zero_cbind <- apply(assay(sce_combine, exprs[1]), 1, function(z) mean(z == 0))
+        zero_cbind <- apply(assay(sce_combine, exprs[1]), 1, function(z) mean(z == 
+            0))
         sce_combine <- sce_combine[names(zero_cbind[zero_cbind <= (1 - cut_off_overall)]), 
             ]
     }

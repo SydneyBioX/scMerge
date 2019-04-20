@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.19</span>
       </span>
     </div>
 
@@ -217,7 +217,7 @@
 <p><img src="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeWebsite/Mouse_Liver_Data/Fig3_v9.png" style="width:100.0%"></p>
 <p>Some remarks:</p>
 <ul>
-<li><p>To combine the four liver scRNA-seq datasets, we used a semi-supervised approach by considering the devlopmental stages as the wanted variation to identify the pseudo-replicates. Note that the cells of the four liver datasets are from different fetal mouse liver developmental stages (E9.5-E17.5). To identify the pseudo-replicates corresponding to the hepatoblasts, hepatocytes and cholangiocytes, we used three known markers of hepatoblasts and cholangiocytes, Alb, Afp and Epcam, to guide the <code>scMerge</code> algorithm. The sets of pseudo-replicates that are highly expressed the markers are further split according to the developmental stages.</p></li>
+<li><p>To combine the four liver scRNA-seq datasets, we used a semi-supervised approach by considering the developmental stages as the wanted variation to identify the pseudo-replicates. Note that the cells of the four liver datasets are from different fetal mouse liver developmental stages (E9.5-E17.5). To identify the pseudo-replicates corresponding to the hepatoblasts, hepatocytes and cholangiocytes, we used three known markers of hepatoblasts and cholangiocytes, Alb, Afp and Epcam, to guide the <code>scMerge</code> algorithm. The sets of pseudo-replicates that are highly expressed the markers are further split according to the developmental stages.</p></li>
 <li><p>In addition to integrating 4 scRNA-Seq datasets, <code>scMerge</code> revealed a novel result: We constructed the cell trajectories with cells corresponding to the E17.5 time point of GSE90047 removed. We found that the trajectory associated with <code>scMerge</code> is most consistent with the full Liver data collection and agrees with current literature, while other methods tended to generate extraneous branches with the subset of the Liver data collection.</p></li>
 <li><p>We further performed SC3 on the <code>scMerge</code> integrated data (k=9). We found that the SC3 clustering results have high concordance with the original cell types.</p></li>
 </ul>

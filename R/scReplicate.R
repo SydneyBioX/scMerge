@@ -1,19 +1,19 @@
-#' Create pseudo-replicate for scMerge
+#' @title Create replicate matrix for scMerge algorithm
 #'
-#' Create pseudo-replicate from single-cell RNA-seq data from different batches, experiments, and protocols.
+#' @description Create replicate matrix for scMerge algorithm using un/supervised approach. 
 #'
 #' @param sce_combine A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData
 #' @param batch A vector indicates the batch information for each cell in the batch-combined matrix.
-#' @param kmeansK A vector indicates the kmeans's K for each batch, length of KmeansK needs to be the same as the number of batch.
-#' @param exprs A string inciates the assay that are used for batch correction, default is logcounts
-#' @param hvg_exprs A string inciates the assay that are used for highly variable genes identification, default is counts
-#' @param marker A vector of markers, which will be used in calcualtion of mutual nearest cluster. If no markers input, highly variable genes will be used instead
-#' @param marker_list A list of markers for each batch, which will be used in calcualtion of mutual nearest cluster.
+#' @param kmeansK A vector indicates the kmeans's K for each batch, length of kmeansK needs to be the same as the number of batch.
+#' @param exprs A string indicates the assay that are used for batch correction, default is logcounts
+#' @param hvg_exprs A string indicates the assay that are used for highly variable genes identification, default is counts
+#' @param marker A vector of markers, which will be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead
+#' @param marker_list A list of markers for each batch, which will be used in calculation of mutual nearest cluster.
 #' @param replicate_prop A number indicates the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1
 #' @param cell_type A vector indicates the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.
 #' @param cell_type_match Whether find mutual nearest cluster using cell type information
 #' @param cell_type_inc A vector indicates the indices of the cells that will be used to supervise the pseudo-replicate procedure
-#' @param dist The distance metrics that are used in the calcualtion of the mutual nearest cluster, default is Pearson correlation.
+#' @param dist The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.
 #' @param fast_svd If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
 #' We recommend using this option when the number of cells is large (e.g. more than 1000 cells).
 #' @param WV A vector indicates the wanted variation factor other than cell type info, such as cell stages.
@@ -99,8 +99,9 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL, exprs = "logc
         HVG_list <- hvg_cases_output$HVG_list
         
         cluster_res <- compute_cluster_res(exprs_mat = exprs_mat, batch = batch, marker = marker, 
-            HVG_list = HVG_list, kmeansK = kmeansK, parallelParam = parallelParam, fast_svd = fast_svd, 
-            cell_type = cell_type, batch_list = batch_list, case = "case2", verbose = verbose)
+            HVG_list = HVG_list, kmeansK = kmeansK, parallelParam = parallelParam, 
+            fast_svd = fast_svd, cell_type = cell_type, batch_list = batch_list, case = "case2", 
+            verbose = verbose)
         
         ## Here, using the cell type information, we go ahead and find MNC
         if (verbose) {
@@ -126,9 +127,9 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL, exprs = "logc
                 cat(" 3. No mutual nearest neighbour matching \n")
             }
         } else {
-            ## Case 4: This is the case where cell_type is not supplied.  Hence MNN matching will
-            ## be performed regardless and cell-type indicies is not relevant because of the lack
-            ## of cell_type
+            ## Case 4: This is the case where cell_type is not supplied.  Hence MNN matching
+            ## will be performed regardless and cell-type indicies is not relevant because of
+            ## the lack of cell_type
             if (verbose) {
                 cat("Performing unsupervised scMerge with: \n")
                 cat(" 1. No cell type information \n")
@@ -144,11 +145,11 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL, exprs = "logc
         
         
         if (is.null(kmeansK)) {
-            stop("KmeansK is NULL", call. = FALSE)
+            stop("kmeansK is NULL", call. = FALSE)
         }
         
         if (length(batch_list) != length(kmeansK)) {
-            stop("length of KmeansK needs to be the same as the number of batch", call. = FALSE)
+            stop("length of kmeansK needs to be the same as the number of batch", call. = FALSE)
         }
         
         
@@ -163,8 +164,8 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL, exprs = "logc
         HVG_list <- hvg_cases_output$HVG_list
         
         cluster_res = compute_cluster_res(exprs_mat = exprs_mat, batch = batch, marker = marker, 
-            HVG_list = HVG_list, kmeansK = kmeansK, parallelParam = parallelParam, fast_svd = fast_svd, 
-            verbose = verbose, case = "case3")
+            HVG_list = HVG_list, kmeansK = kmeansK, parallelParam = parallelParam, 
+            fast_svd = fast_svd, verbose = verbose, case = "case3")
         
         ## Find Mutual Nearest Cluster
         if (verbose) {
@@ -220,7 +221,8 @@ compute_cluster_res = function(exprs_mat, batch, marker, HVG_list, kmeansK, para
             cat(" 5. PCA and Kmeans clustering will be performed on each batch \n")
         }
         cluster_res <- identifyCluster(exprs_mat = exprs_mat, batch = batch, marker = marker, 
-            HVG_list = HVG_list, kmeansK = kmeansK, parallelParam = parallelParam, fast_svd = fast_svd)
+            HVG_list = HVG_list, kmeansK = kmeansK, parallelParam = parallelParam, 
+            fast_svd = fast_svd)
     }
     ############################## 
     if (case == "case2") {
@@ -347,7 +349,8 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL, HVG_list, kmeansK, 
     res <- BiocParallel::bplapply(seq_len(length(pca)), function(j) {
         pca_current <- pca[[j]]
         if (!is.null(pca_current)) {
-            kmeans_res <- stats::kmeans(pca_current[, 1:10], centers = kmeansK[j], nstart = 1000)
+            kmeans_res <- stats::kmeans(pca_current[, 1:10], centers = kmeansK[j], 
+                nstart = 1000)
             clustering_res_tmp <- kmeans_res$cluster
             # exprs_current <- exprs_mat[HVG_list[[j]], batch == batch_list[j]]
             if (!is.null(marker)) {
@@ -378,8 +381,8 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL, HVG_list, kmeansK, 
     clustering_res <- lapply(res, function(x) x[[1]])
     clustering_res_pt_dist <- lapply(res, function(x) x[[2]])
     # } else { for (j in 1:length(pca)) { pca_current <- pca[[j]] if
-    # (!is.null(pca_current)) { kmeans_res <- stats::kmeans(pca_current[, 1:10], centers
-    # = kmeansK[j], nstart = 1000) clustering_res[[j]] <- kmeans_res$cluster #
+    # (!is.null(pca_current)) { kmeans_res <- stats::kmeans(pca_current[, 1:10],
+    # centers = kmeansK[j], nstart = 1000) clustering_res[[j]] <- kmeans_res$cluster #
     # exprs_current <- exprs_mat[HVG_list[[j]], batch == batch_list[j]] if
     # (!is.null(marker)) { exprs_current <- exprs_mat[marker, batch == batch_list[j]] }
     # else { exprs_current <- exprs_mat[HVG_list[[j]], batch == batch_list[j]] }
@@ -400,7 +403,7 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL, HVG_list, kmeansK, 
 ###################################################################################################### 
 centroidDist <- function(exprs_mat) {
     centroid_batch <- matrixStats::rowMedians(exprs_mat)
-    point_dist <- colSums((exprs_mat - centroid_batch)^2)
+    point_dist <- base::colSums((exprs_mat - centroid_batch)^2)
     point_rank <- rank(point_dist)
     point_rank <- point_rank/length(point_rank)
     return(point_rank)
@@ -427,8 +430,8 @@ compute_dist_mat_med <- function(k, exprs_mat, clustering_list, combine_pair, di
     
     dist_mat <- as.matrix(dist_mat)
     
-    ## The dist_res (distance measure between batches) is then the median of all pairwise
-    ## distances
+    ## The dist_res (distance measure between batches) is then the median of all
+    ## pairwise distances
     return(stats::median(dist_mat))
 }
 
@@ -547,8 +550,8 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelPara
                 compute_dist_res(i = i, res1 = res1, res2 = res2, exprs_mat = exprs_mat, 
                   dist = dist, dist_res)
             }, BPPARAM = parallelParam)
-            # } else { dist_res <- lapply(seq_len(max(res1)), function(i) { compute_dist_res(i =
-            # i, res1 = res1, res2 = res2, exprs_mat = exprs_mat, dist = dist, dist_res) }) }
+            # } else { dist_res <- lapply(seq_len(max(res1)), function(i) { compute_dist_res(i
+            # = i, res1 = res1, res2 = res2, exprs_mat = exprs_mat, dist = dist, dist_res) }) }
             
             
             dist_res <- do.call(rbind, dist_res)
@@ -579,7 +582,8 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", parallelPara
         igraph::plot.igraph(g)
         mnc <- igraph::fastgreedy.community(g)
         mnc_df <- data.frame(group = as.numeric(mnc$membership), batch = as.numeric(gsub("Batch", 
-            "", gsub("_.*", "", mnc$names))), cluster = as.numeric(gsub(".*_", "", mnc$names)))
+            "", gsub("_.*", "", mnc$names))), cluster = as.numeric(gsub(".*_", "", 
+            mnc$names)))
         
         if (allones) {
             mnc_df_new <- mnc_df
@@ -674,8 +678,8 @@ mncReplicate <- function(clustering_list, clustering_distProp, replicate_prop, m
 wvReplicate <- function(exprs_mat, WV, WV_marker, replicate_vector) {
     names(WV) <- colnames(exprs_mat)
     if (!is.null(WV_marker)) {
-        marker_expr <- lapply(WV_marker, function(x) stats::aggregate(exprs_mat[x, ], 
-            by = list(replicate_vector), FUN = mean))
+        marker_expr <- lapply(WV_marker, function(x) stats::aggregate(exprs_mat[x, 
+            ], by = list(replicate_vector), FUN = mean))
         names(marker_expr) <- WV_marker
         
         marker_expr <- do.call(cbind, lapply(marker_expr, function(x) x[, 2]))
@@ -711,7 +715,8 @@ supervisedReplicate <- function(exprs_mat, cell_type, replicate_prop) {
     replicate_vector <- rep(NA, length(cell_type))
     names(replicate_vector) = names(cell_type)
     
-    ## The value in replicate_vector is controlled by the proportion of replicates option
+    ## The value in replicate_vector is controlled by the proportion of replicates
+    ## option
     replicate_vector[clustering_distProp <= replicate_prop] <- cell_type[clustering_distProp <= 
         replicate_prop]
     

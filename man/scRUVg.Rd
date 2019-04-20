@@ -2,7 +2,7 @@
 % Please edit documentation in R/scRUVg.R
 \name{scRUVg}
 \alias{scRUVg}
-\title{RUVg function for single cell}
+\title{RUVg function for single cell (under development)}
 \usage{
 scRUVg(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
   fullW = NULL, svdyc = NULL)
@@ -36,12 +36,12 @@ A list consists of:
 }
 }
 \description{
-Modified based on RUV2 from package ruv and RUVg from package RUVseq function
+Modified based on RUV2 from package ruv and RUVg from package RUVSeq function
 (see these function's documentations for full documentations and usage)
 }
 \examples{
-L = scMerge::ruvSimulate(m = 800, n = 1000, nc = 50, nCelltypes = 10)
-Y = L$Y; M = L$M; ctl = L$ctl
+L = scMerge::ruvSimulate(m = 80, n = 1000, nc = 50, nCelltypes = 10)
+Y = L$Y; ctl = L$ctl
 ruvgRes = scMerge::scRUVg(Y = Y, ctl = ctl, k = 20)
 }
 \author{

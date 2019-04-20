@@ -1,10 +1,12 @@
-#' Merge single-cell RNA-seq data from different batches, experiments, protocols.
+#' @title Perform the scMerge algorithm 
+#' @description Merge single-cell RNA-seq data from different batches and experiments 
+#' leveraging (pseudo)-replicates and control genes.
 #'
 #' @param sce_combine A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData.
-#' @param ctl A chatacter vector of negative control. It should have a non-empty intersection with the rows of sce_combine.
+#' @param ctl A character vector of negative control. It should have a non-empty intersection with the rows of sce_combine.
 #' @param kmeansK A vector indicates the kmeans's K for each batch. The length of kmeansK needs to be the same as the number of batch.
-#' @param exprs A string inciating the name of the assay requiring batch correction in sce_combine, default is logcounts.
-#' @param hvg_exprs A string inciating the assay that to be used for highly variable genes identification in sce_combine, default is counts.
+#' @param exprs A string indicating the name of the assay requiring batch correction in sce_combine, default is logcounts.
+#' @param hvg_exprs A string indicating the assay that to be used for highly variable genes identification in sce_combine, default is counts.
 #' @param marker An optional vector of markers, to be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead.
 #' @param marker_list An optional list of markers for each batch, which will be used in calculation of mutual nearest cluster.
 #' @param ruvK An optional integer/vector indicating the number of unwanted variation factors that are removed, default is 20.
@@ -96,7 +98,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
     sce_rownames <- rownames(sce_combine)
     
     ## Checking if any rows or columns are purely zeroes
-    if (any(rowSums(exprs_mat) == 0) | any(colSums(exprs_mat) == 0)) {
+    if (any(base::rowSums(exprs_mat) == 0) | any(base::colSums(exprs_mat) == 0)) {
         stop("There are rows or columns that are all zeros in the expression matrix. Please remove these rows/columns.")
     }
     
@@ -160,7 +162,6 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts"
     
     cat("Dimension of the replicates mapping matrix: \n")
     print(dim(repMat))
-    # cat('\n')
     
     ## Performing RUV normalisation
     

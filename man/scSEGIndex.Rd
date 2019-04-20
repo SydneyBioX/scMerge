@@ -7,7 +7,7 @@
 scSEGIndex(exprsMat, cell_type = NULL, ncore = 1)
 }
 \arguments{
-\item{exprsMat}{A log-transoformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. A n by m matrix, where n is the number of genes and m is the number of cells.}
+\item{exprsMat}{A log-transformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. A n by m matrix, where n is the number of genes and m is the number of cells.}
 
 \item{cell_type}{A vector indicating the cell type information for each cell in the gene expression matrix. If it is \code{NULL}, the function calculates the scSEG index without using F-statistics.}
 
@@ -18,18 +18,21 @@ Returns a data frame. Each row is a gene and each column is a statistic relating
 The main statistic is the \code{segIdx} column, which is the SEG index.
 }
 \description{
-Calculate single-cell Stably Expressed Gene (scSEG) index
+Calculate single-cell Stably Expressed Gene (scSEG) index from Lin. et. al. (2018).
 }
 \examples{
 ## Loading example data
 data('example_sce', package = 'scMerge')
-## subsetting to 200 genes to illustrate usage.
-exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:150, ]
+## subsetting genes to illustrate usage.
+exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:110, ]
 \dontrun{
 set.seed(1)
 result = scSEGIndex(exprsMat = exprsMat)
-#' head(result)
+head(result)
 }
+}
+\references{
+https://www.biorxiv.org/content/10.1101/229815v2
 }
 \author{
 Shila Ghazanfar, Yingxin Lin, Pengyi Yang

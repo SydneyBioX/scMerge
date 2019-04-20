@@ -28,7 +28,7 @@ This is a benchmarking single-cell data comprising of 3 different human lung ade
 
 | Type of merge |   | Name      |   | ID        | Author | DOI or URL                                 | Protocol                         | Organism | Tissue                    | # of cell types | # of cells | # of batches     |
 |---------------|---|-----------|---|-----------|--------|--------------------------------------------|----------------------------------|----------|---------------------------|-----------------|------------|------------------|
-|  Across platforms with significant depth difference     |   | CellBench |   | cellBench |        | https://github.com/LuyiTian/CellBench_data | Cel-seq2, Drop-seq, 10x Chromium | Human    | Adenocarcinoma cell lines | 3               | 1401         | 3 per cell types |
+|  Across platforms with significant depth difference     |   | CellBench |   | CellBench |        | https://github.com/LuyiTian/CellBench_data | Cel-seq2, Drop-seq, 10x Chromium | Human    | Adenocarcinoma cell lines | 3               | 1401         | 3 per cell types |
 
 + Relation to the `scMerge` article: Supplementary Figure 12. 
 

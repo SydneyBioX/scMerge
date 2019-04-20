@@ -2,7 +2,7 @@
 % Please edit documentation in R/scReplicate.R
 \name{scReplicate}
 \alias{scReplicate}
-\title{Create pseudo-replicate for scMerge}
+\title{Create replicate matrix for scMerge algorithm}
 \usage{
 scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
   exprs = "logcounts", hvg_exprs = "counts", marker = NULL,
@@ -16,15 +16,15 @@ scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
 
 \item{batch}{A vector indicates the batch information for each cell in the batch-combined matrix.}
 
-\item{kmeansK}{A vector indicates the kmeans's K for each batch, length of KmeansK needs to be the same as the number of batch.}
+\item{kmeansK}{A vector indicates the kmeans's K for each batch, length of kmeansK needs to be the same as the number of batch.}
 
-\item{exprs}{A string inciates the assay that are used for batch correction, default is logcounts}
+\item{exprs}{A string indicates the assay that are used for batch correction, default is logcounts}
 
-\item{hvg_exprs}{A string inciates the assay that are used for highly variable genes identification, default is counts}
+\item{hvg_exprs}{A string indicates the assay that are used for highly variable genes identification, default is counts}
 
-\item{marker}{A vector of markers, which will be used in calcualtion of mutual nearest cluster. If no markers input, highly variable genes will be used instead}
+\item{marker}{A vector of markers, which will be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead}
 
-\item{marker_list}{A list of markers for each batch, which will be used in calcualtion of mutual nearest cluster.}
+\item{marker_list}{A list of markers for each batch, which will be used in calculation of mutual nearest cluster.}
 
 \item{replicate_prop}{A number indicates the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1}
 
@@ -34,7 +34,7 @@ scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
 
 \item{cell_type_inc}{A vector indicates the indices of the cells that will be used to supervise the pseudo-replicate procedure}
 
-\item{dist}{The distance metrics that are used in the calcualtion of the mutual nearest cluster, default is Pearson correlation.}
+\item{dist}{The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.}
 
 \item{WV}{A vector indicates the wanted variation factor other than cell type info, such as cell stages.}
 
@@ -63,7 +63,7 @@ An element of the mapping matrix is 1 if the scReplicate algorithm determines th
 should belong to that cell cluster and 0 otherwise.
 }
 \description{
-Create pseudo-replicate from single-cell RNA-seq data from different batches, experiments, and protocols.
+Create replicate matrix for scMerge algorithm using un/supervised approach.
 }
 \examples{
 ## Loading example data

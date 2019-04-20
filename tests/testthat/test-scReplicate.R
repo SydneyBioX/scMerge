@@ -11,7 +11,9 @@ expect_error(
                 kmeansK = c(3, 3), 
                 fast_svd = FALSE, 
                 cell_type = example_sce$cellTypes, 
-                cell_type_inc = 1:10, cell_type_match = TRUE))
+                cell_type_inc = 1:10, 
+                cell_type_match = TRUE,
+                verbose = TRUE))
 
 
 ## Case 1: supervised replicates: 
@@ -26,7 +28,8 @@ case1 = scReplicate(
     fast_svd = FALSE, 
     cell_type = example_sce$cellTypes, 
     cell_type_inc = NULL, 
-    cell_type_match = FALSE)
+    cell_type_match = FALSE,
+    verbose = TRUE)
 
 ## Case 2.1: semi-supervised replicates version 2: 
 ## Supply cell_type 
@@ -44,7 +47,8 @@ case2.1 = scReplicate(
     cell_type_inc = NULL, 
     cell_type_match = TRUE, 
     marker = NULL, 
-    marker_list = NULL)
+    marker_list = NULL,
+    verbose = TRUE)
 
 
 ## Case 2.2: semi-supervised replicates version 2: 
@@ -64,8 +68,9 @@ case2.2 = scReplicate(
     cell_type_match = TRUE, 
     marker = NULL, 
     marker_list = 
-        list(rownames(example_sce[1:10, ]), rownames(example_sce[1:10, ]))
-)
+        list(rownames(example_sce[1:10, ]), 
+             rownames(example_sce[1:10, ])),
+    verbose = TRUE)
 
 ## Case 2.3.1: semi-supervised replicates version 2: 
 ## Supply cell_type 
@@ -73,8 +78,18 @@ case2.2 = scReplicate(
 ## Do not supply cell_type_match
 ## Supply marker 
 ## Do not supply marker_list
-case2.3.1 = scReplicate(sce_combine = example_sce, batch = example_sce$batch, replicate_prop = 1, kmeansK = c(3, 3), fast_svd = FALSE, cell_type = example_sce$cellTypes, 
-                        cell_type_inc = NULL, cell_type_match = TRUE, marker = rownames(example_sce[1:10, ]), marker_list = NULL)
+case2.3.1 = scReplicate(
+    sce_combine = example_sce, 
+    batch = example_sce$batch, 
+    replicate_prop = 1, 
+    kmeansK = c(3, 3), 
+    fast_svd = FALSE, 
+    cell_type = example_sce$cellTypes, 
+    cell_type_inc = NULL, 
+    cell_type_match = TRUE, 
+    marker = rownames(example_sce[1:10, ]), 
+    marker_list = NULL,
+    verbose = TRUE)
 
 ## Case 2.3.2: semi-supervised replicates version 2: 
 ## Supply cell_type 
@@ -82,9 +97,21 @@ case2.3.1 = scReplicate(sce_combine = example_sce, batch = example_sce$batch, re
 ## Do not upply cell_type_match 
 ## Supply marker 
 ## Supply marker_list
-case2.3.2 = scReplicate(sce_combine = example_sce, batch = example_sce$batch, replicate_prop = 1, kmeansK = c(3, 3), fast_svd = FALSE, cell_type = example_sce$cellTypes, 
-                        cell_type_inc = NULL, cell_type_match = TRUE, marker = rownames(example_sce[1:10, ]), marker_list = list(rownames(example_sce[1:10, ]), 
-                                                                                                                                 rownames(example_sce[1:10, ])))
+case2.3.2 = scReplicate(
+    sce_combine = example_sce, 
+    batch = example_sce$batch, 
+    replicate_prop = 1, 
+    kmeansK = c(3, 3), 
+    fast_svd = FALSE, 
+    cell_type = example_sce$cellTypes, 
+    cell_type_inc = NULL, 
+    cell_type_match = TRUE, 
+    marker = rownames(example_sce[1:10, ]),
+    marker_list = 
+        list(rownames(example_sce[1:10, ]), 
+             rownames(example_sce[1:10, ])
+        ),
+    verbose = TRUE)
 
 ## Because case2.3.1 and 2.3.2 do not depend on the input of marker_list
 ## so their output should be identical
@@ -93,16 +120,34 @@ expect_identical(case2.3.1, case2.3.2)
 
 
 ## Semi-supervised version 1 in the vignette
-case3 = scReplicate(sce_combine = example_sce, batch = example_sce$batch, replicate_prop = 1, kmeansK = c(3, 3), fast_svd = FALSE, cell_type = example_sce$cellTypes, 
-                    cell_type_inc = 1:10, cell_type_match = FALSE)
+case3 = scReplicate(
+    sce_combine = example_sce, 
+    batch = example_sce$batch, 
+    replicate_prop = 1, 
+    kmeansK = c(3, 3), 
+    fast_svd = FALSE, 
+    cell_type = example_sce$cellTypes, 
+    cell_type_inc = 1:10, 
+    cell_type_match = FALSE,
+    verbose = TRUE)
 
 ## Case 4.1: Do not Supply cell_type 
 ## Do not supply cell_type_inc 
 ## Do not supply cell_type_match 
 ## Do not supply marker 
 ## Do not supply marker_list
-case4.1 = scReplicate(sce_combine = example_sce, batch = example_sce$batch, replicate_prop = 1, kmeansK = c(3, 3), fast_svd = FALSE, cell_type = NULL, 
-                      cell_type_inc = NULL, cell_type_match = FALSE, marker = NULL, marker_list = NULL)
+case4.1 = scReplicate(
+    sce_combine = example_sce, 
+    batch = example_sce$batch, 
+    replicate_prop = 1, 
+    kmeansK = c(3, 3), 
+    fast_svd = FALSE, 
+    cell_type = NULL, 
+    cell_type_inc = NULL, 
+    cell_type_match = FALSE, 
+    marker = NULL, 
+    marker_list = NULL,
+    verbose = TRUE)
 
 
 ## Case 4.2: 
@@ -111,9 +156,20 @@ case4.1 = scReplicate(sce_combine = example_sce, batch = example_sce$batch, repl
 ## Do not supply cell_type_match 
 ## Do not supply marker 
 ## Supply marker_list
-case4.2 = scReplicate(sce_combine = example_sce, batch = example_sce$batch, replicate_prop = 1, kmeansK = c(3, 3), fast_svd = FALSE, cell_type = NULL, 
-                      cell_type_inc = NULL, cell_type_match = FALSE, marker = NULL, marker_list = list(rownames(example_sce[1:10, ]), rownames(example_sce[1:10, 
-                                                                                                                                                           ])))
+case4.2 = scReplicate(
+    sce_combine = example_sce,
+    batch = example_sce$batch, 
+    replicate_prop = 1, 
+    kmeansK = c(3, 3), 
+    fast_svd = FALSE, 
+    cell_type = NULL, 
+    cell_type_inc = NULL, 
+    cell_type_match = FALSE, 
+    marker = NULL,
+    marker_list = list(
+        rownames(example_sce[1:10, ]), 
+        rownames(example_sce[1:10, ])), 
+    verbose = TRUE)
 
 ## Case 4.3: 
 ## Do not Supply cell_type 
@@ -121,5 +177,15 @@ case4.2 = scReplicate(sce_combine = example_sce, batch = example_sce$batch, repl
 ## Do not supply cell_type_match 
 ## Supply marker 
 ## Do not supply marker_list
-case4.3 = scReplicate(sce_combine = example_sce, batch = example_sce$batch, replicate_prop = 1, kmeansK = c(3, 3), fast_svd = FALSE, cell_type = NULL, 
-                      cell_type_inc = NULL, cell_type_match = FALSE, marker = rownames(example_sce[1:10, ]), marker_list = NULL)
+case4.3 = scReplicate(
+    sce_combine = example_sce, 
+    batch = example_sce$batch, 
+    replicate_prop = 1, 
+    kmeansK = c(3, 3), 
+    fast_svd = FALSE, 
+    cell_type = NULL, 
+    cell_type_inc = NULL, 
+    cell_type_match = FALSE, 
+    marker = rownames(example_sce[1:10, ]), 
+    marker_list = NULL,
+    verbose = TRUE)

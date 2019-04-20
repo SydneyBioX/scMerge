@@ -1,6 +1,6 @@
 #' @title scRUVIII: RUVIII algorithm optimised for single cell data
 #'
-#' @description A function to perform loacation/scale adjustment to data as the input of
+#' @description A function to perform location/scale adjustment to data as the input of
 #' RUVIII which also provides the option to select optimal RUVk according to the
 #' silhouette coefficient
 #'
@@ -36,7 +36,7 @@
 #' }
 #' @export
 #' @examples
-#' L = ruvSimulate(m = 200, n = 1000, nc = 100, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE, k = 2)
+#' L = ruvSimulate(m = 200, n = 1000, nc = 100, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE)
 #' Y = log2(L$Y + 1L); M = L$M; ctl = L$ctl; batch = L$batch;
 #' res = scRUVIII(Y = Y, M = M, ctl = ctl, k = c(5, 10, 15, 20), batch = batch)
 
@@ -104,8 +104,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL, k = k, cell_type
         }
         names(f_score) <- k
         
-        # print(sil_res)
-        cat("optimal ruvK:", k[which.max(f_score)])
+        message("optimal ruvK:", k[which.max(f_score)])
         
         ## Not showing
         graphics::plot(k, f_score, pch = 16, col = "light grey")
@@ -153,7 +152,7 @@ standardize <- function(exprsMat, batch) {
     num_cell <- ncol(exprsMat)
     num_batch <- length(unique(batch))
     batch <- as.factor(batch)
-    grand.mean <- matrix(rowMeans(exprsMat), nrow = 1)
+    grand.mean <- matrix(base::rowMeans(exprsMat), nrow = 1)
     stand.mean <- t(grand.mean) %*% t(rep(1, num_cell))
     design <- stats::model.matrix(~-1 + batch)
     B.hat <- solve(crossprod(design), tcrossprod(t(design), as.matrix(exprsMat)))

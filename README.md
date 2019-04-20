@@ -31,7 +31,9 @@ BiocManager::install("scMerge", version = "3.9")
 
 
 ## Install the development version of scMerge
-devtools::install_github("SydneyBioX/scMerge", build_vignettes = TRUE)
+install_github("SydneyBioX/scMerge", 
+               build_opts = c("--no-resave-data", "--no-manual"),
+               build_vignettes = TRUE)
 ```
 
 ## Vignette
@@ -46,7 +48,7 @@ You can find a list of case studies here:
 
 ## Contact us
 
-If you have any enquires, especially about performing `scMerge`
+If you have any enquries, especially about performing `scMerge`
 integration on your data, then please contact
 <bioinformatics@maths.usyd.edu.au>.
 
