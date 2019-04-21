@@ -39,7 +39,6 @@
 #' @export
 #' @examples
 #' ## Loading example data
-#' library(scMerge)
 #' data('example_sce', package = 'scMerge')
 #' ## Previously computed stably expressed genes
 #' data('segList_ensemblGeneID', package = 'scMerge')

@@ -79,7 +79,8 @@ expect_error(
 ## Both exprs matrix and hvg_exprs matrix must be base::matrix objects 
 ## (This will be updated in later versions of scMerge)
 L3 = L
-SingleCellExperiment::counts(L3) = Matrix::Matrix(SingleCellExperiment::counts(L3), sparse = TRUE)
+SingleCellExperiment::counts(L3) = 
+  Matrix::Matrix(SingleCellExperiment::counts(L3), sparse = TRUE)
 
 expect_error(
   scMerge(

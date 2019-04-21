@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: Merging multiple batches of scRNA-seq data
-Version: 0.99.21
+Version: 0.99.22
 Authors@R: c(
     person("Kevin", "Wang", email = "kevin.wang@sydney.edu.au", role = c("aut", "cre")
     ),
@@ -48,11 +48,13 @@ LinkingTo:
 RoxygenNote: 6.1.1
 Suggests: 
     BiocStyle,
+    covr,
     knitr,
+    Matrix,
     rmarkdown,
+    scales,
     scater,
-    testthat,
-    covr
+    testthat
 VignetteBuilder: knitr
 biocViews: BatchEffect, GeneExpression, Normalization, RNASeq, Sequencing, SingleCell, Software, Transcriptomics
 URL: https://github.com/SydneyBioX/scMerge
