@@ -7,14 +7,17 @@
 scSEGIndex(exprsMat, cell_type = NULL, ncore = 1)
 }
 \arguments{
-\item{exprsMat}{A log-transformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. A n by m matrix, where n is the number of genes and m is the number of cells.}
+\item{exprsMat}{A log-transformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. 
+A n by m matrix, where n is the number of genes and m is the number of cells.}
 
-\item{cell_type}{A vector indicating the cell type information for each cell in the gene expression matrix. If it is \code{NULL}, the function calculates the scSEG index without using F-statistics.}
+\item{cell_type}{A vector indicating the cell type information for each cell in the gene expression matrix. 
+If it is \code{NULL}, the function calculates the scSEG index without using F-statistics.}
 
 \item{ncore}{Number of cores that are used in parallel}
 }
 \value{
-Returns a data frame. Each row is a gene and each column is a statistic relating to the stability of expression of each gene.
+Returns a data frame. 
+Each row is a gene and each column is a statistic relating to the stability of expression of each gene.
 The main statistic is the \code{segIdx} column, which is the SEG index.
 }
 \description{
@@ -25,11 +28,9 @@ Calculate single-cell Stably Expressed Gene (scSEG) index from Lin. et. al. (201
 data('example_sce', package = 'scMerge')
 ## subsetting genes to illustrate usage.
 exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:110, ]
-\dontrun{
 set.seed(1)
 result = scSEGIndex(exprsMat = exprsMat)
 head(result)
-}
 }
 \references{
 https://www.biorxiv.org/content/10.1101/229815v2

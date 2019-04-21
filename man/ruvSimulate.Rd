@@ -37,7 +37,8 @@ if \code{sce} is TRUE, a SingleCellExperiment wrapper will be applied on all abo
 }
 \description{
 This function is designed to generate Poisson-random-variable data matrix
-to test on the internal algorithms of scMerge. It does not represent real biological situations 
+to test on the internal algorithms of scMerge. 
+It does not represent real biological situations 
 and it is not intended to be used by end-users.
 }
 \examples{

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# scMerge <img src="man/figures/logo.png" align="right" width="200" />
+# scMerge <img src="./inst/logo.png" align="right" width="200" />
 
 [![Travis build
 status](https://travis-ci.org/SydneyBioX/scMerge.svg?branch=master)](https://travis-ci.org/SydneyBioX/scMerge)

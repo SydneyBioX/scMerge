@@ -12,7 +12,8 @@
 example_sce
 }
 \description{
-A dataset containing 300 cells and 2026 genes from two batches of mouse ESC data
+A dataset containing 300 cells and 2026 genes 
+from two batches of mouse ESC data
 #@usage data(example_sce, package = 'scMerge')
 }
 \references{

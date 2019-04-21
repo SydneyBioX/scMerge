@@ -9,6 +9,7 @@
 data(segList_ensemblGeneID, package = 'scMerge')
 }
 \description{
-A list includes the stably expressed genes for both human and mouse
+A list includes the stably expressed genes 
+for both human and mouse
 }
 \keyword{datasets}

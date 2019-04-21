@@ -63,7 +63,7 @@ An element of the mapping matrix is 1 if the scReplicate algorithm determines th
 should belong to that cell cluster and 0 otherwise.
 }
 \description{
-Create replicate matrix for scMerge algorithm using un/supervised approach.
+Create replicate matrix for scMerge algorithm using un-/semi-/supervised approaches.
 }
 \examples{
 ## Loading example data

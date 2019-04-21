@@ -9,10 +9,12 @@ fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
   fullalpha = NULL, return.info = FALSE, inputcheck = TRUE)
 }
 \arguments{
-\item{Y}{The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.}
+\item{Y}{The unnormalised scRNA-Seq data matrix. 
+A m by n matrix, where m is the number of observations and n is the number of features.}
 
 \item{M}{The replicate mapping matrix.
-The mapping matrix has m rows (one for each observation), and each column represents a set of replicates. The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.
+The mapping matrix has m rows (one for each observation), and each column represents a set of replicates. 
+The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.
 See ruv::RUVIII for more details.}
 
 \item{ctl}{An index vector to specify the negative controls. Either a logical vector of length n or a vector of integers.}
@@ -21,9 +23,11 @@ See ruv::RUVIII for more details.}
 
 \item{eta}{Gene-wise (as opposed to sample-wise) covariates. See ruv::RUVIII for details.}
 
-\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages. We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
+\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages. 
+We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
 
-\item{rsvd_prop}{If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
+\item{rsvd_prop}{If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
+We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
 
 \item{include.intercept}{When eta is specified (not NULL) but does not already include an intercept term, this will automatically include one.
 See ruv::RUVIII for details.}
@@ -40,7 +44,7 @@ See ruv::RUVIII for details.}
 A normalised matrix of the same dimensions as the input matrix Y.
 }
 \description{
-Perform a fast version of the ruv::RUVIII algorithm.
+Perform a fast version of the ruv::RUVIII algorithm for scRNA-Seq data noise estimation
 }
 \examples{
 L = ruvSimulate(m = 200, n = 500, nc = 400, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE)

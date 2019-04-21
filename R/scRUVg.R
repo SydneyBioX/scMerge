@@ -27,8 +27,8 @@
 #' ruvgRes = scMerge::scRUVg(Y = Y, ctl = ctl, k = 20)
 
 
-scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE, fullW = NULL, 
-    svdyc = NULL) {
+scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE, 
+    fullW = NULL, svdyc = NULL) {
     if (is.data.frame(Y)) {
         Y = data.matrix(Y)
     }
@@ -65,11 +65,13 @@ scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE, fullW
         if (is.null(svdyc)) {
             Y0ctl = Y0[, ctl, drop = FALSE]
             matToDecomp = Y0ctl
-            if (max(dim(matToDecomp))/min(dim(matToDecomp)) >= 5) {
+            if (max(dim(matToDecomp))/min(dim(matToDecomp)) >= 
+                5) {
                 matToDecomp <- eigenMatMult(Y0ctl, t(Y0ctl))
             }
             svdyc = svd(matToDecomp)
-            fullW = svdyc$u[, seq_len(min((m - q), sum(ctl))), drop = FALSE]
+            fullW = svdyc$u[, seq_len(min((m - q), sum(ctl))), 
+                drop = FALSE]
         }
     }
     

@@ -1,6 +1,7 @@
 #' @title Simulate a simple matrix or SingleCellExperiment to test internals of scMerge
 #' @description This function is designed to generate Poisson-random-variable data matrix
-#' to test on the internal algorithms of scMerge. It does not represent real biological situations 
+#' to test on the internal algorithms of scMerge. 
+#' It does not represent real biological situations 
 #' and it is not intended to be used by end-users.
 #' @param m Number of observations
 #' @param n Number of features
@@ -38,16 +39,18 @@
 #'                  run_args = list(exprs_values = 'scMerge'))
 #' @export
 
-ruvSimulate = function(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3, nBatch = 2, 
-    k = 20, lambda = 0.1, sce = FALSE) {
-    ## m Number of observations n Number of features nc Number of negative controls
+ruvSimulate = function(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3, 
+    nBatch = 2, k = 20, lambda = 0.1, sce = FALSE) {
+    ## m Number of observations n Number of features nc Number of
+    ## negative controls
     p = 1
     ctl = rep(FALSE, n)
     ctl[seq_len(nc)] = TRUE
     celltypesNumbers = rep(seq_len(nCelltypes), length.out = m)
     X = matrix(celltypesNumbers, m, p)  ## Each number is an unique cell type
     
-    beta = matrix(stats::rpois(p * n, lambda = 2 * lambda), p, n)
+    beta = matrix(stats::rpois(p * n, lambda = 2 * lambda), p, 
+        n)
     beta[, ctl] = 0
     
     
@@ -56,24 +59,27 @@ ruvSimulate = function(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3, nBatc
     alpha = matrix(stats::rpois(k * n, lambda = lambda), k, n)
     
     
-    epsilon = matrix(stats::rpois(m * n, lambda = lambda), m, n)
+    epsilon = matrix(stats::rpois(m * n, lambda = lambda), m, 
+        n)
     
     Y = X %*% beta + W %*% alpha + epsilon
     
     rownames(Y) = paste0("cell", seq_len(m))
     colnames(Y) = paste0("gene", seq_len(n))
     
-    cellTypes = paste0("cellTypes", rep_len(seq_len(nCelltypes), length.out = m))
+    cellTypes = paste0("cellTypes", rep_len(seq_len(nCelltypes), 
+        length.out = m))
     batch = paste0("batch", rep_len(seq_len(nBatch), length.out = m))
     
     M = ruv::replicate.matrix(data.frame(cellTypes, batch))
     
     if (sce) {
         result = SingleCellExperiment::SingleCellExperiment(assays = list(counts = t(Y), 
-            logcounts = log2(t(Y) + 1L)), colData = data.frame(cellTypes, batch), metadata = list(M = M))
+            logcounts = log2(t(Y) + 1L)), colData = data.frame(cellTypes, 
+            batch), metadata = list(M = M))
     } else {
-        result = list(Y = Y, ctl = ctl, M = M, cellTypes = cellTypes, batch = batch, 
-            X = X)
+        result = list(Y = Y, ctl = ctl, M = M, cellTypes = cellTypes, 
+            batch = batch, X = X)
     }
     return(result)
 }
