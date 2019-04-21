@@ -32,9 +32,7 @@
 
 <meta property="og:title" content="A fast version of the ruv::RUVIII algorithm — fastRUVIII" />
 
-<meta property="og:description" content="Perform a fast version of the ruv::RUVIII algorithm." />
-
-<meta property="og:image" content="/logo.png" />
+<meta property="og:description" content="Perform a fast version of the ruv::RUVIII algorithm for scRNA-Seq data noise estimation" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.20</span>
       </span>
     </div>
 
@@ -144,7 +142,7 @@
 
     <div class="ref-description">
     
-    <p>Perform a fast version of the ruv::RUVIII algorithm.</p>
+    <p>Perform a fast version of the ruv::RUVIII algorithm for scRNA-Seq data noise estimation</p>
     
     </div>
 
@@ -157,12 +155,14 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>Y</th>
-      <td><p>The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.</p></td>
+      <td><p>The unnormalised scRNA-Seq data matrix. 
+A m by n matrix, where m is the number of observations and n is the number of features.</p></td>
     </tr>
     <tr>
       <th>M</th>
       <td><p>The replicate mapping matrix.
-The mapping matrix has m rows (one for each observation), and each column represents a set of replicates. The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.
+The mapping matrix has m rows (one for each observation), and each column represents a set of replicates. 
+The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.
 See ruv::RUVIII for more details.</p></td>
     </tr>
     <tr>
@@ -179,11 +179,13 @@ See ruv::RUVIII for more details.</p></td>
     </tr>
     <tr>
       <th>fast_svd</th>
-      <td><p>If <code>TRUE</code>, fast algorithms will be used for singular value decomposition calculation via the <code>irlba</code> and <code>rsvd</code> packages. We recommend using this option when the number of cells is large (e.g. more than 1000 cells).</p></td>
+      <td><p>If <code>TRUE</code>, fast algorithms will be used for singular value decomposition calculation via the <code>irlba</code> and <code>rsvd</code> packages. 
+We recommend using this option when the number of cells is large (e.g. more than 1000 cells).</p></td>
     </tr>
     <tr>
       <th>rsvd_prop</th>
-      <td><p>If <code>fast_svd = TRUE</code>, then <code>rsvd_prop</code> will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.</p></td>
+      <td><p>If <code>fast_svd = TRUE</code>, then <code>rsvd_prop</code> will be used to used to reduce the computational cost of randomised singular value decomposition. 
+We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.</p></td>
     </tr>
     <tr>
       <th>include.intercept</th>
