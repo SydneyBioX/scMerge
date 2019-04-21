@@ -39,7 +39,7 @@
 #' @export
 #' @examples
 #' ## Loading example data
-#' library(scater)
+#' library(scMerge)
 #' data('example_sce', package = 'scMerge')
 #' ## Previously computed stably expressed genes
 #' data('segList_ensemblGeneID', package = 'scMerge')
@@ -70,22 +70,27 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
         stop("Please make sure column names are unique.")
     }
     
-    ## Checking input expression
-    if (is.null(exprs)) {
-        stop("exprs is NULL.")
-    }
-    
     if (is.null(assay_name)) {
         stop("assay_name is NULL, please provide a name to store the results under")
     }
     
+    if (length(ruvK) > 1){
+        message("You chose more than one ruvK. The argument return_all_RUV is forced to be TRUE.")
+        return_all_RUV = TRUE
+    }
+    
     if (return_all_RUV) {
-        message("You chose return_all_RUV = TRUE, the result will contain all RUV computations. This could be a very large object.")
+        message("You chose return_all_RUV = TRUE. The result will contain all RUV computations. This could be a very large object.")
         ## We need an assay_name for every ruvK, if return_all_RUV is
         ## TRUE
         if (length(assay_name) != length(ruvK)) {
             stop("You chose return_all_RUV = TRUE. In this case, the length of assay_name must be equal to the length of ruvK")
         }
+    }
+    
+    ## Checking input expression
+    if (is.null(exprs)) {
+        stop("exprs is NULL.")
     }
     
     ## Checking input expression assay name in SCE object
@@ -99,6 +104,11 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
         stop(paste0("The assay named '", exprs, "' must be of class 'matrix', please convert this."))
     }
     sce_rownames <- rownames(sce_combine)
+    
+    hvg_exprs_mat <- SummarizedExperiment::assay(sce_combine, hvg_exprs)
+    if (!is.matrix(hvg_exprs_mat)) {
+        stop(paste0("The assay named '", hvg_exprs, "' must be of class 'matrix', please convert this."))
+    }
     
     ## Checking if any rows or columns are purely zeroes
     if (any(base::rowSums(exprs_mat) == 0) | any(base::colSums(exprs_mat) == 
@@ -185,24 +195,21 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     
     sce_final_result <- sce_combine
     
-    if (!return_all_RUV) {
-        ## If return_all_RUV is FALSE, then scRUVIII should've just
-        ## returned with a single result (ruv3res_optimal)
-        SummarizedExperiment::assay(sce_final_result, assay_name) <- t(ruv3res$newY)
-    } else {
+    if (return_all_RUV) {
         ## if return_all_RUV is TRUE, then the previous check ensured
         ## assay_name is not NULL and matches the length of ruvK And
         ## the scRUVIII should've just returned with a single result
         ## (ruv3res_optimal)
         listNewY <- lapply(ruv3res[names(ruv3res) != "optimal_ruvK"], 
-            function(x) {
-                t(x$newY)
-            })
+                           function(x) {t(x$newY)})
         
         for (i in seq_len(length(listNewY))) {
             SummarizedExperiment::assay(sce_final_result, assay_name[i]) <- listNewY[[i]]
         }
-        
+    } else {
+        ## If return_all_RUV is FALSE, then scRUVIII should've just
+        ## returned with a single result (ruv3res_optimal)
+        SummarizedExperiment::assay(sce_final_result, assay_name) <- t(ruv3res$newY)
     }
     
     S4Vectors::metadata(sce_final_result) <- c(S4Vectors::metadata(sce_combine), 

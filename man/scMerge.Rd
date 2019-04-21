@@ -72,7 +72,7 @@ leveraging (pseudo)-replicates and control genes.
 }
 \examples{
 ## Loading example data
-library(scater)
+library(scMerge)
 data('example_sce', package = 'scMerge')
 ## Previously computed stably expressed genes
 data('segList_ensemblGeneID', package = 'scMerge')

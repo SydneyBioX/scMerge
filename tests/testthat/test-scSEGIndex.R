@@ -1,4 +1,8 @@
 context("Test scSEGIndex")
+data('example_sce', package = 'scMerge')
+exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:110, 1:20]
 set.seed(1)
-L = ruvSimulate(m = 50, n = 150, nc = 10, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = TRUE)
-scSEGIndex(exprsMat = SummarizedExperiment::assay(L, 'counts'))
+result = scSEGIndex(exprsMat = exprsMat, ncore = 1)
+scSEGIndex(exprsMat = exprsMat, 
+           cell_type = example_sce$cellTypes[1:20], ncore = 1)
+gammaNormMix(data = exprsMat[1,])

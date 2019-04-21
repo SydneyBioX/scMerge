@@ -18,7 +18,7 @@
 #' ## Loading example data
 #' data('example_sce', package = 'scMerge')
 #' ## subsetting genes to illustrate usage.
-#' exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:110, ]
+#' exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:110, 1:20]
 #' set.seed(1)
 #' result = scSEGIndex(exprsMat = exprsMat)
 #' head(result)
@@ -100,11 +100,12 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
                 NULL
             })
         })
-        f <- log2(vapply(aovStats, function(x) {
-            tryCatch(summary(x)[[1]]$`F value`[1], error = function(e) {
-                NA
-            })
-        }))
+        f <- log2(
+            as.numeric(lapply(aovStats, FUN = 
+                       function(x) {
+                           tryCatch(summary(x)[[1]]$`F value`[1], 
+                                    error = function(e) {NA})}))
+            )
         
         
         
@@ -300,11 +301,11 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000,
         }
         if (!onlyAddCurves) {
             graphics::lines(stats::density(x, from = 0), lty = 2, 
-                lwd = 2, col = alpha("darkgrey", 0.6))
+                lwd = 2, col = scales::alpha("darkgrey", 0.6))
         }
-        graphics::lines(xg, c1g, col = alpha("red", 0.6), lwd = 2)  #Normal Lines
-        graphics::lines(xg, c2g, col = alpha("blue", 0.6), lwd = 2)  #Gamma lines
-        graphics::lines(xg, fg, col = alpha("black", 0.6), lwd = 2)  #Mixture model line
+        graphics::lines(xg, c1g, col = scales::alpha("red", 0.6), lwd = 2)  #Normal Lines
+        graphics::lines(xg, c2g, col = scales::alpha("blue", 0.6), lwd = 2)  #Gamma lines
+        graphics::lines(xg, fg, col = scales::alpha("black", 0.6), lwd = 2)  #Mixture model line
         
         if (onlyAddCurves) 
             return(list(xg = xg, c1g = c1g, c2g = c2g, fg = fg))
@@ -341,11 +342,11 @@ gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000,
     if (plot) {
         if (addContextData) {
             graphics::points(data[seq_len(nOriginal)], z * 0, 
-                pch = "|", cex = 1, col = alpha(grDevices::rgb(z, 
+                pch = "|", cex = 1, col = scales::alpha(grDevices::rgb(z, 
                   0, 1 - z), 0.4))
         } else {
             graphics::points(data, z * 0, pch = "|", cex = 1, 
-                col = alpha(grDevices::rgb(z, 0, 1 - z), 0.4))
+                col = scales::alpha(grDevices::rgb(z, 0, 1 - z), 0.4))
         }
     }
     model_bic <- bic(ll, n, 5)

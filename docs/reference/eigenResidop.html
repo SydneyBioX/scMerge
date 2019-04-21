@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.21</span>
       </span>
     </div>
 
@@ -170,8 +170,8 @@ $$A - B(B^t B)^{-1} B^t A$$</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>Y</span> <span class='kw'>=</span> <span class='no'>M</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='fl'>1</span>, <span class='fl'>500</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scMerge/topics/eigenResidop'>eigenResidop</a></span>(<span class='no'>Y</span>, <span class='no'>M</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.110   0.004   0.115 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='kw pkg'>ruv</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ruv/topics/residop'>residop</a></span>(<span class='no'>Y</span>, <span class='no'>M</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.316   0.004   0.323 </div></pre>
+#&gt;   0.129   0.004   0.136 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='kw pkg'>ruv</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ruv/topics/residop'>residop</a></span>(<span class='no'>Y</span>, <span class='no'>M</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.337   0.005   0.349 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

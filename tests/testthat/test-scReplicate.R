@@ -189,3 +189,34 @@ case4.3 = scReplicate(
     marker = rownames(example_sce[1:10, ]), 
     marker_list = NULL,
     verbose = TRUE)
+
+
+
+case4_WV1 = scReplicate(
+    sce_combine = example_sce, 
+    batch = example_sce$batch, 
+    replicate_prop = 1, 
+    kmeansK = c(3, 3), 
+    fast_svd = FALSE, 
+    cell_type = NULL, 
+    cell_type_inc = NULL, 
+    cell_type_match = FALSE, 
+    marker = NULL, 
+    marker_list = NULL,
+    WV = example_sce$cellTypes,
+    verbose = TRUE)
+
+case4_WV2 = scReplicate(
+    sce_combine = example_sce, 
+    batch = example_sce$batch, 
+    replicate_prop = 1, 
+    kmeansK = c(3, 3), 
+    fast_svd = FALSE, 
+    cell_type = NULL, 
+    cell_type_inc = NULL, 
+    cell_type_match = FALSE, 
+    marker = NULL, 
+    marker_list = NULL,
+    WV = example_sce$cellTypes,
+    WV_marker = rownames(example_sce)[1:10],
+    verbose = TRUE)

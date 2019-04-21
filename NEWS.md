@@ -1,5 +1,13 @@
 # scMerge 0.99 (development version)
 
+## scMerge 0.99.21
+* Increase code coverage to 85%.
+
+
+## scMerge 0.99.20
+* Updated vignette on SEGs and manuals
+
+
 ## scMerge 0.99.19
 * Fixed spelling
 * Added verbose option

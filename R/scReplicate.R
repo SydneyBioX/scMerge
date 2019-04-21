@@ -207,17 +207,20 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
             }
             replicate_vector <- wvReplicate(exprs_mat, WV, WV_marker, 
                 replicate_vector)
+            names(replicate_vector) = originalCellNames
         }
         
         
     }
     
+    
     replicate_vector <- replicate_vector[originalCellNames]
+    
     repMat <- ruv::replicate.matrix(replicate_vector)
     
     
     if (return_all) {
-        return(list(repMat = repMat, mnc = mnc_res, replicate_vector = replicate_vector, 
+        return(list(repMat = repMat, mnc = mnc_res, replicate_vector = replicate_vector,
             HVG = HVG))
     } else {
         return(repMat)
