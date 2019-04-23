@@ -173,7 +173,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
         HVG <- hvg_cases_output$HVG
         HVG_list <- hvg_cases_output$HVG_list
         
-        cluster_res = compute_cluster_res(exprs_mat = exprs_mat, 
+        cluster_res <- compute_cluster_res(exprs_mat = exprs_mat, 
             batch = batch, marker = marker, HVG_list = HVG_list, 
             kmeansK = kmeansK, parallelParam = parallelParam, 
             fast_svd = fast_svd, verbose = verbose, case = "case3")
@@ -226,8 +226,8 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
         return(repMat)
     }
 }
-############################ 
-compute_cluster_res = function(exprs_mat, batch, marker, HVG_list, 
+############################
+compute_cluster_res <- function(exprs_mat, batch, marker, HVG_list, 
     kmeansK, parallelParam, fast_svd, cell_type = NULL, batch_list = NULL, 
     case, verbose) {
     
@@ -241,7 +241,7 @@ compute_cluster_res = function(exprs_mat, batch, marker, HVG_list,
             kmeansK = kmeansK, parallelParam = parallelParam, 
             fast_svd = fast_svd)
     }
-    ############################## 
+    ##############################
     if (case == "case2") {
         if (verbose) {
             cat(" 5. Calculating supervised clustering list \n")
@@ -278,9 +278,8 @@ compute_cluster_res = function(exprs_mat, batch, marker, HVG_list,
     return(cluster_res)
 }
 
-########################### Function to find HVG
-########################### ######################################################
-hvg_cases = function(sce_combine, hvg_exprs, batch, batch_list, 
+######### Function to find HVG ##########
+hvg_cases <- function(sce_combine, hvg_exprs, batch, batch_list, 
     marker, marker_list, parallelParam = parallelParam, verbose) {
     ## Initialise the outputs
     HVG = NULL

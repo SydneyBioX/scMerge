@@ -1,5 +1,8 @@
 # scMerge 0.99 (development version)
 
+## scMerge 0.99.23
+* Fixed assignment based on feedbacks
+
 ## scMerge 0.99.21
 * Increase code coverage to 85%.
 

@@ -180,7 +180,7 @@ f_measure <- function(cell_type, batch) {
     return(f)
 }
 ####################################################### 
-calculateSil = function(x, fast_svd, cell_type, batch) {
+calculateSil <- function(x, fast_svd, cell_type, batch) {
     if (fast_svd & !any(dim(x$newY) < 50)) {
         pca.data <- irlba::prcomp_irlba(x$newY, n = 10)
     } else {
@@ -193,7 +193,7 @@ calculateSil = function(x, fast_svd, cell_type, batch) {
     return(result)
 }
 
-kBET_batch_sil = function(pca.data, batch, nPCs = 10) {
+kBET_batch_sil <- function(pca.data, batch, nPCs = 10) {
     ## This function was copied from kBET, which cannot be
     ## imported because it is only a GitHub package
     dd <- as.matrix(stats::dist(pca.data$x[, seq_len(nPCs)]))

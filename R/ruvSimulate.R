@@ -39,7 +39,7 @@
 #'                  run_args = list(exprs_values = 'scMerge'))
 #' @export
 
-ruvSimulate = function(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3, 
+ruvSimulate <- function(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3, 
     nBatch = 2, k = 20, lambda = 0.1, sce = FALSE) {
     ## m Number of observations n Number of features nc Number of
     ## negative controls

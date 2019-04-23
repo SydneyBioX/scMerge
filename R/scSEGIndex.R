@@ -128,7 +128,7 @@ scSEGIndex <- function(exprsMat, cell_type = NULL, ncore = 1) {
 
 # This internal function perform mixture model fitting using
 # multiple CPUs
-make_para_gn_parallel = function(exprsMat, ncore = 1) {
+make_para_gn_parallel <- function(exprsMat, ncore = 1) {
     
     cl <- parallel::makeCluster(ncore, type = "SOCK")
     doSNOW::registerDoSNOW(cl)
@@ -183,7 +183,7 @@ icl_bic <- function(loglik, postprob, n, p) {
 
 
 
-gammaNormMix = function(data, thresh = 1e-07, maxiter = 10000, 
+gammaNormMix <- function(data, thresh = 1e-07, maxiter = 10000, 
     removeZeroes = TRUE, plot = TRUE, hist = TRUE, hist_col = "light cyan", 
     verbose = FALSE, forceExponential = FALSE, calculateAreaDifference = FALSE, 
     minDataPoints = 5, onlyAddCurves = FALSE, addContextData = FALSE, 
