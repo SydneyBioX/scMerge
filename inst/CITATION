@@ -1,7 +1,7 @@
 note <- sprintf("R package version %s", meta$Version)
 
-bibentry(bibtype = "Manual",
-         title = "{scMerge}: Merging multiple batches of scRNA-seq data",
+bibentry(bibtype = "Article",
+         title = "{scMerge leverages factor analysis, stable expression, and pseudoreplication to merge multiple single-cell RNA-seq datasets}",
          author = c(person("Yingxin", "Lin"),
                     person("Shila", "Ghazanfar"),
                     person("Kevin", "Wang"),
@@ -14,7 +14,8 @@ bibentry(bibtype = "Manual",
                     person("Pengyi", "Yang"),
                     person("Jean", "Yang")
                     ),
-         year = 2019,
-         note = note,
-         url = "https://github.com/SydneyBioX/scMerge",
+         year = "2019",
+         journal = "Proceedings of the National Academy of Sciences",
+         doi = "https://doi.org/10.1073/pnas.1820006116",
+         url = "http://www.pnas.org/lookup/doi/10.1073/pnas.1820006116",
          header = "To cite scMerge in publications please use:")

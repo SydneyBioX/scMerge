@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.23</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.24</span>
       </span>
     </div>
 
@@ -341,9 +341,9 @@
 <a class="sourceLine" id="cb17-9" title="9"><span class="co">#&gt; Step 2: Performing RUV normalisation. This will take minutes to hours.</span></a>
 <a class="sourceLine" id="cb17-10" title="10"><span class="co">#&gt; scMerge complete!</span></a></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Normally, scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t2 <span class="op">-</span><span class="st"> </span>t1, <span class="dv">2</span>), <span class="st">" seconds"</span>)</a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="co">#&gt; [1] "Normally, scMerge takes  0.56  seconds"</span></a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="co">#&gt; [1] "Normally, scMerge takes  0.55  seconds"</span></a>
 <a class="sourceLine" id="cb18-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Fast version of scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t4 <span class="op">-</span><span class="st"> </span>t3, <span class="dv">2</span>), <span class="st">" seconds"</span>)</a>
-<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt; [1] "Fast version of scMerge takes  0.41  seconds"</span></a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt; [1] "Fast version of scMerge takes  0.38  seconds"</span></a>
 <a class="sourceLine" id="cb18-5" title="5"></a>
 <a class="sourceLine" id="cb18-6" title="6">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(</a>
 <a class="sourceLine" id="cb18-7" title="7">  scMerge_fast, </a>
@@ -388,19 +388,23 @@
 <a class="sourceLine" id="cb21-3" title="3"><span class="co">#&gt; To cite scMerge in publications please use:</span></a>
 <a class="sourceLine" id="cb21-4" title="4"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb21-5" title="5"><span class="co">#&gt; Lin Y, Ghazanfar S, Wang K, Gagnon-Bartsch J, Lo K, Su X, Han Z,</span></a>
-<a class="sourceLine" id="cb21-6" title="6"><span class="co">#&gt; Ormerod J, Speed T, Yang P, Yang J (2019). _scMerge: Merging</span></a>
-<a class="sourceLine" id="cb21-7" title="7"><span class="co">#&gt; multiple batches of scRNA-seq data_. R package version 0.99.23,</span></a>
-<a class="sourceLine" id="cb21-8" title="8"><span class="co">#&gt; &lt;URL: https://github.com/SydneyBioX/scMerge&gt;.</span></a>
-<a class="sourceLine" id="cb21-9" title="9"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb21-10" title="10"><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></a>
-<a class="sourceLine" id="cb21-11" title="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb21-12" title="12"><span class="co">#&gt;   @Manual{,</span></a>
-<a class="sourceLine" id="cb21-13" title="13"><span class="co">#&gt;     title = {{scMerge}: Merging multiple batches of scRNA-seq data},</span></a>
-<a class="sourceLine" id="cb21-14" title="14"><span class="co">#&gt;     author = {Yingxin Lin and Shila Ghazanfar and Kevin Wang and Johann Gagnon-Bartsch and Kitty Lo and Xianbin Su and Ze-Guang Han and John Ormerod and Terence Speed and Pengyi Yang and Jean Yang},</span></a>
-<a class="sourceLine" id="cb21-15" title="15"><span class="co">#&gt;     year = {2019},</span></a>
-<a class="sourceLine" id="cb21-16" title="16"><span class="co">#&gt;     note = {R package version 0.99.23},</span></a>
-<a class="sourceLine" id="cb21-17" title="17"><span class="co">#&gt;     url = {https://github.com/SydneyBioX/scMerge},</span></a>
-<a class="sourceLine" id="cb21-18" title="18"><span class="co">#&gt;   }</span></a></code></pre></div>
+<a class="sourceLine" id="cb21-6" title="6"><span class="co">#&gt; Ormerod J, Speed T, Yang P, Yang J (2019). "scMerge leverages</span></a>
+<a class="sourceLine" id="cb21-7" title="7"><span class="co">#&gt; factor analysis, stable expression, and pseudoreplication to merge</span></a>
+<a class="sourceLine" id="cb21-8" title="8"><span class="co">#&gt; multiple single-cell RNA-seq datasets." _Proceedings of the</span></a>
+<a class="sourceLine" id="cb21-9" title="9"><span class="co">#&gt; National Academy of Sciences_. doi: 10.1073/pnas.1820006116 (URL:</span></a>
+<a class="sourceLine" id="cb21-10" title="10"><span class="co">#&gt; https://doi.org/10.1073/pnas.1820006116), &lt;URL:</span></a>
+<a class="sourceLine" id="cb21-11" title="11"><span class="co">#&gt; http://www.pnas.org/lookup/doi/10.1073/pnas.1820006116&gt;.</span></a>
+<a class="sourceLine" id="cb21-12" title="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb21-13" title="13"><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></a>
+<a class="sourceLine" id="cb21-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb21-15" title="15"><span class="co">#&gt;   @Article{,</span></a>
+<a class="sourceLine" id="cb21-16" title="16"><span class="co">#&gt;     title = {{scMerge leverages factor analysis, stable expression, and pseudoreplication to merge multiple single-cell RNA-seq datasets}},</span></a>
+<a class="sourceLine" id="cb21-17" title="17"><span class="co">#&gt;     author = {Yingxin Lin and Shila Ghazanfar and Kevin Wang and Johann Gagnon-Bartsch and Kitty Lo and Xianbin Su and Ze-Guang Han and John Ormerod and Terence Speed and Pengyi Yang and Jean Yang},</span></a>
+<a class="sourceLine" id="cb21-18" title="18"><span class="co">#&gt;     year = {2019},</span></a>
+<a class="sourceLine" id="cb21-19" title="19"><span class="co">#&gt;     journal = {Proceedings of the National Academy of Sciences},</span></a>
+<a class="sourceLine" id="cb21-20" title="20"><span class="co">#&gt;     doi = {https://doi.org/10.1073/pnas.1820006116},</span></a>
+<a class="sourceLine" id="cb21-21" title="21"><span class="co">#&gt;     url = {http://www.pnas.org/lookup/doi/10.1073/pnas.1820006116},</span></a>
+<a class="sourceLine" id="cb21-22" title="22"><span class="co">#&gt;   }</span></a></code></pre></div>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
@@ -423,12 +427,12 @@
 <a class="sourceLine" id="cb22-16" title="16"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb22-17" title="17"><span class="co">#&gt; other attached packages:</span></a>
 <a class="sourceLine" id="cb22-18" title="18"><span class="co">#&gt;  [1] scater_1.11.16              ggplot2_3.1.1              </span></a>
-<a class="sourceLine" id="cb22-19" title="19"><span class="co">#&gt;  [3] scMerge_0.99.23             SingleCellExperiment_1.5.2 </span></a>
+<a class="sourceLine" id="cb22-19" title="19"><span class="co">#&gt;  [3] scMerge_0.99.24             SingleCellExperiment_1.5.2 </span></a>
 <a class="sourceLine" id="cb22-20" title="20"><span class="co">#&gt;  [5] SummarizedExperiment_1.13.0 DelayedArray_0.9.9         </span></a>
 <a class="sourceLine" id="cb22-21" title="21"><span class="co">#&gt;  [7] BiocParallel_1.17.19        matrixStats_0.54.0         </span></a>
 <a class="sourceLine" id="cb22-22" title="22"><span class="co">#&gt;  [9] Biobase_2.43.1              GenomicRanges_1.35.1       </span></a>
 <a class="sourceLine" id="cb22-23" title="23"><span class="co">#&gt; [11] GenomeInfoDb_1.19.3         IRanges_2.17.5             </span></a>
-<a class="sourceLine" id="cb22-24" title="24"><span class="co">#&gt; [13] S4Vectors_0.21.23           BiocGenerics_0.29.2        </span></a>
+<a class="sourceLine" id="cb22-24" title="24"><span class="co">#&gt; [13] S4Vectors_0.21.24           BiocGenerics_0.29.2        </span></a>
 <a class="sourceLine" id="cb22-25" title="25"><span class="co">#&gt; [15] BiocStyle_2.11.0           </span></a>
 <a class="sourceLine" id="cb22-26" title="26"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb22-27" title="27"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
@@ -444,9 +448,9 @@
 <a class="sourceLine" id="cb22-37" title="37"><span class="co">#&gt;  [19] BiocManager_1.30.4       compiler_3.6.0          </span></a>
 <a class="sourceLine" id="cb22-38" title="38"><span class="co">#&gt;  [21] backports_1.1.4          assertthat_0.2.1        </span></a>
 <a class="sourceLine" id="cb22-39" title="39"><span class="co">#&gt;  [23] Matrix_1.2-17            lazyeval_0.2.2          </span></a>
-<a class="sourceLine" id="cb22-40" title="40"><span class="co">#&gt;  [25] BiocSingular_0.99.17     acepack_1.4.1           </span></a>
+<a class="sourceLine" id="cb22-40" title="40"><span class="co">#&gt;  [25] BiocSingular_0.99.18     acepack_1.4.1           </span></a>
 <a class="sourceLine" id="cb22-41" title="41"><span class="co">#&gt;  [27] htmltools_0.3.6          tools_3.6.0             </span></a>
-<a class="sourceLine" id="cb22-42" title="42"><span class="co">#&gt;  [29] igraph_1.2.4             rsvd_1.0.0              </span></a>
+<a class="sourceLine" id="cb22-42" title="42"><span class="co">#&gt;  [29] igraph_1.2.4.1           rsvd_1.0.0              </span></a>
 <a class="sourceLine" id="cb22-43" title="43"><span class="co">#&gt;  [31] gtable_0.3.0             glue_1.3.1              </span></a>
 <a class="sourceLine" id="cb22-44" title="44"><span class="co">#&gt;  [33] GenomeInfoDbData_1.2.1   dplyr_0.8.0.1           </span></a>
 <a class="sourceLine" id="cb22-45" title="45"><span class="co">#&gt;  [35] Rcpp_1.0.1               bbmle_1.0.20            </span></a>

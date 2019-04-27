@@ -1,5 +1,8 @@
 # scMerge 0.99 (development version)
 
+## scMerge 0.99.24
+* Updated ciation information due to PNAS acceptance. 
+
 ## scMerge 0.99.23
 * Fixed assignment based on feedbacks
 
