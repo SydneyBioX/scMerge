@@ -122,23 +122,25 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>The stable version of <code>scMerge</code> is available on Bioconductor (<a href="https://bioconductor.org/packages/scMerge" class="uri">https://bioconductor.org/packages/scMerge</a>). You can install it using:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co">## Install scMerge from BioConductor, requires R 3.6.0 or above</span></a>
-<a class="sourceLine" id="cb1-2" title="2">BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"scMerge"</span>, <span class="dt">version =</span> <span class="st">"3.9"</span>)</a></code></pre></div>
-<p>The development version of <code>scMerge</code> can be installed via:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co">## Install the development version of scMerge</span></a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="co">## Some CRAN packages required by scMerge</span></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"BiocManager"</span>, <span class="st">"cluster"</span>, <span class="st">"distr"</span>, <span class="st">"doSNOW"</span>, </a>
-<a class="sourceLine" id="cb2-4" title="4">                   <span class="st">"foreach"</span>, <span class="st">"igraph"</span>, <span class="st">"irlba"</span>, <span class="st">"iterators"</span>, </a>
-<a class="sourceLine" id="cb2-5" title="5">                   <span class="st">"matrixStats"</span>, <span class="st">"pdist"</span>, <span class="st">"proxy"</span>,  <span class="st">"Rcpp"</span>, </a>
-<a class="sourceLine" id="cb2-6" title="6">                   <span class="st">"RcppEigen"</span>, <span class="st">"rsvd"</span>, <span class="st">"ruv"</span>))</a>
-<a class="sourceLine" id="cb2-7" title="7"></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co">## Some BioConductor packages required by scMerge</span></a>
-<a class="sourceLine" id="cb2-9" title="9">BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"BiocParallel"</span>, <span class="st">"M3Drop"</span>, <span class="st">"SingleCellExperiment"</span>))</a>
-<a class="sourceLine" id="cb2-10" title="10"></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="kw">install_github</span>(<span class="st">"SydneyBioX/scMerge"</span>, </a>
-<a class="sourceLine" id="cb2-12" title="12">               <span class="dt">build_opts =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"--no-resave-data"</span>, <span class="st">"--no-manual"</span>),</a>
-<a class="sourceLine" id="cb2-13" title="13">               <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><code>scMerge</code> is available on Bioconductor (<a href="https://bioconductor.org/packages/scMerge" class="uri">https://bioconductor.org/packages/scMerge</a>). You can install it using:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co">## Install scMerge from Bioconductor, requires R 3.6.0 or above</span></a>
+<a class="sourceLine" id="cb1-2" title="2">BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"scMerge"</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co">## You can also try to install the Bioconductor devel version of scMerge:</span></a>
+<a class="sourceLine" id="cb1-4" title="4">BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/install">install</a></span>(<span class="st">"scMerge"</span>, <span class="dt">version =</span> <span class="st">"devel"</span>)</a></code></pre></div>
+<!-- The development version of `scMerge` can be installed via: -->
+<!-- ```{r, eval = FALSE} -->
+<!-- ## Install the development version of scMerge -->
+<!-- ## Some CRAN packages required by scMerge -->
+<!-- install.packages(c("BiocManager", "cluster", "distr", "doSNOW",  -->
+<!--                    "foreach", "igraph", "irlba", "iterators",  -->
+<!--                    "matrixStats", "pdist", "proxy",  "Rcpp",  -->
+<!--                    "RcppEigen", "rsvd", "ruv")) -->
+<!-- ## Some BioConductor packages required by scMerge -->
+<!-- BiocManager::install(c("BiocParallel", "M3Drop", "SingleCellExperiment")) -->
+<!-- install_github("SydneyBioX/scMerge",  -->
+<!--                build_opts = c("--no-resave-data", "--no-manual"), -->
+<!--                build_vignettes = TRUE) -->
+<!-- ``` -->
 </div>
 <div id="vignette" class="section level2">
 <h2 class="hasAnchor">
@@ -153,7 +155,7 @@
 <div id="contact-us" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contact-us" class="anchor"></a>Contact us</h2>
-<p>If you have any enquries, especially about performing <code>scMerge</code> integration on your own data, then please contact <a href="mailto:bioinformatics@maths.usyd.edu.au" class="email">bioinformatics@maths.usyd.edu.au</a>. You can also <a href="https://github.com/SydneyBioX/scMerge/issues">open an issue</a> on GitHub</p>
+<p>If you have any enquries, especially about performing <code>scMerge</code> integration on your own data, then please contact <a href="mailto:bioinformatics@maths.usyd.edu.au" class="email">bioinformatics@maths.usyd.edu.au</a>. You can also <a href="https://github.com/SydneyBioX/scMerge/issues">open an issue</a> on GitHub.</p>
 </div>
 <div id="reference" class="section level2">
 <h2 class="hasAnchor">
