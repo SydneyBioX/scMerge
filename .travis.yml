@@ -14,13 +14,14 @@ dist: trusty
 os:
   - linux
   - osx
+
+script: 
+  - R -e 'install.packages("BiocManager")'
+  - R -e 'BiocManager::install(version = "3.9")'  
+
   
 r_github_packages:
   - r-lib/covr
 
 after_success:
   - Rscript -e 'covr::codecov()'
-  
-install:
-  - R -e 'install.packages("BiocManager")'
-  - R -e 'BiocManager::install(version = "3.9")'
