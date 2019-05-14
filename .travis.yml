@@ -8,6 +8,7 @@ cache: packages
 
 R:
   - bioc-devel
+  
 dist: trusty
 
 os:
@@ -19,3 +20,7 @@ r_github_packages:
 
 after_success:
   - Rscript -e 'covr::codecov()'
+  
+install:
+  - R -e 'install.packages("BiocManager")'
+  - R -e 'BiocManager::install(version = "3.9")'
