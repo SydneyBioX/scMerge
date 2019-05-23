@@ -36,6 +36,8 @@
 #' @importFrom S4Vectors metadata
 #' @importFrom BiocParallel SerialParam
 #' @importFrom BiocParallel bpparam
+#' @importFrom DelayedArray rowSums
+#' @importFrom DelayedArray colSums
 #' @export
 #' @examples
 #' ## Loading example data
@@ -100,17 +102,17 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     ## Extracting data matrix from SCE object
     exprs_mat <- SummarizedExperiment::assay(sce_combine, exprs)
     if (!is.matrix(exprs_mat)) {
-        stop(paste0("The assay named '", exprs, "' must be of class 'matrix', please convert this."))
+        # stop(paste0("The assay named '", exprs, "' must be of class 'matrix', please convert this."))
     }
     sce_rownames <- rownames(sce_combine)
     
     hvg_exprs_mat <- SummarizedExperiment::assay(sce_combine, hvg_exprs)
     if (!is.matrix(hvg_exprs_mat)) {
-        stop(paste0("The assay named '", hvg_exprs, "' must be of class 'matrix', please convert this."))
+        # stop(paste0("The assay named '", hvg_exprs, "' must be of class 'matrix', please convert this."))
     }
     
     ## Checking if any rows or columns are purely zeroes
-    if (any(base::rowSums(exprs_mat) == 0) | any(base::colSums(exprs_mat) == 
+    if (any(DelayedArray::rowSums(exprs_mat) == 0) | any(DelayedArray::colSums(exprs_mat) == 
         0)) {
         stop("There are rows or columns that are all zeros in the expression matrix. Please remove these rows/columns.")
     }
