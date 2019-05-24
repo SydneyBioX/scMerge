@@ -41,8 +41,8 @@
 #' res = scRUVIII(Y = Y, M = M, ctl = ctl, k = c(5, 10, 15, 20), batch = batch)
 
 scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL, 
-    k = k, cell_type = NULL, batch = NULL, return_all_RUV = TRUE, 
-    fast_svd = FALSE, rsvd_prop = 0.1) {
+                     k = k, cell_type = NULL, batch = NULL, return_all_RUV = TRUE, 
+                     fast_svd = FALSE, rsvd_prop = 0.1) {
     
     if (is.null(batch)) {
         warning("No batch info!")
@@ -50,16 +50,17 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     }
     
     ## Standardise the data
-    scale_res <- standardize(Y, batch)
+    scale_res <- standardize2(Y, batch)
     normY <- scale_res$s.data
     geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
+    # geneSdVec <- sqrt(scale_res$stand.var)
     geneMeanMat <- scale_res$stand.mean
     ## We will always run an initial RUV, based on whether
     ## fast_svd is TRUE or not.
     
     ruv3_initial <- fastRUVIII(Y = t(normY), ctl = ctl, k = k[1], 
-        M = M, fullalpha = fullalpha, return.info = TRUE, fast_svd = fast_svd, 
-        rsvd_prop = rsvd_prop)
+                               M = M, fullalpha = fullalpha, return.info = TRUE, fast_svd = fast_svd, 
+                               rsvd_prop = rsvd_prop)
     
     ruv3_initial$k <- k
     ## The computed result is ruv3res_list.  If we have only one
@@ -76,8 +77,8 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
         ## since we already have the fullalpha)
         for (i in 2:length(k)) {
             ruv3res_list[[i]] = fastRUVIII(Y = t(normY), ctl = ctl, 
-                k = k[i], M = M, fullalpha = ruv3_initial$fullalpha, 
-                return.info = TRUE, fast_svd = FALSE)
+                                           k = k[i], M = M, fullalpha = ruv3_initial$fullalpha, 
+                                           return.info = TRUE, fast_svd = FALSE)
         }  ## End for loop
     }  ## End else(length(k) == 1)
     
@@ -98,14 +99,14 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
         }
         ## Computing the silhouette coefficient from kBET package
         sil_res <- do.call(cbind, lapply(ruv3res_list, FUN = calculateSil, 
-            fast_svd = fast_svd, cell_type = cell_type, batch = batch))
+                                         fast_svd = fast_svd, cell_type = cell_type, batch = batch))
         ## Computing the F scores based on the 2 silhouette
         ## coefficients
         f_score <- rep(NA, ncol(sil_res))
         
         for (i in seq_len(length(k))) {
             f_score[i] <- f_measure(zeroOneScale(sil_res[1, ])[i], 
-                1 - zeroOneScale(sil_res[2, ])[i])
+                                    1 - zeroOneScale(sil_res[2, ])[i])
         }
         names(f_score) <- k
         
@@ -115,14 +116,17 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
         graphics::plot(k, f_score, pch = 16, col = "light grey")
         graphics::lines(k, f_score)
         graphics::points(ruv3_initial$k[which.max(f_score)], 
-            f_score[[which.max(f_score)]], col = "red", pch = 16)
+                         f_score[[which.max(f_score)]], col = "red", pch = 16)
         
     }
     
     ## Add back the mean and sd to the normalised data
     for (i in seq_len(length(ruv3res_list))) {
-        ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) * 
-            geneSdMat + geneMeanMat))
+        ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) *
+                                         geneSdMat + geneMeanMat))
+        # ruv3res_list[[i]]$newY <- t((
+        #     apply(t(ruv3res_list[[i]]$newY), 1, function(z){z * geneSdVec})  + geneMeanMat)
+        # )
     }
     ## ruv3res_list is all the normalised matrices ruv3res_optimal
     ## is the one matrix having the maximum F-score
@@ -165,11 +169,30 @@ standardize <- function(exprsMat, batch) {
     design <- stats::model.matrix(~-1 + batch)
     B.hat <- solve(crossprod(design), tcrossprod(t(design), as.matrix(exprsMat)))
     var.pooled <- ((exprsMat - t(design %*% B.hat))^2) %*% rep(1/(num_cell - 
-        num_batch), num_cell)
+                                                                      num_batch), num_cell)
     s.data <- (exprsMat - stand.mean)/(sqrt(var.pooled) %*% t(rep(1, 
-        num_cell)))
+                                                                  num_cell)))
     return(res = list(s.data = s.data, stand.mean = stand.mean, 
-        stand.var = var.pooled))
+                      stand.var = var.pooled))
+}
+###############################
+standardize2 <- function(Y, batch) {
+    num_cell <- ncol(Y)
+    num_batch <- length(unique(batch))
+    batch <- as.factor(batch)
+    stand.mean <- base::rowMeans(Y)
+    design <- stats::model.matrix(~-1 + batch)
+    B.hat <- solve(eigenMatMult(t(design), design), 
+                   t(eigenMatMult(Y, design)))
+    var.pooled <- matrix(base::rowSums(
+        ((Y - eigenMatMult(t(B.hat), t(design)))^2)
+    )/(num_cell - num_batch),
+    ncol = 1)
+    s.data.dem = eigenMatMult(sqrt(var.pooled),
+                              matrix(1, nrow = 1, ncol = num_cell))
+    s.data <- (Y - stand.mean)/s.data.dem
+    return(res = list(s.data = s.data, stand.mean = stand.mean, 
+                      stand.var = var.pooled))
 }
 ####################################################### 
 f_measure <- function(cell_type, batch) {
@@ -185,8 +208,8 @@ calculateSil <- function(x, fast_svd, cell_type, batch) {
     }
     
     result = c(kBET_batch_sil(pca.data, as.numeric(as.factor(cell_type)), 
-        nPCs = 10), kBET_batch_sil(pca.data, as.numeric(as.factor(batch)), 
-        nPCs = 10))
+                              nPCs = 10), kBET_batch_sil(pca.data, as.numeric(as.factor(batch)), 
+                                                         nPCs = 10))
     return(result)
 }
 
@@ -195,7 +218,7 @@ kBET_batch_sil <- function(pca.data, batch, nPCs = 10) {
     ## imported because it is only a GitHub package
     dd <- as.matrix(stats::dist(pca.data$x[, seq_len(nPCs)]))
     score_sil <- summary(cluster::silhouette(as.numeric(batch), 
-        dd))$avg.width
+                                             dd))$avg.width
     return(score_sil)
 }
 
