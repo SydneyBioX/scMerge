@@ -184,7 +184,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     
     message("Step 2: Performing RUV normalisation. This will take minutes to hours. \n")
     
-    ruv3res <- scRUVIII(Y = t(exprs_mat), M = repMat, ctl = ctl, 
+    ruv3res <- scRUVIII(Y = exprs_mat, M = repMat, ctl = ctl, 
         k = ruvK, batch = batch, fullalpha = NULL, cell_type = cell_type, 
         return_all_RUV = return_all_RUV, fast_svd = fast_svd, 
         rsvd_prop = rsvd_prop)
