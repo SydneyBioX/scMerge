@@ -21,30 +21,14 @@ datasets.
 
 ## Installation
 
-The stable version of `scMerge` is available on Bioconductor
+`scMerge` is available on Bioconductor
 (<https://bioconductor.org/packages/scMerge>). You can install it using:
 
 ``` r
-## Install scMerge from BioConductor, requires R 3.6.0 or above
-BiocManager::install("scMerge", version = "3.9")
-```
-
-The development version of `scMerge` can be installed via:
-
-``` r
-## Install the development version of scMerge
-## Some CRAN packages required by scMerge
-install.packages(c("BiocManager", "cluster", "distr", "doSNOW", 
-                   "foreach", "igraph", "irlba", "iterators", 
-                   "matrixStats", "pdist", "proxy",  "Rcpp", 
-                   "RcppEigen", "rsvd", "ruv"))
-
-## Some BioConductor packages required by scMerge
-BiocManager::install(c("BiocParallel", "M3Drop", "SingleCellExperiment"))
-
-install_github("SydneyBioX/scMerge", 
-               build_opts = c("--no-resave-data", "--no-manual"),
-               build_vignettes = TRUE)
+## Install scMerge from Bioconductor, requires R 3.6.0 or above
+BiocManager::install("scMerge")
+## You can also try to install the Bioconductor devel version of scMerge:
+BiocManager::install("scMerge", version = "devel")
 ```
 
 ## Vignette
@@ -62,7 +46,7 @@ You can find a list of case studies here:
 If you have any enquries, especially about performing `scMerge`
 integration on your own data, then please contact
 <bioinformatics@maths.usyd.edu.au>. You can also [open an
-issue](https://github.com/SydneyBioX/scMerge/issues) on GitHub
+issue](https://github.com/SydneyBioX/scMerge/issues) on GitHub.
 
 ## Reference
 
