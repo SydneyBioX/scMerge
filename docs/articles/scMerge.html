@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -136,7 +136,7 @@
 <a class="sourceLine" id="cb1-4" title="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(scater)</a>
 <a class="sourceLine" id="cb1-5" title="5">  })</a></code></pre></div>
 <p>We provided an illustrative mouse embryonic stem cell (mESC) data in our package, as well as a set of pre-computed stably expressed gene (SEG) list to be used as negative control genes.</p>
-<p>The full curated, unnormalised mESC data can be found <a href="https://github.com/SydneyBioX/scMerge.data/raw/master/data/sce_mESC.rda">here</a>. The <code>scMerge</code> package comes with a sub-sampled, two-batches version of this data (named “batch2” and “batch3” to be consistent with the full data) .</p>
+<p>The full curated, unnormalised mESC data can be found <a href="http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/sce_mESC.rda">here</a>. The <code>scMerge</code> package comes with a sub-sampled, two-batches version of this data (named “batch2” and “batch3” to be consistent with the full data) .</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co">## Subsetted mouse ESC data</span></a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"example_sce"</span>, <span class="dt">package =</span> <span class="st">"scMerge"</span>)</a></code></pre></div>
 <p>In this mESC data, we pooled data from 2 different batches from three different cell types. Using a PCA plot, we can see that despite strong separation of cell types, there is also a strong separation due to batch effects. This information is stored in the <code>colData</code> of <code>example_sce</code>.</p>
@@ -341,9 +341,9 @@
 <a class="sourceLine" id="cb17-9" title="9"><span class="co">#&gt; Step 2: Performing RUV normalisation. This will take minutes to hours.</span></a>
 <a class="sourceLine" id="cb17-10" title="10"><span class="co">#&gt; scMerge complete!</span></a></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Normally, scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t2 <span class="op">-</span><span class="st"> </span>t1, <span class="dv">2</span>), <span class="st">" seconds"</span>)</a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="co">#&gt; [1] "Normally, scMerge takes  0.68  seconds"</span></a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="co">#&gt; [1] "Normally, scMerge takes  0.74  seconds"</span></a>
 <a class="sourceLine" id="cb18-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Fast version of scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t4 <span class="op">-</span><span class="st"> </span>t3, <span class="dv">2</span>), <span class="st">" seconds"</span>)</a>
-<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt; [1] "Fast version of scMerge takes  0.52  seconds"</span></a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt; [1] "Fast version of scMerge takes  0.62  seconds"</span></a>
 <a class="sourceLine" id="cb18-5" title="5"></a>
 <a class="sourceLine" id="cb18-6" title="6">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(</a>
 <a class="sourceLine" id="cb18-7" title="7">  scMerge_fast, </a>
@@ -410,7 +410,7 @@
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info</h1>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</a>
-<a class="sourceLine" id="cb22-2" title="2"><span class="co">#&gt; R version 3.6.0 alpha (2019-04-08 r76348)</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="co">#&gt; R version 3.6.0 (2019-04-26)</span></a>
 <a class="sourceLine" id="cb22-3" title="3"><span class="co">#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)</span></a>
 <a class="sourceLine" id="cb22-4" title="4"><span class="co">#&gt; Running under: macOS High Sierra 10.13.6</span></a>
 <a class="sourceLine" id="cb22-5" title="5"><span class="co">#&gt; </span></a>
@@ -426,64 +426,64 @@
 <a class="sourceLine" id="cb22-15" title="15"><span class="co">#&gt; [8] methods   base     </span></a>
 <a class="sourceLine" id="cb22-16" title="16"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb22-17" title="17"><span class="co">#&gt; other attached packages:</span></a>
-<a class="sourceLine" id="cb22-18" title="18"><span class="co">#&gt;  [1] scater_1.11.16              ggplot2_3.1.1              </span></a>
-<a class="sourceLine" id="cb22-19" title="19"><span class="co">#&gt;  [3] scMerge_0.99.24             SingleCellExperiment_1.5.2 </span></a>
-<a class="sourceLine" id="cb22-20" title="20"><span class="co">#&gt;  [5] SummarizedExperiment_1.13.0 DelayedArray_0.9.9         </span></a>
-<a class="sourceLine" id="cb22-21" title="21"><span class="co">#&gt;  [7] BiocParallel_1.17.19        matrixStats_0.54.0         </span></a>
-<a class="sourceLine" id="cb22-22" title="22"><span class="co">#&gt;  [9] Biobase_2.43.1              GenomicRanges_1.35.1       </span></a>
-<a class="sourceLine" id="cb22-23" title="23"><span class="co">#&gt; [11] GenomeInfoDb_1.19.3         IRanges_2.17.5             </span></a>
-<a class="sourceLine" id="cb22-24" title="24"><span class="co">#&gt; [13] S4Vectors_0.21.24           BiocGenerics_0.29.2        </span></a>
-<a class="sourceLine" id="cb22-25" title="25"><span class="co">#&gt; [15] BiocStyle_2.11.0           </span></a>
+<a class="sourceLine" id="cb22-18" title="18"><span class="co">#&gt;  [1] scater_1.12.1               ggplot2_3.1.1              </span></a>
+<a class="sourceLine" id="cb22-19" title="19"><span class="co">#&gt;  [3] scMerge_1.0.0               SingleCellExperiment_1.6.0 </span></a>
+<a class="sourceLine" id="cb22-20" title="20"><span class="co">#&gt;  [5] SummarizedExperiment_1.14.0 DelayedArray_0.10.0        </span></a>
+<a class="sourceLine" id="cb22-21" title="21"><span class="co">#&gt;  [7] BiocParallel_1.18.0         matrixStats_0.54.0         </span></a>
+<a class="sourceLine" id="cb22-22" title="22"><span class="co">#&gt;  [9] Biobase_2.44.0              GenomicRanges_1.36.0       </span></a>
+<a class="sourceLine" id="cb22-23" title="23"><span class="co">#&gt; [11] GenomeInfoDb_1.20.0         IRanges_2.18.0             </span></a>
+<a class="sourceLine" id="cb22-24" title="24"><span class="co">#&gt; [13] S4Vectors_0.22.0            BiocGenerics_0.30.0        </span></a>
+<a class="sourceLine" id="cb22-25" title="25"><span class="co">#&gt; [15] BiocStyle_2.12.0           </span></a>
 <a class="sourceLine" id="cb22-26" title="26"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb22-27" title="27"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
 <a class="sourceLine" id="cb22-28" title="28"><span class="co">#&gt;   [1] ggbeeswarm_0.6.0         colorspace_1.4-1        </span></a>
 <a class="sourceLine" id="cb22-29" title="29"><span class="co">#&gt;   [3] RcppEigen_0.3.3.5.0      rprojroot_1.3-2         </span></a>
-<a class="sourceLine" id="cb22-30" title="30"><span class="co">#&gt;   [5] htmlTable_1.13.1         XVector_0.23.2          </span></a>
-<a class="sourceLine" id="cb22-31" title="31"><span class="co">#&gt;   [7] base64enc_0.1-3          BiocNeighbors_1.1.13    </span></a>
-<a class="sourceLine" id="cb22-32" title="32"><span class="co">#&gt;   [9] fs_1.2.7                 rstudioapi_0.10         </span></a>
+<a class="sourceLine" id="cb22-30" title="30"><span class="co">#&gt;   [5] htmlTable_1.13.1         XVector_0.24.0          </span></a>
+<a class="sourceLine" id="cb22-31" title="31"><span class="co">#&gt;   [7] base64enc_0.1-3          BiocNeighbors_1.2.0     </span></a>
+<a class="sourceLine" id="cb22-32" title="32"><span class="co">#&gt;   [9] fs_1.3.1                 rstudioapi_0.10         </span></a>
 <a class="sourceLine" id="cb22-33" title="33"><span class="co">#&gt;  [11] proxy_0.4-23             roxygen2_6.1.1          </span></a>
 <a class="sourceLine" id="cb22-34" title="34"><span class="co">#&gt;  [13] xml2_1.2.0               codetools_0.2-16        </span></a>
-<a class="sourceLine" id="cb22-35" title="35"><span class="co">#&gt;  [15] splines_3.6.0            knitr_1.22              </span></a>
-<a class="sourceLine" id="cb22-36" title="36"><span class="co">#&gt;  [17] Formula_1.2-3            cluster_2.0.8           </span></a>
+<a class="sourceLine" id="cb22-35" title="35"><span class="co">#&gt;  [15] splines_3.6.0            knitr_1.23              </span></a>
+<a class="sourceLine" id="cb22-36" title="36"><span class="co">#&gt;  [17] Formula_1.2-3            cluster_2.0.9           </span></a>
 <a class="sourceLine" id="cb22-37" title="37"><span class="co">#&gt;  [19] BiocManager_1.30.4       compiler_3.6.0          </span></a>
 <a class="sourceLine" id="cb22-38" title="38"><span class="co">#&gt;  [21] backports_1.1.4          assertthat_0.2.1        </span></a>
 <a class="sourceLine" id="cb22-39" title="39"><span class="co">#&gt;  [23] Matrix_1.2-17            lazyeval_0.2.2          </span></a>
-<a class="sourceLine" id="cb22-40" title="40"><span class="co">#&gt;  [25] BiocSingular_0.99.18     acepack_1.4.1           </span></a>
+<a class="sourceLine" id="cb22-40" title="40"><span class="co">#&gt;  [25] BiocSingular_1.0.0       acepack_1.4.1           </span></a>
 <a class="sourceLine" id="cb22-41" title="41"><span class="co">#&gt;  [27] htmltools_0.3.6          tools_3.6.0             </span></a>
 <a class="sourceLine" id="cb22-42" title="42"><span class="co">#&gt;  [29] igraph_1.2.4.1           rsvd_1.0.0              </span></a>
 <a class="sourceLine" id="cb22-43" title="43"><span class="co">#&gt;  [31] gtable_0.3.0             glue_1.3.1              </span></a>
-<a class="sourceLine" id="cb22-44" title="44"><span class="co">#&gt;  [33] GenomeInfoDbData_1.2.1   dplyr_0.8.0.1           </span></a>
+<a class="sourceLine" id="cb22-44" title="44"><span class="co">#&gt;  [33] GenomeInfoDbData_1.2.1   dplyr_0.8.1             </span></a>
 <a class="sourceLine" id="cb22-45" title="45"><span class="co">#&gt;  [35] Rcpp_1.0.1               bbmle_1.0.20            </span></a>
 <a class="sourceLine" id="cb22-46" title="46"><span class="co">#&gt;  [37] pkgdown_1.3.0            gdata_2.18.0            </span></a>
-<a class="sourceLine" id="cb22-47" title="47"><span class="co">#&gt;  [39] nlme_3.1-139             iterators_1.0.10        </span></a>
-<a class="sourceLine" id="cb22-48" title="48"><span class="co">#&gt;  [41] DelayedMatrixStats_1.5.2 xfun_0.6                </span></a>
+<a class="sourceLine" id="cb22-47" title="47"><span class="co">#&gt;  [39] nlme_3.1-140             iterators_1.0.10        </span></a>
+<a class="sourceLine" id="cb22-48" title="48"><span class="co">#&gt;  [41] DelayedMatrixStats_1.6.0 xfun_0.7                </span></a>
 <a class="sourceLine" id="cb22-49" title="49"><span class="co">#&gt;  [43] stringr_1.4.0            irlba_2.3.3             </span></a>
 <a class="sourceLine" id="cb22-50" title="50"><span class="co">#&gt;  [45] gtools_3.8.1             statmod_1.4.30          </span></a>
-<a class="sourceLine" id="cb22-51" title="51"><span class="co">#&gt;  [47] zlibbioc_1.29.0          MASS_7.3-51.4           </span></a>
+<a class="sourceLine" id="cb22-51" title="51"><span class="co">#&gt;  [47] zlibbioc_1.30.0          MASS_7.3-51.4           </span></a>
 <a class="sourceLine" id="cb22-52" title="52"><span class="co">#&gt;  [49] scales_1.0.0             RColorBrewer_1.1-2      </span></a>
 <a class="sourceLine" id="cb22-53" title="53"><span class="co">#&gt;  [51] yaml_2.2.0               memoise_1.1.0           </span></a>
 <a class="sourceLine" id="cb22-54" title="54"><span class="co">#&gt;  [53] gridExtra_2.3            rpart_4.1-15            </span></a>
 <a class="sourceLine" id="cb22-55" title="55"><span class="co">#&gt;  [55] latticeExtra_0.6-28      stringi_1.4.3           </span></a>
 <a class="sourceLine" id="cb22-56" title="56"><span class="co">#&gt;  [57] desc_1.2.0               foreach_1.4.4           </span></a>
-<a class="sourceLine" id="cb22-57" title="57"><span class="co">#&gt;  [59] checkmate_1.9.1          caTools_1.17.1.2        </span></a>
+<a class="sourceLine" id="cb22-57" title="57"><span class="co">#&gt;  [59] checkmate_1.9.3          caTools_1.17.1.2        </span></a>
 <a class="sourceLine" id="cb22-58" title="58"><span class="co">#&gt;  [61] rlang_0.3.4              pkgconfig_2.0.2         </span></a>
 <a class="sourceLine" id="cb22-59" title="59"><span class="co">#&gt;  [63] commonmark_1.7           bitops_1.0-6            </span></a>
-<a class="sourceLine" id="cb22-60" title="60"><span class="co">#&gt;  [65] M3Drop_1.9.4             evaluate_0.13           </span></a>
+<a class="sourceLine" id="cb22-60" title="60"><span class="co">#&gt;  [65] M3Drop_1.10.0            evaluate_0.13           </span></a>
 <a class="sourceLine" id="cb22-61" title="61"><span class="co">#&gt;  [67] lattice_0.20-38          purrr_0.3.2             </span></a>
 <a class="sourceLine" id="cb22-62" title="62"><span class="co">#&gt;  [69] ruv_0.9.7                labeling_0.3            </span></a>
 <a class="sourceLine" id="cb22-63" title="63"><span class="co">#&gt;  [71] htmlwidgets_1.3          cowplot_0.9.4           </span></a>
 <a class="sourceLine" id="cb22-64" title="64"><span class="co">#&gt;  [73] tidyselect_0.2.5         plyr_1.8.4              </span></a>
-<a class="sourceLine" id="cb22-65" title="65"><span class="co">#&gt;  [75] magrittr_1.5             bookdown_0.9            </span></a>
+<a class="sourceLine" id="cb22-65" title="65"><span class="co">#&gt;  [75] magrittr_1.5             bookdown_0.10           </span></a>
 <a class="sourceLine" id="cb22-66" title="66"><span class="co">#&gt;  [77] R6_2.4.0                 gplots_3.0.1.1          </span></a>
-<a class="sourceLine" id="cb22-67" title="67"><span class="co">#&gt;  [79] Hmisc_4.2-0              pillar_1.3.1            </span></a>
+<a class="sourceLine" id="cb22-67" title="67"><span class="co">#&gt;  [79] Hmisc_4.2-0              pillar_1.4.0            </span></a>
 <a class="sourceLine" id="cb22-68" title="68"><span class="co">#&gt;  [81] foreign_0.8-71           withr_2.1.2             </span></a>
 <a class="sourceLine" id="cb22-69" title="69"><span class="co">#&gt;  [83] mgcv_1.8-28              survival_2.44-1.1       </span></a>
 <a class="sourceLine" id="cb22-70" title="70"><span class="co">#&gt;  [85] RCurl_1.95-4.12          nnet_7.3-12             </span></a>
 <a class="sourceLine" id="cb22-71" title="71"><span class="co">#&gt;  [87] tibble_2.1.1             crayon_1.3.4            </span></a>
-<a class="sourceLine" id="cb22-72" title="72"><span class="co">#&gt;  [89] KernSmooth_2.23-15       rmarkdown_1.12          </span></a>
+<a class="sourceLine" id="cb22-72" title="72"><span class="co">#&gt;  [89] KernSmooth_2.23-15       rmarkdown_1.13          </span></a>
 <a class="sourceLine" id="cb22-73" title="73"><span class="co">#&gt;  [91] viridis_0.5.1            grid_3.6.0              </span></a>
 <a class="sourceLine" id="cb22-74" title="74"><span class="co">#&gt;  [93] data.table_1.12.2        reldist_1.6-6           </span></a>
-<a class="sourceLine" id="cb22-75" title="75"><span class="co">#&gt;  [95] digest_0.6.18            numDeriv_2016.8-1       </span></a>
+<a class="sourceLine" id="cb22-75" title="75"><span class="co">#&gt;  [95] digest_0.6.19            numDeriv_2016.8-1       </span></a>
 <a class="sourceLine" id="cb22-76" title="76"><span class="co">#&gt;  [97] munsell_0.5.0            beeswarm_0.2.3          </span></a>
 <a class="sourceLine" id="cb22-77" title="77"><span class="co">#&gt;  [99] viridisLite_0.3.0        vipor_0.4.5</span></a></code></pre></div>
 </div>

@@ -1,3 +1,7 @@
+# scMerge 1.1.0
+
+* Accepted by Bioconductor
+
 # scMerge 0.99 (development version)
 
 ## scMerge 0.99.24

@@ -56,7 +56,7 @@ This is a mouse embryonic stem cell (mESC) single-cell data comprising of 3 diff
 
 ## Integrated `scMerge` data
 
-+ Data availability: [Mouse ESC Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/mESC_scMerge.rds)
++ Data availability: [Unmerged data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/sce_mESC.rda) and [mouse ESC Data (in RData format)](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/mESC_scMerge.rds)
 
 + `scMerge` parameters for integration:
 

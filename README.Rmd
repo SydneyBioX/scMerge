@@ -47,24 +47,6 @@ BiocManager::install("scMerge")
 BiocManager::install("scMerge", version = "devel")
 ```
 
-<!-- The development version of `scMerge` can be installed via: -->
-
-<!-- ```{r, eval = FALSE} -->
-<!-- ## Install the development version of scMerge -->
-<!-- ## Some CRAN packages required by scMerge -->
-<!-- install.packages(c("BiocManager", "cluster", "distr", "doSNOW",  -->
-<!--                    "foreach", "igraph", "irlba", "iterators",  -->
-<!--                    "matrixStats", "pdist", "proxy",  "Rcpp",  -->
-<!--                    "RcppEigen", "rsvd", "ruv")) -->
-
-<!-- ## Some BioConductor packages required by scMerge -->
-<!-- BiocManager::install(c("BiocParallel", "M3Drop", "SingleCellExperiment")) -->
-
-<!-- install_github("SydneyBioX/scMerge",  -->
-<!--                build_opts = c("--no-resave-data", "--no-manual"), -->
-<!--                build_vignettes = TRUE) -->
-<!-- ``` -->
-
 
 ## Vignette
 

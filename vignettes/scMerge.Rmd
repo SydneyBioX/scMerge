@@ -49,7 +49,7 @@ suppressPackageStartupMessages({
   
 We provided an illustrative mouse embryonic stem cell (mESC) data in our package, as well as a set of pre-computed stably expressed gene (SEG) list to be used as negative control genes. 
   
-The full curated, unnormalised mESC data can be found [here](https://github.com/SydneyBioX/scMerge.data/raw/master/data/sce_mESC.rda). The `scMerge` package comes with a sub-sampled, two-batches version of this data (named "batch2" and "batch3" to be consistent with the full data) . 
+The full curated, unnormalised mESC data can be found [here](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/sce_mESC.rda). The `scMerge` package comes with a sub-sampled, two-batches version of this data (named "batch2" and "batch3" to be consistent with the full data) . 
   
 ```{r subsampling scMergeData, eval = FALSE, echo = FALSE}
 library(genefilter)
