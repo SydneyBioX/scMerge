@@ -54,7 +54,8 @@ Suggests:
     rmarkdown,
     scales,
     scater,
-    testthat
+    testthat,
+    badger
 VignetteBuilder: knitr
 biocViews: BatchEffect, GeneExpression, Normalization, RNASeq, Sequencing, SingleCell, Software, Transcriptomics
 URL: https://github.com/SydneyBioX/scMerge
