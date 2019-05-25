@@ -52,8 +52,9 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     ## Standardise the data
     scale_res <- standardize2(Y, batch)
     normY <- scale_res$s.data
-    # geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
-    geneSdVec <- sqrt(scale_res$stand.var)
+    geneSdMat <- eigenMatMult(sqrt(scale_res$stand.var), 
+                              t(rep(1, ncol(Y)))) 
+    # geneSdVec <- sqrt(scale_res$stand.var)
     geneMeanVec <- scale_res$stand.mean
     # geneMeanMat <- scale_res$stand.mean  %*% t(rep(1, ncol(Y)))
     ## We will always run an initial RUV, based on whether
