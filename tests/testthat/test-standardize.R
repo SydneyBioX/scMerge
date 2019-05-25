@@ -14,8 +14,3 @@ expect_equal(s1$stand.mean[,1],
 
 expect_equal(unname(s1$stand.var), 
              unname(s2$stand.var), tol = 1e-6)
-
-
-pryr::object_size(s1)
-pryr::object_size(s2)
-
