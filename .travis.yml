@@ -17,16 +17,9 @@ os:
 script: 
   - R -e 'install.packages("BiocManager")'
   - R -e 'BiocManager::install(version = "3.9")'  
-  - R -e 'install.packages("pkgdown")'
 
-
-deploy:
-  provider: script
-  script: Rscript -e 'pkgdown::deploy_site_github(tarball = ".")'
-  skip_cleanup: true
-
-r_github_packages:
-  - r-lib/covr
-
-after_success:
-  - Rscript -e 'covr::codecov()'
+before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+  deploy:
+    provider: script
+    script: Rscript -e 'pkgdown::deploy_site_github()'
+    skip_cleanup: true
