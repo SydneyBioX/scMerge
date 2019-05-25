@@ -52,9 +52,10 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     ## Standardise the data
     scale_res <- standardize2(Y, batch)
     normY <- scale_res$s.data
-    geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
-    # geneSdVec <- sqrt(scale_res$stand.var)
-    geneMeanMat <- scale_res$stand.mean
+    # geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
+    geneSdVec <- sqrt(scale_res$stand.var)
+    geneMeanVec <- scale_res$stand.mean
+    # geneMeanMat <- scale_res$stand.mean  %*% t(rep(1, ncol(Y)))
     ## We will always run an initial RUV, based on whether
     ## fast_svd is TRUE or not.
     
@@ -123,10 +124,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     ## Add back the mean and sd to the normalised data
     for (i in seq_len(length(ruv3res_list))) {
         ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) *
-                                         geneSdMat + geneMeanMat))
-        # ruv3res_list[[i]]$newY <- t((
-        #     apply(t(ruv3res_list[[i]]$newY), 1, function(z){z * geneSdVec})  + geneMeanMat)
-        # )
+                                         geneSdMat + geneMeanVec))
     }
     ## ruv3res_list is all the normalised matrices ruv3res_optimal
     ## is the one matrix having the maximum F-score
