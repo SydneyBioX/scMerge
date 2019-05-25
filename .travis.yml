@@ -6,8 +6,7 @@ sudo: false
 
 cache: packages
 
-R:
-  - bioc-devel
+R: bioc-release
   
 dist: trusty
 
