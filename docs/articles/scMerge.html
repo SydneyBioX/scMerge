@@ -341,9 +341,9 @@
 <a class="sourceLine" id="cb17-9" title="9"><span class="co">#&gt; Step 2: Performing RUV normalisation. This will take minutes to hours.</span></a>
 <a class="sourceLine" id="cb17-10" title="10"><span class="co">#&gt; scMerge complete!</span></a></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Normally, scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t2 <span class="op">-</span><span class="st"> </span>t1, <span class="dv">2</span>), <span class="st">" seconds"</span>)</a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="co">#&gt; [1] "Normally, scMerge takes  0.74  seconds"</span></a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="co">#&gt; [1] "Normally, scMerge takes  0.61  seconds"</span></a>
 <a class="sourceLine" id="cb18-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Fast version of scMerge takes "</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(t4 <span class="op">-</span><span class="st"> </span>t3, <span class="dv">2</span>), <span class="st">" seconds"</span>)</a>
-<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt; [1] "Fast version of scMerge takes  0.62  seconds"</span></a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt; [1] "Fast version of scMerge takes  0.41  seconds"</span></a>
 <a class="sourceLine" id="cb18-5" title="5"></a>
 <a class="sourceLine" id="cb18-6" title="6">scater<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/plot_reddim">plotPCA</a></span>(</a>
 <a class="sourceLine" id="cb18-7" title="7">  scMerge_fast, </a>
@@ -427,7 +427,7 @@
 <a class="sourceLine" id="cb22-16" title="16"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb22-17" title="17"><span class="co">#&gt; other attached packages:</span></a>
 <a class="sourceLine" id="cb22-18" title="18"><span class="co">#&gt;  [1] scater_1.12.1               ggplot2_3.1.1              </span></a>
-<a class="sourceLine" id="cb22-19" title="19"><span class="co">#&gt;  [3] scMerge_1.0.0               SingleCellExperiment_1.6.0 </span></a>
+<a class="sourceLine" id="cb22-19" title="19"><span class="co">#&gt;  [3] scMerge_1.1.1               SingleCellExperiment_1.6.0 </span></a>
 <a class="sourceLine" id="cb22-20" title="20"><span class="co">#&gt;  [5] SummarizedExperiment_1.14.0 DelayedArray_0.10.0        </span></a>
 <a class="sourceLine" id="cb22-21" title="21"><span class="co">#&gt;  [7] BiocParallel_1.18.0         matrixStats_0.54.0         </span></a>
 <a class="sourceLine" id="cb22-22" title="22"><span class="co">#&gt;  [9] Biobase_2.44.0              GenomicRanges_1.36.0       </span></a>
