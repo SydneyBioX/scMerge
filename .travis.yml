@@ -17,8 +17,8 @@ script:
   - R -e 'install.packages("BiocManager")'
   - R -e 'BiocManager::install(version = "3.9")'  
   - R -e 'BiocManager::install("M3Drop", version = "3.9")'  
-  - R -e 'BiocManager::install("BiocSingular", version = "3.9")'
-  - R -e 'BiocManager::install("scater", version = "3.9")'  
+#  - R -e 'BiocManager::install("BiocSingular", version = "3.9")'
+#  - R -e 'BiocManager::install("scater", version = "3.9")'  
   - R -e 'remotes::install_cran("pkgdown")'
 
 deploy:
