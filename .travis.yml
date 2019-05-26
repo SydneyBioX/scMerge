@@ -13,13 +13,11 @@ dist: trusty
 os:
   - linux
 
+env:
+  - R_BIOC_VERSION: 3.9
+  
 script: 
-  - R -e 'install.packages("BiocManager")'
-  - R -e 'BiocManager::install(version = "3.9")'  
-  - R -e 'BiocManager::install("M3Drop", version = "3.9")'  
-#  - R -e 'BiocManager::install("BiocSingular", version = "3.9")'
-#  - R -e 'BiocManager::install("scater", version = "3.9")'  
-  - R -e 'remotes::install_cran("pkgdown")'
+  - R -e 'install.packages("pkgdown")'
 
 deploy:
   provider: script
