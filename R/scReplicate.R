@@ -117,8 +117,11 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
         mnc_res <- findMNC(exprs_mat = exprs_mat[HVG, ], clustering_list = cluster_res$clustering_list, 
             dist = dist, parallelParam = parallelParam)
         
-        
-        print(utils::head(mnc_res))
+        #### 20190606 YL: print all mnc_res 
+        if (verbose) {
+          print(mnc_res)
+        }
+       
         
         replicate_vector <- mncReplicate(clustering_list = cluster_res$clustering_list, 
             clustering_distProp = cluster_res$clustering_distProp, 
@@ -185,8 +188,10 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
         mnc_res <- findMNC(exprs_mat = exprs_mat[HVG, ], clustering_list = cluster_res$clustering_list, 
             dist = dist, parallelParam = parallelParam)
         
-        
-        print(utils::head(mnc_res))
+        #### 20190606 YL: print all mnc_res 
+        if (verbose) {
+          print(mnc_res)
+        }
         
         replicate_vector <- mncReplicate(clustering_list = cluster_res$clustering_list, 
             clustering_distProp = cluster_res$clustering_distProp, 
@@ -520,8 +525,17 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean",
             ## if at least some batch contains more than 1 cell type Then
             ## take away the batches with only one cell type and then
             ## iterate through all combn
-            combine_pair <- utils::combn(c(seq_len(batch_num))[-batch_oneType], 
-                2)
+            ## 
+            
+            ## 20190606 YL: to prevent only one batch left after exclude the batch with one type.
+            ## 
+            if (length(c(seq_len(batch_num))[-batch_oneType]) == 1) {
+              combine_pair <- NULL
+            }else{
+              combine_pair <- utils::combn(c(seq_len(batch_num))[-batch_oneType], 
+                                           2)
+            }
+            
             
             ## And then for those batches with only one cell type, we bind
             ## to the previous generated combn
@@ -631,109 +645,165 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean",
     edge_list <- do.call(rbind, lapply(mnc, function(x) t(apply(x, 
         1, function(y) paste(colnames(x), y, sep = "_")))))
     
-    if (is.null(edge_list)) {
-        return(NULL)
-    } else {
-        g <- igraph::graph_from_edgelist(edge_list, directed = FALSE)
-        igraph::plot.igraph(g)
-        mnc <- igraph::fastgreedy.community(g)
-        mnc_df <- data.frame(group = as.numeric(mnc$membership), 
-            batch = as.numeric(gsub("Batch", "", gsub("_.*", 
-                "", mnc$names))), cluster = as.numeric(gsub(".*_", 
-                "", mnc$names)))
-        
-        if (allones) {
-            mnc_df_new <- mnc_df
-            batch_oneType <- c(seq_len(batch_num))[-c(mnc_mat)]
-            for (i in batch_oneType) {
-                print(i)
-                neighbour_order <- rank(dist_res[i, ], na.last = TRUE)
-                group_order1 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order == 
-                  1), "group"]
-                group_order2 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order == 
-                  2), "group"]
-                if (group_order1 == group_order2) {
-                  mnc_df_new <- rbind(mnc_df_new, c(group_order1, 
-                    i, 1))
-                }
-            }
-            mnc_df <- mnc_df_new
-        }
-        
-        return(mnc_df)
+    
+    ### 20190606 YL: creating the node list for each cluster in each batch
+    
+    node_list <- list()
+    
+    for (b in seq_along(clustering_list)) {
+      node_list[[b]] <- paste(names(clustering_list)[b],
+                              seq_len(max(clustering_list[[b]])), sep = "_")
     }
     
+    node_list <- unlist(node_list)
+    
+    # if (is.null(edge_list)) {
+    #     return(NULL)
+    # } else {
+    #     g <- igraph::graph_from_edgelist(edge_list, directed = FALSE)
+    #     igraph::plot.igraph(g)
+    #     mnc <- igraph::fastgreedy.community(g)
+    #     mnc_df <- data.frame(group = as.numeric(mnc$membership),
+    #         batch = as.numeric(gsub("Batch", "", gsub("_.*",
+    #             "", mnc$names))), cluster = as.numeric(gsub(".*_",
+    #             "", mnc$names)))
+    # 
+    #     if (allones) {
+    #         mnc_df_new <- mnc_df
+    #         batch_oneType <- c(seq_len(batch_num))[-c(mnc_mat)]
+    #         for (i in batch_oneType) {
+    #             print(i)
+    #             neighbour_order <- rank(dist_res[i, ], na.last = TRUE)
+    #             group_order1 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order ==
+    #               1), "group"]
+    #             group_order2 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order ==
+    #               2), "group"]
+    #             if (group_order1 == group_order2) {
+    #               mnc_df_new <- rbind(mnc_df_new, c(group_order1,
+    #                 i, 1))
+    #             }
+    #         }
+    #         mnc_df <- mnc_df_new
+    #     }
+    # 
+    #     return(mnc_df)
+    # }
+    
+    
+    ### 20190606 YL: Use the node list and edge list to build the network
+    ### The edge list is null case will not be a special case now
+
+    
+    g <- igraph::make_empty_graph(directed = FALSE) + igraph::vertices(node_list)
+    g <- g + igraph::edges(t(edge_list))
+
+
+    igraph::plot.igraph(g)
+    mnc <- igraph::fastgreedy.community(g)
+    mnc_df <- data.frame(group = as.numeric(mnc$membership),
+                         batch = as.numeric(gsub("Batch", "", gsub("_.*", "", mnc$names))),
+                         cluster = as.numeric(gsub(".*_", "", mnc$names)))
+
+    ### 20190606 YL: to test here later  
+    # if (allones) {
+    #   mnc_df_new <- mnc_df
+    #   batch_oneType <- c(seq_len(batch_num))[-c(mnc_mat)]
+    #   for (i in batch_oneType) {
+    #     print(i)
+    #     neighbour_order <- rank(dist_res[i, ], na.last = TRUE)
+    #     group_order1 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order == 
+    #                                                         1), "group"]
+    #     group_order2 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order == 
+    #                                                         2), "group"]
+    #     if (group_order1 == group_order2) {
+    #       mnc_df_new <- rbind(mnc_df_new, c(group_order1, 
+    #                                         i, 1))
+    #     }
+    #   }
+    #   mnc_df <- mnc_df_new
+    # }
+    
+    return(mnc_df)
 }
 
 
 
 ###################################################################################################### Function to create replicate based on the mutual nearest
 ###################################################################################################### cluster results
+#### Note this function mnc_df is the output from findMNC function
+
 mncReplicate <- function(clustering_list, clustering_distProp, 
     replicate_prop, mnc_df) {
-    batch_num <- length(clustering_list)
+    # batch_num <- length(clustering_list) ### 20190606 YL... this line is not used in this function
+    
+    ### 20190606 YL: NULL is still necessary for case allones & two batches 
     if (!is.null(mnc_df)) {
-        idx_noRep <- list()
+      
+      ### 20190606 YL: Following codes can be commented out 
+      ### as the mnc_df now contains all the clusters, 
+      ### including those without replicate
+      # idx_noRep <- list()
+
+      # For each batches, check whether there is any clusters that
+      # do not have replicates for(j in 1:length(clustering_list)){
+      # idx_noRep[[j]]<-which(!(1:max(clustering_list[[j]]))%in%mnc[,j])
+      # }
+      # for (j in seq_along(clustering_list)) {
+      #     idx_noRep[[j]] <- which(!(seq_len(max(clustering_list[[j]]))) %in%
+      #         mnc_df[mnc_df$batch == j, "cluster"])
+      # }
+
+      replicate_vector <- rep(NA, length(unlist(clustering_list)))
+      names(replicate_vector) <- names(unlist(clustering_list))
+      clustering_distProp <- unlist(clustering_distProp)
+      replicate_size <- table(mnc_df$group)
+      for (i in seq_len(max(mnc_df$group))) {
+        tmp_names <- c()
         
-        # For each batches, check whether there is any clusters that
-        # do not have replicates for(j in 1:length(clustering_list)){
-        # idx_noRep[[j]]<-which(!(1:max(clustering_list[[j]]))%in%mnc[,j])
-        # }
-        for (j in seq_along(clustering_list)) {
-            idx_noRep[[j]] <- which(!(seq_len(max(clustering_list[[j]]))) %in% 
-                mnc_df[mnc_df$batch == j, "cluster"])
+        # For each batch in this replicate
+        mnc_df_sub <- mnc_df[mnc_df$group == i, ]
+        for (l in seq_len(replicate_size[i])) {
+          # tmp_names<-c(tmp_names,names(which(clustering_list[[l]]==mnc[i,l])))
+          
+          tmp_names <- c(tmp_names, names(which(clustering_list[[mnc_df_sub[l, 
+                                                                            "batch"]]] == mnc_df_sub[l, "cluster"])))
         }
         
-        replicate_vector <- rep(NA, length(unlist(clustering_list)))
-        names(replicate_vector) <- names(unlist(clustering_list))
-        clustering_distProp <- unlist(clustering_distProp)
-        replicate_size <- table(mnc_df$group)
-        for (i in seq_len(max(mnc_df$group))) {
-            tmp_names <- c()
-            
-            # For each batch in this replicate
-            mnc_df_sub <- mnc_df[mnc_df$group == i, ]
-            for (l in seq_len(replicate_size[i])) {
-                # tmp_names<-c(tmp_names,names(which(clustering_list[[l]]==mnc[i,l])))
-                
-                tmp_names <- c(tmp_names, names(which(clustering_list[[mnc_df_sub[l, 
-                  "batch"]]] == mnc_df_sub[l, "cluster"])))
-            }
-            
-            replicate_vector[tmp_names[clustering_distProp[tmp_names] <= 
-                replicate_prop]] <- paste("Replicate", i, sep = "_")
-        }
-        
-        current_idx <- max(mnc_df$group)
-        for (j in seq_along(clustering_list)) {
-            if (length(idx_noRep[[j]]) != 0) {
-                for (k in seq_along(idx_noRep[[j]])) {
-                  tmp_names <- names(which(clustering_list[[j]] == 
-                    idx_noRep[[j]][k]))
-                  replicate_vector[tmp_names[clustering_distProp[tmp_names] <= 
-                    replicate_prop]] <- paste("Replicate", current_idx + 
-                    k, sep = "_")
-                }
-                current_idx <- current_idx + length(idx_noRep[[j]])
-            }
-        }
-        replicate_vector[is.na(replicate_vector)] <- seq_len(sum(is.na(replicate_vector)))
+        replicate_vector[tmp_names[clustering_distProp[tmp_names] <= 
+                                     replicate_prop]] <- paste("Replicate", i, sep = "_")
+      }
+      
+      ### 20190606 YL: commented out as change of input of the graph
+      # current_idx <- max(mnc_df$group)
+      # for (j in seq_along(clustering_list)) {
+      #   if (length(idx_noRep[[j]]) != 0) {
+      #     for (k in seq_along(idx_noRep[[j]])) {
+      #       tmp_names <- names(which(clustering_list[[j]] ==
+      #                                  idx_noRep[[j]][k]))
+      #       replicate_vector[tmp_names[clustering_distProp[tmp_names] <=
+      #                                    replicate_prop]] <- paste("Replicate", current_idx +
+      #                                                                k, sep = "_")
+      #     }
+      #     current_idx <- current_idx + length(idx_noRep[[j]])
+      #   }
+      # }
+      replicate_vector[is.na(replicate_vector)] <- seq_len(sum(is.na(replicate_vector)))
     } else {
-        replicate_vector <- rep(NA, length(unlist(clustering_list)))
-        names(replicate_vector) <- names(unlist(clustering_list))
-        clustering_distProp <- unlist(clustering_distProp)
-        current_idx <- 1
-        for (j in seq_along(clustering_list)) {
-            for (k in seq_len(max(clustering_list[[j]]))) {
-                tmp_names <- names(which(clustering_list[[j]] == 
-                  k))
-                replicate_vector[tmp_names[clustering_distProp[tmp_names] <= 
-                  replicate_prop]] <- paste("Replicate", current_idx + 
-                  k, sep = "_")
-            }
-            current_idx <- current_idx + max(clustering_list[[j]])
+      replicate_vector <- rep(NA, length(unlist(clustering_list)))
+      names(replicate_vector) <- names(unlist(clustering_list))
+      clustering_distProp <- unlist(clustering_distProp)
+      current_idx <- 1
+      for (j in seq_along(clustering_list)) {
+        for (k in seq_len(max(clustering_list[[j]]))) {
+          tmp_names <- names(which(clustering_list[[j]] == 
+                                     k))
+          replicate_vector[tmp_names[clustering_distProp[tmp_names] <= 
+                                       replicate_prop]] <- paste("Replicate", current_idx + 
+                                                                   k, sep = "_")
         }
-        replicate_vector[is.na(replicate_vector)] <- seq_len(sum(is.na(replicate_vector)))
+        current_idx <- current_idx + max(clustering_list[[j]])
+      }
+      replicate_vector[is.na(replicate_vector)] <- seq_len(sum(is.na(replicate_vector)))
     }
     
     return(replicate_vector)
