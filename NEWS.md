@@ -1,3 +1,7 @@
+# scMerge 1.1.2
+
+* Resolved problems with only a single linking cell-type across multiple batches
+
 # scMerge 1.1.0
 
 * Accepted by Bioconductor
