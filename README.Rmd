@@ -26,7 +26,7 @@ library(badger)
 <img src="https://github.com/SydneyBioX/scMerge/raw/master/inst/logo.png" align="right" width="200" />
 
 [![Travis build status](https://travis-ci.org/SydneyBioX/scMerge.svg?branch=master)](https://travis-ci.org/SydneyBioX/scMerge)
-[![Codecov test coverage](https://codecov.io/gh/SydneyBioX/scMerge/branch/master/graph/badge.svg)](https://codecov.io/gh/SydneyBioX/scMerge?branch=master) `r badge_doi("10.1073/pnas.1820006116", "blue")` `r badge_last_commit("SydneyBioX/scMerge")` `r badge_devel("SydneyBioX/scMerge", "blue")`
+[![Codecov test coverage](https://codecov.io/gh/SydneyBioX/scMerge/branch/master/graph/badge.svg)](https://codecov.io/gh/SydneyBioX/scMerge?branch=master) `r badge_doi("10.1073/pnas.1820006116", "blue")` `r badge_devel("SydneyBioX/scMerge", "blue")` `r badge_bioc_download("scMerge", "total", "green")` `r badge_last_commit("SydneyBioX/scMerge")`
 
 
 

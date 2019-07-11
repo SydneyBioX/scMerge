@@ -92,6 +92,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
         stop("exprs is NULL.")
     }
     
+    
     ## Checking input expression assay name in SCE object
     if (!exprs %in% SummarizedExperiment::assayNames(sce_combine)) {
         stop(paste("No assay named", exprs))
@@ -103,6 +104,12 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
         stop(paste0("The assay named '", exprs, "' must be of class 'matrix', please convert this."))
     }
     sce_rownames <- rownames(sce_combine)
+    
+    if (is.null(colnames(exprs_mat)) | 
+        length(colnames(exprs_mat)) != length(unique(colnames(exprs_mat)))) {
+        stop("colnames of exprs is NULL or contains duplicates")
+    }
+    
     
     hvg_exprs_mat <- SummarizedExperiment::assay(sce_combine, hvg_exprs)
     if (!is.matrix(hvg_exprs_mat)) {
