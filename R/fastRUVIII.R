@@ -98,8 +98,12 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
                 Y0 <- eigenResidop(Y, M)
                 matToDecomp <- Y0
                 
-                if (max(dim(Y0))/min(dim(Y0)) >= 5) {
-                  matToDecomp <- eigenMatMult(Y0, t(Y0))
+                if (nrow(matToDecomp)/ncol(matToDecomp) >= 5) {
+                  matToDecomp <- eigenMatMult(t(Y0), Y0)
+                }
+                
+                if (ncol(matToDecomp)/nrow(matToDecomp) >= 5) {
+                    matToDecomp <- eigenMatMult(Y0, t(Y0))
                 }
                 
                 
