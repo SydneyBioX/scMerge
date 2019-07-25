@@ -10,7 +10,7 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
   cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE,
   rsvd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL,
   parallel = FALSE, parallelParam = NULL, return_all_RUV = FALSE,
-  assay_name = NULL, verbose = FALSE)
+  assay_name = NULL, plot_igraph = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData.}
@@ -56,6 +56,8 @@ We recommend using this option when the number of cells is large (e.g. more than
 Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.}
 
 \item{assay_name}{The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.}
+
+\item{plot_igraph}{If \code{TRUE}, then during the un/semi-supervised scMErge, igraph plot will be displayed}
 
 \item{verbose}{If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.}
 }

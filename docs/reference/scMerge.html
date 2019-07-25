@@ -64,7 +64,7 @@ leveraging (pseudo)-replicates and control genes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -270,14 +270,7 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
                       <span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>example_sce</span>,
                       <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>segList_ensemblGeneID</span>$<span class='no'>mouse</span>$<span class='no'>mouse_scSEG</span>,
                       <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>3</span>),
-                      <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)</div><div class='output co'>#&gt; <span class='message'>Step 1: Computation will run in serial</span></div><div class='output co'>#&gt;   group batch cluster
-#&gt; 1     3     1       1
-#&gt; 2     3     2       3
-#&gt; 3     1     1       2
-#&gt; 4     1     2       2
-#&gt; 5     2     1       3
-#&gt; 6     2     2       1
-#&gt; Dimension of the replicates mapping matrix: 
+                      <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)</div><div class='output co'>#&gt; <span class='message'>Step 1: Computation will run in serial</span></div><div class='output co'>#&gt; Dimension of the replicates mapping matrix: 
 #&gt; [1] 200 105</div><div class='output co'>#&gt; <span class='message'>Step 2: Performing RUV normalisation. This will take minutes to hours. </span></div><div class='output co'>#&gt; <span class='message'>scMerge complete!</span></div><div class='img'><img src='scMerge-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,
                  <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'logcounts'</span>))</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,
                  <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>))</div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>

@@ -20,6 +20,7 @@
 #' @param WV_marker A vector indicates the markers of the wanted variation.
 #' @param parallelParam The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is SerialParam().
 #' @param return_all If \code{FALSE}, only return the replicate matrix.
+#' @param plot_igraph If \code{TRUE}, then during the un/semi-supervised scMErge, igraph plot will be displayed
 #' @param verbose If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.
 #' @importFrom BiocParallel bplapply
 #' @importFrom proxy dist
@@ -54,7 +55,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
     marker_list = NULL, replicate_prop = 1, cell_type = NULL, 
     cell_type_match = FALSE, cell_type_inc = NULL, dist = "cor", 
     WV = NULL, WV_marker = NULL, parallelParam = SerialParam(), 
-    return_all = FALSE, fast_svd, verbose = FALSE) {
+    return_all = FALSE, fast_svd, plot_igraph = TRUE, verbose = FALSE) {
     
     exprs_mat <- SummarizedExperiment::assay(sce_combine, exprs)
     originalCellNames <- colnames(exprs_mat)
@@ -115,7 +116,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
             cat(" 6. Create Mutual Nearest Clusters. Preview cells-to-cell_type matching graph and matrix:\n")
         }
         mnc_res <- findMNC(exprs_mat = exprs_mat[HVG, ], clustering_list = cluster_res$clustering_list, 
-            dist = dist, parallelParam = parallelParam)
+            dist = dist, parallelParam = parallelParam, plot_igraph = plot_igraph)
         
         #### 20190606 YL: print all mnc_res 
         if (verbose) {
@@ -186,7 +187,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
             cat(" 6. Create Mutual Nearest Clusters. Preview cells-cell_type matching output matrix: \n")
         }
         mnc_res <- findMNC(exprs_mat = exprs_mat[HVG, ], clustering_list = cluster_res$clustering_list, 
-            dist = dist, parallelParam = parallelParam)
+            dist = dist, parallelParam = parallelParam, plot_igraph = plot_igraph)
         
         #### 20190606 YL: print all mnc_res 
         if (verbose) {
@@ -504,7 +505,7 @@ compute_dist_res <- function(i, res1, res2, exprs_mat, dist,
 }
 
 findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", 
-    parallelParam) {
+    parallelParam, plot_igraph = TRUE) {
     
     batch_num <- length(clustering_list)
     names(clustering_list) <- paste("Batch", seq_len(batch_num), 
@@ -698,7 +699,10 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean",
     g <- g + igraph::edges(t(edge_list))
 
 
-    igraph::plot.igraph(g)
+    if(plot_igraph){
+      igraph::plot.igraph(g)
+    }
+    
     mnc <- igraph::fastgreedy.community(g)
     mnc_df <- data.frame(group = as.numeric(mnc$membership),
                          batch = as.numeric(gsub("Batch", "", gsub("_.*", "", mnc$names))),

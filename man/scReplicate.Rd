@@ -9,7 +9,7 @@ scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
   marker_list = NULL, replicate_prop = 1, cell_type = NULL,
   cell_type_match = FALSE, cell_type_inc = NULL, dist = "cor",
   WV = NULL, WV_marker = NULL, parallelParam = SerialParam(),
-  return_all = FALSE, fast_svd, verbose = FALSE)
+  return_all = FALSE, fast_svd, plot_igraph = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
@@ -46,6 +46,8 @@ scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
 
 \item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
 We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
+
+\item{plot_igraph}{If \code{TRUE}, then during the un/semi-supervised scMErge, igraph plot will be displayed}
 
 \item{verbose}{If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.}
 }

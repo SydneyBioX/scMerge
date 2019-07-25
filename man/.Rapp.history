@@ -1,0 +1,3 @@
+load("/Users/yingxinlin/Downloads/Swarbrick_metastatic_lymphnode.sce.Rdata")
+sce
+metadata(sce)

@@ -25,6 +25,7 @@
 #' @param return_all_RUV If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 #' Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.
 #' @param assay_name The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.
+#' @param plot_igraph If \code{TRUE}, then during the un/semi-supervised scMErge, igraph plot will be displayed
 #' @param verbose If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.
 #' @return Returns a \code{SingleCellExperiment} object with following components:
 #' \itemize{
@@ -60,7 +61,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE, 
     rsvd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL, 
     parallel = FALSE, parallelParam = NULL, return_all_RUV = FALSE, 
-    assay_name = NULL, verbose = FALSE) {
+    assay_name = NULL, plot_igraph = TRUE, verbose = FALSE) {
     
     ## Checking if the cell names are non-unique
     cellNames = colnames(sce_combine)
@@ -179,7 +180,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
         cell_type = cell_type, cell_type_match = cell_type_match, 
         cell_type_inc = cell_type_inc, dist = dist, WV = WV, 
         WV_marker = WV_marker, parallelParam = parallelParam, 
-        fast_svd = fast_svd, verbose = verbose)
+        fast_svd = fast_svd, plot_igraph = plot_igraph, verbose = verbose)
     t2 <- Sys.time()
     
     timeReplicates <- t2 - t1
