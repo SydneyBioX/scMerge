@@ -8,9 +8,6 @@ dist: trusty
 os:
   - linux
 
-env:
-  - R_BIOC_VERSION: "3.10"
-
 script:
   - R -e 'install.packages("pkgdown")'
 
