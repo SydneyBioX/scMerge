@@ -2,7 +2,7 @@
 
 language: R
 cache: packages
-r: bioc-release
+R: bioc-devel
 dist: trusty
 
 os:
@@ -12,6 +12,9 @@ env:
   - R_BIOC_VERSION: "3.10"
 
 script:
+  - Rscript -e 'BiocManager::version()'
+  - Rscript -e 'BiocManager::install(version = "3.10", ask = FALSE)'
+  - Rscript -e 'BiocManager::version()'
   - R -e 'install.packages("pkgdown")'
 
 deploy:
