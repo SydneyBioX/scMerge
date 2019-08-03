@@ -39,7 +39,7 @@ Imports:
   ruv,
   rsvd,
   S4Vectors,
-  SingleCellExperiment,
+  SingleCellExperiment (>= 1.7.3),
   SummarizedExperiment
 LinkingTo: 
   Rcpp (>= 0.12.18),
