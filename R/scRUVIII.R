@@ -160,6 +160,7 @@ zeroOneScale <- function(v) {
 }
 ####################################################### 
 standardize <- function(exprsMat, batch) {
+    exprsMat <- as.matrix(exprsMat)
     num_cell <- ncol(exprsMat)
     num_batch <- length(unique(batch))
     batch <- as.factor(batch)

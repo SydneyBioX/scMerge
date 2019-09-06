@@ -50,6 +50,7 @@ RoxygenNote: 6.1.1
 Suggests: 
     BiocStyle,
     covr,
+    HDF5Array,
     knitr,
     Matrix,
     rmarkdown,

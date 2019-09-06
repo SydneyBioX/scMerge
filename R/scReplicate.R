@@ -24,7 +24,7 @@
 #' @param verbose If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.
 #' @importFrom BiocParallel bplapply
 #' @importFrom proxy dist
-#' @importFrom matrixStats rowMedians
+#' @importFrom DelayedMatrixStats rowMedians
 #' @importFrom M3Drop BrenneckeGetVariableGenes
 #'
 #' @return If \code{return_all} is \code{FALSE}, return a replicate matrix.
@@ -449,8 +449,8 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL,
 }
 ###################################################################################################### 
 centroidDist <- function(exprs_mat) {
-    centroid_batch <- matrixStats::rowMedians(exprs_mat)
-    point_dist <- base::colSums((exprs_mat - centroid_batch)^2)
+    centroid_batch <- DelayedMatrixStats::rowMedians(exprs_mat)
+    point_dist <- DelayedArray::colSums((exprs_mat - centroid_batch)^2)
     point_rank <- rank(point_dist)
     point_rank <- point_rank/length(point_rank)
     return(point_rank)
