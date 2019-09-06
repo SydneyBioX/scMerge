@@ -180,12 +180,12 @@ standardize2 <- function(Y, batch) {
     num_cell <- ncol(Y)
     num_batch <- length(unique(batch))
     batch <- as.factor(batch)
-    stand.mean <- base::rowMeans(Y)
+    stand.mean <- DelayedMatrixStats::rowMeans2(Y)
     design <- stats::model.matrix(~-1 + batch)
     B.hat <- solve(t(design) %*% design, 
                    t(Y %*% design))
     
-    var.pooled <- matrix(base::rowSums(
+    var.pooled <- matrix(DelayedMatrixStats::rowSums2(
         ((Y - t(B.hat) %*% t(design))^2)
     )/(num_cell - num_batch),
     ncol = 1)
