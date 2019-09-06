@@ -52,7 +52,8 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     ## Standardise the data
     scale_res <- standardize2(Y, batch)
     normY <- scale_res$s.data
-    geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
+    # geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
+    geneSdMat <- sqrt(scale_res$stand.var)
                                
     # geneSdVec <- sqrt(scale_res$stand.var)
     geneMeanVec <- scale_res$stand.mean
@@ -124,8 +125,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     
     ## Add back the mean and sd to the normalised data
     for (i in seq_len(length(ruv3res_list))) {
-        ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) *
-                                         geneSdMat + geneMeanVec))
+        ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) * geneSdMat + geneMeanVec))
     }
     ## ruv3res_list is all the normalised matrices ruv3res_optimal
     ## is the one matrix having the maximum F-score
@@ -176,21 +176,24 @@ standardize <- function(exprsMat, batch) {
                       stand.var = var.pooled))
 }
 ###############################
+solve_axb = function(a, b){
+    x = solve(t(a) %*% a) %*% t(a) %*% b
+    return(x)
+}
+###############################
 standardize2 <- function(Y, batch) {
     num_cell <- ncol(Y)
     num_batch <- length(unique(batch))
     batch <- as.factor(batch)
     stand.mean <- DelayedMatrixStats::rowMeans2(Y)
     design <- stats::model.matrix(~-1 + batch)
-    B.hat <- solve(t(design) %*% design, 
-                   t(Y %*% design))
+    B.hat = solve_axb(a = t(design) %*% design,
+                      b = t(Y %*% design))
     
-    var.pooled <- matrix(DelayedMatrixStats::rowSums2(
-        ((Y - t(B.hat) %*% t(design))^2)
-    )/(num_cell - num_batch),
-    ncol = 1)
-    s.data.dem = sqrt(var.pooled) %*% matrix(1, nrow = 1, ncol = num_cell)
-    s.data <- (Y - stand.mean)/s.data.dem
+    var.pooled <- DelayedMatrixStats::rowSums2(((Y - t(B.hat) %*% t(design))^2))/(num_cell - num_batch)
+    Y_centred = Y-stand.mean
+    # s.data <- sweep(x = Y_centred, MARGIN = 1, STATS = sqrt(var.pooled), FUN = "/")
+    s.data <- Y_centred/sqrt(var.pooled)
     return(res = list(s.data = s.data, stand.mean = stand.mean, 
                       stand.var = var.pooled))
 }
