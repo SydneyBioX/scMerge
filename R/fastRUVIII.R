@@ -96,7 +96,7 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
                 ## matrix M to a matrix Y Y0 has the same dimensions as Y,
                 ## i.e. m rows (observations) and n columns (genes).
                 
-                Y0 <- Y %*% M
+                Y0 <- ruv::residop(Y, M)
                 
                 if (fast_svd) {
                   svdObj <- BiocSingular::runRandomSVD(x = Y0, k = svd_k)
