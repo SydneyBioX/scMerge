@@ -52,8 +52,8 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     ## Standardise the data
     scale_res <- standardize2(Y, batch)
     normY <- scale_res$s.data
-    geneSdMat <- eigenMatMult(sqrt(scale_res$stand.var), 
-                              t(rep(1, ncol(Y)))) 
+    geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
+                               
     # geneSdVec <- sqrt(scale_res$stand.var)
     geneMeanVec <- scale_res$stand.mean
     # geneMeanMat <- scale_res$stand.mean  %*% t(rep(1, ncol(Y)))
@@ -181,14 +181,14 @@ standardize2 <- function(Y, batch) {
     batch <- as.factor(batch)
     stand.mean <- base::rowMeans(Y)
     design <- stats::model.matrix(~-1 + batch)
-    B.hat <- solve(eigenMatMult(t(design), design), 
-                   t(eigenMatMult(Y, design)))
+    B.hat <- solve(t(design) %*% design, 
+                   t(Y %*% design))
+    
     var.pooled <- matrix(base::rowSums(
-        ((Y - eigenMatMult(t(B.hat), t(design)))^2)
+        ((Y - t(B.hat) %*% t(design))^2)
     )/(num_cell - num_batch),
     ncol = 1)
-    s.data.dem = eigenMatMult(sqrt(var.pooled),
-                              matrix(1, nrow = 1, ncol = num_cell))
+    s.data.dem = sqrt(var.pooled) %*% matrix(1, nrow = 1, ncol = num_cell)
     s.data <- (Y - stand.mean)/s.data.dem
     return(res = list(s.data = s.data, stand.mean = stand.mean, 
                       stand.var = var.pooled))
