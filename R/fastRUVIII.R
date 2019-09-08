@@ -99,9 +99,9 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
                 Y0 <- ruv::residop(Y, M)
                 
                 if (fast_svd) {
-                  svdObj <- BiocSingular::runRandomSVD(x = Y0, k = svd_k)
+                  svdObj <- BiocSingular::runRandomSVD(x = Y0, k = svd_k, fold = 5)
                 } else {
-                    svdObj <- BiocSingular::runExactSVD(x = Y0, k = svd_k)
+                    svdObj <- BiocSingular::runExactSVD(x = Y0, k = svd_k, fold = 5)
                 }  ## End if(fast_svd)
                 
                 fullalpha <- t(svdObj$u[, seq_len(svd_k), drop = FALSE]) %*% Y
