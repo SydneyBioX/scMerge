@@ -81,7 +81,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     if(any(colsum_exprs == 0) | any(rowsum_exprs == 0)){
         message("Automatically removing ", sum(colsum_exprs == 0), " cells and ",
                 sum(rowsum_exprs == 0), " genes that are all zeroes in the data")
-        sce_combine = sce_combine[colsum_exprs != 0, rowsum_exprs != 0]
+        sce_combine = sce_combine[rowsum_exprs != 0, colsum_exprs != 0]
     }
     
     ## Checking if the cell names are non-unique
@@ -128,12 +128,6 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     hvg_exprs_mat <- SummarizedExperiment::assay(sce_combine, hvg_exprs)
     if (!is.matrix(hvg_exprs_mat)) {
         # stop(paste0("The assay named '", hvg_exprs, "' must be of class 'matrix', please convert this."))
-    }
-    
-    ## Checking if any rows or columns are purely zeroes
-    if (any(DelayedArray::rowSums(exprs_mat) == 0) | any(DelayedArray::colSums(exprs_mat) == 
-        0)) {
-        stop("There are rows or columns that are all zeros in the expression matrix. Please remove these rows/columns.")
     }
     
     ## Checking negative controls input
