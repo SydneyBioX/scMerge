@@ -8,11 +8,13 @@
 
 <title>Perform the scMerge algorithm — scMerge • scMerge</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -30,11 +32,12 @@
 
 
 
-<meta property="og:title" content="Perform the scMerge algorithm — scMerge" />
 
+<meta property="og:title" content="Perform the scMerge algorithm — scMerge" />
 <meta property="og:description" content="Merge single-cell RNA-seq data from different batches and experiments 
 leveraging (pseudo)-replicates and control genes." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -64,7 +67,7 @@ leveraging (pseudo)-replicates and control genes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -116,7 +119,6 @@ leveraging (pseudo)-replicates and control genes." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/SydneyBioX/scMerge">
@@ -142,10 +144,8 @@ leveraging (pseudo)-replicates and control genes." />
     </div>
 
     <div class="ref-description">
-    
     <p>Merge single-cell RNA-seq data from different batches and experiments 
 leveraging (pseudo)-replicates and control genes.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>scMerge</span>(<span class='no'>sce_combine</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exprs</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>,
@@ -154,8 +154,8 @@ leveraging (pseudo)-replicates and control genes.</p>
   <span class='kw'>cell_type_match</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cell_type_inc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fast_svd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>rsvd_prop</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>dist</span> <span class='kw'>=</span> <span class='st'>"cor"</span>, <span class='kw'>WV</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>WV_marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>parallelParam</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>return_all_RUV</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-    
+  <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>plot_igraph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -246,11 +246,15 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
       <td><p>The assay name(s) for the adjusted expression matrix(matrices). If <code>return_all_RUV = TRUE</code> assay_name must have the same length as ruvK.</p></td>
     </tr>
     <tr>
+      <th>plot_igraph</th>
+      <td><p>If <code>TRUE</code>, then during the un/semi-supervised scMErge, igraph plot will be displayed</p></td>
+    </tr>
+    <tr>
       <th>verbose</th>
       <td><p>If <code>TRUE</code>, then all intermediate steps will be shown. Default to <code>FALSE</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns a <code>SingleCellExperiment</code> object with following components:</p><ul>
@@ -258,7 +262,6 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 <li><p>metadata: containing the ruvK vector, ruvK_optimal based on F-score, and the replicate matrix</p></li>
 </ul>
 
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Loading example data</span>
@@ -272,16 +275,14 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
                       <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>3</span>),
                       <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)</div><div class='output co'>#&gt; <span class='message'>Step 1: Computation will run in serial</span></div><div class='output co'>#&gt; Dimension of the replicates mapping matrix: 
 #&gt; [1] 200 105</div><div class='output co'>#&gt; <span class='message'>Step 2: Performing RUV normalisation. This will take minutes to hours. </span></div><div class='output co'>#&gt; <span class='message'>scMerge complete!</span></div><div class='img'><img src='scMerge-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,
-                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'logcounts'</span>))</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,
-                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>))</div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
+                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'logcounts'</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: call 'runPCA' explicitly to compute results</span></div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/plot_reddim'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>,
+                 <span class='kw'>run_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: call 'runPCA' explicitly to compute results</span></div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

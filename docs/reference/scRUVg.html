@@ -8,11 +8,13 @@
 
 <title>RUVg function for single cell (under development) — scRUVg • scMerge</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -30,11 +32,12 @@
 
 
 
-<meta property="og:title" content="RUVg function for single cell (under development) — scRUVg" />
 
+<meta property="og:title" content="RUVg function for single cell (under development) — scRUVg" />
 <meta property="og:description" content="Modified based on RUV2 from package ruv and RUVg from package RUVSeq function
 (see these function's documentations for full documentations and usage)" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -64,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -116,7 +119,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/SydneyBioX/scMerge">
@@ -142,15 +144,13 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Modified based on RUV2 from package ruv and RUVg from package RUVSeq function
 (see these function's documentations for full documentations and usage)</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>scRUVg</span>(<span class='no'>Y</span>, <span class='no'>ctl</span>, <span class='no'>k</span>, <span class='kw'>Z</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>eta</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>include.intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>fullW</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>svdyc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -190,7 +190,7 @@ and the intercept term should be included manually where desired.</p></td>
       <td><p>Can be included to speed up execution. For internal use; please use fullW instead.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list consists of:</p><ul>
@@ -199,7 +199,6 @@ and the intercept term should be included manually where desired.</p></td>
 <li><p>A matrix alpha, this corresponding coefficient matrix for W.</p></li>
 </ul>
 
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/scMerge/topics/ruvSimulate'>ruvSimulate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>80</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>nCelltypes</span> <span class='kw'>=</span> <span class='fl'>10</span>)
@@ -210,9 +209,7 @@ and the intercept term should be included manually where desired.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

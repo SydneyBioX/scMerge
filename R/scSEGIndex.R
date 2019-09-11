@@ -18,11 +18,13 @@
 #' ## Loading example data
 #' data('example_sce', package = 'scMerge')
 #' ## subsetting genes to illustrate usage.
-#' exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:110, 1:20]
+#' exprsMat = SummarizedExperiment::assay(example_sce, 'logcounts')[1:110, 1:20]
 #' set.seed(1)
 #' result = scSEGIndex(exprsMat = exprsMat)
 #' head(result)
-#' @references https://www.biorxiv.org/content/10.1101/229815v2
+#' @references Evaluating stably expressed genes in single cells (2019). doi:10.1093/gigascience/giz106. 
+#' @seealso Download human SEG directly from this \href{http://www.maths.usyd.edu.au/u/pengyi/software/scHK/scHK_human.xlsx}{link}; 
+#' Download mouse SEG directly from this \href{http://www.maths.usyd.edu.au/u/pengyi/software/scHK/scHK_mouse.xlsx}{link}.
 
 
 
