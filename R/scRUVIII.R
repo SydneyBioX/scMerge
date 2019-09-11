@@ -206,9 +206,13 @@ f_measure <- function(cell_type, batch) {
 ####################################################### 
 calculateSil <- function(x, fast_svd, cell_type, batch) {
     if (fast_svd & !any(dim(x$newY) < 50)) {
-        pca.data <- irlba::prcomp_irlba(x$newY, n = 10)
+        # pca.data <- irlba::prcomp_irlba(x$newY, n = 10)
+        pca.data <- BiocSingular::runPCA(x = x$newY, rank = 10, scale = TRUE, center = TRUE,
+                                         BSPARAM = BiocSingular::IrlbaParam(fold = 5))
     } else {
-        pca.data <- stats::prcomp(x$newY)
+        # pca.data <- stats::prcomp(x$newY)
+        pca.data <- BiocSingular::runPCA(x = x$newY, rank = 10, scale = TRUE, center = TRUE,
+                                         BSPARAM = BiocSingular::ExactParam(fold = 5))
     }
     
     result = c(kBET_batch_sil(pca.data, as.numeric(as.factor(cell_type)), 

@@ -22,7 +22,6 @@
 #' @param return.info Additional information relating to the computation of normalised matrix. We recommend setting this to true.
 #' @param inputcheck We recommend setting this to true.
 #' @useDynLib scMerge, .registration = TRUE
-#' @importFrom rsvd rsvd 
 #' @importFrom Rcpp sourceCpp
 #' @importFrom BiocSingular runRandomSVD
 #' @importFrom BiocSingular runExactSVD
@@ -101,7 +100,7 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
                 if (fast_svd) {
                   svdObj <- BiocSingular::runRandomSVD(x = Y0, k = svd_k, fold = 5)
                 } else {
-                    svdObj <- BiocSingular::runExactSVD(x = Y0, k = svd_k, fold = 5)
+                  svdObj <- BiocSingular::runExactSVD(x = Y0, k = svd_k, fold = 5)
                 }  ## End if(fast_svd)
                 
                 fullalpha <- t(svdObj$u[, seq_len(svd_k), drop = FALSE]) %*% Y

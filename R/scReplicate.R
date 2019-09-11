@@ -329,14 +329,23 @@ findHVG <- function(exprs_mat_HVG, batch, intersection = 1, fdr = 0.01,
     minBiolDisp = 0.5, parallelParam, verbose) {
     batch_list <- as.list(as.character(unique(batch)))
     
-    HVG_list <- BiocParallel::bplapply(batch_list, function(x) {
-        zeros <- Matrix::rowMeans(exprs_mat_HVG[, batch == x] == 
-            0)
-        express_gene <- names(which(zeros <= 0.9))
-        hvgOutput = M3Drop::BrenneckeGetVariableGenes(expr_mat = exprs_mat_HVG[express_gene, 
-            batch == x], suppress.plot = TRUE, fdr = 0.01, minBiolDisp = 0.5)
-        return(rownames(hvgOutput))
-    }, BPPARAM = parallelParam)
+    # HVG_list <- BiocParallel::bplapply(batch_list, function(x) {
+    #     zeros <- DelayedMatrixStats::rowMeans2(exprs_mat_HVG[, batch == x] == 
+    #         0)
+    #     express_gene <- names(which(zeros <= 0.9))
+    #     hvgOutput = M3Drop::BrenneckeGetVariableGenes(expr_mat = exprs_mat_HVG[express_gene, 
+    #         batch == x], suppress.plot = TRUE, fdr = 0.01, minBiolDisp = 0.5)
+    #     return(rownames(hvgOutput))
+    # }, BPPARAM = parallelParam)
+    
+    HVG_list <- lapply(batch_list, function(x) {
+      zeros <- DelayedMatrixStats::rowMeans2(exprs_mat_HVG[, batch == x] == 
+                                               0)
+      express_gene <- which(zeros <= 0.9)
+      hvgOutput = M3Drop::BrenneckeGetVariableGenes(expr_mat = exprs_mat_HVG[express_gene, 
+                                                                             batch == x], suppress.plot = TRUE, fdr = 0.01, minBiolDisp = 0.5)
+      return(rownames(hvgOutput))
+    })
     
     names(HVG_list) <- batch_list
     res <- unlist(HVG_list)
@@ -362,11 +371,11 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL,
     ############################# 
     
     # if (parallel) {
-    pca <- BiocParallel::bplapply(batch_list, function(this_batch_list) {
+    pca <- lapply(batch_list, function(this_batch_list) {
         computePCA_byHVGMarker(this_batch_list = this_batch_list, 
             batch = batch, batch_oneType = batch_oneType, marker = marker, 
             exprs_mat = exprs_mat, HVG_list = HVG_list, fast_svd = fast_svd)
-    }, BPPARAM = parallelParam)
+    })
     # } else { pca <- lapply(batch_list,
     # function(this_batch_list) {
     # computePCA_byHVGMarker(this_batch_list = this_batch_list,
@@ -897,11 +906,11 @@ computePCA_byHVGMarker <- function(this_batch_list, batch, batch_oneType,
             # result <- irlba::prcomp_irlba(x = sub_exprs_mat, 
             #     n = 10, scale. = TRUE, maxit = 1000)$x
             result <- BiocSingular::runPCA(x = sub_exprs_mat, rank = 10, scale = TRUE, center = TRUE,
-                                           BSPARAM = BiocSingular::IrlbaParam(fold = 5))
+                                           BSPARAM = BiocSingular::IrlbaParam(fold = 5))$x
         } else {
             # result <- stats::prcomp(sub_exprs_mat, scale. = TRUE)$x
           result <- BiocSingular::runPCA(x = sub_exprs_mat, rank = 10, scale = TRUE, center = TRUE,
-                                         BSPARAM = BiocSingular::ExactParam(fold = 5))
+                                         BSPARAM = BiocSingular::ExactParam(fold = 5))$x
         }
     }
     rownames(result) <- rownames(sub_exprs_mat)

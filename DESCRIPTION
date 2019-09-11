@@ -24,6 +24,8 @@ Imports:
   BiocParallel,
   BiocSingular,
   cluster,
+  DelayedArray,
+  DelayedMatrixStats,
   distr,
   doSNOW,
   foreach,
