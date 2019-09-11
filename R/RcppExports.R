@@ -52,8 +52,10 @@ eigenResidop <- function(A, B) {
 #' \deqn{A - B(B^t B)^{-1} B^t A}
 #' @examples
 #' Y = M = diag(1, 500)
-#' system.time(scMerge::eigenResidop(Y, M))
 #' system.time(ruv::residop(Y, M))
+#' Y = as(Y, "dgCMatrix")
+#' M = as(M, "dgCMatrix")
+#' system.time(scMerge::eigenSpResidop(Y, M))
 eigenSpResidop <- function(A, B) {
     .Call(`_scMerge_eigenSpResidop`, A, B)
 }

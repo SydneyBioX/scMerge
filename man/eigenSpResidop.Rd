@@ -20,6 +20,8 @@ fast sparse matrix residual operator using RcppEigen
 }
 \examples{
 Y = M = diag(1, 500)
-system.time(scMerge::eigenResidop(Y, M))
 system.time(ruv::residop(Y, M))
+Y = as(Y, "dgCMatrix")
+M = as(M, "dgCMatrix")
+system.time(scMerge::eigenSpResidop(Y, M))
 }
