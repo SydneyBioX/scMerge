@@ -450,7 +450,7 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL,
 }
 ###################################################################################################### 
 centroidDist <- function(exprs_mat) {
-    centroid_batch <- DelayedMatrixStats::rowMedians(exprs_mat)
+    centroid_batch <- DelayedMatrixStats::rowMedians(DelayedArray::DelayedArray(exprs_mat))  
     point_dist <- DelayedArray::colSums((exprs_mat - centroid_batch)^2)
     point_rank <- rank(point_dist)
     point_rank <- point_rank/length(point_rank)
@@ -894,10 +894,14 @@ computePCA_byHVGMarker <- function(this_batch_list, batch, batch_oneType,
         ## If fast_svd option was enabled, then we will use irlba to
         ## speed up the calculations.
         if (fast_svd) {
-            result <- irlba::prcomp_irlba(x = sub_exprs_mat, 
-                n = 10, scale. = TRUE, maxit = 1000)$x
+            # result <- irlba::prcomp_irlba(x = sub_exprs_mat, 
+            #     n = 10, scale. = TRUE, maxit = 1000)$x
+            result <- BiocSingular::runPCA(x = sub_exprs_mat, rank = 10, scale = TRUE, center = TRUE,
+                                           BSPARAM = BiocSingular::IrlbaParam(fold = 5))
         } else {
-            result <- stats::prcomp(sub_exprs_mat, scale. = TRUE)$x
+            # result <- stats::prcomp(sub_exprs_mat, scale. = TRUE)$x
+          result <- BiocSingular::runPCA(x = sub_exprs_mat, rank = 10, scale = TRUE, center = TRUE,
+                                         BSPARAM = BiocSingular::ExactParam(fold = 5))
         }
     }
     rownames(result) <- rownames(sub_exprs_mat)

@@ -28,6 +28,7 @@
 #' If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a
 #' less accurate computed result but with a gain in speed.
 #' The default of 0.1 tends to achieve a balance between speed and accuracy.
+#' @importFrom DelayedArray t
 #' @return A list consists of:
 #' \itemize{
 #' \item{RUV-normalised matrices:} If k has multiple values, then the RUV-normalised matrices using

@@ -22,12 +22,12 @@ LazyData: false
 Depends: R (>= 3.6.0)
 Imports:
   BiocParallel,
+  BiocSingular,
   cluster,
   distr,
   doSNOW,
   foreach,
   igraph,
-  irlba,
   iterators,
   matrixStats,
   M3Drop (>= 1.9.4),
@@ -37,10 +37,8 @@ Imports:
   Rcpp (>= 0.12.18), 
   RcppEigen (>= 0.3.3.4.0),
   ruv,
-  rsvd,
   S4Vectors (>= 0.23.19),
   SingleCellExperiment (>= 1.7.3),
-  BiocSingular,
   SummarizedExperiment
 LinkingTo: 
   Rcpp (>= 0.12.18),
