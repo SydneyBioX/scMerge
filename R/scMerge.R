@@ -37,6 +37,8 @@
 #' @importFrom S4Vectors metadata
 #' @importFrom BiocParallel SerialParam
 #' @importFrom BiocParallel bpparam
+#' @importFrom DelayedArray rowSums
+#' @importFrom DelayedArray colSums
 #' @export
 #' @examples
 #' ## Loading example data
@@ -63,6 +65,25 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     parallel = FALSE, parallelParam = NULL, return_all_RUV = FALSE, 
     assay_name = NULL, plot_igraph = TRUE, verbose = FALSE) {
     
+    ## Checking input expression
+    if (is.null(exprs)) {
+        stop("exprs is NULL.")
+    }
+    
+    
+    ## Checking input expression assay name in SCE object
+    if (!exprs %in% SummarizedExperiment::assayNames(sce_combine)) {
+        stop(paste("No assay named", exprs))
+    }
+    
+    colsum_exprs = DelayedMatrixStats::colSums2(SummarizedExperiment::assay(sce_combine, exprs))
+    rowsum_exprs = DelayedMatrixStats::rowSums2(SummarizedExperiment::assay(sce_combine, exprs))
+    if(any(colsum_exprs == 0) | any(rowsum_exprs == 0)){
+        message("Automatically removing ", sum(colsum_exprs == 0), " cells and ",
+                sum(rowsum_exprs == 0), " genes that are all zeroes in the data")
+        sce_combine = sce_combine[rowsum_exprs != 0, colsum_exprs != 0]
+    }
+    
     ## Checking if the cell names are non-unique
     cellNames = colnames(sce_combine)
     
@@ -88,22 +109,14 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
         }
     }
     
-    ## Checking input expression
-    if (is.null(exprs)) {
-        stop("exprs is NULL.")
-    }
-    
-    
-    ## Checking input expression assay name in SCE object
-    if (!exprs %in% SummarizedExperiment::assayNames(sce_combine)) {
-        stop(paste("No assay named", exprs))
-    }
     
     ## Extracting data matrix from SCE object
     exprs_mat <- SummarizedExperiment::assay(sce_combine, exprs)
     if (!is.matrix(exprs_mat)) {
-        stop(paste0("The assay named '", exprs, "' must be of class 'matrix', please convert this."))
+        # stop(paste0("The assay named '", exprs, "' must be of class 'matrix', please convert this."))
     }
+    
+    
     sce_rownames <- rownames(sce_combine)
     
     if (is.null(colnames(exprs_mat)) | 
@@ -114,13 +127,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     
     hvg_exprs_mat <- SummarizedExperiment::assay(sce_combine, hvg_exprs)
     if (!is.matrix(hvg_exprs_mat)) {
-        stop(paste0("The assay named '", hvg_exprs, "' must be of class 'matrix', please convert this."))
-    }
-    
-    ## Checking if any rows or columns are purely zeroes
-    if (any(base::rowSums(exprs_mat) == 0) | any(base::colSums(exprs_mat) == 
-        0)) {
-        stop("There are rows or columns that are all zeros in the expression matrix. Please remove these rows/columns.")
+        # stop(paste0("The assay named '", hvg_exprs, "' must be of class 'matrix', please convert this."))
     }
     
     ## Checking negative controls input

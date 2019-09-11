@@ -28,6 +28,7 @@
 #' If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a
 #' less accurate computed result but with a gain in speed.
 #' The default of 0.1 tends to achieve a balance between speed and accuracy.
+#' @importFrom DelayedArray t
 #' @return A list consists of:
 #' \itemize{
 #' \item{RUV-normalised matrices:} If k has multiple values, then the RUV-normalised matrices using
@@ -52,8 +53,9 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     ## Standardise the data
     scale_res <- standardize2(Y, batch)
     normY <- scale_res$s.data
-    geneSdMat <- eigenMatMult(sqrt(scale_res$stand.var), 
-                              t(rep(1, ncol(Y)))) 
+    # geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
+    geneSdMat <- sqrt(scale_res$stand.var)
+                               
     # geneSdVec <- sqrt(scale_res$stand.var)
     geneMeanVec <- scale_res$stand.mean
     # geneMeanMat <- scale_res$stand.mean  %*% t(rep(1, ncol(Y)))
@@ -124,8 +126,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     
     ## Add back the mean and sd to the normalised data
     for (i in seq_len(length(ruv3res_list))) {
-        ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) *
-                                         geneSdMat + geneMeanVec))
+        ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) * geneSdMat + geneMeanVec))
     }
     ## ruv3res_list is all the normalised matrices ruv3res_optimal
     ## is the one matrix having the maximum F-score
@@ -160,6 +161,7 @@ zeroOneScale <- function(v) {
 }
 ####################################################### 
 standardize <- function(exprsMat, batch) {
+    exprsMat <- as.matrix(exprsMat)
     num_cell <- ncol(exprsMat)
     num_batch <- length(unique(batch))
     batch <- as.factor(batch)
@@ -175,21 +177,24 @@ standardize <- function(exprsMat, batch) {
                       stand.var = var.pooled))
 }
 ###############################
+solve_axb = function(a, b){
+    x = solve(t(a) %*% a) %*% t(a) %*% b
+    return(x)
+}
+###############################
 standardize2 <- function(Y, batch) {
     num_cell <- ncol(Y)
     num_batch <- length(unique(batch))
     batch <- as.factor(batch)
-    stand.mean <- base::rowMeans(Y)
+    stand.mean <- DelayedMatrixStats::rowMeans2(Y)
     design <- stats::model.matrix(~-1 + batch)
-    B.hat <- solve(eigenMatMult(t(design), design), 
-                   t(eigenMatMult(Y, design)))
-    var.pooled <- matrix(base::rowSums(
-        ((Y - eigenMatMult(t(B.hat), t(design)))^2)
-    )/(num_cell - num_batch),
-    ncol = 1)
-    s.data.dem = eigenMatMult(sqrt(var.pooled),
-                              matrix(1, nrow = 1, ncol = num_cell))
-    s.data <- (Y - stand.mean)/s.data.dem
+    B.hat = solve_axb(a = t(design) %*% design,
+                      b = t(Y %*% design))
+    
+    var.pooled <- DelayedMatrixStats::rowSums2(((Y - t(B.hat) %*% t(design))^2))/(num_cell - num_batch)
+    Y_centred = Y-stand.mean
+    # s.data <- sweep(x = Y_centred, MARGIN = 1, STATS = sqrt(var.pooled), FUN = "/")
+    s.data <- Y_centred/sqrt(var.pooled)
     return(res = list(s.data = s.data, stand.mean = stand.mean, 
                       stand.var = var.pooled))
 }
@@ -201,9 +206,13 @@ f_measure <- function(cell_type, batch) {
 ####################################################### 
 calculateSil <- function(x, fast_svd, cell_type, batch) {
     if (fast_svd & !any(dim(x$newY) < 50)) {
-        pca.data <- irlba::prcomp_irlba(x$newY, n = 10)
+        # pca.data <- irlba::prcomp_irlba(x$newY, n = 10)
+        pca.data <- BiocSingular::runPCA(x = x$newY, rank = 10, scale = TRUE, center = TRUE,
+                                         BSPARAM = BiocSingular::IrlbaParam(fold = 5))
     } else {
-        pca.data <- stats::prcomp(x$newY)
+        # pca.data <- stats::prcomp(x$newY)
+        pca.data <- BiocSingular::runPCA(x = x$newY, rank = 10, scale = TRUE, center = TRUE,
+                                         BSPARAM = BiocSingular::ExactParam(fold = 5))
     }
     
     result = c(kBET_batch_sil(pca.data, as.numeric(as.factor(cell_type)), 

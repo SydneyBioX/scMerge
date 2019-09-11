@@ -24,7 +24,8 @@
 #' @param verbose If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.
 #' @importFrom BiocParallel bplapply
 #' @importFrom proxy dist
-#' @importFrom matrixStats rowMedians
+#' @importFrom DelayedMatrixStats rowMedians
+#' @importFrom DelayedMatrixStats rowMeans2
 #' @importFrom M3Drop BrenneckeGetVariableGenes
 #'
 #' @return If \code{return_all} is \code{FALSE}, return a replicate matrix.
@@ -328,14 +329,23 @@ findHVG <- function(exprs_mat_HVG, batch, intersection = 1, fdr = 0.01,
     minBiolDisp = 0.5, parallelParam, verbose) {
     batch_list <- as.list(as.character(unique(batch)))
     
-    HVG_list <- BiocParallel::bplapply(batch_list, function(x) {
-        zeros <- base::rowMeans(exprs_mat_HVG[, batch == x] == 
-            0)
-        express_gene <- names(which(zeros <= 0.9))
-        hvgOutput = M3Drop::BrenneckeGetVariableGenes(expr_mat = exprs_mat_HVG[express_gene, 
-            batch == x], suppress.plot = TRUE, fdr = 0.01, minBiolDisp = 0.5)
-        return(rownames(hvgOutput))
-    }, BPPARAM = parallelParam)
+    # HVG_list <- BiocParallel::bplapply(batch_list, function(x) {
+    #     zeros <- DelayedMatrixStats::rowMeans2(exprs_mat_HVG[, batch == x] == 
+    #         0)
+    #     express_gene <- names(which(zeros <= 0.9))
+    #     hvgOutput = M3Drop::BrenneckeGetVariableGenes(expr_mat = exprs_mat_HVG[express_gene, 
+    #         batch == x], suppress.plot = TRUE, fdr = 0.01, minBiolDisp = 0.5)
+    #     return(rownames(hvgOutput))
+    # }, BPPARAM = parallelParam)
+    
+    HVG_list <- lapply(batch_list, function(x) {
+      zeros <- DelayedMatrixStats::rowMeans2(exprs_mat_HVG[, batch == x] == 
+                                               0)
+      express_gene <- which(zeros <= 0.9)
+      hvgOutput = M3Drop::BrenneckeGetVariableGenes(expr_mat = exprs_mat_HVG[express_gene, 
+                                                                             batch == x], suppress.plot = TRUE, fdr = 0.01, minBiolDisp = 0.5)
+      return(rownames(hvgOutput))
+    })
     
     names(HVG_list) <- batch_list
     res <- unlist(HVG_list)
@@ -361,11 +371,11 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL,
     ############################# 
     
     # if (parallel) {
-    pca <- BiocParallel::bplapply(batch_list, function(this_batch_list) {
+    pca <- lapply(batch_list, function(this_batch_list) {
         computePCA_byHVGMarker(this_batch_list = this_batch_list, 
             batch = batch, batch_oneType = batch_oneType, marker = marker, 
             exprs_mat = exprs_mat, HVG_list = HVG_list, fast_svd = fast_svd)
-    }, BPPARAM = parallelParam)
+    })
     # } else { pca <- lapply(batch_list,
     # function(this_batch_list) {
     # computePCA_byHVGMarker(this_batch_list = this_batch_list,
@@ -449,8 +459,8 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL,
 }
 ###################################################################################################### 
 centroidDist <- function(exprs_mat) {
-    centroid_batch <- matrixStats::rowMedians(exprs_mat)
-    point_dist <- base::colSums((exprs_mat - centroid_batch)^2)
+    centroid_batch <- DelayedMatrixStats::rowMedians(DelayedArray::DelayedArray(exprs_mat))  
+    point_dist <- DelayedArray::colSums((exprs_mat - centroid_batch)^2)
     point_rank <- rank(point_dist)
     point_rank <- point_rank/length(point_rank)
     return(point_rank)
@@ -470,7 +480,7 @@ compute_dist_mat_med <- function(k, exprs_mat, clustering_list,
     if (dist == "cosine") {
         dist_mat <- proxy::dist(t(mat1), t(mat2), method = "cosine")
     } else if (dist == "cor") {
-        dist_mat <- 1 - stats::cor((mat1), (mat2))
+        dist_mat <- 1 - stats::cor(as.matrix(mat1), as.matrix(mat2))
     } else {
         dist_mat <- pdist::pdist(t(mat1), t(mat2))
     }
@@ -492,7 +502,7 @@ compute_dist_res <- function(i, res1, res2, exprs_mat, dist,
         if (dist == "cosine") {
             dist_mat <- stats::dist(t(mat1), t(mat2), method = "cosine")
         } else if (dist == "cor") {
-            dist_mat <- 1 - stats::cor((mat1), (mat2))
+            dist_mat <- 1 - stats::cor(as.matrix(mat1), as.matrix(mat2))
         } else {
             dist_mat <- pdist::pdist(t(mat1), t(mat2))
         }
@@ -893,10 +903,14 @@ computePCA_byHVGMarker <- function(this_batch_list, batch, batch_oneType,
         ## If fast_svd option was enabled, then we will use irlba to
         ## speed up the calculations.
         if (fast_svd) {
-            result <- irlba::prcomp_irlba(x = sub_exprs_mat, 
-                n = 10, scale. = TRUE, maxit = 1000)$x
+            # result <- irlba::prcomp_irlba(x = sub_exprs_mat, 
+            #     n = 10, scale. = TRUE, maxit = 1000)$x
+            result <- BiocSingular::runPCA(x = sub_exprs_mat, rank = 10, scale = TRUE, center = TRUE,
+                                           BSPARAM = BiocSingular::IrlbaParam(fold = 5))$x
         } else {
-            result <- stats::prcomp(sub_exprs_mat, scale. = TRUE)$x
+            # result <- stats::prcomp(sub_exprs_mat, scale. = TRUE)$x
+          result <- BiocSingular::runPCA(x = sub_exprs_mat, rank = 10, scale = TRUE, center = TRUE,
+                                         BSPARAM = BiocSingular::ExactParam(fold = 5))$x
         }
     }
     rownames(result) <- rownames(sub_exprs_mat)

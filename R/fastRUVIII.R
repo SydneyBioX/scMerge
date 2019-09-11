@@ -22,9 +22,9 @@
 #' @param return.info Additional information relating to the computation of normalised matrix. We recommend setting this to true.
 #' @param inputcheck We recommend setting this to true.
 #' @useDynLib scMerge, .registration = TRUE
-#' @importFrom rsvd rsvd 
 #' @importFrom Rcpp sourceCpp
-#' @import RcppEigen
+#' @importFrom BiocSingular runRandomSVD
+#' @importFrom BiocSingular runExactSVD
 #' @export
 #' @return
 #' A normalised matrix of the same dimensions as the input matrix Y.
@@ -95,35 +95,28 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
                 ## matrix M to a matrix Y Y0 has the same dimensions as Y,
                 ## i.e. m rows (observations) and n columns (genes).
                 
-                Y0 <- eigenResidop(Y, M)
-                matToDecomp <- Y0
-                
-                if (nrow(matToDecomp)/ncol(matToDecomp) >= 5) {
-                  matToDecomp <- eigenMatMult(t(Y0), Y0)
+                if(class(Y) == "matrix"){
+                    Y0 <- eigenResidop(Y, M)
+                } else if (class(Y) == "dgeMatrix"){
+                    Y0 <- eigenResidop(as.matrix(Y), M)
+                } else {
+                    Y0 <- ruv::residop(Y, M)
                 }
-                
-                if (ncol(matToDecomp)/nrow(matToDecomp) >= 5) {
-                    matToDecomp <- eigenMatMult(Y0, t(Y0))
-                }
-                
                 
                 if (fast_svd) {
-                  svdObj <- rsvd::rsvd(matToDecomp, k = svd_k)
+                  svdObj <- BiocSingular::runRandomSVD(x = Y0, k = svd_k, fold = 5)
                 } else {
-                  svdObj <- base::svd(matToDecomp)
+                  svdObj <- BiocSingular::runExactSVD(x = Y0, k = svd_k, fold = 5)
                 }  ## End if(fast_svd)
                 
-                # fullalpha <- eigenMatMult(t(svdObj$u[, 1:svd_k, drop =
-                # FALSE]), Y)
-                fullalpha <- eigenMatMult(t(svdObj$u[, seq_len(svd_k), 
-                  drop = FALSE]), Y)
+                fullalpha <- t(svdObj$u[, seq_len(svd_k), drop = FALSE]) %*% Y
             }  ## End is.null(fullalpha)
         ###############
         alpha <- fullalpha[seq_len(min(k, nrow(fullalpha))), 
             , drop = FALSE]
         ac <- alpha[, ctl, drop = FALSE]
         W <- Y[, ctl] %*% t(ac) %*% solve(ac %*% t(ac))
-        newY <- Y - eigenMatMult(W, alpha)
+        newY <- Y - W %*% alpha
     }  ## End else(ncol(M) >= m | k == 0)
     
     if (average) {

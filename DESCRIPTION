@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: Merging multiple batches of scRNA-seq data
-Version: 1.1.5
+Version: 1.1.6
 Authors@R: c(
     person("Kevin", "Wang", email = "kevin.wang@sydney.edu.au", role = c("aut", "cre")
     ),
@@ -22,12 +22,14 @@ LazyData: false
 Depends: R (>= 3.6.0)
 Imports:
   BiocParallel,
+  BiocSingular,
   cluster,
+  DelayedArray,
+  DelayedMatrixStats,
   distr,
   doSNOW,
   foreach,
   igraph,
-  irlba,
   iterators,
   matrixStats,
   M3Drop (>= 1.9.4),
@@ -37,10 +39,8 @@ Imports:
   Rcpp (>= 0.12.18), 
   RcppEigen (>= 0.3.3.4.0),
   ruv,
-  rsvd,
   S4Vectors (>= 0.23.19),
   SingleCellExperiment (>= 1.7.3),
-  SingleCellExperiment,
   SummarizedExperiment
 LinkingTo: 
   Rcpp (>= 0.12.18),
@@ -50,6 +50,7 @@ RoxygenNote: 6.1.1
 Suggests: 
     BiocStyle,
     covr,
+    HDF5Array,
     knitr,
     Matrix,
     rmarkdown,
