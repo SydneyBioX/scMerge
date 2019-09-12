@@ -29,6 +29,7 @@
 #' less accurate computed result but with a gain in speed.
 #' The default of 0.1 tends to achieve a balance between speed and accuracy.
 #' @importFrom DelayedArray t
+#' @importFrom DelayedArray rowMeans
 #' @return A list consists of:
 #' \itemize{
 #' \item{RUV-normalised matrices:} If k has multiple values, then the RUV-normalised matrices using
@@ -186,14 +187,13 @@ standardize2 <- function(Y, batch) {
     num_cell <- ncol(Y)
     num_batch <- length(unique(batch))
     batch <- as.factor(batch)
-    stand.mean <- DelayedMatrixStats::rowMeans2(Y)
+    stand.mean <- DelayedArray::rowMeans(Y)
     design <- stats::model.matrix(~-1 + batch)
     B.hat = solve_axb(a = t(design) %*% design,
                       b = t(Y %*% design))
     
-    var.pooled <- DelayedMatrixStats::rowSums2(((Y - t(B.hat) %*% t(design))^2))/(num_cell - num_batch)
+    var.pooled <- DelayedArray::rowSums(((Y - t(B.hat) %*% t(design))^2))/(num_cell - num_batch)
     Y_centred = Y-stand.mean
-    # s.data <- sweep(x = Y_centred, MARGIN = 1, STATS = sqrt(var.pooled), FUN = "/")
     s.data <- Y_centred/sqrt(var.pooled)
     return(res = list(s.data = s.data, stand.mean = stand.mean, 
                       stand.var = var.pooled))
