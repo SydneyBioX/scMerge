@@ -66,7 +66,7 @@ sce_cbind <- function(sce_list, method = NULL, cut_off_batch = 0.01,
         names(assay_list) <- exprs
         colData_list <- do.call(rbind, lapply(sce_list, function(y) colData(y)[, 
             colData_names, drop = FALSE]))
-        sce_combine <- SingleCellExperiment(assay = assay_list, 
+        sce_combine <- SingleCellExperiment::SingleCellExperiment(assay = assay_list, 
             colData = colData_list)
     }
     

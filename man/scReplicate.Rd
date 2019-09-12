@@ -8,8 +8,9 @@ scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
   exprs = "logcounts", hvg_exprs = "counts", marker = NULL,
   marker_list = NULL, replicate_prop = 1, cell_type = NULL,
   cell_type_match = FALSE, cell_type_inc = NULL, dist = "cor",
-  WV = NULL, WV_marker = NULL, parallelParam = SerialParam(),
-  return_all = FALSE, fast_svd, plot_igraph = TRUE, verbose = FALSE)
+  WV = NULL, WV_marker = NULL, BPPARAM = SerialParam(),
+  return_all = FALSE, BSPARAM = ExactParam(fold = 5),
+  plot_igraph = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
@@ -26,7 +27,7 @@ scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
 
 \item{marker_list}{A list of markers for each batch, which will be used in calculation of mutual nearest cluster.}
 
-\item{replicate_prop}{A number indicates the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1}
+\item{replicate_prop}{A number indicating the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1. Default to 1.}
 
 \item{cell_type}{A vector indicates the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.}
 
@@ -40,12 +41,11 @@ scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
 
 \item{WV_marker}{A vector indicates the markers of the wanted variation.}
 
-\item{parallelParam}{The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is SerialParam().}
+\item{BPPARAM}{A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().}
 
 \item{return_all}{If \code{FALSE}, only return the replicate matrix.}
 
-\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
-We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
+\item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).}
 
 \item{plot_igraph}{If \code{TRUE}, then during the un/semi-supervised scMErge, igraph plot will be displayed}
 
@@ -74,8 +74,7 @@ data('example_sce', package = 'scMerge')
 scRep_result = scReplicate(
   sce_combine = example_sce,
   batch = example_sce$batch,
-  kmeansK = c(3,3),
-  fast_svd = FALSE)
+  kmeansK = c(3,3))
 
 }
 \author{

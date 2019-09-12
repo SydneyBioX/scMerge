@@ -328,7 +328,7 @@ head(segList$human$bulkRNAseqHK)
 
 ## Using approximated SVD
 
-Under most circumstances, `scMerge` is fast enough to be used on a personal laptop for a moderately large data. However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of `scMerge`. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up `scMerge`, we used the randomised SVD algorithm made available through the `rsvd` package. This computational method is able to speed up `scMerge` by obtain a very accurate approximation of the noise structure in the data. This option is achieved via the option `fast_svd = TRUE` and `rsvd_prop`. `rsvd_prop` is a parameter between 0 and 1, controlling the degree of approximations. 
+Under most circumstances, `scMerge` is fast enough to be used on a personal laptop for a moderately large data. However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of `scMerge`. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up `scMerge`, we used `BiocSingular` package that offers several SVD speed improvements. This computational method is able to speed up `scMerge` by obtain a very accurate approximation of the noise structure in the data. This option is achieved via the option `BSPARAM = IrlbaParam()` or `BSPARAM = RandomParam()`. Additionally, `svd_prop` is a parameter between 0 and 1, controlling the degree of approximations.
 
 
 We recommend using this option in the case where the number of cells is large in your single cell data. The speed advantage we obtain for large single cell data is much more dramatic than on a smaller dataset like the example mESC data. For example, a single run of normal `scMerge` on a human [pancreas data](https://sydneybiox.github.io/scMerge/articles/Pancreas4_Data/Pancreas4_Data.html) (23699 features and 4566 cells) takes about 10 minutes whereas the speed up version takes just under 4 minutes. 
@@ -340,13 +340,14 @@ t3 = Sys.time()
 ```
 
 ```{r computation_fast, results='hide',fig.show='hide'}
+library(BiocSingular)
 scMerge_fast <- scMerge(
   sce_combine = example_sce, 
   ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
   kmeansK = c(3, 3),
   assay_name = "scMerge_fast", 
-  fast_svd = TRUE, 
-  rsvd_prop = 0.1)
+  BSPARAM = IrlbaParam(), 
+  svd_prop = 0.1)
 ```
 
 ```{r t4, echo = FALSE}
@@ -363,45 +364,27 @@ scater::plotPCA(
   colour_by = "cellTypes", 
   shape_by = "batch",
   run_args = list(exprs_values = "scMerge_fast")) +
-  labs(title = "fast_svd yields similar results to the default version")
+  labs(title = "fast scMerge yields similar results to the default version")
 ```
 
 
 ## Parallelised computing 
 
-In the unsupervised or semi-supervised versions of `scMerge`, a replication matrix is constructed from clustering. In the case of large number of cells and batches, this computation could take a long time. By default, `scMerge` runs this computation in serial, but we have also implemented a parallelised computational option via the [BiocParallel](https://bioconductor.org/packages/release/bioc/html/BiocParallel.html) package. 
+`scMerge` is implemented with a parallelised computational option via the [BiocParallel](https://bioconductor.org/packages/release/bioc/html/BiocParallel.html) package. You can enable this option using the `BPPARAM` argument with various `BiocParallelParam` objects that is suitable for your operating system. 
 
-There are two ways you could invoke the parallel option. First, you can invoke the parallel option by setting `parallel = TRUE` and supply a `parallelParam` option. 
-
+Please note that any parallelisation would incur a small overhead. Hence we recommend you do not use parallelisation for small data.  
 
 ```{r parallel1, eval = FALSE}
+library(BiocParallel)
 scMerge_parallel1 <- scMerge(
   sce_combine = example_sce, 
   ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
   kmeansK = c(3, 3),
   assay_name = "scMerge_parallel1",
-  parallel = TRUE,
-  parallelParam = MulticoreParam(workers = 2)
+  BPPARAM = MulticoreParam(workers = 2)
 )
 ```
 
-
-Alternatively, you can use `BiocParallel::register` to set your parallel parameters. In this case, `scMerge` will check the default `BiocParallelParam` instance from the registry using the `BiocParallel::bpparam()` function.  
-
-```{r parallel2, eval = FALSE}
-BiocParallel::register(MulticoreParam(workers = 2))
-
-scMerge_parallel2 <- scMerge(
-  sce_combine = example_sce, 
-  ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
-  kmeansK = c(3, 3),
-  assay_name = "scMerge_parallel2",
-  parallel = TRUE
-)
-```
-
-
-It should be noted that you may not see the computational advantages of parallel computing if your data is not large enough. This is due to the overhead cost in parallel computing. 
 
 
 # Reference

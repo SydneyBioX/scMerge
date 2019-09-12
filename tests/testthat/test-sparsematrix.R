@@ -16,13 +16,13 @@ sce_matrix <- scMerge(
   replicate_prop = 1,
   assay_name = 'matrix_output')
 # )
-counts = assay(sce_matrix, "counts")
-logcounts = assay(sce_matrix, "logcounts")
+counts = assay(L, "counts")
+logcounts = assay(L, "logcounts")
 ################################################
 
 sce_sp = L
-assay(L, "counts") = as(counts, "dgCMatrix")
-assay(L, "logcounts") = as(logcounts, "dgCMatrix")
+assay(sce_sp, "counts") = as(counts, "dgCMatrix")
+assay(sce_sp, "logcounts") = as(logcounts, "dgCMatrix")
 
 # profvis::profvis(
 sce_sp <- scMerge(

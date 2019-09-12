@@ -4,9 +4,10 @@
 \alias{fastRUVIII}
 \title{A fast version of the ruv::RUVIII algorithm}
 \usage{
-fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
-  rsvd_prop = 0.1, include.intercept = TRUE, average = FALSE,
-  fullalpha = NULL, return.info = FALSE, inputcheck = TRUE)
+fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, svd_prop = 0.1,
+  include.intercept = TRUE, average = FALSE, BPPARAM = SerialParam(),
+  BSPARAM = ExactParam(fold = 5), fullalpha = NULL,
+  return.info = FALSE, inputcheck = TRUE)
 }
 \arguments{
 \item{Y}{The unnormalised scRNA-Seq data matrix. 
@@ -23,16 +24,17 @@ See ruv::RUVIII for more details.}
 
 \item{eta}{Gene-wise (as opposed to sample-wise) covariates. See ruv::RUVIII for details.}
 
-\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages. 
-We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
-
-\item{rsvd_prop}{If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
+\item{svd_prop}{If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
 We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
 
 \item{include.intercept}{When eta is specified (not NULL) but does not already include an intercept term, this will automatically include one.
 See ruv::RUVIII for details.}
 
 \item{average}{Average replicates after adjustment. See ruv::RUVIII for details.}
+
+\item{BPPARAM}{A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().}
+
+\item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).}
 
 \item{fullalpha}{Not used. Please ignore. See ruv::RUVIII for details.}
 
@@ -49,8 +51,10 @@ Perform a fast version of the ruv::RUVIII algorithm for scRNA-Seq data noise est
 \examples{
 L = ruvSimulate(m = 200, n = 500, nc = 400, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE)
 Y = L$Y; M = L$M; ctl = L$ctl
-improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
-improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1)
+improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, 
+k = 20, BSPARAM = BiocSingular::ExactParam())
+improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, 
+k = 20, BSPARAM = BiocSingular::RandomParam(), svd_prop = 0.1)
 old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
 all.equal(improved1, old)
 all.equal(improved2, old)

@@ -21,7 +21,6 @@ L_result1 <- scMerge(
   ctl = paste0("gene",1:100),
   kmeansK = c(3, 3),
   cell_type = L$cellTypes,
-  replicate_prop = 1,
   assay_name = 'scMerge')
 
 
@@ -31,8 +30,6 @@ L_result2 <- scMerge(
   ctl = paste0("gene",1:100),
   kmeansK = c(3, 3),
   cell_type = L$cellTypes,
-  replicate_prop = 1,
-  # return_all_RUV = TRUE, 
   ruvK = ruvK,
   assay_name = paste0("ruv", ruvK))
 
@@ -108,7 +105,7 @@ scMerge(
   sce_combine = example_sce2,
   ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
   kmeansK = c(3, 3),
-  assay_name = 'scMerge')
+  assay_name = 'scMerge', verbose = TRUE)
 
 ## Inputting NULL batch
 example_sce2$batch = NULL
@@ -120,3 +117,4 @@ expect_error(
     kmeansK = c(3, 3),
     assay_name = 'scMerge')
 )
+

@@ -11,9 +11,9 @@
 #' @param ctl An index vector to specify the negative controls. Either a logical vector of length n or a vector of integers.
 #' @param k The number of unwanted factors to remove. This is inherited from the ruvK argument from the scMerge::scMerge function.
 #' @param eta Gene-wise (as opposed to sample-wise) covariates. See ruv::RUVIII for details.
-#' @param fast_svd If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages. 
-#' We recommend using this option when the number of cells is large (e.g. more than 1000 cells).
-#' @param rsvd_prop If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
+#' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
+#' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).
+#' @param svd_prop If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
 #' We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 #' @param include.intercept When eta is specified (not NULL) but does not already include an intercept term, this will automatically include one.
 #' See ruv::RUVIII for details.
@@ -31,15 +31,18 @@
 #' @examples
 #' L = ruvSimulate(m = 200, n = 500, nc = 400, nCelltypes = 3, nBatch = 2, lambda = 0.1, sce = FALSE)
 #' Y = L$Y; M = L$M; ctl = L$ctl
-#' improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = FALSE)
-#' improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, fast_svd = TRUE, rsvd_prop = 0.1)
+#' improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, 
+#' k = 20, BSPARAM = BiocSingular::ExactParam())
+#' improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, 
+#' k = 20, BSPARAM = BiocSingular::RandomParam(), svd_prop = 0.1)
 #' old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
 #' all.equal(improved1, old)
 #' all.equal(improved2, old)
 
 
-fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE, 
-    rsvd_prop = 0.1, include.intercept = TRUE, average = FALSE, 
+fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
+    svd_prop = 0.1, include.intercept = TRUE, average = FALSE, 
+    BPPARAM = SerialParam(), BSPARAM = ExactParam(fold = 5),
     fullalpha = NULL, return.info = FALSE, inputcheck = TRUE) {
     
     if (is.data.frame(Y)) {
@@ -71,9 +74,8 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
     ## RUV1 is a reprocessing step for RUVIII
     Y <- ruv::RUV1(Y, eta, ctl, include.intercept = include.intercept)
     
-    if (fast_svd) {
-        svd_k <- min(m - ncol(M), sum(ctl), ceiling(rsvd_prop * 
-            m), na.rm = TRUE)
+    if (class(BSPARAM) != "ExactParam") {
+        svd_k <- min(m - ncol(M), sum(ctl), ceiling(svd_prop * m), na.rm = TRUE)
     } else {
         svd_k <- min(m - ncol(M), sum(ctl), na.rm = TRUE)
     }
@@ -102,12 +104,8 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL, fast_svd = FALSE,
                 } else {
                     Y0 <- ruv::residop(Y, M)
                 }
-                
-                if (fast_svd) {
-                  svdObj <- BiocSingular::runRandomSVD(x = Y0, k = svd_k, fold = 5)
-                } else {
-                  svdObj <- BiocSingular::runExactSVD(x = Y0, k = svd_k, fold = 5)
-                }  ## End if(fast_svd)
+            
+                svdObj <- BiocSingular::runSVD(x = Y0, k = svd_k, BPPARAM = BPPARAM, BSPARAM = BSPARAM)
                 
                 fullalpha <- t(svdObj$u[, seq_len(svd_k), drop = FALSE]) %*% Y
             }  ## End is.null(fullalpha)

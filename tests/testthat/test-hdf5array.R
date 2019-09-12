@@ -12,7 +12,6 @@ sce_matrix <- scMerge(
   ctl = paste0("gene",1:100),
   kmeansK = c(3, 3),
   cell_type = L$cellTypes,
-  replicate_prop = 1,
   assay_name = 'matrix_output')
 
 counts = assay(sce_matrix, "counts")
@@ -28,8 +27,7 @@ sce_hdf <- scMerge(
   ctl = paste0("gene",1:100),
   kmeansK = c(3, 3),
   cell_type = sce_hdf$cellTypes,
-  replicate_prop = 1,
   assay_name = 'hdf_output')
 
-expect_identical(as.matrix(assay(sce_hdf, "hdf_output")), 
+expect_equal(as.matrix(assay(sce_hdf, "hdf_output")), 
                  assay(sce_matrix, "matrix_output"))

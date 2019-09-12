@@ -18,18 +18,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// eigenSpMatMult
-SEXP eigenSpMatMult(const Eigen::MappedSparseMatrix<double>& A, Eigen::MappedSparseMatrix<double>& B);
-RcppExport SEXP _scMerge_eigenSpMatMult(SEXP ASEXP, SEXP BSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Eigen::MappedSparseMatrix<double>& >::type A(ASEXP);
-    Rcpp::traits::input_parameter< Eigen::MappedSparseMatrix<double>& >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(eigenSpMatMult(A, B));
-    return rcpp_result_gen;
-END_RCPP
-}
 // eigenResidop
 SEXP eigenResidop(const Eigen::Map<Eigen::MatrixXd> A, Eigen::Map<Eigen::MatrixXd> B);
 RcppExport SEXP _scMerge_eigenResidop(SEXP ASEXP, SEXP BSEXP) {
@@ -42,26 +30,12 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// eigenSpResidop
-SEXP eigenSpResidop(const Eigen::MappedSparseMatrix<double>& A, Eigen::MappedSparseMatrix<double>& B);
-RcppExport SEXP _scMerge_eigenSpResidop(SEXP ASEXP, SEXP BSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Eigen::MappedSparseMatrix<double>& >::type A(ASEXP);
-    Rcpp::traits::input_parameter< Eigen::MappedSparseMatrix<double>& >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(eigenSpResidop(A, B));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 RcppExport SEXP run_testthat_tests();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_scMerge_eigenMatMult", (DL_FUNC) &_scMerge_eigenMatMult, 2},
-    {"_scMerge_eigenSpMatMult", (DL_FUNC) &_scMerge_eigenSpMatMult, 2},
     {"_scMerge_eigenResidop", (DL_FUNC) &_scMerge_eigenResidop, 2},
-    {"_scMerge_eigenSpResidop", (DL_FUNC) &_scMerge_eigenSpResidop, 2},
     {"run_testthat_tests", (DL_FUNC) &run_testthat_tests, 0},
     {NULL, NULL, 0}
 };

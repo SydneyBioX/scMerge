@@ -14,22 +14,6 @@ eigenMatMult <- function(A, B) {
     .Call(`_scMerge_eigenMatMult`, A, B)
 }
 
-#' @title Fast sparse matrix multiplication using RcppEigen
-#' @param A a dgCMatrix
-#' @param B a dgCMatrix
-#' @export
-#' @return The matrix product of A times B
-#' @examples
-#' library(Matrix)
-#' n = 1000
-#' A = matrix(rpois(n*n, 1), nrow = n)
-#' system.time(A %*% A)
-#' A = as(A, "dgCMatrix")
-#' system.time(eigenSpMatMult(A, A))
-eigenSpMatMult <- function(A, B) {
-    .Call(`_scMerge_eigenSpMatMult`, A, B)
-}
-
 #' @title fast matrix residual operator using RcppEigen
 #' @param A a matrix
 #' @param B a matrix
@@ -42,21 +26,5 @@ eigenSpMatMult <- function(A, B) {
 #' system.time(ruv::residop(Y, M))
 eigenResidop <- function(A, B) {
     .Call(`_scMerge_eigenResidop`, A, B)
-}
-
-#' @title fast sparse matrix residual operator using RcppEigen
-#' @param A a matrix
-#' @param B a matrix
-#' @export
-#' @return The matrix product of
-#' \deqn{A - B(B^t B)^{-1} B^t A}
-#' @examples
-#' Y = M = diag(1, 500)
-#' system.time(ruv::residop(Y, M))
-#' Y = as(Y, "dgCMatrix")
-#' M = as(M, "dgCMatrix")
-#' system.time(scMerge::eigenSpResidop(Y, M))
-eigenSpResidop <- function(A, B) {
-    .Call(`_scMerge_eigenSpResidop`, A, B)
 }
 
