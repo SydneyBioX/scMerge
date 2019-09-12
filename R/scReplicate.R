@@ -9,16 +9,15 @@
 #' @param hvg_exprs A string indicates the assay that are used for highly variable genes identification, default is counts
 #' @param marker A vector of markers, which will be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead
 #' @param marker_list A list of markers for each batch, which will be used in calculation of mutual nearest cluster.
-#' @param replicate_prop A number indicates the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1
+#' @param replicate_prop A number indicating the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1. Default to 1.
 #' @param cell_type A vector indicates the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.
 #' @param cell_type_match Whether find mutual nearest cluster using cell type information
 #' @param cell_type_inc A vector indicates the indices of the cells that will be used to supervise the pseudo-replicate procedure
 #' @param dist The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.
-#' @param fast_svd If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
-#' We recommend using this option when the number of cells is large (e.g. more than 1000 cells).
+#' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).
 #' @param WV A vector indicates the wanted variation factor other than cell type info, such as cell stages.
 #' @param WV_marker A vector indicates the markers of the wanted variation.
-#' @param parallelParam The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is SerialParam().
+#' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
 #' @param return_all If \code{FALSE}, only return the replicate matrix.
 #' @param plot_igraph If \code{TRUE}, then during the un/semi-supervised scMErge, igraph plot will be displayed
 #' @param verbose If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.
@@ -47,16 +46,15 @@
 #' scRep_result = scReplicate(
 #'   sce_combine = example_sce,
 #'   batch = example_sce$batch,
-#'   kmeansK = c(3,3),
-#'   fast_svd = FALSE)
+#'   kmeansK = c(3,3))
 #'
 
 scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL, 
     exprs = "logcounts", hvg_exprs = "counts", marker = NULL, 
     marker_list = NULL, replicate_prop = 1, cell_type = NULL, 
     cell_type_match = FALSE, cell_type_inc = NULL, dist = "cor", 
-    WV = NULL, WV_marker = NULL, parallelParam = SerialParam(), 
-    return_all = FALSE, fast_svd, plot_igraph = TRUE, verbose = FALSE) {
+    WV = NULL, WV_marker = NULL, BPPARAM = SerialParam(), 
+    return_all = FALSE, BSPARAM = ExactParam(fold = 5), plot_igraph = TRUE, verbose = FALSE) {
     
     exprs_mat <- SummarizedExperiment::assay(sce_combine, exprs)
     originalCellNames <- colnames(exprs_mat)
@@ -99,7 +97,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
         
         hvg_cases_output <- hvg_cases(sce_combine = sce_combine, 
             hvg_exprs = hvg_exprs, batch = batch, batch_list = batch_list, 
-            marker = marker, marker_list = marker_list, parallelParam = parallelParam, 
+            marker = marker, marker_list = marker_list, BPPARAM = BPPARAM, 
             verbose = verbose)
         
         HVG <- hvg_cases_output$HVG
@@ -107,8 +105,8 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
         
         cluster_res <- compute_cluster_res(exprs_mat = exprs_mat, 
             batch = batch, marker = marker, HVG_list = HVG_list, 
-            kmeansK = kmeansK, parallelParam = parallelParam, 
-            fast_svd = fast_svd, cell_type = cell_type, batch_list = batch_list, 
+            kmeansK = kmeansK, BPPARAM = BPPARAM, 
+            BSPARAM = BSPARAM, cell_type = cell_type, batch_list = batch_list, 
             case = "case2", verbose = verbose)
         
         ## Here, using the cell type information, we go ahead and find
@@ -117,7 +115,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
             cat(" 6. Create Mutual Nearest Clusters. Preview cells-to-cell_type matching graph and matrix:\n")
         }
         mnc_res <- findMNC(exprs_mat = exprs_mat[HVG, ], clustering_list = cluster_res$clustering_list, 
-            dist = dist, parallelParam = parallelParam, plot_igraph = plot_igraph)
+            dist = dist, BPPARAM = BPPARAM, plot_igraph = plot_igraph)
         
         #### 20190606 YL: print all mnc_res 
         if (verbose) {
@@ -146,7 +144,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
             if (verbose) {
                 cat("Performing unsupervised scMerge with: \n")
                 cat(" 1. No cell type information \n")
-                cat(" 2. Cell type indices not revelant here \n")
+                cat(" 2. Cell type indices not relevant here \n")
                 cat(" 3. Mutual nearest neighbour matching \n")
             }
         }
@@ -172,7 +170,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
         
         hvg_cases_output <- hvg_cases(sce_combine = sce_combine, 
             hvg_exprs = hvg_exprs, batch = batch, batch_list = batch_list, 
-            marker = marker, marker_list = marker_list, parallelParam = parallelParam, 
+            marker = marker, marker_list = marker_list, BPPARAM = BPPARAM, 
             verbose = verbose)
         
         HVG <- hvg_cases_output$HVG
@@ -180,15 +178,15 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
         
         cluster_res <- compute_cluster_res(exprs_mat = exprs_mat, 
             batch = batch, marker = marker, HVG_list = HVG_list, 
-            kmeansK = kmeansK, parallelParam = parallelParam, 
-            fast_svd = fast_svd, verbose = verbose, case = "case3")
+            kmeansK = kmeansK, BPPARAM = BPPARAM, 
+            BSPARAM = BSPARAM, verbose = verbose, case = "case3")
         
         ## Find Mutual Nearest Cluster
         if (verbose) {
             cat(" 6. Create Mutual Nearest Clusters. Preview cells-cell_type matching output matrix: \n")
         }
         mnc_res <- findMNC(exprs_mat = exprs_mat[HVG, ], clustering_list = cluster_res$clustering_list, 
-            dist = dist, parallelParam = parallelParam, plot_igraph = plot_igraph)
+            dist = dist, BPPARAM = BPPARAM, plot_igraph = plot_igraph)
         
         #### 20190606 YL: print all mnc_res 
         if (verbose) {
@@ -235,7 +233,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
 }
 ############################
 compute_cluster_res <- function(exprs_mat, batch, marker, HVG_list, 
-    kmeansK, parallelParam, fast_svd, cell_type = NULL, batch_list = NULL, 
+    kmeansK, BPPARAM, BSPARAM, cell_type = NULL, batch_list = NULL, 
     case, verbose) {
     
     if (case == "case3") {
@@ -245,8 +243,8 @@ compute_cluster_res <- function(exprs_mat, batch, marker, HVG_list,
         }
         cluster_res <- identifyCluster(exprs_mat = exprs_mat, 
             batch = batch, marker = marker, HVG_list = HVG_list, 
-            kmeansK = kmeansK, parallelParam = parallelParam, 
-            fast_svd = fast_svd)
+            kmeansK = kmeansK, BPPARAM = BPPARAM, 
+            BSPARAM = BSPARAM)
     }
     ##############################
     if (case == "case2") {
@@ -287,7 +285,7 @@ compute_cluster_res <- function(exprs_mat, batch, marker, HVG_list,
 
 ######### Function to find HVG ##########
 hvg_cases <- function(sce_combine, hvg_exprs, batch, batch_list, 
-    marker, marker_list, parallelParam = parallelParam, verbose) {
+    marker, marker_list, BPPARAM = BPPARAM, verbose) {
     ## Initialise the outputs
     HVG = NULL
     HVG_list = NULL
@@ -300,7 +298,7 @@ hvg_cases <- function(sce_combine, hvg_exprs, batch, batch_list,
         }
         exprs_mat_HVG <- SummarizedExperiment::assay(sce_combine, 
             hvg_exprs)
-        HVG_res <- findHVG(exprs_mat_HVG, batch, parallelParam = parallelParam, 
+        HVG_res <- findHVG(exprs_mat_HVG, batch, BPPARAM = BPPARAM, 
             verbose = verbose)
         HVG <- HVG_res$HVG
         HVG_list <- HVG_res$HVG_list
@@ -326,7 +324,7 @@ hvg_cases <- function(sce_combine, hvg_exprs, batch, batch_list,
 
 
 findHVG <- function(exprs_mat_HVG, batch, intersection = 1, fdr = 0.01, 
-    minBiolDisp = 0.5, parallelParam, verbose) {
+    minBiolDisp = 0.5, BPPARAM, verbose) {
     batch_list <- as.list(as.character(unique(batch)))
     
     # HVG_list <- BiocParallel::bplapply(batch_list, function(x) {
@@ -336,7 +334,7 @@ findHVG <- function(exprs_mat_HVG, batch, intersection = 1, fdr = 0.01,
     #     hvgOutput = M3Drop::BrenneckeGetVariableGenes(expr_mat = exprs_mat_HVG[express_gene, 
     #         batch == x], suppress.plot = TRUE, fdr = 0.01, minBiolDisp = 0.5)
     #     return(rownames(hvgOutput))
-    # }, BPPARAM = parallelParam)
+    # }, BPPARAM = BPPARAM)
     
     HVG_list <- lapply(batch_list, function(x) {
       zeros <- DelayedMatrixStats::rowMeans2(exprs_mat_HVG[, batch == x] == 
@@ -359,7 +357,7 @@ findHVG <- function(exprs_mat_HVG, batch, intersection = 1, fdr = 0.01,
 
 ###################################################################################################### Function to identify clusters from each batch
 identifyCluster <- function(exprs_mat, batch, marker = NULL, 
-    HVG_list, kmeansK, parallelParam, fast_svd) {
+    HVG_list, kmeansK, BPPARAM, BSPARAM) {
     
     batch_list <- as.list(as.character(unique(batch)))
     batch_oneType <- unlist(batch_list)[which(kmeansK == 1)]
@@ -374,14 +372,14 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL,
     pca <- lapply(batch_list, function(this_batch_list) {
         computePCA_byHVGMarker(this_batch_list = this_batch_list, 
             batch = batch, batch_oneType = batch_oneType, marker = marker, 
-            exprs_mat = exprs_mat, HVG_list = HVG_list, fast_svd = fast_svd)
+            exprs_mat = exprs_mat, HVG_list = HVG_list, BSPARAM = BSPARAM)
     })
     # } else { pca <- lapply(batch_list,
     # function(this_batch_list) {
     # computePCA_byHVGMarker(this_batch_list = this_batch_list,
     # batch = batch, batch_oneType = batch_oneType, marker =
     # marker, exprs_mat = exprs_mat, HVG_list = HVG_list,
-    # fast_svd = fast_svd) }) }
+    # BSPARAM = BSPARAM) }) }
     
     ############################# 
     
@@ -426,7 +424,7 @@ identifyCluster <- function(exprs_mat, batch, marker = NULL,
             }
         }
         list(clustering_res_tmp, clustering_res_pt_dist_tmp)
-    }, BPPARAM = parallelParam)
+    }, BPPARAM = BPPARAM)
     
     clustering_res <- lapply(res, function(x) x[[1]])
     clustering_res_pt_dist <- lapply(res, function(x) x[[2]])
@@ -515,7 +513,7 @@ compute_dist_res <- function(i, res1, res2, exprs_mat, dist,
 }
 
 findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", 
-    parallelParam, plot_igraph = TRUE) {
+    BPPARAM, plot_igraph = TRUE) {
     
     batch_num <- length(clustering_list)
     names(clustering_list) <- paste("Batch", seq_len(batch_num), 
@@ -583,7 +581,7 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean",
                 compute_dist_mat_med(k = k, exprs_mat = exprs_mat, 
                   clustering_list = clustering_list, combine_pair = combine_pair, 
                   dist = dist)
-            }, BPPARAM = parallelParam)
+            }, BPPARAM = BPPARAM)
         # } else { dist_mat_med <-
         # lapply(seq_len(ncol(combine_pair)), function(k) {
         # compute_dist_mat_med(k = k, exprs_mat = exprs_mat,
@@ -627,7 +625,7 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean",
                 function(i) {
                   compute_dist_res(i = i, res1 = res1, res2 = res2, 
                     exprs_mat = exprs_mat, dist = dist, dist_res)
-                }, BPPARAM = parallelParam)
+                }, BPPARAM = BPPARAM)
             # } else { dist_res <- lapply(seq_len(max(res1)), function(i)
             # { compute_dist_res(i = i, res1 = res1, res2 = res2,
             # exprs_mat = exprs_mat, dist = dist, dist_res) }) }
@@ -881,7 +879,7 @@ supervisedReplicate <- function(exprs_mat, cell_type, replicate_prop) {
 
 ###################################################################################################### Function to create replicates based on known cell types
 computePCA_byHVGMarker <- function(this_batch_list, batch, batch_oneType, 
-    marker, exprs_mat, HVG_list, fast_svd) {
+    marker, exprs_mat, HVG_list, BSPARAM) {
     ## If there is kmeansK == 1 in a batch, then we will return
     ## NULL
     if (this_batch_list %in% batch_oneType) {
@@ -900,18 +898,9 @@ computePCA_byHVGMarker <- function(this_batch_list, batch, batch_oneType,
                 batch == this_batch_list])
         }
         
-        ## If fast_svd option was enabled, then we will use irlba to
-        ## speed up the calculations.
-        if (fast_svd) {
-            # result <- irlba::prcomp_irlba(x = sub_exprs_mat, 
-            #     n = 10, scale. = TRUE, maxit = 1000)$x
-            result <- BiocSingular::runPCA(x = sub_exprs_mat, rank = 10, scale = TRUE, center = TRUE,
-                                           BSPARAM = BiocSingular::IrlbaParam(fold = 5))$x
-        } else {
-            # result <- stats::prcomp(sub_exprs_mat, scale. = TRUE)$x
-          result <- BiocSingular::runPCA(x = sub_exprs_mat, rank = 10, scale = TRUE, center = TRUE,
-                                         BSPARAM = BiocSingular::ExactParam(fold = 5))$x
-        }
+      result <- BiocSingular::runPCA(x = sub_exprs_mat, 
+                                     rank = 10, scale = TRUE, center = TRUE,
+                                     BSPARAM = BiocSingular::ExactParam(fold = 5))$x
     }
     rownames(result) <- rownames(sub_exprs_mat)
     return(result)

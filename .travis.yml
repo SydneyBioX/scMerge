@@ -11,6 +11,9 @@ os:
 env:
   - R_BIOC_VERSION: "3.10"
 
+r_github_packages:
+  - r-lib/covr
+
 script:
   - Rscript -e 'BiocManager::version()'
   - Rscript -e 'BiocManager::install(version = "3.10", ask = FALSE)'
@@ -21,3 +24,6 @@ deploy:
   provider: script
   script: Rscript -e 'pkgdown::deploy_site_github(tarball = ".")'
   skip_cleanup: true
+
+after_success:
+  - Rscript -e 'covr::codecov()'

@@ -10,22 +10,21 @@
 #' @param marker An optional vector of markers, to be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead.
 #' @param marker_list An optional list of markers for each batch, which will be used in calculation of mutual nearest cluster.
 #' @param ruvK An optional integer/vector indicating the number of unwanted variation factors that are removed, default is 20.
-#' @param replicate_prop A number indicating the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1.
+#' @param replicate_prop A number indicating the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1. Default to 1.
 #' @param cell_type An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.
 #' @param cell_type_match An optional logical input for whether to find mutual nearest cluster using cell type information.
 #' @param cell_type_inc An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.
-#' @param fast_svd If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
-#' We recommend using this option when the number of cells is large (e.g. more than 1000 cells).
-#' @param rsvd_prop If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
+#' @param svd_prop If BSPARAM is set to \code{RandomParam} class from \code{BiocSingular} package, then \code{svd_prop} will be used to used to 
+#' reduce the computational cost of randomised singular value decomposition. Default to 0.1.
+#' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).
 #' @param dist The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.
 #' @param WV A optional vector indicating the wanted variation factor other than cell type info, such as cell stages.
 #' @param WV_marker An optional vector indicating the markers of the wanted variation.
-#' @param parallel If \code{TRUE}, then \code{BiocParallel} package will be used to perform parallelised computations.
-#' @param parallelParam The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is bpparam().
+#' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
 #' @param return_all_RUV If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 #' Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.
 #' @param assay_name The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.
-#' @param plot_igraph If \code{TRUE}, then during the un/semi-supervised scMErge, igraph plot will be displayed
+#' @param plot_igraph If \code{TRUE}, then during the un/semi-supervised scMerge, igraph plot will be displayed
 #' @param verbose If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.
 #' @return Returns a \code{SingleCellExperiment} object with following components:
 #' \itemize{
@@ -39,6 +38,7 @@
 #' @importFrom BiocParallel bpparam
 #' @importFrom DelayedArray rowSums
 #' @importFrom DelayedArray colSums
+#' @importFrom BiocSingular ExactParam
 #' @export
 #' @examples
 #' ## Loading example data
@@ -46,11 +46,10 @@
 #' ## Previously computed stably expressed genes
 #' data('segList_ensemblGeneID', package = 'scMerge')
 #' ## Running an example data with minimal inputs
-#' sce_mESC <- scMerge(
-#'                       sce_combine = example_sce,
-#'                       ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
-#'                       kmeansK = c(3, 3),
-#'                       assay_name = 'scMerge')
+#' sce_mESC <- scMerge(sce_combine = example_sce,
+#' ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+#' kmeansK = c(3, 3),
+#' assay_name = 'scMerge')
 #' scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
 #'                  run_args = list(exprs_values = 'logcounts'))
 #' scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
@@ -59,10 +58,10 @@
 
 scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, 
     exprs = "logcounts", hvg_exprs = "counts", marker = NULL, 
-    marker_list = NULL, ruvK = 20, replicate_prop = 0.5, cell_type = NULL, 
-    cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE, 
-    rsvd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL, 
-    parallel = FALSE, parallelParam = NULL, return_all_RUV = FALSE, 
+    marker_list = NULL, ruvK = 20, replicate_prop = 1, cell_type = NULL, 
+    cell_type_match = FALSE, cell_type_inc = NULL, BSPARAM = ExactParam(fold = 5), 
+    svd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL, 
+    BPPARAM = SerialParam(), return_all_RUV = FALSE, 
     assay_name = NULL, plot_igraph = TRUE, verbose = FALSE) {
     
     ## Checking input expression
@@ -157,26 +156,26 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     
     
     
-    ## If the user supplied a parallelParam class, then regardless
-    ## of parallel = TRUE or FALSE, we will use that class Hence
-    ## no if statement for this case.
-    if (!is.null(parallelParam)) {
-        message("Step 1: Computation will run in parallel using supplied parameters")
-    }
-    
-    ## If parallel is TRUE, but user did not supplied a
-    ## parallelParam class, then we set it to bpparam()
-    if (parallel & is.null(parallelParam)) {
-        message("Step 1: Computation will run in parallel using BiocParallel::bpparam()")
-        parallelParam = BiocParallel::bpparam()
-    }
-    
-    ## If parallel is FALSE, or the user did not supplied a
-    ## parallelParam class, we will use SerialParam()
-    if (!parallel | is.null(parallelParam)) {
-        message("Step 1: Computation will run in serial")
-        parallelParam = BiocParallel::SerialParam()
-    }
+    # ## If the user supplied a parallelParam class, then regardless
+    # ## of parallel = TRUE or FALSE, we will use that class Hence
+    # ## no if statement for this case.
+    # if (!is.null(parallelParam)) {
+    #     message("Step 1: Computation will run in parallel using supplied parameters")
+    # }
+    # 
+    # ## If parallel is TRUE, but user did not supplied a
+    # ## parallelParam class, then we set it to bpparam()
+    # if (parallel & is.null(parallelParam)) {
+    #     message("Step 1: Computation will run in parallel using BiocParallel::bpparam()")
+    #     parallelParam = BiocParallel::bpparam()
+    # }
+    # 
+    # ## If parallel is FALSE, or the user did not supplied a
+    # ## parallelParam class, we will use SerialParam()
+    # if (!parallel | is.null(parallelParam)) {
+    #     message("Step 1: Computation will run in serial")
+    #     parallelParam = BiocParallel::SerialParam()
+    # }
     
     
     ## Finding pseudo-replicates
@@ -186,8 +185,8 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
         marker = marker, marker_list = marker_list, replicate_prop = replicate_prop, 
         cell_type = cell_type, cell_type_match = cell_type_match, 
         cell_type_inc = cell_type_inc, dist = dist, WV = WV, 
-        WV_marker = WV_marker, parallelParam = parallelParam, 
-        fast_svd = fast_svd, plot_igraph = plot_igraph, verbose = verbose)
+        WV_marker = WV_marker, BPPARAM = BPPARAM, 
+        BSPARAM = BSPARAM, plot_igraph = plot_igraph, verbose = verbose)
     t2 <- Sys.time()
     
     timeReplicates <- t2 - t1
@@ -201,8 +200,8 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     
     ruv3res <- scRUVIII(Y = exprs_mat, M = repMat, ctl = ctl, 
         k = ruvK, batch = batch, fullalpha = NULL, cell_type = cell_type, 
-        return_all_RUV = return_all_RUV, fast_svd = fast_svd, 
-        rsvd_prop = rsvd_prop)
+        return_all_RUV = return_all_RUV, BSPARAM = BSPARAM, BPPARAM = BPPARAM,
+        svd_prop = svd_prop)
     t3 <- Sys.time()
     
     timeRuv <- t3 - t2

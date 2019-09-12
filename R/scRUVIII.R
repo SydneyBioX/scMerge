@@ -20,15 +20,15 @@
 #' pseudo-replicate procedure will be run to identify cell type.
 #' @param batch Batch information inherited from the scMerge::scMerge function.
 #' @param return_all_RUV Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function
-#' @param fast_svd If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
-#' We recommend using this option when the number of cells is large (e.g. more than 1000 cells).
-#' @param rsvd_prop If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to
-#' reduce the computational cost of randomised singular value decomposition.
+#' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
+#' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).
+#' @param svd_prop If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
 #' We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 #' If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a
 #' less accurate computed result but with a gain in speed.
 #' The default of 0.1 tends to achieve a balance between speed and accuracy.
 #' @importFrom DelayedArray t
+#' @importFrom DelayedArray rowMeans
 #' @return A list consists of:
 #' \itemize{
 #' \item{RUV-normalised matrices:} If k has multiple values, then the RUV-normalised matrices using
@@ -43,7 +43,8 @@
 
 scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL, 
                      k = k, cell_type = NULL, batch = NULL, return_all_RUV = TRUE, 
-                     fast_svd = FALSE, rsvd_prop = 0.1) {
+                     BPPARAM = SerialParam(), BSPARAM = ExactParam(fold = 5), 
+                     svd_prop = 0.1) {
     
     if (is.null(batch)) {
         warning("No batch info!")
@@ -59,12 +60,11 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     # geneSdVec <- sqrt(scale_res$stand.var)
     geneMeanVec <- scale_res$stand.mean
     # geneMeanMat <- scale_res$stand.mean  %*% t(rep(1, ncol(Y)))
-    ## We will always run an initial RUV, based on whether
-    ## fast_svd is TRUE or not.
     
     ruv3_initial <- fastRUVIII(Y = t(normY), ctl = ctl, k = k[1], 
-                               M = M, fullalpha = fullalpha, return.info = TRUE, fast_svd = fast_svd, 
-                               rsvd_prop = rsvd_prop)
+                               M = M, fullalpha = fullalpha, return.info = TRUE, 
+                               BPPARAM = BPPARAM, BSPARAM = BSPARAM, 
+                               svd_prop = svd_prop)
     
     ruv3_initial$k <- k
     ## The computed result is ruv3res_list.  If we have only one
@@ -77,12 +77,12 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
         
     } else {
         ## If we have more than one ruvK value then we feed the result
-        ## to the ruv::RUVIII function (there is no need for fast_svd,
+        ## to the ruv::RUVIII function (there is no need for BSPARAM,
         ## since we already have the fullalpha)
         for (i in 2:length(k)) {
             ruv3res_list[[i]] = fastRUVIII(Y = t(normY), ctl = ctl, 
-                                           k = k[i], M = M, fullalpha = ruv3_initial$fullalpha, 
-                                           return.info = TRUE, fast_svd = FALSE)
+                                           k = k[i], M = M, fullalpha = ruv3_initial$fullalpha,
+                                           return.info = TRUE)
         }  ## End for loop
     }  ## End else(length(k) == 1)
     
@@ -103,7 +103,8 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
         }
         ## Computing the silhouette coefficient from kBET package
         sil_res <- do.call(cbind, lapply(ruv3res_list, FUN = calculateSil, 
-                                         fast_svd = fast_svd, cell_type = cell_type, batch = batch))
+                                         BSPARAM = BSPARAM,
+                                         cell_type = cell_type, batch = batch))
         ## Computing the F scores based on the 2 silhouette
         ## coefficients
         f_score <- rep(NA, ncol(sil_res))
@@ -186,14 +187,13 @@ standardize2 <- function(Y, batch) {
     num_cell <- ncol(Y)
     num_batch <- length(unique(batch))
     batch <- as.factor(batch)
-    stand.mean <- DelayedMatrixStats::rowMeans2(Y)
+    stand.mean <- DelayedArray::rowMeans(Y)
     design <- stats::model.matrix(~-1 + batch)
     B.hat = solve_axb(a = t(design) %*% design,
                       b = t(Y %*% design))
     
-    var.pooled <- DelayedMatrixStats::rowSums2(((Y - t(B.hat) %*% t(design))^2))/(num_cell - num_batch)
+    var.pooled <- DelayedArray::rowSums(((Y - t(B.hat) %*% t(design))^2))/(num_cell - num_batch)
     Y_centred = Y-stand.mean
-    # s.data <- sweep(x = Y_centred, MARGIN = 1, STATS = sqrt(var.pooled), FUN = "/")
     s.data <- Y_centred/sqrt(var.pooled)
     return(res = list(s.data = s.data, stand.mean = stand.mean, 
                       stand.var = var.pooled))
@@ -204,16 +204,9 @@ f_measure <- function(cell_type, batch) {
     return(f)
 }
 ####################################################### 
-calculateSil <- function(x, fast_svd, cell_type, batch) {
-    if (fast_svd & !any(dim(x$newY) < 50)) {
-        # pca.data <- irlba::prcomp_irlba(x$newY, n = 10)
-        pca.data <- BiocSingular::runPCA(x = x$newY, rank = 10, scale = TRUE, center = TRUE,
-                                         BSPARAM = BiocSingular::IrlbaParam(fold = 5))
-    } else {
-        # pca.data <- stats::prcomp(x$newY)
-        pca.data <- BiocSingular::runPCA(x = x$newY, rank = 10, scale = TRUE, center = TRUE,
-                                         BSPARAM = BiocSingular::ExactParam(fold = 5))
-    }
+calculateSil <- function(x, BSPARAM, cell_type, batch) {
+    pca.data <- BiocSingular::runPCA(x = x$newY, rank = 10, scale = TRUE, center = TRUE,
+                                     BSPARAM = BSPARAM)
     
     result = c(kBET_batch_sil(pca.data, as.numeric(as.factor(cell_type)), 
                               nPCs = 10), kBET_batch_sil(pca.data, as.numeric(as.factor(batch)), 

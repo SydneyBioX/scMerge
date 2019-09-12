@@ -6,7 +6,8 @@
 \usage{
 scRUVIII(Y = Y, M = M, ctl = ctl, fullalpha = NULL, k = k,
   cell_type = NULL, batch = NULL, return_all_RUV = TRUE,
-  fast_svd = FALSE, rsvd_prop = 0.1)
+  BPPARAM = SerialParam(), BSPARAM = ExactParam(fold = 5),
+  svd_prop = 0.1)
 }
 \arguments{
 \item{Y}{The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.}
@@ -31,11 +32,11 @@ pseudo-replicate procedure will be run to identify cell type.}
 
 \item{return_all_RUV}{Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function}
 
-\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
-We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
+\item{BPPARAM}{A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().}
 
-\item{rsvd_prop}{If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to
-reduce the computational cost of randomised singular value decomposition.
+\item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).}
+
+\item{svd_prop}{If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
 We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a
 less accurate computed result but with a gain in speed.

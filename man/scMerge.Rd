@@ -6,11 +6,12 @@
 \usage{
 scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
   hvg_exprs = "counts", marker = NULL, marker_list = NULL,
-  ruvK = 20, replicate_prop = 0.5, cell_type = NULL,
-  cell_type_match = FALSE, cell_type_inc = NULL, fast_svd = FALSE,
-  rsvd_prop = 0.1, dist = "cor", WV = NULL, WV_marker = NULL,
-  parallel = FALSE, parallelParam = NULL, return_all_RUV = FALSE,
-  assay_name = NULL, plot_igraph = TRUE, verbose = FALSE)
+  ruvK = 20, replicate_prop = 1, cell_type = NULL,
+  cell_type_match = FALSE, cell_type_inc = NULL,
+  BSPARAM = ExactParam(fold = 5), svd_prop = 0.1, dist = "cor",
+  WV = NULL, WV_marker = NULL, BPPARAM = SerialParam(),
+  return_all_RUV = FALSE, assay_name = NULL, plot_igraph = TRUE,
+  verbose = FALSE)
 }
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData.}
@@ -29,7 +30,7 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{ruvK}{An optional integer/vector indicating the number of unwanted variation factors that are removed, default is 20.}
 
-\item{replicate_prop}{A number indicating the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1.}
+\item{replicate_prop}{A number indicating the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1. Default to 1.}
 
 \item{cell_type}{An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.}
 
@@ -37,10 +38,10 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{cell_type_inc}{An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.}
 
-\item{fast_svd}{If \code{TRUE}, fast algorithms will be used for singular value decomposition calculation via the \code{irlba} and \code{rsvd} packages.
-We recommend using this option when the number of cells is large (e.g. more than 1000 cells).}
+\item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).}
 
-\item{rsvd_prop}{If \code{fast_svd = TRUE}, then \code{rsvd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
+\item{svd_prop}{If BSPARAM is set to \code{RandomParam} class from \code{BiocSingular} package, then \code{svd_prop} will be used to used to 
+reduce the computational cost of randomised singular value decomposition. Default to 0.1.}
 
 \item{dist}{The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.}
 
@@ -48,16 +49,14 @@ We recommend using this option when the number of cells is large (e.g. more than
 
 \item{WV_marker}{An optional vector indicating the markers of the wanted variation.}
 
-\item{parallel}{If \code{TRUE}, then \code{BiocParallel} package will be used to perform parallelised computations.}
-
-\item{parallelParam}{The \code{BiocParallelParam} class from the \code{BiocParallel} package is used. Default is bpparam().}
+\item{BPPARAM}{A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().}
 
 \item{return_all_RUV}{If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.}
 
 \item{assay_name}{The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.}
 
-\item{plot_igraph}{If \code{TRUE}, then during the un/semi-supervised scMErge, igraph plot will be displayed}
+\item{plot_igraph}{If \code{TRUE}, then during the un/semi-supervised scMerge, igraph plot will be displayed}
 
 \item{verbose}{If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.}
 }
@@ -78,11 +77,10 @@ data('example_sce', package = 'scMerge')
 ## Previously computed stably expressed genes
 data('segList_ensemblGeneID', package = 'scMerge')
 ## Running an example data with minimal inputs
-sce_mESC <- scMerge(
-                      sce_combine = example_sce,
-                      ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
-                      kmeansK = c(3, 3),
-                      assay_name = 'scMerge')
+sce_mESC <- scMerge(sce_combine = example_sce,
+ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+kmeansK = c(3, 3),
+assay_name = 'scMerge')
 scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
                  run_args = list(exprs_values = 'logcounts'))
 scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',

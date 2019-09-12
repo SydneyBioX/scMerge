@@ -3,10 +3,11 @@ context("Test sparseArray")
 library(Matrix)
 
 set.seed(12345)
-L = ruvSimulate(m = 1000, n = 20000, nc = 400, 
+L = ruvSimulate(m = 100, n = 2000, nc = 400, 
                 nCelltypes = 3, nBatch = 2, 
                 lambda = 0.1, sce = TRUE)
-profvis::profvis(
+
+# profvis::profvis(
 sce_matrix <- scMerge(
   sce_combine = L,
   ctl = paste0("gene",1:100),
@@ -14,14 +15,14 @@ sce_matrix <- scMerge(
   cell_type = L$cellTypes,
   replicate_prop = 1,
   assay_name = 'matrix_output')
-)
-counts = assay(sce_matrix, "counts")
-logcounts = assay(sce_matrix, "logcounts")
+# )
+counts = assay(L, "counts")
+logcounts = assay(L, "logcounts")
 ################################################
 
 sce_sp = L
-assay(L, "counts") = as(counts, "dgCMatrix")
-assay(L, "logcounts") = as(logcounts, "dgCMatrix")
+assay(sce_sp, "counts") = as(counts, "dgCMatrix")
+assay(sce_sp, "logcounts") = as(logcounts, "dgCMatrix")
 
 # profvis::profvis(
 sce_sp <- scMerge(
@@ -36,8 +37,7 @@ sce_sp <- scMerge(
 expect_equal(as.matrix(assay(sce_sp, "sp_output")), 
                  assay(sce_matrix, "matrix_output"))
 
-################################################
-
+####################################################################
 sce_sp_da = L
 assay(sce_sp_da, "counts") = DelayedArray::DelayedArray(as(counts, "dgCMatrix"))
 assay(sce_sp_da, "logcounts") = DelayedArray::DelayedArray(as(logcounts, "dgCMatrix"))
@@ -52,6 +52,5 @@ sce_sp_da <- scMerge(
   assay_name = 'sp_da_output')
 # )
 
-expect_equal(as.matrix(assay(sce_sp_da, "sp_da_output")), 
+expect_equal(as.matrix(assay(sce_sp_da, "sp_da_output")),
              assay(sce_matrix, "matrix_output"))
-

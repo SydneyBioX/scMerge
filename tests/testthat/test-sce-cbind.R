@@ -34,3 +34,22 @@ sce_combine = sce_cbind(sce_list = sce_split,
 
 ## Mis-specified method argument
 expect_error(sce_cbind(sce_list = sce_split, method = "abcdefg"))
+
+
+################
+library(SummarizedExperiment)
+
+da_sce_split = sce_split
+assay(da_sce_split[[1]], "counts") = DelayedArray::DelayedArray(assay(sce_split[[1]], "counts"))
+assay(da_sce_split[[1]], "logcounts") = DelayedArray::DelayedArray(assay(sce_split[[1]], "logcounts"))
+
+assay(da_sce_split[[2]], "counts") = DelayedArray::DelayedArray(assay(sce_split[[2]], "counts"))
+assay(da_sce_split[[2]], "logcounts") = DelayedArray::DelayedArray(assay(sce_split[[2]], "logcounts"))
+
+sce_cbind(sce_list = da_sce_split, 
+          batch_names = batch_names, 
+          cut_off_batch = 0, 
+          cut_off_overall = 0, 
+          method = "intersect", 
+          exprs = c("counts", "logcounts"), 
+          colData_names = c("cellTypes"))
