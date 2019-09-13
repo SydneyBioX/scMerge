@@ -4,7 +4,7 @@
 \alias{sce_cbind}
 \title{Combind several \code{SingleCellExperiment} objects from different batches/experiments}
 \usage{
-sce_cbind(sce_list, method = NULL, cut_off_batch = 0.01,
+sce_cbind(sce_list, method = "intersect", cut_off_batch = 0.01,
   cut_off_overall = 0.01, exprs = c("counts", "logcounts"),
   colData_names = NULL, batch_names = NULL)
 }
@@ -12,7 +12,7 @@ sce_cbind(sce_list, method = NULL, cut_off_batch = 0.01,
 \item{sce_list}{A list contains the \code{SingleCellExperiment} Object from each batch}
 
 \item{method}{A string indicates the method of combining the gene expression matrix,
-either \code{union} or \code{intersect}}
+either \code{union} or \code{intersect}. Default to \code{intersect}. \code{union} only supports matrix class.}
 
 \item{cut_off_batch}{A numeric vector indicating the cut-off for the proportion of 
 a gene is expressed within each batch}
@@ -35,7 +35,6 @@ Combind several \code{SingleCellExperiment} objects from
 different batches/experiments.
 }
 \examples{
-library(SingleCellExperiment)
 data('example_sce', package = 'scMerge')
 batch_names<-unique(example_sce$batch)
 sce_list<-list(example_sce[,example_sce$batch=='batch2'],

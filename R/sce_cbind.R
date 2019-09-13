@@ -5,7 +5,7 @@
 #'
 #' @param sce_list A list contains the \code{SingleCellExperiment} Object from each batch
 #' @param method A string indicates the method of combining the gene expression matrix,
-#' either \code{union} or \code{intersect}
+#' either \code{union} or \code{intersect}. Default to \code{intersect}. \code{union} only supports matrix class. 
 #' @param cut_off_batch A numeric vector indicating the cut-off for the proportion of 
 #' a gene is expressed within each batch
 #' @param cut_off_overall A numeric vector  indicating the cut-off for the proportion of 
@@ -20,7 +20,6 @@
 #' @author Yingxin Lin
 #' @export
 #' @examples
-#' library(SingleCellExperiment)
 #' data('example_sce', package = 'scMerge')
 #' batch_names<-unique(example_sce$batch)
 #' sce_list<-list(example_sce[,example_sce$batch=='batch2'],
@@ -28,15 +27,19 @@
 #' sce_combine<-sce_cbind(sce_list,batch_names=batch_names)
 
 
-sce_cbind <- function(sce_list, method = NULL, cut_off_batch = 0.01, 
+sce_cbind <- function(sce_list, method = "intersect", cut_off_batch = 0.01, 
     cut_off_overall = 0.01, exprs = c("counts", "logcounts"), 
     colData_names = NULL, batch_names = NULL) {
     
     message("The assay named '", exprs[1], "' will be used to determine the proportion of zeroes for each batch")
     
+    if (method == "union" & class(SummarizedExperiment::assay(sce_list[[1]], exprs[1])) != "matrix") {
+        stop("The union method only supports matrix class in the sce object \n ")
+    }
+    
     n_batch <- length(sce_list)
-    zero_list <- lapply(sce_list, function(x) apply(assay(x, 
-        exprs[1]), 1, function(z) mean(z == 0)))
+    zero_list <- lapply(sce_list, 
+                        function(x) DelayedArray::rowMeans(SummarizedExperiment::assay(x, exprs[1])  == 0))
     
     expressed_list <- lapply(zero_list, function(x) names(which(x <= 
         (1 - cut_off_batch))))
@@ -46,14 +49,11 @@ sce_cbind <- function(sce_list, method = NULL, cut_off_batch = 0.01,
     
     
     
-    if (is.null(method)) {
-        message("As method is NULL, we will use the union method. \n")
-        method = "union"
-    }
-    
     if (!method %in% c("union", "intersect")) {
         stop("The method parameter can only be either 'union' or 'intersect'. \n ")
     }
+    
+    
     
     if (method == "intersect") {
         keep <- Reduce(intersect, expressed_list)
@@ -64,8 +64,8 @@ sce_cbind <- function(sce_list, method = NULL, cut_off_batch = 0.01,
                 function(y) assay(y, exprs[i])))
         }
         names(assay_list) <- exprs
-        colData_list <- do.call(rbind, lapply(sce_list, function(y) colData(y)[, 
-            colData_names, drop = FALSE]))
+        colData_list <- do.call(DelayedArray::rbind, 
+                                lapply(sce_list, function(y) colData(y)[, colData_names, drop = FALSE]))
         sce_combine <- SingleCellExperiment::SingleCellExperiment(assay = assay_list, 
             colData = colData_list)
     }
@@ -75,13 +75,16 @@ sce_cbind <- function(sce_list, method = NULL, cut_off_batch = 0.01,
         
         assay_list <- list()
         for (i in seq_len(length(exprs))) {
-            assay_list[[i]] <- do.call(cbind, lapply(sce_list, 
-                function(x) {
+            assay_list[[i]] <- do.call(DelayedArray::cbind, 
+                                       lapply(sce_list, function(x) {
                   mat <- matrix(0, nrow = length(keep), ncol = ncol(x), 
-                    dimnames = list(keep, colnames(x)))
-                  mat[rownames(x), ] <- assay(x, exprs[i])
+                                dimnames = list(keep, colnames(x)))
+                  mat[rownames(x), ] <- SummarizedExperiment::assay(x, exprs[i])
                   return(mat)
                 }))
+            
+            plyr::rbind.fill.matrix(SummarizedExperiment::assay(sce_list[[1]], "counts"),
+                                    SummarizedExperiment::assay(sce_list[[2]], "counts"))
         }
         names(assay_list) <- exprs
         colData_list <- do.call(rbind, lapply(sce_list, function(y) colData(y)[, 
@@ -90,8 +93,9 @@ sce_cbind <- function(sce_list, method = NULL, cut_off_batch = 0.01,
         sce_combine <- SingleCellExperiment(assay = assay_list, 
             colData = colData_list)
         
-        zero_cbind <- apply(assay(sce_combine, exprs[1]), 1, 
-            function(z) mean(z == 0))
+        # zero_cbind <- apply(assay(sce_combine, exprs[1]), 1, 
+        #     function(z) mean(z == 0))
+        zero_cbind <- DelayedArray::rowMeans(assay(sce_combine, exprs[1]) == 0)
         sce_combine <- sce_combine[names(zero_cbind[zero_cbind <= 
             (1 - cut_off_overall)]), ]
     }
