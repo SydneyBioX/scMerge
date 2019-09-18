@@ -25,7 +25,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -55,8 +55,35 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Case Study
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="articles/index.html">Case Study</a>
+      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Breast_Data.html">Breast cancer data</a>
+    </li>
+    <li>
+      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/CellBench_Data.html">CellBench data</a>
+    </li>
+    <li>
+      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/ESC_Data.html">Embyronic stem cell data</a>
+    </li>
+    <li>
+      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Mouse_Liver_Data.html">Mouse liver data</a>
+    </li>
+    <li>
+      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Neuronal_Data.html">Neuronal single cell data</a>
+    </li>
+    <li>
+      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Pancreas4_Data.html">Four pancreas data</a>
+    </li>
+    <li>
+      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -80,13 +107,18 @@
       
 
       </header><div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
+    
+
+    
+    
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="scmerge" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#scmerge" class="anchor"></a>scMerge</h1></div>
 <p><br></p>
 <p><img src="https://github.com/SydneyBioX/scMerge/raw/master/inst/logo.png" align="right" width="200"></p>
-<p><a href="https://travis-ci.org/SydneyBioX/scMerge"><img src="https://travis-ci.org/SydneyBioX/scMerge.svg?branch=master" alt="Travis build status"></a> <a href="https://codecov.io/gh/SydneyBioX/scMerge?branch=master"><img src="https://codecov.io/gh/SydneyBioX/scMerge/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://doi.org/10.1073/pnas.1820006116"><img src="https://img.shields.io/badge/doi-10.1073/pnas.1820006116-blue.svg"></a> <a href="https://github.com/SydneyBioX/scMerge"><img src="https://img.shields.io/badge/devel%20version-1.1.2-blue.svg"></a> <a href="https://bioconductor.org/packages/stats/bioc/scMerge"><img src="https://img.shields.io/badge/download-84/total-green.svg"></a> <a href="https://github.com/SydneyBioX/scMerge/commits/master"><img src="https://img.shields.io/github/last-commit/SydneyBioX/scMerge.svg"></a></p>
+<p><a href="https://travis-ci.org/SydneyBioX/scMerge"><img src="https://travis-ci.org/SydneyBioX/scMerge.svg?branch=master" alt="Travis build status"></a> <a href="https://codecov.io/gh/SydneyBioX/scMerge?branch=master"><img src="https://codecov.io/gh/SydneyBioX/scMerge/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://doi.org/10.1073/pnas.1820006116"><img src="https://img.shields.io/badge/doi-10.1073/pnas.1820006116-blue.svg"></a> <a href="https://github.com/SydneyBioX/scMerge"><img src="https://img.shields.io/badge/devel%20version-1.1.6-blue.svg"></a> <a href="https://bioconductor.org/packages/stats/bioc/scMerge"><img src="https://img.shields.io/badge/download-361/total-green.svg"></a> <a href="https://github.com/SydneyBioX/scMerge/commits/master"><img src="https://img.shields.io/github/last-commit/SydneyBioX/scMerge.svg"></a></p>
 <p><br></p>
 <p><code>scMerge</code> is a R package for merging and normalising single-cell RNA-Seq datasets.</p>
 <div id="installation" class="section level2">
@@ -156,8 +188,11 @@
 </ul>
 </div>
 
-  </div>
+
+      </div>
+
 </div>
+
 
 
       <footer><div class="copyright">

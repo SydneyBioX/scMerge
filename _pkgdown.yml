@@ -20,7 +20,21 @@ navbar:
       href: articles/scMerge.html
     articles:
       text: Case Study
-      href: articles/index.html
+      menu:
+      - text: "Breast cancer data"
+        href: https://sydneybiox.github.io/scMerge/articles/case_study/Breast_Data.html
+      - text: "CellBench data"
+        href: https://sydneybiox.github.io/scMerge/articles/case_study/CellBench_Data.html
+      - text: "Embyronic stem cell data"
+        href: https://sydneybiox.github.io/scMerge/articles/case_study/ESC_Data.html
+      - text: "Mouse liver data"
+        href: https://sydneybiox.github.io/scMerge/articles/case_study/Mouse_Liver_Data.html
+      - text: "Neuronal single cell data"
+        href: https://sydneybiox.github.io/scMerge/articles/case_study/Neuronal_Data.html
+      - text: "Four pancreas data"
+        href: https://sydneybiox.github.io/scMerge/articles/case_study/Pancreas4_Data.html
+      - text: "Mouse Embryonic Stem Cell Data"
+        href: https://sydneybiox.github.io/scMerge/articles/case_study/mESC_Data.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/SydneyBioX/scMerge
