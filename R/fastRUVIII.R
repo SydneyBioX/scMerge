@@ -12,7 +12,7 @@
 #' @param k The number of unwanted factors to remove. This is inherited from the ruvK argument from the scMerge::scMerge function.
 #' @param eta Gene-wise (as opposed to sample-wise) covariates. See ruv::RUVIII for details.
 #' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
-#' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).
+#' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().
 #' @param svd_prop If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
 #' We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 #' @param include.intercept When eta is specified (not NULL) but does not already include an intercept term, this will automatically include one.
@@ -42,7 +42,7 @@
 
 fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
     svd_prop = 0.1, include.intercept = TRUE, average = FALSE, 
-    BPPARAM = SerialParam(), BSPARAM = ExactParam(fold = 5),
+    BPPARAM = SerialParam(), BSPARAM = ExactParam(),
     fullalpha = NULL, return.info = FALSE, inputcheck = TRUE) {
     
     if (is.data.frame(Y)) {

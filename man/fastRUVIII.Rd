@@ -6,8 +6,8 @@
 \usage{
 fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, svd_prop = 0.1,
   include.intercept = TRUE, average = FALSE, BPPARAM = SerialParam(),
-  BSPARAM = ExactParam(fold = 5), fullalpha = NULL,
-  return.info = FALSE, inputcheck = TRUE)
+  BSPARAM = ExactParam(), fullalpha = NULL, return.info = FALSE,
+  inputcheck = TRUE)
 }
 \arguments{
 \item{Y}{The unnormalised scRNA-Seq data matrix. 
@@ -34,7 +34,7 @@ See ruv::RUVIII for details.}
 
 \item{BPPARAM}{A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().}
 
-\item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).}
+\item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().}
 
 \item{fullalpha}{Not used. Please ignore. See ruv::RUVIII for details.}
 
