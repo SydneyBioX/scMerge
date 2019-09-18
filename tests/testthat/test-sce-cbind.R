@@ -13,7 +13,7 @@ sce_combine = sce_cbind(sce_list = sce_split,
                         batch_names = batch_names, 
                         cut_off_batch = 0, 
                         cut_off_overall = 0, 
-                        method = NULL, 
+                        method = "intersect", 
                         exprs = c("counts", "logcounts"), 
                         colData_names = c("cellTypes"))
 # expect_identical(example_sce, sce_combine) expect_equal(example_sce@assays, sce_combine@assays)
