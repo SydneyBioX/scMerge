@@ -7,12 +7,12 @@ Y = L$Y
 M = L$M
 
 
-t1 = Sys.time()
 improved1 = unname(scMerge::eigenResidop(Y, M))
-t2 = Sys.time()
-old = unname(ruv::residop(Y, M))
-t3 = Sys.time()
+improved2 = unname(scMerge::eigenMatMult(t(M), Y))
+old1 = unname(ruv::residop(Y, M))
+old2 = unname(t(M) %*% Y)
 
-## improved1 used C++ matrix operations, hence it should be faster than native R matrix operations
-expect_equal(improved1, old, tolerance = 1e-06)
-# expect_lt(as.numeric(t2 - t1, units = 'secs'), as.numeric(t3 - t2, units = 'secs'))
+
+## improved1 and 2 used C++ matrix operations, hence it should be faster than native R matrix operations
+expect_equal(improved1, old1, tolerance = 1e-06)
+expect_equal(improved2, old2, tolerance = 1e-06)

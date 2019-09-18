@@ -8,9 +8,9 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
   hvg_exprs = "counts", marker = NULL, marker_list = NULL,
   ruvK = 20, replicate_prop = 1, cell_type = NULL,
   cell_type_match = FALSE, cell_type_inc = NULL,
-  BSPARAM = ExactParam(fold = 5), svd_prop = 0.1, dist = "cor",
-  WV = NULL, WV_marker = NULL, BPPARAM = SerialParam(),
-  return_all_RUV = FALSE, assay_name = NULL, plot_igraph = TRUE,
+  BSPARAM = ExactParam(), svd_prop = 0.1, dist = "cor", WV = NULL,
+  WV_marker = NULL, BPPARAM = SerialParam(), return_all_RUV = FALSE,
+  BACKEND = NULL, assay_name = NULL, plot_igraph = TRUE,
   verbose = FALSE)
 }
 \arguments{
@@ -38,7 +38,7 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{cell_type_inc}{An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.}
 
-\item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).}
+\item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().}
 
 \item{svd_prop}{If BSPARAM is set to \code{RandomParam} class from \code{BiocSingular} package, then \code{svd_prop} will be used to used to 
 reduce the computational cost of randomised singular value decomposition. Default to 0.1.}
@@ -53,6 +53,9 @@ reduce the computational cost of randomised singular value decomposition. Defaul
 
 \item{return_all_RUV}{If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.}
+
+\item{BACKEND}{The BACKEND parameter used in DelayedArray::realize(result, BACKEND = BACKEND) to coerce the final output. 
+Default to NULL. Recommend to set this to "HDF5Array" for out-of-memory computations.}
 
 \item{assay_name}{The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.}
 

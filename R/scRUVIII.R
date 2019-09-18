@@ -21,7 +21,7 @@
 #' @param batch Batch information inherited from the scMerge::scMerge function.
 #' @param return_all_RUV Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function
 #' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
-#' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).
+#' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().
 #' @param svd_prop If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
 #' We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 #' If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a
@@ -43,7 +43,7 @@
 
 scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL, 
                      k = k, cell_type = NULL, batch = NULL, return_all_RUV = TRUE, 
-                     BPPARAM = SerialParam(), BSPARAM = ExactParam(fold = 5), 
+                     BPPARAM = SerialParam(), BSPARAM = ExactParam(), 
                      svd_prop = 0.1) {
     
     if (is.null(batch)) {
