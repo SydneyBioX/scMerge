@@ -13,11 +13,10 @@ sce_combine = sce_cbind(sce_list = sce_split,
                         batch_names = batch_names, 
                         cut_off_batch = 0, 
                         cut_off_overall = 0, 
-                        method = "intersect", 
+                        method = "union", 
                         exprs = c("counts", "logcounts"), 
                         colData_names = c("cellTypes"))
-# expect_identical(example_sce, sce_combine) expect_equal(example_sce@assays, sce_combine@assays)
-# expect_identical(example_sce@int_metadata, sce_combine@int_metadata) expect_identical(example_sce@reducedDims, sce_combine@reducedDims)
+
 expect_identical(dim(example_sce), dim(sce_combine))
 expect_identical(colData(example_sce), colData(sce_combine))
 expect_identical(colData(example_sce)$batch, colData(sce_combine)$batch)
@@ -53,3 +52,12 @@ sce_cbind(sce_list = da_sce_split,
           method = "intersect", 
           exprs = c("counts", "logcounts"), 
           colData_names = c("cellTypes"))
+
+expect_error(
+  sce_cbind(sce_list = da_sce_split, 
+            batch_names = batch_names, 
+            cut_off_batch = 0, 
+            cut_off_overall = 0, 
+            method = "union", 
+            exprs = c("counts", "logcounts"), 
+            colData_names = c("cellTypes")))
