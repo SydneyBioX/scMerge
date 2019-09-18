@@ -4,7 +4,7 @@
 \alias{fastRUVIII}
 \title{A fast version of the ruv::RUVIII algorithm}
 \usage{
-fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, svd_prop = 0.1,
+fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, svd_k = 50,
   include.intercept = TRUE, average = FALSE, BPPARAM = SerialParam(),
   BSPARAM = ExactParam(), fullalpha = NULL, return.info = FALSE,
   inputcheck = TRUE)
@@ -24,9 +24,6 @@ See ruv::RUVIII for more details.}
 
 \item{eta}{Gene-wise (as opposed to sample-wise) covariates. See ruv::RUVIII for details.}
 
-\item{svd_prop}{If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
-We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
-
 \item{include.intercept}{When eta is specified (not NULL) but does not already include an intercept term, this will automatically include one.
 See ruv::RUVIII for details.}
 
@@ -41,6 +38,9 @@ See ruv::RUVIII for details.}
 \item{return.info}{Additional information relating to the computation of normalised matrix. We recommend setting this to true.}
 
 \item{inputcheck}{We recommend setting this to true.}
+
+\item{If}{\code{BSPARAM} is not \code{ExactParam}, then \code{} will be used to used to reduce the computational cost of randomised singular value decomposition. 
+We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
 }
 \value{
 A normalised matrix of the same dimensions as the input matrix Y.
@@ -54,7 +54,7 @@ Y = L$Y; M = L$M; ctl = L$ctl
 improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, 
 k = 20, BSPARAM = BiocSingular::ExactParam())
 improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, 
-k = 20, BSPARAM = BiocSingular::RandomParam(), svd_prop = 0.1)
+k = 20, BSPARAM = BiocSingular::RandomParam(), svd_k = 50)
 old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
 all.equal(improved1, old)
 all.equal(improved2, old)

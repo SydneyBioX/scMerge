@@ -13,7 +13,7 @@
 #' @param eta Gene-wise (as opposed to sample-wise) covariates. See ruv::RUVIII for details.
 #' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
 #' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().
-#' @param svd_prop If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
+#' @param  If \code{BSPARAM} is not \code{ExactParam}, then \code{} will be used to used to reduce the computational cost of randomised singular value decomposition. 
 #' We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 #' @param include.intercept When eta is specified (not NULL) but does not already include an intercept term, this will automatically include one.
 #' See ruv::RUVIII for details.
@@ -34,20 +34,16 @@
 #' improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, 
 #' k = 20, BSPARAM = BiocSingular::ExactParam())
 #' improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, 
-#' k = 20, BSPARAM = BiocSingular::RandomParam(), svd_prop = 0.1)
+#' k = 20, BSPARAM = BiocSingular::RandomParam(), svd_k = 50)
 #' old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
 #' all.equal(improved1, old)
 #' all.equal(improved2, old)
 
 
 fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
-    svd_prop = 0.1, include.intercept = TRUE, average = FALSE, 
+    svd_k = 50, include.intercept = TRUE, average = FALSE, 
     BPPARAM = SerialParam(), BSPARAM = ExactParam(),
     fullalpha = NULL, return.info = FALSE, inputcheck = TRUE) {
-    
-    if (is.data.frame(Y)) {
-        Y <- data.matrix(Y)
-    }
     
     m <- nrow(Y)
     n <- ncol(Y)
@@ -56,11 +52,6 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
     
     ## Check the inputs
     if (inputcheck) {
-        if (m > n) {
-            message("m is greater than n! 
-            This is not a problem itself, but may indicate that you need to transpose your data matrix. 
-                    Please ensure that rows correspond to observations (e.g. microarrays) and columns correspond to features (e.g. genes).")
-        }
         if (sum(is.na(Y)) > 0) {
             stop("Y contains missing values.  This is not supported.")
         }
@@ -75,7 +66,7 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
     Y <- ruv::RUV1(Y, eta, ctl, include.intercept = include.intercept)
     
     if (class(BSPARAM) != "ExactParam") {
-        svd_k <- min(m - ncol(M), sum(ctl), ceiling(svd_prop * m), na.rm = TRUE)
+        svd_k <- min(m - ncol(M), sum(ctl), svd_k, na.rm = TRUE)
     } else {
         svd_k <- min(m - ncol(M), sum(ctl), na.rm = TRUE)
     }
@@ -117,20 +108,12 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
         newY <- Y - W %*% alpha
     }  ## End else(ncol(M) >= m | k == 0)
     
-    if (average) {
-        ## If average over the replicates is needed. This is ignored
-        ## in scMerge.
-        newY <- ((1/apply(M, 2, sum)) * t(M)) %*% newY
-    }
-    
     ## If the users want to get all the informations relating to
     ## the RUV, it can be done here.
     if (!return.info) {
         return(newY)
     } else {
-        return(list(newY = newY, M = M, fullalpha = fullalpha, 
-            rsvd_k_options = c(`m-ncol(M)` = m - ncol(M), `sum(ctl)` = sum(ctl), 
-                svd_k = svd_k)))
+        return(list(newY = newY, M = M, fullalpha = fullalpha))
     }
 }
 ############################ 

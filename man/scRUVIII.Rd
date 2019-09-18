@@ -6,7 +6,7 @@
 \usage{
 scRUVIII(Y = Y, M = M, ctl = ctl, fullalpha = NULL, k = k,
   cell_type = NULL, batch = NULL, return_all_RUV = TRUE,
-  BPPARAM = SerialParam(), BSPARAM = ExactParam(), svd_prop = 0.1)
+  BPPARAM = SerialParam(), BSPARAM = ExactParam(), svd_k = 50)
 }
 \arguments{
 \item{Y}{The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.}
@@ -35,7 +35,7 @@ pseudo-replicate procedure will be run to identify cell type.}
 
 \item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().}
 
-\item{svd_prop}{If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
+\item{svd_k}{If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_k} will be used to used to reduce the computational cost of randomised singular value decomposition. 
 We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a
 less accurate computed result but with a gain in speed.

@@ -22,7 +22,7 @@
 #' @param return_all_RUV Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function
 #' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
 #' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().
-#' @param svd_prop If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_prop} will be used to used to reduce the computational cost of randomised singular value decomposition. 
+#' @param svd_k If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_k} will be used to used to reduce the computational cost of randomised singular value decomposition. 
 #' We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
 #' If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a
 #' less accurate computed result but with a gain in speed.
@@ -44,7 +44,7 @@
 scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL, 
                      k = k, cell_type = NULL, batch = NULL, return_all_RUV = TRUE, 
                      BPPARAM = SerialParam(), BSPARAM = ExactParam(), 
-                     svd_prop = 0.1) {
+                     svd_k = 50) {
     
     if (is.null(batch)) {
         warning("No batch info!")
@@ -64,7 +64,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     ruv3_initial <- fastRUVIII(Y = t(normY), ctl = ctl, k = k[1], 
                                M = M, fullalpha = fullalpha, return.info = TRUE, 
                                BPPARAM = BPPARAM, BSPARAM = BSPARAM, 
-                               svd_prop = svd_prop)
+                               svd_k = svd_k)
     
     ruv3_initial$k <- k
     ## The computed result is ruv3res_list.  If we have only one
