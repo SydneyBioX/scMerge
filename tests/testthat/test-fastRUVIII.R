@@ -10,9 +10,9 @@ old = ruv::RUVIII(Y = Y, M = M, ctl = ctl, k = 20)
 
 improved1 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, BSPARAM = ExactParam())
 
-improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, BSPARAM = RandomParam(), svd_prop = 0.3)
+improved2 = scMerge::fastRUVIII(Y = Y, M = M, ctl = ctl, k = 20, BSPARAM = RandomParam(), svd_k = 100)
 
 expect_equal(old, improved1)
-expect_equal(improved1, improved2, tol = 0.01)
+expect_equal(improved1, improved2, tol = 0.02)
 # expect_lt(as.numeric(t3 - t2, units = 'secs'), as.numeric(t2 - t1, units = 'secs')) expect_lt(as.numeric(t4 - t3, units = 'secs'),
 # as.numeric(t3 - t2, units = 'secs'))

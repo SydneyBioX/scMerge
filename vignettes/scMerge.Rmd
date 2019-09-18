@@ -328,7 +328,7 @@ head(segList$human$bulkRNAseqHK)
 
 ## Using approximated SVD
 
-Under most circumstances, `scMerge` is fast enough to be used on a personal laptop for a moderately large data. However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of `scMerge`. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up `scMerge`, we used `BiocSingular` package that offers several SVD speed improvements. This computational method is able to speed up `scMerge` by obtain a very accurate approximation of the noise structure in the data. This option is achieved via the option `BSPARAM = IrlbaParam()` or `BSPARAM = RandomParam()`. Additionally, `svd_prop` is a parameter between 0 and 1, controlling the degree of approximations.
+Under most circumstances, `scMerge` is fast enough to be used on a personal laptop for a moderately large data. However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of `scMerge`. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up `scMerge`, we used `BiocSingular` package that offers several SVD speed improvements. This computational method is able to speed up `scMerge` by obtain a very accurate approximation of the noise structure in the data. This option is achieved via the option `BSPARAM = IrlbaParam()` or `BSPARAM = RandomParam()`. Additionally, `svd_k` is a parameter that controlling the degree of approximations.
 
 
 We recommend using this option in the case where the number of cells is large in your single cell data. The speed advantage we obtain for large single cell data is much more dramatic than on a smaller dataset like the example mESC data. For example, a single run of normal `scMerge` on a human [pancreas data](https://sydneybiox.github.io/scMerge/articles/Pancreas4_Data/Pancreas4_Data.html) (23699 features and 4566 cells) takes about 10 minutes whereas the speed up version takes just under 4 minutes. 
@@ -347,7 +347,7 @@ scMerge_fast <- scMerge(
   kmeansK = c(3, 3),
   assay_name = "scMerge_fast", 
   BSPARAM = IrlbaParam(), 
-  svd_prop = 0.1)
+  svd_k = 20)
 ```
 
 ```{r t4, echo = FALSE}
@@ -355,7 +355,7 @@ t4 = Sys.time()
 ```
 
 
-```{r computation_rsvd_plotting}
+```{r computation_svd_plotting}
 paste("Normally, scMerge takes ", round(t2 - t1, 2), " seconds")
 paste("Fast version of scMerge takes ", round(t4 - t3, 2), " seconds")
 
