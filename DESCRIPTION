@@ -30,8 +30,6 @@ Imports:
   doSNOW,
   foreach,
   igraph,
-  iterators,
-  matrixStats,
   M3Drop (>= 1.9.4),
   parallel,
   pdist,

@@ -24,6 +24,9 @@ See ruv::RUVIII for more details.}
 
 \item{eta}{Gene-wise (as opposed to sample-wise) covariates. See ruv::RUVIII for details.}
 
+\item{svd_k}{If BSPARAM is set to \code{RandomParam} or \code{IrlbaParam} class from \code{BiocSingular} package, then 
+\code{svd_k} will be used to used to reduce the computational cost of singular value decomposition. Default to 50.}
+
 \item{include.intercept}{When eta is specified (not NULL) but does not already include an intercept term, this will automatically include one.
 See ruv::RUVIII for details.}
 
@@ -38,9 +41,6 @@ See ruv::RUVIII for details.}
 \item{return.info}{Additional information relating to the computation of normalised matrix. We recommend setting this to true.}
 
 \item{inputcheck}{We recommend setting this to true.}
-
-\item{If}{\code{BSPARAM} is not \code{ExactParam}, then \code{} will be used to used to reduce the computational cost of randomised singular value decomposition. 
-We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.}
 }
 \value{
 A normalised matrix of the same dimensions as the input matrix Y.

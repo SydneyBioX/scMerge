@@ -13,8 +13,8 @@
 #' @param eta Gene-wise (as opposed to sample-wise) covariates. See ruv::RUVIII for details.
 #' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
 #' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().
-#' @param  If \code{BSPARAM} is not \code{ExactParam}, then \code{} will be used to used to reduce the computational cost of randomised singular value decomposition. 
-#' We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
+#' @param svd_k If BSPARAM is set to \code{RandomParam} or \code{IrlbaParam} class from \code{BiocSingular} package, then 
+#' \code{svd_k} will be used to used to reduce the computational cost of singular value decomposition. Default to 50.
 #' @param include.intercept When eta is specified (not NULL) but does not already include an intercept term, this will automatically include one.
 #' See ruv::RUVIII for details.
 #' @param average Average replicates after adjustment. See ruv::RUVIII for details.

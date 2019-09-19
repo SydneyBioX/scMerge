@@ -297,8 +297,8 @@ In simple terms, a negative control is a gene that has expression values relativ
 + Computation method: We provide the function `scSEGIndex` to calculate the SEG from a data matrix. The output of this function is a `data.frame` with a SEG index calculated for each gene. See [Lin et. al. (2018)](https://www.biorxiv.org/content/10.1101/229815v2) for more details.
 
 ```{r segIndex1, eval = FALSE}
-exprsMat = SummarizedExperiment::assay(example_sce, 'counts')
-result = scSEGIndex(exprsMat = exprsMat)
+exprs_mat = SummarizedExperiment::assay(example_sce, 'counts')
+result = scSEGIndex(exprs_mat = exprs_mat)
 ```
 
 

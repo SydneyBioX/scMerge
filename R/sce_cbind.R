@@ -82,9 +82,6 @@ sce_cbind <- function(sce_list, method = "intersect", cut_off_batch = 0.01,
                   mat[rownames(x), ] <- SummarizedExperiment::assay(x, exprs[i])
                   return(mat)
                 }))
-            
-            plyr::rbind.fill.matrix(SummarizedExperiment::assay(sce_list[[1]], "counts"),
-                                    SummarizedExperiment::assay(sce_list[[2]], "counts"))
         }
         names(assay_list) <- exprs
         colData_list <- do.call(rbind, lapply(sce_list, function(y) colData(y)[, 

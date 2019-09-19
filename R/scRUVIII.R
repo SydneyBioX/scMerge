@@ -22,11 +22,8 @@
 #' @param return_all_RUV Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function
 #' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
 #' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().
-#' @param svd_k If \code{BSPARAM} is not \code{ExactParam}, then \code{svd_k} will be used to used to reduce the computational cost of randomised singular value decomposition. 
-#' We recommend setting this number to less than 0.25 to achieve a balance between numerical accuracy and computational costs.
-#' If a lower value is used on a lower dimensional data (say < 1000 cell) will potentially yield a
-#' less accurate computed result but with a gain in speed.
-#' The default of 0.1 tends to achieve a balance between speed and accuracy.
+#' @param svd_k If BSPARAM is set to \code{RandomParam} or \code{IrlbaParam} class from \code{BiocSingular} package, then 
+#' \code{svd_k} will be used to used to reduce the computational cost of singular value decomposition. Default to 50.
 #' @importFrom DelayedArray t
 #' @importFrom DelayedArray rowMeans
 #' @return A list consists of:

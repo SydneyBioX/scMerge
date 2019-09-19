@@ -1,7 +1,6 @@
-context("Test scSEGIndex")
+## Loading example data
 data('example_sce', package = 'scMerge')
-exprsMat = SummarizedExperiment::assay(example_sce, 'counts')[1:110, 1:20]
+## subsetting genes to illustrate usage.
+exprs_mat = SummarizedExperiment::assay(example_sce, 'logcounts')[1:110, 1:20]
 set.seed(1)
-result = scSEGIndex(exprsMat = exprsMat, 
-           cell_type = example_sce$cellTypes[1:20], ncore = 1)
-gammaNormMix(data = exprsMat[1,])
+scSEGIndex(exprs_mat = exprs_mat)

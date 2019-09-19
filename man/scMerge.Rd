@@ -40,8 +40,8 @@ scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
 
 \item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().}
 
-\item{svd_k}{If BSPARAM is set to \code{RandomParam} class from \code{BiocSingular} package, then \code{svd_k} will be used to used to 
-reduce the computational cost of randomised singular value decomposition. Default to 50.}
+\item{svd_k}{If BSPARAM is set to \code{RandomParam} or \code{IrlbaParam} class from \code{BiocSingular} package, then 
+\code{svd_k} will be used to used to reduce the computational cost of singular value decomposition. Default to 50.}
 
 \item{dist}{The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.}
 

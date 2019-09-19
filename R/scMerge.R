@@ -14,8 +14,8 @@
 #' @param cell_type An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell type.
 #' @param cell_type_match An optional logical input for whether to find mutual nearest cluster using cell type information.
 #' @param cell_type_inc An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.
-#' @param svd_k If BSPARAM is set to \code{RandomParam} class from \code{BiocSingular} package, then \code{svd_k} will be used to used to 
-#' reduce the computational cost of randomised singular value decomposition. Default to 50.
+#' @param svd_k If BSPARAM is set to \code{RandomParam} or \code{IrlbaParam} class from \code{BiocSingular} package, then 
+#' \code{svd_k} will be used to used to reduce the computational cost of singular value decomposition. Default to 50.
 #' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().
 #' @param dist The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.
 #' @param WV A optional vector indicating the wanted variation factor other than cell type info, such as cell stages.

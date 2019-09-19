@@ -2,18 +2,19 @@
 % Please edit documentation in R/scSEGIndex.R
 \name{scSEGIndex}
 \alias{scSEGIndex}
-\title{scSEGIndex}
+\title{Single Cell Stably Express Gene Index}
 \usage{
-scSEGIndex(exprsMat, cell_type = NULL, ncore = 1)
+scSEGIndex(exprs_mat, cell_type = NULL,
+  BPPARAM = SerialParam(progressbar = TRUE))
 }
 \arguments{
-\item{exprsMat}{A log-transformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. 
+\item{exprs_mat}{A log-transformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. 
 A n by m matrix, where n is the number of genes and m is the number of cells.}
 
 \item{cell_type}{A vector indicating the cell type information for each cell in the gene expression matrix. 
 If it is \code{NULL}, the function calculates the scSEG index without using F-statistics.}
 
-\item{ncore}{Number of cores that are used in parallel}
+\item{BPPARAM}{A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam(progressbar = TRUE).}
 }
 \value{
 Returns a data frame. 
@@ -21,16 +22,18 @@ Each row is a gene and each column is a statistic relating to the stability of e
 The main statistic is the \code{segIdx} column, which is the SEG index.
 }
 \description{
-Calculate single-cell Stably Expressed Gene (scSEG) index from Lin. et. al. (2018).
+Calculate single-cell Stably Expressed Gene (scSEG) index from Lin. et. al. (2019).
 }
 \examples{
 ## Loading example data
 data('example_sce', package = 'scMerge')
 ## subsetting genes to illustrate usage.
-exprsMat = SummarizedExperiment::assay(example_sce, 'logcounts')[1:110, 1:20]
+exprs_mat = SummarizedExperiment::assay(example_sce, 'logcounts')[1:110, 1:20]
 set.seed(1)
-result = scSEGIndex(exprsMat = exprsMat)
-head(result)
+result1 = scSEGIndex(exprs_mat = exprs_mat)
+## If parallelisation is needed:
+param = BiocParallel::MulticoreParam(workers = 2, progressbar = TRUE)
+result2 = scSEGIndex(exprs_mat = exprs_mat, BPPARAM = param)
 }
 \references{
 Evaluating stably expressed genes in single cells (2019). doi:10.1093/gigascience/giz106.
