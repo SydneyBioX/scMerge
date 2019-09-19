@@ -46,22 +46,13 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
                      BPPARAM = SerialParam(), BSPARAM = ExactParam(), 
                      svd_k = 50) {
     
-    if (is.null(batch)) {
-        warning("No batch info!")
-        return(NULL)
-    }
-    
     ## Standardise the data
     scale_res <- standardize2(Y, batch)
-    normY <- scale_res$s.data
-    # geneSdMat <- sqrt(scale_res$stand.var) %*% t(rep(1, ncol(Y)))
-    geneSdMat <- sqrt(scale_res$stand.var)
-                               
-    # geneSdVec <- sqrt(scale_res$stand.var)
-    geneMeanVec <- scale_res$stand.mean
-    # geneMeanMat <- scale_res$stand.mean  %*% t(rep(1, ncol(Y)))
+    stand_tY <- DelayedArray::t(scale_res$stand_Y)
+    stand_sd <- sqrt(scale_res$stand_var)
+    stand_mean <- scale_res$stand_mean
     
-    ruv3_initial <- fastRUVIII(Y = t(normY), ctl = ctl, k = k[1], 
+    ruv3_initial <- fastRUVIII(Y = stand_tY, ctl = ctl, k = k[1], 
                                M = M, fullalpha = fullalpha, return.info = TRUE, 
                                BPPARAM = BPPARAM, BSPARAM = BSPARAM, 
                                svd_k = svd_k)
@@ -80,7 +71,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
         ## to the ruv::RUVIII function (there is no need for BSPARAM,
         ## since we already have the fullalpha)
         for (i in 2:length(k)) {
-            ruv3res_list[[i]] = fastRUVIII(Y = t(normY), ctl = ctl, 
+            ruv3res_list[[i]] = fastRUVIII(Y = stand_tY, ctl = ctl, 
                                            k = k[i], M = M, fullalpha = ruv3_initial$fullalpha,
                                            return.info = TRUE)
         }  ## End for loop
@@ -127,7 +118,7 @@ scRUVIII <- function(Y = Y, M = M, ctl = ctl, fullalpha = NULL,
     
     ## Add back the mean and sd to the normalised data
     for (i in seq_len(length(ruv3res_list))) {
-        ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) * geneSdMat + geneMeanVec))
+        ruv3res_list[[i]]$newY <- t((t(ruv3res_list[[i]]$newY) * stand_sd + stand_mean))
     }
     ## ruv3res_list is all the normalised matrices ruv3res_optimal
     ## is the one matrix having the maximum F-score
@@ -187,16 +178,16 @@ standardize2 <- function(Y, batch) {
     num_cell <- ncol(Y)
     num_batch <- length(unique(batch))
     batch <- as.factor(batch)
-    stand.mean <- DelayedArray::rowMeans(Y)
+    stand_mean <- DelayedArray::rowMeans(Y)
     design <- stats::model.matrix(~-1 + batch)
     B.hat = solve_axb(a = t(design) %*% design,
                       b = t(Y %*% design))
     
-    var.pooled <- DelayedArray::rowSums(((Y - t(B.hat) %*% t(design))^2))/(num_cell - num_batch)
-    Y_centred = Y-stand.mean
-    s.data <- Y_centred/sqrt(var.pooled)
-    return(res = list(s.data = s.data, stand.mean = stand.mean, 
-                      stand.var = var.pooled))
+    stand_var <- DelayedArray::rowSums(((Y - t(B.hat) %*% t(design))^2))/(num_cell - num_batch)
+    stand_Y <- (Y-stand_mean)/sqrt(stand_var)
+    return(res = list(stand_Y = stand_Y, 
+                      stand_mean = stand_mean, 
+                      stand_var = stand_var))
 }
 ####################################################### 
 f_measure <- function(cell_type, batch) {
