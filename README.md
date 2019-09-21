@@ -12,8 +12,8 @@ status](https://travis-ci.org/SydneyBioX/scMerge.svg?branch=master)](https://tra
 [![Codecov test
 coverage](https://codecov.io/gh/SydneyBioX/scMerge/branch/master/graph/badge.svg)](https://codecov.io/gh/SydneyBioX/scMerge?branch=master)
 [![](https://img.shields.io/badge/doi-10.1073/pnas.1820006116-blue.svg)](https://doi.org/10.1073/pnas.1820006116)
-[![](https://img.shields.io/badge/devel%20version-1.1.2-blue.svg)](https://github.com/SydneyBioX/scMerge)
-[![](https://img.shields.io/badge/download-84/total-green.svg)](https://bioconductor.org/packages/stats/bioc/scMerge)
+[![](https://img.shields.io/badge/devel%20version-1.1.6-blue.svg)](https://github.com/SydneyBioX/scMerge)
+[![](https://img.shields.io/badge/download-368/total-green.svg)](https://bioconductor.org/packages/stats/bioc/scMerge)
 [![](https://img.shields.io/github/last-commit/SydneyBioX/scMerge.svg)](https://github.com/SydneyBioX/scMerge/commits/master)
 
 <br />
