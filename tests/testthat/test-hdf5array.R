@@ -27,8 +27,7 @@ sce_hdf <- scMerge(
   ctl = paste0("gene",1:10),
   kmeansK = c(3, 3),
   cell_type = sce_hdf$cellTypes,
-  assay_name = 'hdf_output', 
-  BACKEND = "HDF5Array")
+  assay_name = 'hdf_output')
 
 expect_equal(as.matrix(assay(sce_hdf, "hdf_output")), 
                  assay(sce_matrix, "matrix_output"))

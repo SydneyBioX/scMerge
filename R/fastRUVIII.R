@@ -23,7 +23,7 @@
 #' @param inputcheck We recommend setting this to true.
 #' @useDynLib scMerge, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
-#' @importFrom BiocSingular runRandomSVD
+#' @importFrom DelayedArray t
 #' @importFrom BiocSingular runExactSVD
 #' @export
 #' @return
