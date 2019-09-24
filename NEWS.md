@@ -1,3 +1,24 @@
+# scMerge 1.1.6
+
+* Accepts `DelayedArray`, `HDF5Array` and `dgCMatrix` inputs in the slots of input SCE objects. 
+* Significant speed optimisation on `scSEGIndex` and add `BiocParallel` support. 
+* Updated `scSEGIndex` references after publication. 
+* `scMerge` now has the `svd_k` input that controls the number eigenvectors needed in the RUV step to allow fast approximation for large dataset. 
+* Now using `BiocSingular` to manage all SVD components. 
+* Now automatically remove zeroes in the rows and columns of the SCE. 
+
+# scMerge 1.1.5
+
+* Adding version restrictions on `S4Vectors` and `SingleCellExperiment` dependent packages. 
+
+# scMerge 1.1.4
+
+* `plot_igraph` would allow suppression of igraph output during unsupervised scMerge
+
+# scMerge 1.1.3
+
+* Column name must be non-NULL and without duplicates
+
 # scMerge 1.1.2
 
 * Resolved problems with only a single linking cell-type across multiple batches

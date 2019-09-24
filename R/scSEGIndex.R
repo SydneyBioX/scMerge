@@ -1,6 +1,13 @@
 #' @title Single Cell Stably Express Gene Index
-#' @description Calculate single-cell Stably Expressed Gene (scSEG) index from Lin. et. al. (2019). 
-
+#' @description This function computes the single-cell Stably Expressed Gene (scSEG) 
+#' index from Lin. et al. (2019) for a given single-cell count data matrix. Each gene in the data is 
+#' fitted with a gamma-normal mixture model and the final SEG index is computed as an average of 
+#' key parameters that measure the expression stability of a gene. 
+#' 
+#' We recommend using either the pre-computed genes (see "See Also" below) or the top SEG genes 
+#' from an user's own data as the control genes in the \code{scMerge} function 
+#' (see the \code{ctl} argument in the \code{scMerge} function).
+#'  
 #' @author Shila Ghazanfar, Yingxin Lin, Pengyi Yang
 #' @param exprs_mat A log-transformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. 
 #' A n by m matrix, where n is the number of genes and m is the number of cells.

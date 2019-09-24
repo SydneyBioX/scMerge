@@ -22,7 +22,14 @@ Each row is a gene and each column is a statistic relating to the stability of e
 The main statistic is the \code{segIdx} column, which is the SEG index.
 }
 \description{
-Calculate single-cell Stably Expressed Gene (scSEG) index from Lin. et. al. (2019).
+This function computes the single-cell Stably Expressed Gene (scSEG) 
+index from Lin. et al. (2019) for a given single-cell count data matrix. Each gene in the data is 
+fitted with a gamma-normal mixture model and the final SEG index is computed as an average of 
+key parameters that measure the expression stability of a gene. 
+
+We recommend using either the pre-computed genes (see "See Also" below) or the top SEG genes 
+from an user's own data as the control genes in the \code{scMerge} function 
+(see the \code{ctl} argument in the \code{scMerge} function).
 }
 \examples{
 ## Loading example data
