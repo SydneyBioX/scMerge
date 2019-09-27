@@ -900,7 +900,7 @@ computePCA_byHVGMarker <- function(this_batch_list, batch, batch_oneType,
         
       result <- BiocSingular::runPCA(x = sub_exprs_mat, 
                                      rank = 10, scale = TRUE, center = TRUE,
-                                     BSPARAM = BiocSingular::ExactParam(fold = 5))$x
+                                     BSPARAM = BiocSingular::ExactParam())$x
     }
     rownames(result) <- rownames(sub_exprs_mat)
     return(result)

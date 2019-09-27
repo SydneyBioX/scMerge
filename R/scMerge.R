@@ -208,7 +208,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     
     timeRuv <- t3 - t2
     
-    sce_final_result <- sce_combine
+    sce_combine <- sce_combine
     
     if (return_all_RUV) {
         ## if return_all_RUV is TRUE, then the previous check ensured
@@ -219,28 +219,28 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
                            function(x) {t(x$newY)})
         
         for (i in seq_len(length(listNewY))) {
-            SummarizedExperiment::assay(sce_final_result, assay_name[i]) <- listNewY[[i]]
+            SummarizedExperiment::assay(sce_combine, assay_name[i]) <- listNewY[[i]]
         }
     } else {
         ## If return_all_RUV is FALSE, then scRUVIII should've just
         ## returned with a single result (ruv3res_optimal)
-        SummarizedExperiment::assay(sce_final_result, assay_name) <- t(ruv3res$newY)
+        SummarizedExperiment::assay(sce_combine, assay_name) <- t(ruv3res$newY)
     }
     
     if(is.null(BACKEND)){
         
     } else {
-        for(i in SummarizedExperiment::assayNames(sce_final_result)){
-            SummarizedExperiment::assay(sce_final_result, i) = DelayedArray::realize(SummarizedExperiment::assay(sce_final_result, i), BACKEND)
+        for(i in SummarizedExperiment::assayNames(sce_combine)){
+            SummarizedExperiment::assay(sce_combine, i) = DelayedArray::realize(SummarizedExperiment::assay(sce_combine, i), BACKEND)
         }
     }
     
-    S4Vectors::metadata(sce_final_result) <- c(S4Vectors::metadata(sce_combine), 
+    S4Vectors::metadata(sce_combine) <- c(S4Vectors::metadata(sce_combine), 
         list(ruvK = ruvK, ruvK_optimal = ruv3res$optimal_ruvK, 
             scRep_res = repMat, timeReplicates = timeReplicates, 
             timeRuv = timeRuv))
     
     message("scMerge complete!")
     
-    return(sce_final_result)
+    return(sce_combine)
 }  ## End scMerge function
