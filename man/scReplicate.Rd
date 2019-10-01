@@ -9,8 +9,8 @@ scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
   marker_list = NULL, replicate_prop = 1, cell_type = NULL,
   cell_type_match = FALSE, cell_type_inc = NULL, dist = "cor",
   WV = NULL, WV_marker = NULL, BPPARAM = SerialParam(),
-  return_all = FALSE, BSPARAM = ExactParam(fold = 5),
-  plot_igraph = TRUE, verbose = FALSE)
+  return_all = FALSE, BSPARAM = ExactParam(), plot_igraph = TRUE,
+  verbose = FALSE)
 }
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}
@@ -45,7 +45,7 @@ scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
 
 \item{return_all}{If \code{FALSE}, only return the replicate matrix.}
 
-\item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).}
+\item{BSPARAM}{A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().}
 
 \item{plot_igraph}{If \code{TRUE}, then during the un/semi-supervised scMErge, igraph plot will be displayed}
 

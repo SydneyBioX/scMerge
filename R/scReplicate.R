@@ -14,7 +14,7 @@
 #' @param cell_type_match Whether find mutual nearest cluster using cell type information
 #' @param cell_type_inc A vector indicates the indices of the cells that will be used to supervise the pseudo-replicate procedure
 #' @param dist The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.
-#' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam(fold = 5).
+#' @param BSPARAM A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is ExactParam().
 #' @param WV A vector indicates the wanted variation factor other than cell type info, such as cell stages.
 #' @param WV_marker A vector indicates the markers of the wanted variation.
 #' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
@@ -54,7 +54,7 @@ scReplicate <- function(sce_combine, batch = NULL, kmeansK = NULL,
     marker_list = NULL, replicate_prop = 1, cell_type = NULL, 
     cell_type_match = FALSE, cell_type_inc = NULL, dist = "cor", 
     WV = NULL, WV_marker = NULL, BPPARAM = SerialParam(), 
-    return_all = FALSE, BSPARAM = ExactParam(fold = 5), plot_igraph = TRUE, verbose = FALSE) {
+    return_all = FALSE, BSPARAM = ExactParam(), plot_igraph = TRUE, verbose = FALSE) {
     
     exprs_mat <- SummarizedExperiment::assay(sce_combine, exprs)
     originalCellNames <- colnames(exprs_mat)
