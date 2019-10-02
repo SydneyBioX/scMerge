@@ -60,7 +60,7 @@ You can find a list of case studies here: https://sydneybiox.github.io/scMerge/a
 
 ## Contact us
 
-If you have any enquries, especially about performing `scMerge` integration on your own data, then please contact bioinformatics@maths.usyd.edu.au. You can also [open an issue](https://github.com/SydneyBioX/scMerge/issues) on GitHub.
+If you have any enquiries, especially about performing `scMerge` integration on your own data, then please contact bioinformatics@maths.usyd.edu.au. You can also [open an issue](https://github.com/SydneyBioX/scMerge/issues) on GitHub.
 
 ## Reference
 
