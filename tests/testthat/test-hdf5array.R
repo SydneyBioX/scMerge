@@ -14,8 +14,8 @@ sce_matrix <- scMerge(
   cell_type = L$cellTypes,
   assay_name = 'matrix_output')
 
-counts = assay(sce_matrix, "counts")
-logcounts = assay(sce_matrix, "logcounts")
+counts = assay(L, "counts")
+logcounts = assay(L, "logcounts")
 ################################################
 
 sce_hdf = L

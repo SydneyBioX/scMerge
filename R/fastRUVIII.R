@@ -98,13 +98,13 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
             
                 svdObj <- BiocSingular::runSVD(x = Y0, k = svd_k, BPPARAM = BPPARAM, BSPARAM = BSPARAM)
                 
-                fullalpha <- t(svdObj$u[, seq_len(svd_k), drop = FALSE]) %*% Y
+                fullalpha <- DelayedArray::t(svdObj$u[, seq_len(svd_k), drop = FALSE]) %*% Y
             }  ## End is.null(fullalpha)
         ###############
         alpha <- fullalpha[seq_len(min(k, nrow(fullalpha))), 
             , drop = FALSE]
         ac <- alpha[, ctl, drop = FALSE]
-        W <- Y[, ctl] %*% t(ac) %*% solve(ac %*% t(ac))
+        W <- Y[, ctl] %*% DelayedArray::t(ac) %*% solve(ac %*% t(ac))
         newY <- Y - W %*% alpha
     }  ## End else(ncol(M) >= m | k == 0)
     
