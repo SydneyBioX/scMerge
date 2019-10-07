@@ -3,7 +3,7 @@ context("Test HDF5array")
 library(HDF5Array)
 
 set.seed(12345)
-L = ruvSimulate(m = 50, n = 100, nc = 100, 
+L = ruvSimulate(m = 100, n = 1000, nc = 100, 
                 nCelltypes = 3, nBatch = 2, 
                 lambda = 0.1, sce = TRUE)
 
@@ -21,13 +21,20 @@ logcounts = assay(L, "logcounts")
 sce_hdf = L
 assay(sce_hdf, "counts") = as(counts, "HDF5Array")
 assay(sce_hdf, "logcounts") = as(logcounts, "HDF5Array")
+# setRealizationBackend("HDF5Array")
+# getRealizationBackend()
+# library(BiocParallel)
+# DelayedArray::setAutoBPPARAM(BPPARAM = BiocParallel::MulticoreParam(workers = 5))
+# getAutoBPPARAM()
 
 sce_hdf <- scMerge(
-  sce_combine = sce_hdf,
-  ctl = paste0("gene",1:10),
-  kmeansK = c(3, 3),
-  cell_type = sce_hdf$cellTypes,
-  assay_name = 'hdf_output')
+    sce_combine = sce_hdf,
+    ctl = paste0("gene",1:10),
+    kmeansK = c(3, 3),
+    cell_type = sce_hdf$cellTypes,
+    assay_name = 'hdf_output')
+
+sce_hdf
 
 expect_equal(as.matrix(assay(sce_hdf, "hdf_output")), 
                  assay(sce_matrix, "matrix_output"))

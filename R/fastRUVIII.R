@@ -93,7 +93,7 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
                 } else if (class(Y) == "dgeMatrix"){
                     Y0 <- eigenResidop(as.matrix(Y), M)
                 } else {
-                    Y0 <- ruv::residop(Y, M)
+                    Y0 <- my_residop(Y, M)
                 }
             
                 svdObj <- BiocSingular::runSVD(x = Y0, k = svd_k, BPPARAM = BPPARAM, BSPARAM = BSPARAM)
@@ -101,10 +101,9 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
                 fullalpha <- DelayedArray::t(svdObj$u[, seq_len(svd_k), drop = FALSE]) %*% Y
             }  ## End is.null(fullalpha)
         ###############
-        alpha <- fullalpha[seq_len(min(k, nrow(fullalpha))), 
-            , drop = FALSE]
+        alpha <- fullalpha[seq_len(min(k, nrow(fullalpha))), , drop = FALSE]
         ac <- alpha[, ctl, drop = FALSE]
-        W <- Y[, ctl] %*% DelayedArray::t(ac) %*% solve(ac %*% t(ac))
+        W <- Y[, ctl] %*% DelayedArray::t(ac) %*% solve(ac %*% DelayedArray::t(ac))
         newY <- Y - W %*% alpha
     }  ## End else(ncol(M) >= m | k == 0)
     
@@ -121,4 +120,15 @@ tological <- function(ctl, n) {
     ctl2 <- rep(FALSE, n)
     ctl2[ctl] <- TRUE
     return(ctl2)
+}
+
+
+#' @importFrom DelayedArray t
+my_residop <- function(A, B){
+    tBB = DelayedArray::t(B) %*% B
+    tBB_inv = Matrix::solve(tBB)
+    BtBB_inv = B %*% tBB_inv
+    tBA = DelayedArray::t(B) %*% A
+    BtBB_inv_tBA = BtBB_inv %*% tBA
+    return(A - BtBB_inv_tBA)
 }
