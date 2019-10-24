@@ -28,8 +28,8 @@
 #' set.seed(1)
 #' result1 = scSEGIndex(exprs_mat = exprs_mat)
 #' ## If parallelisation is needed:
-#' param = BiocParallel::MulticoreParam(workers = 2, progressbar = TRUE)
-#' result2 = scSEGIndex(exprs_mat = exprs_mat, BPPARAM = param)
+#' ## param = BiocParallel::MulticoreParam(workers = 2, progressbar = TRUE)
+#' ## result2 = scSEGIndex(exprs_mat = exprs_mat, BPPARAM = param)
 #' @references Evaluating stably expressed genes in single cells (2019). doi:10.1093/gigascience/giz106. 
 #' @seealso Download human SEG directly from this \href{http://www.maths.usyd.edu.au/u/pengyi/software/scHK/scHK_human.xlsx}{link}; 
 #' Download mouse SEG directly from this \href{http://www.maths.usyd.edu.au/u/pengyi/software/scHK/scHK_mouse.xlsx}{link}.

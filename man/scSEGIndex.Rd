@@ -39,8 +39,8 @@ exprs_mat = SummarizedExperiment::assay(example_sce, 'logcounts')[1:110, 1:20]
 set.seed(1)
 result1 = scSEGIndex(exprs_mat = exprs_mat)
 ## If parallelisation is needed:
-param = BiocParallel::MulticoreParam(workers = 2, progressbar = TRUE)
-result2 = scSEGIndex(exprs_mat = exprs_mat, BPPARAM = param)
+## param = BiocParallel::MulticoreParam(workers = 2, progressbar = TRUE)
+## result2 = scSEGIndex(exprs_mat = exprs_mat, BPPARAM = param)
 }
 \references{
 Evaluating stably expressed genes in single cells (2019). doi:10.1093/gigascience/giz106.
