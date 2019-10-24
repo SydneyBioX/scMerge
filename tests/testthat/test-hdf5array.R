@@ -1,6 +1,8 @@
 context("Test HDF5array")
 
 library(HDF5Array)
+library(BiocParallel)
+BiocParallel::register(BPPARAM = BiocParallel::SerialParam())
 
 set.seed(12345)
 L = ruvSimulate(m = 100, n = 1000, nc = 100, 

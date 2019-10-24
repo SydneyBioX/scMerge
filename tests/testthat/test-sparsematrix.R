@@ -1,6 +1,8 @@
 context("Test sparseArray")
 
 library(Matrix)
+library(BiocParallel)
+BiocParallel::register(BPPARAM = BiocParallel::SerialParam())
 
 set.seed(12345)
 L = ruvSimulate(m = 50, n = 100, nc = 100, 
