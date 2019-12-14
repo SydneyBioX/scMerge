@@ -84,6 +84,7 @@ example_sce$cellTypes)
 
 dim(example_sce)
 
+example_sce = runPCA(example_sce)
 scater::plotPCA(example_sce, 
 colour_by = "cellTypes", 
 shape_by = "batch")
@@ -104,6 +105,8 @@ data("example_sce", package = "scMerge")
 In this mESC data, we pooled data from 2 different batches from three different cell types. Using a PCA plot, we can see that despite strong separation of cell types, there is also a strong separation due to batch effects. This information is stored in the `colData` of `example_sce`. 
 
 ```{r checking raw data}
+example_sce = runPCA(example_sce)
+
 scater::plotPCA(
   example_sce, 
   colour_by = "cellTypes", 
@@ -154,6 +157,7 @@ t2 = Sys.time()
 We now colour construct the PCA plot again on our normalised data. We can observe a much better separation by cell type and less separation by batches. 
 
 ```{r unsupervised_default_plotting}
+scMerge_unsupervised = runPCA(scMerge_unsupervised)
 scater::plotPCA(
   scMerge_unsupervised, 
   colour_by = "cellTypes", 
@@ -190,6 +194,8 @@ scMerge_unsupervised_all <- scMerge(
 ```
 
 ```{r unsupervised_prop1_plotting}
+scMerge_unsupervised_all = runPCA(scMerge_unsupervised_all)
+
 scater::plotPCA(
   scMerge_unsupervised_all, 
   colour_by = "cellTypes", 
@@ -228,6 +234,8 @@ scMerge_supervised <- scMerge(
 
 
 ```{r supervised_plotting}
+scMerge_supervised = runPCA(scMerge_supervised)
+
 scater::plotPCA(
   scMerge_supervised,
   colour_by = "cellTypes",
@@ -254,6 +262,8 @@ scMerge_semisupervised1 <- scMerge(
 
 
 ```{r semi_supervised1_plotting}
+scMerge_semisupervised1 = runPCA(scMerge_semisupervised1)
+
 scater::plotPCA(
   scMerge_semisupervised1, 
   colour_by = "cellTypes", 
@@ -283,6 +293,8 @@ scMerge_semisupervised2 <- scMerge(
 
 
 ```{r semi_supervised2_plotting}
+scMerge_semisupervised2 = runPCA(scMerge_semisupervised2)
+
 scater::plotPCA(
   scMerge_semisupervised2, 
   colour_by = "cellTypes", 
@@ -358,6 +370,8 @@ t4 = Sys.time()
 ```{r computation_svd_plotting}
 paste("Normally, scMerge takes ", round(t2 - t1, 2), " seconds")
 paste("Fast version of scMerge takes ", round(t4 - t3, 2), " seconds")
+
+scMerge_fast = runPCA(scMerge_fast)
 
 scater::plotPCA(
   scMerge_fast, 
