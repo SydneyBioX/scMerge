@@ -4,14 +4,31 @@
 \alias{scMerge}
 \title{Perform the scMerge algorithm}
 \usage{
-scMerge(sce_combine, ctl = NULL, kmeansK = NULL, exprs = "logcounts",
-  hvg_exprs = "counts", marker = NULL, marker_list = NULL,
-  ruvK = 20, replicate_prop = 1, cell_type = NULL,
-  cell_type_match = FALSE, cell_type_inc = NULL,
-  BSPARAM = ExactParam(), svd_k = 50, dist = "cor", WV = NULL,
-  WV_marker = NULL, BPPARAM = SerialParam(), return_all_RUV = FALSE,
-  BACKEND = NULL, assay_name = NULL, plot_igraph = TRUE,
-  verbose = FALSE)
+scMerge(
+  sce_combine,
+  ctl = NULL,
+  kmeansK = NULL,
+  exprs = "logcounts",
+  hvg_exprs = "counts",
+  marker = NULL,
+  marker_list = NULL,
+  ruvK = 20,
+  replicate_prop = 1,
+  cell_type = NULL,
+  cell_type_match = FALSE,
+  cell_type_inc = NULL,
+  BSPARAM = ExactParam(),
+  svd_k = 50,
+  dist = "cor",
+  WV = NULL,
+  WV_marker = NULL,
+  BPPARAM = SerialParam(),
+  return_all_RUV = FALSE,
+  BACKEND = NULL,
+  assay_name = NULL,
+  plot_igraph = TRUE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData.}
@@ -84,10 +101,12 @@ sce_mESC <- scMerge(sce_combine = example_sce,
 ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
 kmeansK = c(3, 3),
 assay_name = 'scMerge')
-scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
-                 run_args = list(exprs_values = 'logcounts'))
-scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
-                 run_args = list(exprs_values = 'scMerge'))
+
+sce_mESC = runPCA(sce_mESC, exprs_values = "logcounts")                      
+scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch')
+
+sce_mESC = runPCA(sce_mESC, exprs_values = 'scMerge')                                       
+scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch')
 }
 \author{
 Yingxin Lin, Kevin Wang

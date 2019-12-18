@@ -52,10 +52,12 @@
 #' ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
 #' kmeansK = c(3, 3),
 #' assay_name = 'scMerge')
-#' scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
-#'                  run_args = list(exprs_values = 'logcounts'))
-#' scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch',
-#'                  run_args = list(exprs_values = 'scMerge'))
+#' 
+#' sce_mESC = runPCA(sce_mESC, exprs_values = "logcounts")                      
+#' scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch')
+#' 
+#' sce_mESC = runPCA(sce_mESC, exprs_values = 'scMerge')                                       
+#' scater::plotPCA(sce_mESC, colour_by = 'cellTypes', shape = 'batch')
 
 
 scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, 

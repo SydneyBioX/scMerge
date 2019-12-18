@@ -4,10 +4,21 @@
 \alias{fastRUVIII}
 \title{A fast version of the ruv::RUVIII algorithm}
 \usage{
-fastRUVIII(Y, M, ctl, k = NULL, eta = NULL, svd_k = 50,
-  include.intercept = TRUE, average = FALSE, BPPARAM = SerialParam(),
-  BSPARAM = ExactParam(), fullalpha = NULL, return.info = FALSE,
-  inputcheck = TRUE)
+fastRUVIII(
+  Y,
+  M,
+  ctl,
+  k = NULL,
+  eta = NULL,
+  svd_k = 50,
+  include.intercept = TRUE,
+  average = FALSE,
+  BPPARAM = SerialParam(),
+  BSPARAM = ExactParam(),
+  fullalpha = NULL,
+  return.info = FALSE,
+  inputcheck = TRUE
+)
 }
 \arguments{
 \item{Y}{The unnormalised scRNA-Seq data matrix. 

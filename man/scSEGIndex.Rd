@@ -4,8 +4,11 @@
 \alias{scSEGIndex}
 \title{Single Cell Stably Express Gene Index}
 \usage{
-scSEGIndex(exprs_mat, cell_type = NULL,
-  BPPARAM = SerialParam(progressbar = TRUE))
+scSEGIndex(
+  exprs_mat,
+  cell_type = NULL,
+  BPPARAM = SerialParam(progressbar = TRUE)
+)
 }
 \arguments{
 \item{exprs_mat}{A log-transformed single-cell data, assumed to have no batch effect and covered a wide range of cell types. 

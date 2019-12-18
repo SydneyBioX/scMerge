@@ -4,9 +4,19 @@
 \alias{scRUVIII}
 \title{scRUVIII: RUVIII algorithm optimised for single cell data}
 \usage{
-scRUVIII(Y = Y, M = M, ctl = ctl, fullalpha = NULL, k = k,
-  cell_type = NULL, batch = NULL, return_all_RUV = TRUE,
-  BPPARAM = SerialParam(), BSPARAM = ExactParam(), svd_k = 50)
+scRUVIII(
+  Y = Y,
+  M = M,
+  ctl = ctl,
+  fullalpha = NULL,
+  k = k,
+  cell_type = NULL,
+  batch = NULL,
+  return_all_RUV = TRUE,
+  BPPARAM = SerialParam(),
+  BSPARAM = ExactParam(),
+  svd_k = 50
+)
 }
 \arguments{
 \item{Y}{The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.}

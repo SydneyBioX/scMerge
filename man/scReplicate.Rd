@@ -4,13 +4,27 @@
 \alias{scReplicate}
 \title{Create replicate matrix for scMerge algorithm}
 \usage{
-scReplicate(sce_combine, batch = NULL, kmeansK = NULL,
-  exprs = "logcounts", hvg_exprs = "counts", marker = NULL,
-  marker_list = NULL, replicate_prop = 1, cell_type = NULL,
-  cell_type_match = FALSE, cell_type_inc = NULL, dist = "cor",
-  WV = NULL, WV_marker = NULL, BPPARAM = SerialParam(),
-  return_all = FALSE, BSPARAM = ExactParam(), plot_igraph = TRUE,
-  verbose = FALSE)
+scReplicate(
+  sce_combine,
+  batch = NULL,
+  kmeansK = NULL,
+  exprs = "logcounts",
+  hvg_exprs = "counts",
+  marker = NULL,
+  marker_list = NULL,
+  replicate_prop = 1,
+  cell_type = NULL,
+  cell_type_match = FALSE,
+  cell_type_inc = NULL,
+  dist = "cor",
+  WV = NULL,
+  WV_marker = NULL,
+  BPPARAM = SerialParam(),
+  return_all = FALSE,
+  BSPARAM = ExactParam(),
+  plot_igraph = TRUE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{sce_combine}{A \code{SingleCellExperiment} object contains the batch-combined matrix with batch info in colData}

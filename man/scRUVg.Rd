@@ -4,8 +4,16 @@
 \alias{scRUVg}
 \title{RUVg function for single cell (under development)}
 \usage{
-scRUVg(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
-  fullW = NULL, svdyc = NULL)
+scRUVg(
+  Y,
+  ctl,
+  k,
+  Z = 1,
+  eta = NULL,
+  include.intercept = TRUE,
+  fullW = NULL,
+  svdyc = NULL
+)
 }
 \arguments{
 \item{Y}{The data. A m by n matrix, where m is the number of observations and n is the number of features.}

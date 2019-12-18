@@ -4,9 +4,15 @@
 \alias{sce_cbind}
 \title{Combind several \code{SingleCellExperiment} objects from different batches/experiments}
 \usage{
-sce_cbind(sce_list, method = "intersect", cut_off_batch = 0.01,
-  cut_off_overall = 0.01, exprs = c("counts", "logcounts"),
-  colData_names = NULL, batch_names = NULL)
+sce_cbind(
+  sce_list,
+  method = "intersect",
+  cut_off_batch = 0.01,
+  cut_off_overall = 0.01,
+  exprs = c("counts", "logcounts"),
+  colData_names = NULL,
+  batch_names = NULL
+)
 }
 \arguments{
 \item{sce_list}{A list contains the \code{SingleCellExperiment} Object from each batch}

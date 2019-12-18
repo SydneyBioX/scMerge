@@ -4,8 +4,16 @@
 \alias{ruvSimulate}
 \title{Simulate a simple matrix or SingleCellExperiment to test internals of scMerge}
 \usage{
-ruvSimulate(m = 100, n = 5000, nc = floor(n/2), nCelltypes = 3,
-  nBatch = 2, k = 20, lambda = 0.1, sce = FALSE)
+ruvSimulate(
+  m = 100,
+  n = 5000,
+  nc = floor(n/2),
+  nCelltypes = 3,
+  nBatch = 2,
+  k = 20,
+  lambda = 0.1,
+  sce = FALSE
+)
 }
 \arguments{
 \item{m}{Number of observations}
@@ -51,10 +59,9 @@ example <- scMerge(sce_combine = L,
                       cell_type = L$cellTypes,
                       ruvK = 10,
                       assay_name = 'scMerge')
-                      
-scater::plotPCA(L, colour_by = 'cellTypes', shape = 'batch',
-                 run_args = list(exprs_values = 'logcounts'))
-                 
-scater::plotPCA(example, colour_by = 'cellTypes', shape = 'batch',
-                 run_args = list(exprs_values = 'scMerge'))
+L = runPCA(L, exprs_values = "logcounts")                      
+scater::plotPCA(L, colour_by = 'cellTypes', shape = 'batch')
+
+example = runPCA(example, exprs_values = 'scMerge')                                       
+scater::plotPCA(example, colour_by = 'cellTypes', shape = 'batch')
 }
