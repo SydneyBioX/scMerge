@@ -62,6 +62,6 @@ example <- scMerge(sce_combine = L,
 L = runPCA(L, exprs_values = "logcounts")                      
 scater::plotPCA(L, colour_by = 'cellTypes', shape = 'batch')
 
-example = runPCA(example, exprs_values = 'scMerge')                                       
+example = scater::runPCA(example, exprs_values = 'scMerge')                                       
 scater::plotPCA(example, colour_by = 'cellTypes', shape = 'batch')
 }
