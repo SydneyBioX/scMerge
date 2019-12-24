@@ -31,7 +31,7 @@
 #'                       cell_type = L$cellTypes,
 #'                       ruvK = 10,
 #'                       assay_name = 'scMerge')
-#' L = runPCA(L, exprs_values = "logcounts")                      
+#' L = scater::runPCA(L, exprs_values = "logcounts")                      
 #' scater::plotPCA(L, colour_by = 'cellTypes', shape = 'batch')
 #' 
 #' example = scater::runPCA(example, exprs_values = 'scMerge')                                       
