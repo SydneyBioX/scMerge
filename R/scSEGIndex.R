@@ -219,6 +219,7 @@ gammaNormMix <- function(data, thresh = 1e-07, maxiter = 10000,
   # initiate
   n = length(x)
   z = stats::rbinom(n, 1, 0.5)
+  if(sum(z) == 0){z[1] = 1} ## Break out of a sequence of zeroes error
   z_iter = z
   mu = -100
   mu_iter = 10
