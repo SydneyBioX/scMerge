@@ -7,7 +7,8 @@
 scSEGIndex(
   exprs_mat,
   cell_type = NULL,
-  BPPARAM = SerialParam(progressbar = TRUE)
+  BPPARAM = SerialParam(progressbar = TRUE),
+  return_all = FALSE
 )
 }
 \arguments{
@@ -18,6 +19,9 @@ A n by m matrix, where n is the number of genes and m is the number of cells.}
 If it is \code{NULL}, the function calculates the scSEG index without using F-statistics.}
 
 \item{BPPARAM}{A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam(progressbar = TRUE).}
+
+\item{return_all}{Default to FALSE. If set to TRUE, then all genes will be returned. Otherwise, 
+only genes with less than 80 percent zeroes will be returned.}
 }
 \value{
 Returns a data frame. 

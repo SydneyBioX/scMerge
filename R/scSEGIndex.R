@@ -14,11 +14,14 @@
 #' @param cell_type A vector indicating the cell type information for each cell in the gene expression matrix. 
 #' If it is \code{NULL}, the function calculates the scSEG index without using F-statistics.
 #' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam(progressbar = TRUE).
+#' @param return_all Default to FALSE. If set to TRUE, then all genes will be returned. Otherwise, 
+#' only genes with less than 80 percent zeroes will be returned. 
 #' @return Returns a data frame. 
 #' Each row is a gene and each column is a statistic relating to the stability of expression of each gene.
 #' The main statistic is the \code{segIdx} column, which is the SEG index.
 #' @importFrom BiocParallel SerialParam
 #' @importFrom distr igamma
+#' @importFrom dplyr left_join
 #' @export
 #' @examples
 #' ## Loading example data
@@ -41,7 +44,8 @@
 
 # This is the main function for calculating stably expressed
 # gene index
-scSEGIndex <- function(exprs_mat, cell_type = NULL, BPPARAM = SerialParam(progressbar = TRUE)) {
+scSEGIndex <- function(exprs_mat, cell_type = NULL, BPPARAM = SerialParam(progressbar = TRUE),
+                       return_all = FALSE) {
   
   if (is.null(exprs_mat)) {
     stop("exprs_mat is NULL.")
@@ -132,8 +136,12 @@ scSEGIndex <- function(exprs_mat, cell_type = NULL, BPPARAM = SerialParam(progre
                          mu = m, mu.scaled = m.scaled, zero = z, f_stats = f)
     
   }
-  
-  return(resMat)
+  resMat2 = cbind(gene = as.character(rownames(resMat)), resMat)
+  result = data.frame(gene = as.character(rownames(exprs_mat)),
+                      zero.all = rowMeans(exprs_mat == 0))
+  result = dplyr::left_join(x = result, y = resMat2, by = "gene")
+  rownames(result) = rownames(exprs_mat)
+  return(result)
 }
 
 
