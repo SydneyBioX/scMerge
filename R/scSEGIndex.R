@@ -136,11 +136,15 @@ scSEGIndex <- function(exprs_mat, cell_type = NULL, BPPARAM = SerialParam(progre
                          mu = m, mu.scaled = m.scaled, zero = z, f_stats = f)
     
   }
-  resMat2 = cbind(gene = as.character(rownames(resMat)), resMat)
-  result = data.frame(gene = as.character(rownames(exprs_mat)),
-                      zero.all = rowMeans(exprs_mat == 0))
-  result = dplyr::left_join(x = result, y = resMat2, by = "gene")
-  rownames(result) = rownames(exprs_mat)
+ if(return_all){
+   resMat2 = cbind(gene = as.character(rownames(resMat)), resMat)
+   result = data.frame(gene = as.character(rownames(exprs_mat)),
+                       zero.all = rowMeans(exprs_mat == 0))
+   result = dplyr::left_join(x = result, y = resMat2, by = "gene")
+   rownames(result) = rownames(exprs_mat)
+ } else {
+   result = resMat
+ }
   return(result)
 }
 
