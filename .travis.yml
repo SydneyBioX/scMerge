@@ -9,7 +9,7 @@ os:
   - linux
 
 env:
-  - R_BIOC_VERSION: "3.10"
+  - R_BIOC_VERSION: "3.11"
 
 r_github_packages:
   - r-lib/covr
@@ -17,7 +17,7 @@ r_github_packages:
 
 script:
   - Rscript -e 'BiocManager::version()'
-  - Rscript -e 'BiocManager::install(version = "3.10", ask = FALSE)'
+  - Rscript -e 'BiocManager::install(version = "3.11", ask = FALSE)'
   - Rscript -e 'BiocManager::version()'
 
 deploy:
