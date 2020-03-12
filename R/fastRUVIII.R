@@ -88,7 +88,7 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
                 ## matrix M to a matrix Y Y0 has the same dimensions as Y,
                 ## i.e. m rows (observations) and n columns (genes).
                 
-                if(class(Y) == "matrix"){
+                if("matrix" %in% class(Y)){
                     Y0 <- eigenResidop(Y, M)
                 } else if (class(Y) == "dgeMatrix"){
                     Y0 <- eigenResidop(as.matrix(Y), M)
