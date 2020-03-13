@@ -7,6 +7,7 @@
 #' @param kmeansK A vector indicates the kmeans's K for each batch. The length of kmeansK needs to be the same as the number of batch.
 #' @param exprs A string indicating the name of the assay requiring batch correction in sce_combine, default is logcounts.
 #' @param hvg_exprs A string indicating the assay that to be used for highly variable genes identification in sce_combine, default is counts.
+#' @param batch_name A character indicating the name of the batch column, default to "batch"
 #' @param marker An optional vector of markers, to be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead.
 #' @param marker_list An optional list of markers for each batch, which will be used in calculation of mutual nearest cluster.
 #' @param ruvK An optional integer/vector indicating the number of unwanted variation factors that are removed, default is 20.
@@ -61,7 +62,7 @@
 
 
 scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL, 
-    exprs = "logcounts", hvg_exprs = "counts", marker = NULL, 
+    exprs = "logcounts", hvg_exprs = "counts", batch_name = "batch", marker = NULL, 
     marker_list = NULL, ruvK = 20, replicate_prop = 1, cell_type = NULL, 
     cell_type_match = FALSE, cell_type_inc = NULL, BSPARAM = ExactParam(), 
     svd_k = 50, dist = "cor", WV = NULL, WV_marker = NULL, 
@@ -147,10 +148,12 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     }
     
     ## Checking the batch info
-    if (is.null(sce_combine$batch)) {
+    if (!(batch_name %in% colnames(sce_combine))) {
         stop("Could not find a 'batch' column in colData(sce_combine)", 
             call. = FALSE)
     }
+    
+    sce_combine$batch = sce_combine[[batch_name]]
     
     if (is.factor(sce_combine$batch)) {
         batch <- droplevels(sce_combine$batch)

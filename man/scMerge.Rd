@@ -10,6 +10,7 @@ scMerge(
   kmeansK = NULL,
   exprs = "logcounts",
   hvg_exprs = "counts",
+  batch_name = "batch",
   marker = NULL,
   marker_list = NULL,
   ruvK = 20,
@@ -40,6 +41,8 @@ scMerge(
 \item{exprs}{A string indicating the name of the assay requiring batch correction in sce_combine, default is logcounts.}
 
 \item{hvg_exprs}{A string indicating the assay that to be used for highly variable genes identification in sce_combine, default is counts.}
+
+\item{batch_name}{A character indicating the name of the batch column, default to "batch"}
 
 \item{marker}{An optional vector of markers, to be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead.}
 
