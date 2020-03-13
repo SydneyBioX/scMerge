@@ -148,7 +148,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     }
     
     ## Checking the batch info
-    if (!(batch_name %in% colnames(sce_combine))) {
+    if (!(batch_name %in% colnames(colData(sce_combine)))) {
         stop("Could not find a 'batch' column in colData(sce_combine)", 
             call. = FALSE)
     }
