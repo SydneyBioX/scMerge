@@ -1,7 +1,7 @@
 #' @title Subsetted mouse ESC `SingleCellExperiment` object
 #' @description A dataset containing 300 cells and 2026 genes 
 #' from two batches of mouse ESC data
-#' #@usage data(example_sce, package = 'scMerge')
+#' @usage data(example_sce, package = 'scMerge')
 #'
 #' @format A `SingleCellExperiment` object
 #' @source \url{https://www.ebi.ac.uk/arrayexpress/experiments/E-MTAB-2600/}

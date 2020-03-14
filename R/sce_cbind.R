@@ -33,7 +33,7 @@ sce_cbind <- function(sce_list, method = "intersect", cut_off_batch = 0.01,
     
     message("The assay named '", exprs[1], "' will be used to determine the proportion of zeroes for each batch")
     
-    if (method == "union" & class(SummarizedExperiment::assay(sce_list[[1]], exprs[1])) != "matrix") {
+    if (method == "union" & !is.matrix(SummarizedExperiment::assay(sce_list[[1]], exprs[1]))) {
         stop("The union method only supports matrix class in the sce object \n ")
     }
     

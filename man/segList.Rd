@@ -5,7 +5,9 @@
 \alias{segList}
 \title{Stably expressed gene list in official gene symbols 
 for both human and mouse}
-\format{An object of class \code{list} of length 2.}
+\format{
+An object of class \code{list} of length 2.
+}
 \usage{
 data(segList, package = 'scMerge')
 }

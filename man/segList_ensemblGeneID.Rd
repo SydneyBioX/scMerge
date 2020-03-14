@@ -4,7 +4,9 @@
 \name{segList_ensemblGeneID}
 \alias{segList_ensemblGeneID}
 \title{Stably expressed gene list in EnsemblGeneID for both human and mouse}
-\format{An object of class \code{list} of length 2.}
+\format{
+An object of class \code{list} of length 2.
+}
 \usage{
 data(segList_ensemblGeneID, package = 'scMerge')
 }
