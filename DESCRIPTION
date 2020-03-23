@@ -27,7 +27,6 @@ Imports:
   DelayedArray,
   DelayedMatrixStats,
   distr,
-  dplyr,
   igraph,
   M3Drop (>= 1.9.4),
   parallel,

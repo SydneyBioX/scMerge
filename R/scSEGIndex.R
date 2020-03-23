@@ -21,7 +21,6 @@
 #' The main statistic is the \code{segIdx} column, which is the SEG index.
 #' @importFrom BiocParallel SerialParam
 #' @importFrom distr igamma
-#' @importFrom dplyr left_join
 #' @export
 #' @examples
 #' ## Loading example data
@@ -138,9 +137,9 @@ scSEGIndex <- function(exprs_mat, cell_type = NULL, BPPARAM = SerialParam(progre
   }
  if(return_all){
    resMat2 = cbind(gene = as.character(rownames(resMat)), resMat)
-   result = data.frame(gene = as.character(rownames(exprs_mat)),
+   all_genes = data.frame(gene = as.character(rownames(exprs_mat)),
                        zero.all = rowMeans(exprs_mat == 0))
-   result = dplyr::left_join(x = result, y = resMat2, by = "gene")
+   result = merge(x = all_genes, y = resMat2, by = "gene", all.x = TRUE)
    rownames(result) = rownames(exprs_mat)
  } else {
    result = resMat
