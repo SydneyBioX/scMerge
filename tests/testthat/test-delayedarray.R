@@ -1,6 +1,6 @@
-context("Test HDF5array")
+context("Test DelayedArray")
 
-library(HDF5Array)
+library(DelayedArray)
 library(BiocParallel)
 BiocParallel::register(BPPARAM = BiocParallel::SerialParam())
 
@@ -21,8 +21,8 @@ logcounts = assay(L, "logcounts")
 ################################################
 
 sce_hdf = L
-assay(sce_hdf, "counts") = as(counts, "HDF5Array")
-assay(sce_hdf, "logcounts") = as(logcounts, "HDF5Array")
+assay(sce_hdf, "counts") = DelayedArray(counts)
+assay(sce_hdf, "logcounts") = DelayedArray(logcounts)
 # setRealizationBackend("HDF5Array")
 # getRealizationBackend()
 # library(BiocParallel)
