@@ -1,8 +1,8 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
+language: r
 cache: packages
-R: bioc-devel
+r: bioc-devel
 dist: trusty
 
 os:
@@ -13,17 +13,17 @@ env:
 
 r_github_packages:
   - r-lib/covr
-  - r-lib/pkgdown
 
 script:
   - Rscript -e 'BiocManager::version()'
   - Rscript -e 'BiocManager::install(version = "3.11", ask = FALSE)'
   - Rscript -e 'BiocManager::version()'
 
+before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
 deploy:
   provider: script
   script: Rscript -e 'pkgdown::deploy_site_github(tarball = ".")'
-  skip_cleanup: true
+  cleanup: false
 
 after_success:
   - Rscript -e 'covr::codecov()'
