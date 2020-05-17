@@ -59,7 +59,7 @@ scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
     Y0 = ruv::RUV1(Y, eta, ctl, include.intercept = include.intercept)
     
     if (q > 0) {
-        Y0 = eigenResidop(Y0, Z)
+        Y0 = my_residop(Y0, Z)
     }
     if (is.null(fullW)) {
         if (is.null(svdyc)) {
@@ -67,7 +67,7 @@ scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
             matToDecomp = Y0ctl
             if (max(dim(matToDecomp))/min(dim(matToDecomp)) >= 
                 5) {
-                matToDecomp <- eigenMatMult(Y0ctl, t(Y0ctl))
+                matToDecomp <- Y0ctl %*% t(Y0ctl)
             }
             svdyc = svd(matToDecomp)
             fullW = svdyc$u[, seq_len(min((m - q), sum(ctl))), 

@@ -21,8 +21,6 @@
 #' @param fullalpha Not used. Please ignore. See ruv::RUVIII for details.
 #' @param return.info Additional information relating to the computation of normalised matrix. We recommend setting this to true.
 #' @param inputcheck We recommend setting this to true.
-#' @useDynLib scMerge, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
 #' @importFrom DelayedArray t
 #' @importFrom BiocSingular runExactSVD
 #' @export
