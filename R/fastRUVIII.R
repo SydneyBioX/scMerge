@@ -88,13 +88,7 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
                 ## matrix M to a matrix Y Y0 has the same dimensions as Y,
                 ## i.e. m rows (observations) and n columns (genes).
                 
-                if(is.matrix(Y)){
-                    Y0 <- eigenResidop(Y, M)
-                } else if (class(Y) == "dgeMatrix"){
-                    Y0 <- eigenResidop(as.matrix(Y), M)
-                } else {
-                    Y0 <- my_residop(Y, M)
-                }
+                Y0 <- my_residop(Y, M)
             
                 svdObj <- BiocSingular::runSVD(x = Y0, k = svd_k, BPPARAM = BPPARAM, BSPARAM = BSPARAM)
                 
