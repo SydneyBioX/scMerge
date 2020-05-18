@@ -8,15 +8,12 @@ dist: trusty
 os:
   - linux
 
-env:
-  - R_BIOC_VERSION: "3.12"
-
 r_github_packages:
   - r-lib/covr
 
 script:
   - Rscript -e 'BiocManager::version()'
-  - Rscript -e 'BiocManager::install(version = "3.12", ask = FALSE)'
+  - Rscript -e 'BiocManager::install(version = "devel", ask = FALSE)'
   - Rscript -e 'BiocManager::version()'
 
 before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
