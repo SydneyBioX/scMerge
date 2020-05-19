@@ -16,11 +16,13 @@ script:
   - Rscript -e 'BiocManager::install(version = "devel", ask = FALSE)'
   - Rscript -e 'BiocManager::version()'
 
-before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+cache: packages
+
+before_cache: Rscript -e 'install.packages("pkgdown")'
 deploy:
   provider: script
   script: Rscript -e 'pkgdown::deploy_site_github(tarball = ".")'
-  cleanup: false
+  skip_cleanup: true
 
 after_success:
   - Rscript -e 'covr::codecov()'
