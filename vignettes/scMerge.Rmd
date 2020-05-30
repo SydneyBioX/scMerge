@@ -334,7 +334,7 @@ head(segList$human$bulkRNAseqHK)
 
 
 
-# Achieving fast computation
+# Achieving fast and memory-efficient computation
 
 
 ## Using approximated SVD
@@ -388,14 +388,58 @@ Please note that any parallelisation would incur a small overhead. Hence we reco
 
 ```{r parallel1, eval = FALSE}
 library(BiocParallel)
-scMerge_parallel1 <- scMerge(
+scMerge_parallel <- scMerge(
   sce_combine = example_sce, 
   ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
   kmeansK = c(3, 3),
-  assay_name = "scMerge_parallel1",
+  assay_name = "scMerge_parallel",
   BPPARAM = MulticoreParam(workers = 2)
 )
 ```
+
+
+## Sparse array
+
+`scMerge` also supports sparse array input, which could be very helpful in speeding up computations and saving RAM. `scMerge` does not perform internal matrix conversion, so you may use the following codes as an example of converting typical `matrix` class to sparse matrices before running `scMerge`. 
+
+```{r, eval = FALSE}
+library(Matrix)
+library(DelayedArray)
+
+sparse_input = example_sce
+
+assay(sparse_input, "counts") = as(counts(sparse_input), "dgeMatrix")
+assay(sparse_input, "logcounts") = as(logcounts(sparse_input), "dgeMatrix")
+
+scMerge_sparse = scMerge(
+  sce_combine = sparse_input, 
+  ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+  kmeansK = c(3, 3),
+  assay_name = "scMerge_sparse")
+```
+
+## Out-of-memory computations (through `HDF5Array`)
+
+Bioconductor provides an infrastructure for out-of-memory computation through `HDF5Array`. In simple terms, we can load an on-disk data into RAM, make computations and write to hard disk. This is particularly helpful when the data is too large for in-RAM computations. You may use the following codes as an example of converting typical `matrix` class to `HDF5Array` matrices before running `scMerge`. 
+
+```{r, eval = FALSE}
+library(HDF5Array)
+library(DelayedArray)
+
+DelayedArray:::set_verbose_block_processing(TRUE) ## To monitor block processing 
+
+hdf5_input = example_sce
+
+assay(hdf5_input, "counts") = as(counts(hdf5_input), "HDF5Array")
+assay(hdf5_input, "logcounts") = as(logcounts(hdf5_input), "HDF5Array")
+
+scMerge_hdf5 = scMerge(
+  sce_combine = sparse_input, 
+  ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+  kmeansK = c(3, 3),
+  assay_name = "scMerge_hdf5")
+```
+
 
 
 
