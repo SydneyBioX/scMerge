@@ -67,17 +67,8 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     BPPARAM = SerialParam(), return_all_RUV = FALSE,
     assay_name = NULL, plot_igraph = TRUE, verbose = FALSE) {
     
-    ## Checking input expression
-    if (is.null(exprs)) {
-        stop("exprs is NULL.")
-    }
     
-    
-    ## Checking input expression assay name in SCE object
-    if (!exprs %in% SummarizedExperiment::assayNames(sce_combine)) {
-        stop(paste("No assay named", exprs))
-    }
-    
+    ## In case there are complete zeroes in the rows or columns
     colsum_exprs = DelayedMatrixStats::colSums2(SummarizedExperiment::assay(sce_combine, exprs))
     rowsum_exprs = DelayedMatrixStats::rowSums2(SummarizedExperiment::assay(sce_combine, exprs))
     if(any(colsum_exprs == 0) | any(rowsum_exprs == 0)){
@@ -86,71 +77,37 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
         sce_combine = sce_combine[rowsum_exprs != 0, colsum_exprs != 0]
     }
     
-    ## Checking if the cell names are non-unique
-    cellNames = colnames(sce_combine)
-    
-    if (length(cellNames) != length(unique(cellNames))) {
-        stop("Please make sure column names are unique.")
-    }
-    
-    if (is.null(assay_name)) {
-        stop("assay_name is NULL, please provide a name to store the results under")
-    }
-    
+    ## This is a very niche option, consider deprecation in the future
     if (length(ruvK) > 1){
         message("You chose more than one ruvK. The argument return_all_RUV is forced to be TRUE.")
         return_all_RUV = TRUE
     }
     
-    if (return_all_RUV) {
-        message("You chose return_all_RUV = TRUE. The result will contain all RUV computations. This could be a very large object.")
-        ## We need an assay_name for every ruvK, if return_all_RUV is
-        ## TRUE
-        if (length(assay_name) != length(ruvK)) {
-            stop("You chose return_all_RUV = TRUE. In this case, the length of assay_name must be equal to the length of ruvK")
-        }
-    }
-    
+    check_input(sce_combine = sce_combine, exprs = exprs, hvg_exprs = hvg_exprs, 
+                assay_name = assay_name, batch_name = batch_name, ruvK = ruvK, 
+                return_all_RUV = return_all_RUV)
     
     ## Extracting data matrix from SCE object
     exprs_mat <- SummarizedExperiment::assay(sce_combine, exprs)
-    if (!is.matrix(exprs_mat)) {
-        # stop(paste0("The assay named '", exprs, "' must be of class 'matrix', please convert this."))
-    }
     
-    
-    sce_rownames <- rownames(sce_combine)
-    
-    if (is.null(colnames(exprs_mat)) | 
-        length(colnames(exprs_mat)) != length(unique(colnames(exprs_mat)))) {
-        stop("colnames of exprs is NULL or contains duplicates")
-    }
-    
-    
-    hvg_exprs_mat <- SummarizedExperiment::assay(sce_combine, hvg_exprs)
-    if (!is.matrix(hvg_exprs_mat)) {
-        # stop(paste0("The assay named '", hvg_exprs, "' must be of class 'matrix', please convert this."))
-    }
     
     ## Checking negative controls input
+    sce_rownames <- rownames(sce_combine)
     if (is.null(ctl)) {
-        stop("Negative control genes are needed. \n")
+        stop("Negative control genes are needed. \n 
+             You could use either a pre-computed list or use scSEGIndex(), see vignette.")
     } else {
         if (is.character(ctl)) {
             ctl <- which(sce_rownames %in% ctl)
         }
         if (length(ctl) == 0) {
-            stop("Could not find any negative control genes in the row names of the expression matrix", 
+            stop("Negative control genes are needed. \n 
+             You could use either a pre-computed list or use scSEGIndex(), see vignette.",
                 call. = FALSE)
         }
     }
     
-    ## Checking the batch info
-    if (!(batch_name %in% colnames(colData(sce_combine)))) {
-        stop("Could not find a 'batch' column in colData(sce_combine)", 
-            call. = FALSE)
-    }
-    
+    ## Dealing with batch
     sce_combine$batch = sce_combine[[batch_name]]
     
     if (is.factor(sce_combine$batch)) {
@@ -158,29 +115,6 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     } else {
         batch <- sce_combine$batch
     }
-    
-    
-    
-    # ## If the user supplied a parallelParam class, then regardless
-    # ## of parallel = TRUE or FALSE, we will use that class Hence
-    # ## no if statement for this case.
-    # if (!is.null(parallelParam)) {
-    #     message("Step 1: Computation will run in parallel using supplied parameters")
-    # }
-    # 
-    # ## If parallel is TRUE, but user did not supplied a
-    # ## parallelParam class, then we set it to bpparam()
-    # if (parallel & is.null(parallelParam)) {
-    #     message("Step 1: Computation will run in parallel using BiocParallel::bpparam()")
-    #     parallelParam = BiocParallel::bpparam()
-    # }
-    # 
-    # ## If parallel is FALSE, or the user did not supplied a
-    # ## parallelParam class, we will use SerialParam()
-    # if (!parallel | is.null(parallelParam)) {
-    #     message("Step 1: Computation will run in serial")
-    #     parallelParam = BiocParallel::SerialParam()
-    # }
     
     
     ## Finding pseudo-replicates
@@ -239,3 +173,44 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     
     return(sce_combine)
 }  ## End scMerge function
+
+
+check_input = function(sce_combine, exprs, hvg_exprs, assay_name, batch_name, ruvK, return_all_RUV){
+    #### Checking input expression
+    if (is.null(exprs) | !exprs %in% SummarizedExperiment::assayNames(sce_combine)) {
+        stop("The 'exprs' argument is NULL or it not a part of the supplied SingleCellExperiment object 'assayNames'")
+    }
+    
+    if (is.null(hvg_exprs) | !hvg_exprs %in% SummarizedExperiment::assayNames(sce_combine)) {
+        stop("The 'hvg_exprs' argument is NULL or it not a part of the supplied SingleCellExperiment object 'assayNames'")
+    }
+    
+    #### Checking if the cell names are non-unique
+    cell_names = colnames(sce_combine)
+    
+    if (length(cell_names) != length(unique(cell_names)) | is.null(cell_names)) {
+        stop("Column names of the input SingleCellExperiment object must not contain duplicates nor NULL")
+    }
+    
+    #### Returned assay name. Consider setting a default in future releases
+    if (is.null(assay_name)) {
+        stop("assay_name is NULL, please provide a name to store the results under")
+    }
+    
+    
+    #### Checking the batch info
+    if (!(batch_name %in% colnames(colData(sce_combine)))) {
+        stop(cat("Could not find a ", batch_name, " column in colData(sce_combine)"), 
+             call. = FALSE)
+    }
+    
+    #### This is a very niche option, consider deprecation in the future
+    if (return_all_RUV) {
+        message("You chose return_all_RUV = TRUE. The result will contain all RUV computations. This could be a very large object.")
+        ## We need an assay_name for every ruvK, if return_all_RUV is
+        ## TRUE
+        if (length(assay_name) != length(ruvK)) {
+            stop("You chose return_all_RUV = TRUE. In this case, the length of assay_name must be equal to the length of ruvK")
+        }
+    }
+}
