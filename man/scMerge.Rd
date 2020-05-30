@@ -25,7 +25,6 @@ scMerge(
   WV_marker = NULL,
   BPPARAM = SerialParam(),
   return_all_RUV = FALSE,
-  BACKEND = NULL,
   assay_name = NULL,
   plot_igraph = TRUE,
   verbose = FALSE
@@ -73,9 +72,6 @@ scMerge(
 
 \item{return_all_RUV}{If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.}
-
-\item{BACKEND}{The BACKEND parameter used in DelayedArray::realize(result, BACKEND = BACKEND) to coerce the final output. 
-Default to NULL, see DelayedArray::supportedRealizationBackends() for other options.}
 
 \item{assay_name}{The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.}
 

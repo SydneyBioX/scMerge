@@ -24,8 +24,6 @@
 #' @param BPPARAM A \code{BiocParallelParam} class object from the \code{BiocParallel} package is used. Default is SerialParam().
 #' @param return_all_RUV If \code{FALSE}, then only returns a \code{SingleCellExperiment} object with original data and one normalised matrix.
 #' Otherwise, the \code{SingleCellExperiment} object will contain the original data and one normalised matrix for \code{each} ruvK value. In this latter case, assay_name must have the same length as ruvK.
-#' @param BACKEND The BACKEND parameter used in DelayedArray::realize(result, BACKEND = BACKEND) to coerce the final output. 
-#' Default to NULL, see DelayedArray::supportedRealizationBackends() for other options.
 #' @param assay_name The assay name(s) for the adjusted expression matrix(matrices). If \code{return_all_RUV = TRUE} assay_name must have the same length as ruvK.
 #' @param plot_igraph If \code{TRUE}, then during the un/semi-supervised scMerge, igraph plot will be displayed
 #' @param verbose If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.
@@ -66,7 +64,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     marker_list = NULL, ruvK = 20, replicate_prop = 1, cell_type = NULL, 
     cell_type_match = FALSE, cell_type_inc = NULL, BSPARAM = ExactParam(), 
     svd_k = 50, dist = "cor", WV = NULL, WV_marker = NULL, 
-    BPPARAM = SerialParam(), return_all_RUV = FALSE, BACKEND = NULL,
+    BPPARAM = SerialParam(), return_all_RUV = FALSE,
     assay_name = NULL, plot_igraph = TRUE, verbose = FALSE) {
     
     ## Checking input expression
@@ -230,14 +228,6 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
         ## If return_all_RUV is FALSE, then scRUVIII should've just
         ## returned with a single result (ruv3res_optimal)
         SummarizedExperiment::assay(sce_combine, assay_name) <- t(ruv3res$newY)
-    }
-    
-    if(is.null(BACKEND)){
-        
-    } else {
-        for(i in SummarizedExperiment::assayNames(sce_combine)){
-            SummarizedExperiment::assay(sce_combine, i) = DelayedArray::realize(SummarizedExperiment::assay(sce_combine, i), BACKEND)
-        }
     }
     
     S4Vectors::metadata(sce_combine) <- c(S4Vectors::metadata(sce_combine), 
