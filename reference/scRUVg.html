@@ -214,9 +214,12 @@ and the intercept term should be included manually where desired.</p></td>
 <li><p>A matrix alpha, this corresponding coefficient matrix for W.</p></li>
 </ul>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yingxin Lin, Kevin Wang</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'>ruvSimulate</span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>80</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>nCelltypes</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='ruvSimulate.html'>ruvSimulate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>80</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>nCelltypes</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 <span class='no'>Y</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>Y</span>; <span class='no'>ctl</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>ctl</span>
 <span class='no'>ruvgRes</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'>scRUVg</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div></pre>
   </div>
@@ -234,7 +237,7 @@ and the intercept term should be included manually where desired.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
