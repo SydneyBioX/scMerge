@@ -123,3 +123,27 @@ expect_error(
     assay_name = 'scMerge')
 )
 
+
+## NA's in cell_type or batch
+na_cell_type = L$cellTypes
+na_cell_type[1] = NA
+
+expect_error(
+  scMerge(
+    sce_combine = L,
+    ctl = paste0("gene",1:100),
+    cell_type = na_cell_type,
+    assay_name = "error")
+)
+
+na_batch = L$batch
+na_batch[1] = NA
+L$batch = na_batch
+
+expect_error(
+  scMerge(
+    sce_combine = L,
+    ctl = paste0("gene",1:100),
+    kmeansK = c(3, 3),
+    assay_name = "error")
+)

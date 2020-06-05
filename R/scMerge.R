@@ -85,7 +85,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     
     check_input(sce_combine = sce_combine, exprs = exprs, hvg_exprs = hvg_exprs, 
                 assay_name = assay_name, batch_name = batch_name, ruvK = ruvK, 
-                return_all_RUV = return_all_RUV)
+                return_all_RUV = return_all_RUV, cell_type = cell_type)
     
     ## Extracting data matrix from SCE object
     exprs_mat <- SummarizedExperiment::assay(sce_combine, exprs)
@@ -175,7 +175,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
 }  ## End scMerge function
 
 
-check_input = function(sce_combine, exprs, hvg_exprs, assay_name, batch_name, ruvK, return_all_RUV){
+check_input = function(sce_combine, exprs, hvg_exprs, assay_name, batch_name, ruvK, return_all_RUV, cell_type){
     #### Checking input expression
     if (is.null(exprs) | !exprs %in% SummarizedExperiment::assayNames(sce_combine)) {
         stop("The 'exprs' argument is NULL or it not a part of the supplied SingleCellExperiment object 'assayNames'")
@@ -202,6 +202,17 @@ check_input = function(sce_combine, exprs, hvg_exprs, assay_name, batch_name, ru
     if (!(batch_name %in% colnames(colData(sce_combine)))) {
         stop(cat("Could not find a ", batch_name, " column in colData(sce_combine)"), 
              call. = FALSE)
+    }
+    
+    if(sum(is.na(sce_combine[[batch_name]])) != 0){
+        stop("NA's found the batch column, please remove")
+    }
+    
+    
+    #### Checking the cell_type info
+    
+    if(sum(is.na(cell_type)) != 0){
+        stop("NA's found the cell_type input, please remove")
     }
     
     #### This is a very niche option, consider deprecation in the future
