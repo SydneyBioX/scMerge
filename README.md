@@ -13,8 +13,9 @@ status](https://github.com/SydneyBioX/scMerge/workflows/R-CMD-check/badge.svg)](
 coverage](https://codecov.io/gh/SydneyBioX/scMerge/branch/master/graph/badge.svg)](https://codecov.io/gh/SydneyBioX/scMerge?branch=master)
 [![](https://img.shields.io/badge/doi-10.1073/pnas.1820006116-blue.svg)](https://doi.org/10.1073/pnas.1820006116)
 [![](https://img.shields.io/badge/devel%20version-1.5.0-blue.svg)](https://github.com/SydneyBioX/scMerge)
-[![](https://img.shields.io/badge/download-1067/total-green.svg)](https://bioconductor.org/packages/stats/bioc/scMerge)
+[![](https://img.shields.io/badge/download-1155/total-green.svg)](https://bioconductor.org/packages/stats/bioc/scMerge)
 [![](https://img.shields.io/github/last-commit/SydneyBioX/scMerge.svg)](https://github.com/SydneyBioX/scMerge/commits/master)
+[![](https://img.shields.io/badge/Docker%20image-available-blue.svg)](https://hub.docker.com/repository/docker/kevinwang09/scmerge)
 
 <br />
 
