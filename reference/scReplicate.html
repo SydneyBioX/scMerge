@@ -154,25 +154,25 @@
     </div>
 
     <pre class="usage"><span class='fu'>scReplicate</span>(
-  <span class='no'>sce_combine</span>,
-  <span class='kw'>batch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>exprs</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>,
-  <span class='kw'>hvg_exprs</span> <span class='kw'>=</span> <span class='st'>"counts"</span>,
-  <span class='kw'>marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>marker_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>replicate_prop</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cell_type_match</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>cell_type_inc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dist</span> <span class='kw'>=</span> <span class='st'>"cor"</span>,
-  <span class='kw'>WV</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>WV_marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
-  <span class='kw'>return_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>BSPARAM</span> <span class='kw'>=</span> <span class='fu'>ExactParam</span>(),
-  <span class='kw'>plot_igraph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>sce_combine</span>,
+  batch = <span class='kw'>NULL</span>,
+  kmeansK = <span class='kw'>NULL</span>,
+  exprs = <span class='st'>"logcounts"</span>,
+  hvg_exprs = <span class='st'>"counts"</span>,
+  marker = <span class='kw'>NULL</span>,
+  marker_list = <span class='kw'>NULL</span>,
+  replicate_prop = <span class='fl'>1</span>,
+  cell_type = <span class='kw'>NULL</span>,
+  cell_type_match = <span class='fl'>FALSE</span>,
+  cell_type_inc = <span class='kw'>NULL</span>,
+  dist = <span class='st'>"cor"</span>,
+  WV = <span class='kw'>NULL</span>,
+  WV_marker = <span class='kw'>NULL</span>,
+  BPPARAM = <span class='fu'>SerialParam</span>(),
+  return_all = <span class='fl'>FALSE</span>,
+  BSPARAM = <span class='fu'>ExactParam</span>(),
+  plot_igraph = <span class='fl'>TRUE</span>,
+  verbose = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -277,12 +277,11 @@ should belong to that cell cluster and 0 otherwise.
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Loading example data</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'example_sce'</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)
-<span class='no'>scRep_result</span> <span class='kw'>=</span> <span class='fu'>scReplicate</span>(
-  <span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>example_sce</span>,
-  <span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>example_sce</span>$<span class='no'>batch</span>,
-  <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>3</span>))</div><div class='img'><img src='scReplicate-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'example_sce'</span>, package = <span class='st'>'scMerge'</span>)
+<span class='kw'>scRep_result</span> <span class='op'>=</span> <span class='fu'>scReplicate</span>(
+  sce_combine = <span class='kw'>example_sce</span>,
+  batch = <span class='kw'>example_sce</span><span class='op'>$</span><span class='kw'>batch</span>,
+  kmeansK = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>3</span>))</div><div class='img'><img src='scReplicate-1.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

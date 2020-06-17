@@ -156,14 +156,14 @@
     </div>
 
     <pre class="usage"><span class='fu'>scRUVg</span>(
-  <span class='no'>Y</span>,
-  <span class='no'>ctl</span>,
-  <span class='no'>k</span>,
-  <span class='kw'>Z</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>eta</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>include.intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>fullW</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>svdyc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>Y</span>,
+  <span class='kw'>ctl</span>,
+  <span class='kw'>k</span>,
+  Z = <span class='fl'>1</span>,
+  eta = <span class='kw'>NULL</span>,
+  include.intercept = <span class='fl'>TRUE</span>,
+  fullW = <span class='kw'>NULL</span>,
+  svdyc = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -219,9 +219,9 @@ and the intercept term should be included manually where desired.</p></td>
     <p>Yingxin Lin, Kevin Wang</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>L</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'><a href='ruvSimulate.html'>ruvSimulate</a></span>(<span class='kw'>m</span> <span class='kw'>=</span> <span class='fl'>80</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nc</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>nCelltypes</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='no'>Y</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>Y</span>; <span class='no'>ctl</span> <span class='kw'>=</span> <span class='no'>L</span>$<span class='no'>ctl</span>
-<span class='no'>ruvgRes</span> <span class='kw'>=</span> <span class='kw pkg'>scMerge</span><span class='kw ns'>::</span><span class='fu'>scRUVg</span>(<span class='kw'>Y</span> <span class='kw'>=</span> <span class='no'>Y</span>, <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>ctl</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>L</span> <span class='op'>=</span> <span class='kw'>scMerge</span>::<span class='fu'><a href='https://rdrr.io/pkg/scMerge/man/ruvSimulate.html'>ruvSimulate</a></span>(m = <span class='fl'>80</span>, n = <span class='fl'>1000</span>, nc = <span class='fl'>50</span>, nCelltypes = <span class='fl'>10</span>)
+<span class='kw'>Y</span> <span class='op'>=</span> <span class='kw'>L</span><span class='op'>$</span><span class='kw'>Y</span>; <span class='kw'>ctl</span> <span class='op'>=</span> <span class='kw'>L</span><span class='op'>$</span><span class='kw'>ctl</span>
+<span class='kw'>ruvgRes</span> <span class='op'>=</span> <span class='kw'>scMerge</span>::<span class='fu'><a href='https://rdrr.io/pkg/scMerge/man/scRUVg.html'>scRUVg</a></span>(Y = <span class='kw'>Y</span>, ctl = <span class='kw'>ctl</span>, k = <span class='fl'>20</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

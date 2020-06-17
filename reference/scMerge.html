@@ -156,29 +156,29 @@ leveraging (pseudo)-replicates and control genes.</p>
     </div>
 
     <pre class="usage"><span class='fu'>scMerge</span>(
-  <span class='no'>sce_combine</span>,
-  <span class='kw'>ctl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>exprs</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>,
-  <span class='kw'>hvg_exprs</span> <span class='kw'>=</span> <span class='st'>"counts"</span>,
-  <span class='kw'>batch_name</span> <span class='kw'>=</span> <span class='st'>"batch"</span>,
-  <span class='kw'>marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>marker_list</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ruvK</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>replicate_prop</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>cell_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cell_type_match</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>cell_type_inc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>BSPARAM</span> <span class='kw'>=</span> <span class='fu'>ExactParam</span>(),
-  <span class='kw'>svd_k</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-  <span class='kw'>dist</span> <span class='kw'>=</span> <span class='st'>"cor"</span>,
-  <span class='kw'>WV</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>WV_marker</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
-  <span class='kw'>return_all_RUV</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>plot_igraph</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>sce_combine</span>,
+  ctl = <span class='kw'>NULL</span>,
+  kmeansK = <span class='kw'>NULL</span>,
+  exprs = <span class='st'>"logcounts"</span>,
+  hvg_exprs = <span class='st'>"counts"</span>,
+  batch_name = <span class='st'>"batch"</span>,
+  marker = <span class='kw'>NULL</span>,
+  marker_list = <span class='kw'>NULL</span>,
+  ruvK = <span class='fl'>20</span>,
+  replicate_prop = <span class='fl'>1</span>,
+  cell_type = <span class='kw'>NULL</span>,
+  cell_type_match = <span class='fl'>FALSE</span>,
+  cell_type_inc = <span class='kw'>NULL</span>,
+  BSPARAM = <span class='fu'>ExactParam</span>(),
+  svd_k = <span class='fl'>50</span>,
+  dist = <span class='st'>"cor"</span>,
+  WV = <span class='kw'>NULL</span>,
+  WV_marker = <span class='kw'>NULL</span>,
+  BPPARAM = <span class='fu'>SerialParam</span>(),
+  return_all_RUV = <span class='fl'>FALSE</span>,
+  assay_name = <span class='kw'>NULL</span>,
+  plot_igraph = <span class='fl'>TRUE</span>,
+  verbose = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -293,19 +293,19 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Loading example data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'example_sce'</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'example_sce'</span>, package = <span class='st'>'scMerge'</span>)
 <span class='co'>## Previously computed stably expressed genes</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'segList_ensemblGeneID'</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'segList_ensemblGeneID'</span>, package = <span class='st'>'scMerge'</span>)
 <span class='co'>## Running an example data with minimal inputs</span>
-<span class='no'>sce_mESC</span> <span class='kw'>&lt;-</span> <span class='fu'>scMerge</span>(<span class='kw'>sce_combine</span> <span class='kw'>=</span> <span class='no'>example_sce</span>,
-<span class='kw'>ctl</span> <span class='kw'>=</span> <span class='no'>segList_ensemblGeneID</span>$<span class='no'>mouse</span>$<span class='no'>mouse_scSEG</span>,
-<span class='kw'>kmeansK</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>3</span>),
-<span class='kw'>assay_name</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)</div><div class='output co'>#&gt; Dimension of the replicates mapping matrix: 
+<span class='kw'>sce_mESC</span> <span class='op'>&lt;-</span> <span class='fu'>scMerge</span>(sce_combine = <span class='kw'>example_sce</span>,
+ctl = <span class='kw'>segList_ensemblGeneID</span><span class='op'>$</span><span class='kw'>mouse</span><span class='op'>$</span><span class='kw'>mouse_scSEG</span>,
+kmeansK = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>3</span>),
+assay_name = <span class='st'>'scMerge'</span>)</div><div class='output co'>#&gt; Dimension of the replicates mapping matrix: 
 #&gt; [1] 200   3</div><div class='output co'>#&gt; <span class='message'>Step 2: Performing RUV normalisation. This will take minutes to hours. </span></div><div class='output co'>#&gt; <span class='message'>scMerge complete!</span></div><div class='img'><img src='scMerge-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>sce_mESC</span> <span class='kw'>=</span> <span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scater/man/runPCA.html'>runPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>"logcounts"</span>)
-<span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scater/man/plot_reddim.html'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>)</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>sce_mESC</span> <span class='kw'>=</span> <span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scater/man/runPCA.html'>runPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>exprs_values</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)
-<span class='kw pkg'>scater</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scater/man/plot_reddim.html'>plotPCA</a></span>(<span class='no'>sce_mESC</span>, <span class='kw'>colour_by</span> <span class='kw'>=</span> <span class='st'>'cellTypes'</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>'batch'</span>)</div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
+<span class='kw'>sce_mESC</span> <span class='op'>=</span> <span class='kw'>scater</span>::<span class='fu'><a href='https://rdrr.io/pkg/scater/man/runPCA.html'>runPCA</a></span>(<span class='kw'>sce_mESC</span>, exprs_values = <span class='st'>"logcounts"</span>)                      
+<span class='kw'>scater</span>::<span class='fu'><a href='https://rdrr.io/pkg/scater/man/plot_reddim.html'>plotPCA</a></span>(<span class='kw'>sce_mESC</span>, colour_by = <span class='st'>'cellTypes'</span>, shape = <span class='st'>'batch'</span>)</div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>sce_mESC</span> <span class='op'>=</span> <span class='kw'>scater</span>::<span class='fu'><a href='https://rdrr.io/pkg/scater/man/runPCA.html'>runPCA</a></span>(<span class='kw'>sce_mESC</span>, exprs_values = <span class='st'>'scMerge'</span>)                                       
+<span class='kw'>scater</span>::<span class='fu'><a href='https://rdrr.io/pkg/scater/man/plot_reddim.html'>plotPCA</a></span>(<span class='kw'>sce_mESC</span>, colour_by = <span class='st'>'cellTypes'</span>, shape = <span class='st'>'batch'</span>)</div><div class='img'><img src='scMerge-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -156,13 +156,13 @@ different batches/experiments.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sce_cbind</span>(
-  <span class='no'>sce_list</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"intersect"</span>,
-  <span class='kw'>cut_off_batch</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>cut_off_overall</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>exprs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"counts"</span>, <span class='st'>"logcounts"</span>),
-  <span class='kw'>colData_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>batch_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>sce_list</span>,
+  method = <span class='st'>"intersect"</span>,
+  cut_off_batch = <span class='fl'>0.01</span>,
+  cut_off_overall = <span class='fl'>0.01</span>,
+  exprs = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"counts"</span>, <span class='st'>"logcounts"</span>),
+  colData_names = <span class='kw'>NULL</span>,
+  batch_names = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -210,11 +210,11 @@ The first assay named will be used to determine the proportion of zeores.</p></t
     <p>Yingxin Lin</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'example_sce'</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'scMerge'</span>)
-<span class='no'>batch_names</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>example_sce</span>$<span class='no'>batch</span>)
-<span class='no'>sce_list</span><span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>example_sce</span>[,<span class='no'>example_sce</span>$<span class='no'>batch</span><span class='kw'>==</span><span class='st'>'batch2'</span>],
-               <span class='no'>example_sce</span>[,<span class='no'>example_sce</span>$<span class='no'>batch</span><span class='kw'>==</span><span class='st'>'batch3'</span>])
-<span class='no'>sce_combine</span><span class='kw'>&lt;-</span><span class='fu'>sce_cbind</span>(<span class='no'>sce_list</span>,<span class='kw'>batch_names</span><span class='kw'>=</span><span class='no'>batch_names</span>)</div><div class='output co'>#&gt; <span class='message'>The assay named 'counts' will be used to determine the proportion of zeroes for each batch</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'example_sce'</span>, package = <span class='st'>'scMerge'</span>)
+<span class='kw'>batch_names</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='kw'>example_sce</span><span class='op'>$</span><span class='kw'>batch</span>)
+<span class='kw'>sce_list</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>example_sce</span>[,<span class='kw'>example_sce</span><span class='op'>$</span><span class='kw'>batch</span><span class='op'>==</span><span class='st'>'batch2'</span>],
+               <span class='kw'>example_sce</span>[,<span class='kw'>example_sce</span><span class='op'>$</span><span class='kw'>batch</span><span class='op'>==</span><span class='st'>'batch3'</span>])
+<span class='kw'>sce_combine</span><span class='op'>&lt;-</span><span class='fu'>sce_cbind</span>(<span class='kw'>sce_list</span>,batch_names=<span class='kw'>batch_names</span>)</div><div class='output co'>#&gt; <span class='message'>The assay named 'counts' will be used to determine the proportion of zeroes for each batch</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
