@@ -44,6 +44,21 @@ You can find the vignette at our website:
 You can find a list of case studies here:
 <https://sydneybiox.github.io/scMerge/articles/>.
 
+## Stably Expressed Genes
+
+Stably expressed genes identified from this study can be extracted by
+
+```
+library(scMerge)
+data(segList)
+segList$human$human_scSEG # human SEG
+segList$mouse$mouse_scSEG # mouse SEG
+```
+
+Or download csv files here (human SEG: [link](https://www.maths.usyd.edu.au/u/yingxinl/wwwnb/SEG/human_scSEG.csv); mouse SEG: [link](https://www.maths.usyd.edu.au/u/yingxinl/wwwnb/SEG/mouse_scSEG.csv))
+
+For more detailed information and evaluation about SEG, please see our publication https://doi.org/10.1093/gigascience/giz106.
+
 ## Contact us
 
 If you have any enquiries, especially about performing `scMerge`
