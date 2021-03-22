@@ -48,6 +48,8 @@ and it is not intended to be used by end-users." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -59,9 +61,15 @@ and it is not intended to be used by end-users." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -83,7 +91,7 @@ and it is not intended to be used by end-users." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -130,7 +138,7 @@ and it is not intended to be used by end-users." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/SydneyBioX/scMerge">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -159,16 +167,16 @@ It does not represent real biological situations
 and it is not intended to be used by end-users.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ruvSimulate</span>(
-  m = <span class='fl'>100</span>,
-  n = <span class='fl'>5000</span>,
-  nc = <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span>(<span class='kw'>n</span><span class='op'>/</span><span class='fl'>2</span>),
-  nCelltypes = <span class='fl'>3</span>,
-  nBatch = <span class='fl'>2</span>,
-  k = <span class='fl'>20</span>,
-  lambda = <span class='fl'>0.1</span>,
-  sce = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>ruvSimulate</span><span class='op'>(</span>
+  m <span class='op'>=</span> <span class='fl'>100</span>,
+  n <span class='op'>=</span> <span class='fl'>5000</span>,
+  nc <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>/</span><span class='fl'>2</span><span class='op'>)</span>,
+  nCelltypes <span class='op'>=</span> <span class='fl'>3</span>,
+  nBatch <span class='op'>=</span> <span class='fl'>2</span>,
+  k <span class='op'>=</span> <span class='fl'>20</span>,
+  lambda <span class='op'>=</span> <span class='fl'>0.1</span>,
+  sce <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -218,10 +226,11 @@ and it is not intended to be used by end-users.</p>
 </ul><p>if <code>sce</code> is TRUE, a SingleCellExperiment wrapper will be applied on all above simulated objects.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='kw'>L</span> <span class='op'>=</span> <span class='fu'>ruvSimulate</span>(m = <span class='fl'>200</span>, n = <span class='fl'>1000</span>, nc = <span class='fl'>200</span>, 
-nCelltypes = <span class='fl'>3</span>, nBatch = <span class='fl'>2</span>, lambda = <span class='fl'>0.1</span>, k = <span class='fl'>10</span>, sce = <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>L</span>)</div><div class='output co'>#&gt; class: SingleCellExperiment 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>L</span> <span class='op'>=</span> <span class='fu'>ruvSimulate</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>200</span>, n <span class='op'>=</span> <span class='fl'>1000</span>, nc <span class='op'>=</span> <span class='fl'>200</span>, 
+nCelltypes <span class='op'>=</span> <span class='fl'>3</span>, nBatch <span class='op'>=</span> <span class='fl'>2</span>, lambda <span class='op'>=</span> <span class='fl'>0.1</span>, k <span class='op'>=</span> <span class='fl'>10</span>, sce <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>L</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; class: SingleCellExperiment 
 #&gt; dim: 1000 200 
 #&gt; metadata(1): M
 #&gt; assays(2): counts logcounts
@@ -230,15 +239,18 @@ nCelltypes = <span class='fl'>3</span>, nBatch = <span class='fl'>2</span>, lamb
 #&gt; colnames(200): cell1 cell2 ... cell199 cell200
 #&gt; colData names(2): cellTypes batch
 #&gt; reducedDimNames(0):
-#&gt; altExpNames(0):</div><div class='input'><span class='kw'>example</span> <span class='op'>&lt;-</span> <span class='fu'>scMerge</span>(sce_combine = <span class='kw'>L</span>,
-                      ctl = <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>'gene'</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span>),
-                      cell_type = <span class='kw'>L</span><span class='op'>$</span><span class='kw'>cellTypes</span>,
-                      ruvK = <span class='fl'>10</span>,
-                      assay_name = <span class='st'>'scMerge'</span>)</div><div class='output co'>#&gt; Dimension of the replicates mapping matrix: 
-#&gt; [1] 200   3</div><div class='output co'>#&gt; <span class='message'>Step 2: Performing RUV normalisation. This will take minutes to hours. </span></div><div class='output co'>#&gt; <span class='message'>scMerge complete!</span></div><div class='input'><span class='kw'>L</span> <span class='op'>=</span> <span class='kw'>scater</span>::<span class='fu'><a href='https://rdrr.io/pkg/scater/man/runPCA.html'>runPCA</a></span>(<span class='kw'>L</span>, exprs_values = <span class='st'>"logcounts"</span>)                      
-<span class='kw'>scater</span>::<span class='fu'><a href='https://rdrr.io/pkg/scater/man/plot_reddim.html'>plotPCA</a></span>(<span class='kw'>L</span>, colour_by = <span class='st'>'cellTypes'</span>, shape = <span class='st'>'batch'</span>)</div><div class='img'><img src='ruvSimulate-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>example</span> <span class='op'>=</span> <span class='kw'>scater</span>::<span class='fu'><a href='https://rdrr.io/pkg/scater/man/runPCA.html'>runPCA</a></span>(<span class='kw'>example</span>, exprs_values = <span class='st'>'scMerge'</span>)                                       
-<span class='kw'>scater</span>::<span class='fu'><a href='https://rdrr.io/pkg/scater/man/plot_reddim.html'>plotPCA</a></span>(<span class='kw'>example</span>, colour_by = <span class='st'>'cellTypes'</span>, shape = <span class='st'>'batch'</span>)</div><div class='img'><img src='ruvSimulate-2.png' alt='' width='700' height='433' /></div></pre>
+#&gt; altExpNames(0):</div><div class='input'><span class='va'>example</span> <span class='op'>&lt;-</span> <span class='fu'><a href='scMerge.html'>scMerge</a></span><span class='op'>(</span>sce_combine <span class='op'>=</span> <span class='va'>L</span>,
+                      ctl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>'gene'</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span><span class='op'>)</span>,
+                      cell_type <span class='op'>=</span> <span class='va'>L</span><span class='op'>$</span><span class='va'>cellTypes</span>,
+                      ruvK <span class='op'>=</span> <span class='fl'>10</span>,
+                      assay_name <span class='op'>=</span> <span class='st'>'scMerge'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Dimension of the replicates mapping matrix: 
+#&gt; [1] 200   3</div><div class='output co'>#&gt; <span class='message'>Step 2: Performing RUV normalisation. This will take minutes to hours. </span></div><div class='output co'>#&gt; <span class='message'>scMerge complete!</span></div><div class='input'><span class='va'>L</span> <span class='op'>=</span> <span class='fu'>scater</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scater/man/runPCA.html'>runPCA</a></span><span class='op'>(</span><span class='va'>L</span>, exprs_values <span class='op'>=</span> <span class='st'>"logcounts"</span><span class='op'>)</span>                      
+<span class='fu'>scater</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scater/man/plot_reddim.html'>plotPCA</a></span><span class='op'>(</span><span class='va'>L</span>, colour_by <span class='op'>=</span> <span class='st'>'cellTypes'</span>, shape <span class='op'>=</span> <span class='st'>'batch'</span><span class='op'>)</span>
+</div><div class='img'><img src='ruvSimulate-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>example</span> <span class='op'>=</span> <span class='fu'>scater</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scater/man/runPCA.html'>runPCA</a></span><span class='op'>(</span><span class='va'>example</span>, exprs_values <span class='op'>=</span> <span class='st'>'scMerge'</span><span class='op'>)</span>                                       
+<span class='fu'>scater</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scater/man/plot_reddim.html'>plotPCA</a></span><span class='op'>(</span><span class='va'>example</span>, colour_by <span class='op'>=</span> <span class='st'>'cellTypes'</span>, shape <span class='op'>=</span> <span class='st'>'batch'</span><span class='op'>)</span>
+</div><div class='img'><img src='ruvSimulate-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -250,11 +262,11 @@ nCelltypes = <span class='fl'>3</span>, nBatch = <span class='fl'>2</span>, lamb
 
       <footer>
       <div class="copyright">
-  <p>Developed by Yingxin Lin, Kevin Wang, Sydney Bioinformatics and Biometrics Group.</p>
+  <p><p>Developed by Yingxin Lin, Kevin Wang, Sydney Bioinformatics and Biometrics Group.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -262,6 +274,8 @@ nCelltypes = <span class='fl'>3</span>, nBatch = <span class='fl'>2</span>, lamb
 
   
 
+
+  
 
   </body>
 </html>

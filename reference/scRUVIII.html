@@ -47,6 +47,8 @@ silhouette coefficient" />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -58,9 +60,15 @@ silhouette coefficient" />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,7 +90,7 @@ silhouette coefficient" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -129,7 +137,7 @@ silhouette coefficient" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/SydneyBioX/scMerge">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -157,19 +165,19 @@ RUVIII which also provides the option to select optimal RUVk according to the
 silhouette coefficient</p>
     </div>
 
-    <pre class="usage"><span class='fu'>scRUVIII</span>(
-  Y = <span class='kw'>Y</span>,
-  M = <span class='kw'>M</span>,
-  ctl = <span class='kw'>ctl</span>,
-  fullalpha = <span class='kw'>NULL</span>,
-  k = <span class='kw'>k</span>,
-  cell_type = <span class='kw'>NULL</span>,
-  batch = <span class='kw'>NULL</span>,
-  return_all_RUV = <span class='fl'>TRUE</span>,
-  BPPARAM = <span class='fu'>SerialParam</span>(),
-  BSPARAM = <span class='fu'>ExactParam</span>(),
-  svd_k = <span class='fl'>50</span>
-)</pre>
+    <pre class="usage"><span class='fu'>scRUVIII</span><span class='op'>(</span>
+  Y <span class='op'>=</span> <span class='va'>Y</span>,
+  M <span class='op'>=</span> <span class='va'>M</span>,
+  ctl <span class='op'>=</span> <span class='va'>ctl</span>,
+  fullalpha <span class='op'>=</span> <span class='cn'>NULL</span>,
+  k <span class='op'>=</span> <span class='va'>k</span>,
+  cell_type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  batch <span class='op'>=</span> <span class='cn'>NULL</span>,
+  return_all_RUV <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  BPPARAM <span class='op'>=</span> <span class='fu'>SerialParam</span><span class='op'>(</span><span class='op'>)</span>,
+  BSPARAM <span class='op'>=</span> <span class='fu'>ExactParam</span><span class='op'>(</span><span class='op'>)</span>,
+  svd_k <span class='op'>=</span> <span class='fl'>50</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -240,9 +248,10 @@ all the supplied k values will be returned.</p></li>
     <p>Yingxin Lin, Kevin Wang</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>L</span> <span class='op'>=</span> <span class='fu'>ruvSimulate</span>(m = <span class='fl'>200</span>, n = <span class='fl'>1000</span>, nc = <span class='fl'>100</span>, nCelltypes = <span class='fl'>3</span>, nBatch = <span class='fl'>2</span>, lambda = <span class='fl'>0.1</span>, sce = <span class='fl'>FALSE</span>)
-<span class='kw'>Y</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log2</a></span>(<span class='kw'>L</span><span class='op'>$</span><span class='kw'>Y</span> <span class='op'>+</span> <span class='fl'>1L</span>)); <span class='kw'>M</span> <span class='op'>=</span> <span class='kw'>L</span><span class='op'>$</span><span class='kw'>M</span>; <span class='kw'>ctl</span> <span class='op'>=</span> <span class='kw'>L</span><span class='op'>$</span><span class='kw'>ctl</span>; <span class='kw'>batch</span> <span class='op'>=</span> <span class='kw'>L</span><span class='op'>$</span><span class='kw'>batch</span>;
-<span class='kw'>res</span> <span class='op'>=</span> <span class='fu'>scRUVIII</span>(Y = <span class='kw'>Y</span>, M = <span class='kw'>M</span>, ctl = <span class='kw'>ctl</span>, k = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span>, <span class='fl'>20</span>), batch = <span class='kw'>batch</span>)</div><div class='output co'>#&gt; Selecting optimal RUVk 
+    <pre class="examples"><div class='input'><span class='va'>L</span> <span class='op'>=</span> <span class='fu'><a href='ruvSimulate.html'>ruvSimulate</a></span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>200</span>, n <span class='op'>=</span> <span class='fl'>1000</span>, nc <span class='op'>=</span> <span class='fl'>100</span>, nCelltypes <span class='op'>=</span> <span class='fl'>3</span>, nBatch <span class='op'>=</span> <span class='fl'>2</span>, lambda <span class='op'>=</span> <span class='fl'>0.1</span>, sce <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>Y</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log2</a></span><span class='op'>(</span><span class='va'>L</span><span class='op'>$</span><span class='va'>Y</span> <span class='op'>+</span> <span class='fl'>1L</span><span class='op'>)</span><span class='op'>)</span>; <span class='va'>M</span> <span class='op'>=</span> <span class='va'>L</span><span class='op'>$</span><span class='va'>M</span>; <span class='va'>ctl</span> <span class='op'>=</span> <span class='va'>L</span><span class='op'>$</span><span class='va'>ctl</span>; <span class='va'>batch</span> <span class='op'>=</span> <span class='va'>L</span><span class='op'>$</span><span class='va'>batch</span>;
+<span class='va'>res</span> <span class='op'>=</span> <span class='fu'>scRUVIII</span><span class='op'>(</span>Y <span class='op'>=</span> <span class='va'>Y</span>, M <span class='op'>=</span> <span class='va'>M</span>, ctl <span class='op'>=</span> <span class='va'>ctl</span>, k <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span>, <span class='fl'>20</span><span class='op'>)</span>, batch <span class='op'>=</span> <span class='va'>batch</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Selecting optimal RUVk 
 #&gt; No cell type info, replicate matrix will be used as cell type info </div><div class='output co'>#&gt; <span class='message'>optimal ruvK:5</span></div><div class='img'><img src='scRUVIII-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -255,11 +264,11 @@ all the supplied k values will be returned.</p></li>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Yingxin Lin, Kevin Wang, Sydney Bioinformatics and Biometrics Group.</p>
+  <p><p>Developed by Yingxin Lin, Kevin Wang, Sydney Bioinformatics and Biometrics Group.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -267,6 +276,8 @@ all the supplied k values will be returned.</p></li>
 
   
 
+
+  
 
   </body>
 </html>
