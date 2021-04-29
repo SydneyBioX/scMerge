@@ -18,7 +18,8 @@ sce_combine = sce_cbind(sce_list = sce_split,
                         colData_names = c("cellTypes"))
 
 expect_identical(dim(example_sce), dim(sce_combine))
-expect_identical(colData(example_sce), colData(sce_combine))
+expect_identical(as.character(colData(example_sce)$cellTypes), 
+                 as.character(colData(sce_combine)$cellTypes))
 expect_identical(colData(example_sce)$batch, colData(sce_combine)$batch)
 
 

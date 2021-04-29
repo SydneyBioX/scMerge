@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: Merging multiple batches of scRNA-seq data
-Version: 1.7.0
+Version: 1.7.1
 Authors@R: c(
     person("Yingxin", "Lin", email = "yingxin.lin@sydney.edu.au", role = c("aut", "cre")
     ),
@@ -36,7 +36,7 @@ Imports:
   S4Vectors (>= 0.23.19),
   SingleCellExperiment (>= 1.7.3),
   SummarizedExperiment
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     BiocStyle,
     covr,
