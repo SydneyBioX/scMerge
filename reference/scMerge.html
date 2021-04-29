@@ -59,6 +59,9 @@ leveraging (pseudo)-replicates and control genes." />
 
 
 
+<!-- dependencies from examples -->
+
+
   
 
   
@@ -81,7 +84,7 @@ leveraging (pseudo)-replicates and control genes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
       </span>
     </div>
 
@@ -309,8 +312,8 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 ctl <span class='op'>=</span> <span class='va'>segList_ensemblGeneID</span><span class='op'>$</span><span class='va'>mouse</span><span class='op'>$</span><span class='va'>mouse_scSEG</span>,
 kmeansK <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>3</span><span class='op'>)</span>,
 assay_name <span class='op'>=</span> <span class='st'>'scMerge'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Dimension of the replicates mapping matrix: 
-#&gt; [1] 200   3</div><div class='output co'>#&gt; <span class='message'>Step 2: Performing RUV normalisation. This will take minutes to hours. </span></div><div class='output co'>#&gt; <span class='message'>scMerge complete!</span></div><div class='img'><img src='scMerge-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='co'>#&gt; Dimension of the replicates mapping matrix: 
+#&gt; [1] 200   3</div><div class='co'>#&gt; Step 2: Performing RUV normalisation. This will take minutes to hours. </div><div class='co'>#&gt; scMerge complete!</div><div class='img'><img src='scMerge-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='va'>sce_mESC</span> <span class='op'>=</span> <span class='fu'>scater</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scater/man/runPCA.html'>runPCA</a></span><span class='op'>(</span><span class='va'>sce_mESC</span>, exprs_values <span class='op'>=</span> <span class='st'>"logcounts"</span><span class='op'>)</span>                      
 <span class='fu'>scater</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/scater/man/plot_reddim.html'>plotPCA</a></span><span class='op'>(</span><span class='va'>sce_mESC</span>, colour_by <span class='op'>=</span> <span class='st'>'cellTypes'</span>, shape <span class='op'>=</span> <span class='st'>'batch'</span><span class='op'>)</span>
 </div><div class='img'><img src='scMerge-2.png' alt='' width='700' height='433' /></div><div class='input'>
@@ -332,7 +335,7 @@ assay_name <span class='op'>=</span> <span class='st'>'scMerge'</span><span clas
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

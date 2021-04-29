@@ -1,6 +1,6 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1.9000
-pkgdown_sha: 39071eea1bc3e40e88e5f4e474e5441e3add2b0b
+pkgdown: 1.6.1.9001
+pkgdown_sha: dff8062d297c001dba0dfaf567bfffdc8ad89f5c
 articles:
   case_study/Breast_Data: Breast_Data.html
   case_study/CellBench_Data: CellBench_Data.html
@@ -10,5 +10,5 @@ articles:
   case_study/Pancreas4_Data: Pancreas4_Data.html
   case_study/mESC_Data: mESC_Data.html
   scMerge: scMerge.html
-last_built: 2021-03-22T23:54Z
+last_built: 2021-04-29T00:47Z
 

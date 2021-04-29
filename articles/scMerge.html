@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
       </span>
     </div>
 
@@ -121,7 +121,7 @@
     
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
 <p>The scMerge algorithm allows batch effect removal and normalisation for single cell RNA-Seq data. It comprises of three key components including:</p>
 <ol style="list-style-type: decimal">
 <li>The identification of stably expressed genes (SEGs) as “negative controls” for estimating unwanted factors;</li>
@@ -132,7 +132,7 @@
 </div>
 <div id="loading-packages-and-data" class="section level1">
 <h1 class="hasAnchor">
-<a href="#loading-packages-and-data" class="anchor"></a>Loading Packages and Data</h1>
+<a href="#loading-packages-and-data" class="anchor" aria-hidden="true"></a>Loading Packages and Data</h1>
 <p>We will load the <code>scMerge</code> package. We designed our package to be consistent with the popular BioConductor’s single cell analysis framework, namely the <code>SingleCellExperiment</code> and <code>scater</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="op">{</span>
@@ -157,7 +157,7 @@
 </div>
 <div id="illustrating-pseudo-replicates-constructions" class="section level1">
 <h1 class="hasAnchor">
-<a href="#illustrating-pseudo-replicates-constructions" class="anchor"></a>Illustrating pseudo-replicates constructions</h1>
+<a href="#illustrating-pseudo-replicates-constructions" class="anchor" aria-hidden="true"></a>Illustrating pseudo-replicates constructions</h1>
 <p>The first major component of <code>scMerge</code> is to obtain negative controls for our normalisation. In this vignette, we will be using a set of pre-computed SEGs from a single cell mouse data made available through the <code>segList_ensemblGeneID</code> data in our package. For more information about the selection of negative controls and SEGs, please see Section <a href="#selectnc">select SEGs</a>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## single-cell stably expressed gene list</span>
@@ -174,7 +174,7 @@
 </div>
 <div id="unsupervised-scmerge" class="section level1">
 <h1 class="hasAnchor">
-<a href="#unsupervised-scmerge" class="anchor"></a>Unsupervised <code>scMerge</code>
+<a href="#unsupervised-scmerge" class="anchor" aria-hidden="true"></a>Unsupervised <code>scMerge</code>
 </h1>
 <p>In unsupervised <code>scMerge</code>, we will perform a k-means clustering to obtain pseudo-replicates. This requires the users to supply a <code>kmeansK</code> vector with each element indicating number of clusters in each of the batches. For example, we know “batch2” and “batch3” both contain three cell types. Hence, <code>kmeansK = c(3, 3)</code> in this case.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -208,7 +208,7 @@
 </div>
 <div id="selecting-all-cells" class="section level1">
 <h1 class="hasAnchor">
-<a href="#selecting-all-cells" class="anchor"></a>Selecting all cells</h1>
+<a href="#selecting-all-cells" class="anchor" aria-hidden="true"></a>Selecting all cells</h1>
 <p>By default, <code>scMerge</code> only uses 50% of the cells to perform kmeans clustering. While this is sufficient to perform a satisfactory normalisation in most cases, users can control if they wish all cells be used in the kmeans clustering.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">scMerge_unsupervised_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scMerge.html">scMerge</a></span><span class="op">(</span>
@@ -243,7 +243,7 @@
 </div>
 <div id="supervised-scmerge" class="section level1">
 <h1 class="hasAnchor">
-<a href="#supervised-scmerge" class="anchor"></a>Supervised <code>scMerge</code>
+<a href="#supervised-scmerge" class="anchor" aria-hidden="true"></a>Supervised <code>scMerge</code>
 </h1>
 <p>If <strong>all</strong> cell type information is available to the user, then it is possible to use this information to create pseudo-replicates. This can be done through the <code>cell_type</code> argument in the <code>scMerge</code> function.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -267,7 +267,7 @@
 </div>
 <div id="semi-supervised-scmerge-i" class="section level1">
 <h1 class="hasAnchor">
-<a href="#semi-supervised-scmerge-i" class="anchor"></a>Semi-supervised scMerge I</h1>
+<a href="#semi-supervised-scmerge-i" class="anchor" aria-hidden="true"></a>Semi-supervised scMerge I</h1>
 <p>If the user is only able to access <strong>partial</strong> cell type information, then it is still possible to use this information to create pseudo-replicates. This can be done through the <code>cell_type</code> and <code>cell_type_inc</code> arguments in the <code>scMerge</code> function. <code>cell_type_inc</code> should contain a vector of indices indicating which elements in the <code>cell_type</code> vector should be used to perform semi-supervised scMerge.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">scMerge_semisupervised1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scMerge.html">scMerge</a></span><span class="op">(</span>
@@ -292,7 +292,7 @@
 </div>
 <div id="semi-supervised-scmerge-ii" class="section level1">
 <h1 class="hasAnchor">
-<a href="#semi-supervised-scmerge-ii" class="anchor"></a>Semi-supervised scMerge II</h1>
+<a href="#semi-supervised-scmerge-ii" class="anchor" aria-hidden="true"></a>Semi-supervised scMerge II</h1>
 <!-- Perform scMerge using known cell type information to identify mutual nearest cluster -->
 <p>There is alternative semi-supervised method to create pseudo-replicates for <code>scMerge</code>. This uses known cell type information to identify mutual nearest clusters and it is achieved via the <code>cell_type</code> and <code>cell_type_match = TRUE</code> options in the <code>scMerge</code> function.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -318,7 +318,7 @@
 </div>
 <div id="selectnc" class="section level1">
 <h1 class="hasAnchor">
-<a href="#selectnc" class="anchor"></a>Selecting negative controls</h1>
+<a href="#selectnc" class="anchor" aria-hidden="true"></a>Selecting negative controls</h1>
 <p>In simple terms, a negative control is a gene that has expression values relatively constant across these datasets. The concept of using these negative control genes for normalisation was most widely used in the RUV method family (e.g. <a href="https://academic.oup.com/biostatistics/article/13/3/539/248166" class="external-link">Gagnon-Bartsch &amp; Speed (2012)</a> and <a href="https://www.nature.com/articles/nbt.2931" class="external-link">Risso et. al. (2014)</a>) and there exist multiple methods to find these negative controls. In our paper, we recommened the SEGs as negative controls for scRNA-Seq data and SEGs can be found using either a data-adaptive computational method or external knowledge.</p>
 <ul>
 <li>Computation method: We provide the function <code>scSEGIndex</code> to calculate the SEG from a data matrix. The output of this function is a <code>data.frame</code> with a SEG index calculated for each gene. See <a href="https://www.biorxiv.org/content/10.1101/229815v2" class="external-link">Lin et. al. (2018)</a> for more details.</li>
@@ -349,10 +349,10 @@
 </div>
 <div id="achieving-fast-and-memory-efficient-computation" class="section level1">
 <h1 class="hasAnchor">
-<a href="#achieving-fast-and-memory-efficient-computation" class="anchor"></a>Achieving fast and memory-efficient computation</h1>
+<a href="#achieving-fast-and-memory-efficient-computation" class="anchor" aria-hidden="true"></a>Achieving fast and memory-efficient computation</h1>
 <div id="using-approximated-svd" class="section level2">
 <h2 class="hasAnchor">
-<a href="#using-approximated-svd" class="anchor"></a>Using approximated SVD</h2>
+<a href="#using-approximated-svd" class="anchor" aria-hidden="true"></a>Using approximated SVD</h2>
 <p>Under most circumstances, <code>scMerge</code> is fast enough to be used on a personal laptop for a moderately large data. However, we do recognise the difficulties associated with computation when dealing with larger data. To this end, we devised a fast version of <code>scMerge</code>. The major difference between the two versions lies on the noise estimation component, which utilised singular value decomposition (SVD). In order to speed up <code>scMerge</code>, we used <code>BiocSingular</code> package that offers several SVD speed improvements. This computational method is able to speed up <code>scMerge</code> by obtain a very accurate approximation of the noise structure in the data. This option is achieved via the option <code>BSPARAM = IrlbaParam()</code> or <code>BSPARAM = RandomParam()</code>. Additionally, <code>svd_k</code> is a parameter that controlling the degree of approximations.</p>
 <p>We recommend using this option in the case where the number of cells is large in your single cell data. The speed advantage we obtain for large single cell data is much more dramatic than on a smaller dataset like the example mESC data. For example, a single run of normal <code>scMerge</code> on a human <a href="https://sydneybiox.github.io/scMerge/articles/Pancreas4_Data/Pancreas4_Data.html" class="external-link">pancreas data</a> (23699 features and 4566 cells) takes about 10 minutes whereas the speed up version takes just under 4 minutes.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -368,9 +368,9 @@
 <span class="co">#&gt; scMerge complete!</span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Normally, scMerge takes "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">t2</span> <span class="op">-</span> <span class="va">t1</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">" seconds"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Normally, scMerge takes  1.69  seconds"</span>
+<span class="co">#&gt; [1] "Normally, scMerge takes  1.61  seconds"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Fast version of scMerge takes "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">t4</span> <span class="op">-</span> <span class="va">t3</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">" seconds"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Fast version of scMerge takes  0.85  seconds"</span>
+<span class="co">#&gt; [1] "Fast version of scMerge takes  0.79  seconds"</span>
 
 <span class="va">scMerge_fast</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">scMerge_fast</span>, exprs_values <span class="op">=</span> <span class="st">"scMerge_fast"</span><span class="op">)</span>
 
@@ -378,12 +378,12 @@
   <span class="va">scMerge_fast</span>, 
   colour_by <span class="op">=</span> <span class="st">"cellTypes"</span>, 
   shape_by <span class="op">=</span> <span class="st">"batch"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"fast scMerge yields similar results to the default version"</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"fast scMerge yields similar results to the default version"</span><span class="op">)</span></code></pre></div>
 <p><img src="scMerge_files/figure-html/computation_svd_plotting-1.png" width="700"></p>
 </div>
 <div id="parallelised-computing" class="section level2">
 <h2 class="hasAnchor">
-<a href="#parallelised-computing" class="anchor"></a>Parallelised computing</h2>
+<a href="#parallelised-computing" class="anchor" aria-hidden="true"></a>Parallelised computing</h2>
 <p><code>scMerge</code> is implemented with a parallelised computational option via the <a href="https://bioconductor.org/packages/release/bioc/html/BiocParallel.html" class="external-link">BiocParallel</a> package. You can enable this option using the <code>BPPARAM</code> argument with various <code>BiocParallelParam</code> objects that is suitable for your operating system.</p>
 <p>Please note that any parallelisation would incur a small overhead. Hence we recommend you do not use parallelisation for small data.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -398,7 +398,7 @@
 </div>
 <div id="sparse-array" class="section level2">
 <h2 class="hasAnchor">
-<a href="#sparse-array" class="anchor"></a>Sparse array</h2>
+<a href="#sparse-array" class="anchor" aria-hidden="true"></a>Sparse array</h2>
 <p><code>scMerge</code> also supports sparse array input, which could be very helpful in speeding up computations and saving RAM. <code>scMerge</code> does not perform internal matrix conversion, so you may use the following codes as an example of converting typical <code>matrix</code> class to sparse matrices before running <code>scMerge</code>.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://Matrix.R-forge.R-project.org/" class="external-link">Matrix</a></span><span class="op">)</span>
@@ -406,18 +406,18 @@
 
 <span class="va">sparse_input</span> <span class="op">=</span> <span class="va">example_sce</span>
 
-<span class="fu">assay</span><span class="op">(</span><span class="va">sparse_input</span>, <span class="st">"counts"</span><span class="op">)</span> <span class="op">=</span> <span class="fu">as</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/assays.html" class="external-link">counts</a></span><span class="op">(</span><span class="va">sparse_input</span><span class="op">)</span>, <span class="st">"dgeMatrix"</span><span class="op">)</span>
-<span class="fu">assay</span><span class="op">(</span><span class="va">sparse_input</span>, <span class="st">"logcounts"</span><span class="op">)</span> <span class="op">=</span> <span class="fu">as</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/assays.html" class="external-link">logcounts</a></span><span class="op">(</span><span class="va">sparse_input</span><span class="op">)</span>, <span class="st">"dgeMatrix"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">sparse_input</span>, <span class="st">"counts"</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html" class="external-link">counts</a></span><span class="op">(</span><span class="va">sparse_input</span><span class="op">)</span>, <span class="st">"dgeMatrix"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">sparse_input</span>, <span class="st">"logcounts"</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/assays.html" class="external-link">logcounts</a></span><span class="op">(</span><span class="va">sparse_input</span><span class="op">)</span>, <span class="st">"dgeMatrix"</span><span class="op">)</span>
 
 <span class="va">scMerge_sparse</span> <span class="op">=</span> <span class="fu"><a href="../reference/scMerge.html">scMerge</a></span><span class="op">(</span>
   sce_combine <span class="op">=</span> <span class="va">sparse_input</span>, 
   ctl <span class="op">=</span> <span class="va">segList_ensemblGeneID</span><span class="op">$</span><span class="va">mouse</span><span class="op">$</span><span class="va">mouse_scSEG</span>,
-  kmeansK <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span>,
+  kmeansK <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span>,
   assay_name <span class="op">=</span> <span class="st">"scMerge_sparse"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="out-of-memory-computations-through-hdf5array" class="section level2">
 <h2 class="hasAnchor">
-<a href="#out-of-memory-computations-through-hdf5array" class="anchor"></a>Out-of-memory computations (through <code>HDF5Array</code>)</h2>
+<a href="#out-of-memory-computations-through-hdf5array" class="anchor" aria-hidden="true"></a>Out-of-memory computations (through <code>HDF5Array</code>)</h2>
 <p>Bioconductor provides an infrastructure for out-of-memory computation through <code>HDF5Array</code>. In simple terms, we can load an on-disk data into RAM, make computations and write to hard disk. This is particularly helpful when the data is too large for in-RAM computations. You may use the following codes as an example of converting typical <code>matrix</code> class to <code>HDF5Array</code> matrices before running <code>scMerge</code>.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/HDF5Array" class="external-link">HDF5Array</a></span><span class="op">)</span>
@@ -427,19 +427,19 @@
 
 <span class="va">hdf5_input</span> <span class="op">=</span> <span class="va">example_sce</span>
 
-<span class="fu">assay</span><span class="op">(</span><span class="va">hdf5_input</span>, <span class="st">"counts"</span><span class="op">)</span> <span class="op">=</span> <span class="fu">as</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/assays.html" class="external-link">counts</a></span><span class="op">(</span><span class="va">hdf5_input</span><span class="op">)</span>, <span class="st">"HDF5Array"</span><span class="op">)</span>
-<span class="fu">assay</span><span class="op">(</span><span class="va">hdf5_input</span>, <span class="st">"logcounts"</span><span class="op">)</span> <span class="op">=</span> <span class="fu">as</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/assays.html" class="external-link">logcounts</a></span><span class="op">(</span><span class="va">hdf5_input</span><span class="op">)</span>, <span class="st">"HDF5Array"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">hdf5_input</span>, <span class="st">"counts"</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html" class="external-link">counts</a></span><span class="op">(</span><span class="va">hdf5_input</span><span class="op">)</span>, <span class="st">"HDF5Array"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">hdf5_input</span>, <span class="st">"logcounts"</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/assays.html" class="external-link">logcounts</a></span><span class="op">(</span><span class="va">hdf5_input</span><span class="op">)</span>, <span class="st">"HDF5Array"</span><span class="op">)</span>
 
 <span class="va">scMerge_hdf5</span> <span class="op">=</span> <span class="fu"><a href="../reference/scMerge.html">scMerge</a></span><span class="op">(</span>
   sce_combine <span class="op">=</span> <span class="va">sparse_input</span>, 
   ctl <span class="op">=</span> <span class="va">segList_ensemblGeneID</span><span class="op">$</span><span class="va">mouse</span><span class="op">$</span><span class="va">mouse_scSEG</span>,
-  kmeansK <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span>,
+  kmeansK <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span>,
   assay_name <span class="op">=</span> <span class="st">"scMerge_hdf5"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="reference" class="section level1">
 <h1 class="hasAnchor">
-<a href="#reference" class="anchor"></a>Reference</h1>
+<a href="#reference" class="anchor" aria-hidden="true"></a>Reference</h1>
 <p>Please check out our paper for detailed analysis and results on multiple scRNA-Seq data. <a href="https://www.biorxiv.org/content/10.1101/393280v2" class="external-link uri">https://www.biorxiv.org/content/10.1101/393280v2</a></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"scMerge"</span><span class="op">)</span>
@@ -467,10 +467,10 @@
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
-<a href="#session-info" class="anchor"></a>Session Info</h1>
+<a href="#session-info" class="anchor" aria-hidden="true"></a>Session Info</h1>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; R version 4.0.4 (2021-02-15)</span>
+<span class="co">#&gt; R version 4.0.5 (2021-03-31)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
 <span class="co">#&gt; Running under: macOS Catalina 10.15.7</span>
 <span class="co">#&gt; </span>
@@ -487,11 +487,11 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
 <span class="co">#&gt;  [1] BiocSingular_1.6.0          scater_1.18.6              </span>
-<span class="co">#&gt;  [3] ggplot2_3.3.3               scMerge_1.5.0              </span>
+<span class="co">#&gt;  [3] ggplot2_3.3.3               scMerge_1.7.0              </span>
 <span class="co">#&gt;  [5] SingleCellExperiment_1.12.0 SummarizedExperiment_1.20.0</span>
 <span class="co">#&gt;  [7] Biobase_2.50.0              GenomicRanges_1.42.0       </span>
-<span class="co">#&gt;  [9] GenomeInfoDb_1.26.4         IRanges_2.24.1             </span>
-<span class="co">#&gt; [11] S4Vectors_0.28.1            BiocGenerics_0.36.0        </span>
+<span class="co">#&gt;  [9] GenomeInfoDb_1.26.7         IRanges_2.24.1             </span>
+<span class="co">#&gt; [11] S4Vectors_0.28.1            BiocGenerics_0.36.1        </span>
 <span class="co">#&gt; [13] MatrixGenerics_1.2.1        matrixStats_0.58.0         </span>
 <span class="co">#&gt; [15] BiocStyle_2.18.1           </span>
 <span class="co">#&gt; </span>
@@ -503,53 +503,53 @@
 <span class="co">#&gt;   [9] base64enc_0.1-3           fs_1.5.0                 </span>
 <span class="co">#&gt;  [11] rstudioapi_0.13           proxy_0.4-25             </span>
 <span class="co">#&gt;  [13] farver_2.1.0              fansi_0.4.2              </span>
-<span class="co">#&gt;  [15] mvtnorm_1.1-1             splines_4.0.4            </span>
+<span class="co">#&gt;  [15] mvtnorm_1.1-1             splines_4.0.5            </span>
 <span class="co">#&gt;  [17] sparseMatrixStats_1.2.1   cachem_1.0.4             </span>
-<span class="co">#&gt;  [19] knitr_1.31                Formula_1.2-4            </span>
-<span class="co">#&gt;  [21] jsonlite_1.7.2            cluster_2.1.0            </span>
+<span class="co">#&gt;  [19] knitr_1.33                Formula_1.2-4            </span>
+<span class="co">#&gt;  [21] jsonlite_1.7.2            cluster_2.1.1            </span>
 <span class="co">#&gt;  [23] png_0.1-7                 startupmsg_0.9.6         </span>
-<span class="co">#&gt;  [25] sfsmisc_1.1-8             BiocManager_1.30.10      </span>
-<span class="co">#&gt;  [27] compiler_4.0.4            backports_1.2.1          </span>
+<span class="co">#&gt;  [25] sfsmisc_1.1-11            BiocManager_1.30.12      </span>
+<span class="co">#&gt;  [27] compiler_4.0.5            backports_1.2.1          </span>
 <span class="co">#&gt;  [29] Matrix_1.3-2              fastmap_1.1.0            </span>
-<span class="co">#&gt;  [31] htmltools_0.5.1.1         tools_4.0.4              </span>
-<span class="co">#&gt;  [33] igraph_1.2.6              rsvd_1.0.3               </span>
+<span class="co">#&gt;  [31] htmltools_0.5.1.1         tools_4.0.5              </span>
+<span class="co">#&gt;  [33] igraph_1.2.6              rsvd_1.0.5               </span>
 <span class="co">#&gt;  [35] gtable_0.3.0              glue_1.4.2               </span>
 <span class="co">#&gt;  [37] GenomeInfoDbData_1.2.4    Rcpp_1.0.6               </span>
-<span class="co">#&gt;  [39] bbmle_1.0.23.1            jquerylib_0.1.3          </span>
-<span class="co">#&gt;  [41] pkgdown_1.6.1.9000        vctrs_0.3.6              </span>
+<span class="co">#&gt;  [39] bbmle_1.0.23.1            jquerylib_0.1.4          </span>
+<span class="co">#&gt;  [41] pkgdown_1.6.1.9001        vctrs_0.3.7              </span>
 <span class="co">#&gt;  [43] nlme_3.1-152              DelayedMatrixStats_1.12.3</span>
 <span class="co">#&gt;  [45] xfun_0.22                 stringr_1.4.0            </span>
 <span class="co">#&gt;  [47] beachmat_2.6.4            lifecycle_1.0.0          </span>
 <span class="co">#&gt;  [49] irlba_2.3.3               gtools_3.8.2             </span>
 <span class="co">#&gt;  [51] statmod_1.4.35            zlibbioc_1.36.0          </span>
-<span class="co">#&gt;  [53] MASS_7.3-53               scales_1.1.1             </span>
+<span class="co">#&gt;  [53] MASS_7.3-53.1             scales_1.1.1             </span>
 <span class="co">#&gt;  [55] ragg_1.1.2                RColorBrewer_1.1-2       </span>
 <span class="co">#&gt;  [57] yaml_2.2.1                memoise_2.0.0            </span>
 <span class="co">#&gt;  [59] gridExtra_2.3             sass_0.3.1               </span>
 <span class="co">#&gt;  [61] bdsmatrix_1.3-4           rpart_4.1-15             </span>
 <span class="co">#&gt;  [63] latticeExtra_0.6-29       stringi_1.5.3            </span>
-<span class="co">#&gt;  [65] highr_0.8                 desc_1.3.0               </span>
-<span class="co">#&gt;  [67] checkmate_2.0.0           caTools_1.18.1           </span>
+<span class="co">#&gt;  [65] highr_0.9                 desc_1.3.0               </span>
+<span class="co">#&gt;  [67] checkmate_2.0.0           caTools_1.18.2           </span>
 <span class="co">#&gt;  [69] BiocParallel_1.24.1       rlang_0.4.10             </span>
 <span class="co">#&gt;  [71] pkgconfig_2.0.3           systemfonts_1.0.1        </span>
-<span class="co">#&gt;  [73] bitops_1.0-6              M3Drop_1.16.0            </span>
+<span class="co">#&gt;  [73] bitops_1.0-7              M3Drop_1.16.0            </span>
 <span class="co">#&gt;  [75] evaluate_0.14             lattice_0.20-41          </span>
 <span class="co">#&gt;  [77] ruv_0.9.7.1               labeling_0.4.2           </span>
 <span class="co">#&gt;  [79] htmlwidgets_1.5.3         magrittr_2.0.1           </span>
-<span class="co">#&gt;  [81] bookdown_0.21             R6_2.5.0                 </span>
+<span class="co">#&gt;  [81] bookdown_0.22             R6_2.5.0                 </span>
 <span class="co">#&gt;  [83] gplots_3.1.1              Hmisc_4.5-0              </span>
-<span class="co">#&gt;  [85] DelayedArray_0.16.2       withr_2.4.1              </span>
-<span class="co">#&gt;  [87] pillar_1.5.1              foreign_0.8-81           </span>
-<span class="co">#&gt;  [89] mgcv_1.8-33               survival_3.2-7           </span>
+<span class="co">#&gt;  [85] DelayedArray_0.16.3       withr_2.4.2              </span>
+<span class="co">#&gt;  [87] pillar_1.6.0              foreign_0.8-81           </span>
+<span class="co">#&gt;  [89] mgcv_1.8-34               survival_3.2-10          </span>
 <span class="co">#&gt;  [91] RCurl_1.98-1.3            nnet_7.3-15              </span>
-<span class="co">#&gt;  [93] tibble_3.1.0              crayon_1.4.1             </span>
+<span class="co">#&gt;  [93] tibble_3.1.1              crayon_1.4.1             </span>
 <span class="co">#&gt;  [95] KernSmooth_2.23-18        utf8_1.2.1               </span>
-<span class="co">#&gt;  [97] rmarkdown_2.7             viridis_0.5.1            </span>
-<span class="co">#&gt;  [99] jpeg_0.1-8.1              grid_4.0.4               </span>
+<span class="co">#&gt;  [97] rmarkdown_2.7             viridis_0.6.0            </span>
+<span class="co">#&gt;  [99] jpeg_0.1-8.1              grid_4.0.5               </span>
 <span class="co">#&gt; [101] data.table_1.14.0         distr_2.8.0              </span>
 <span class="co">#&gt; [103] reldist_1.6-6             digest_0.6.27            </span>
 <span class="co">#&gt; [105] numDeriv_2016.8-1.1       textshaping_0.3.3        </span>
-<span class="co">#&gt; [107] munsell_0.5.0             viridisLite_0.3.0        </span>
+<span class="co">#&gt; [107] munsell_0.5.0             viridisLite_0.4.0        </span>
 <span class="co">#&gt; [109] beeswarm_0.3.1            vipor_0.4.5              </span>
 <span class="co">#&gt; [111] bslib_0.2.4</span></code></pre></div>
 </div>
@@ -572,7 +572,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>

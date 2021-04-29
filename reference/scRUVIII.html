@@ -60,6 +60,9 @@ silhouette coefficient" />
 
 
 
+<!-- dependencies from examples -->
+
+
   
 
   
@@ -82,7 +85,7 @@ silhouette coefficient" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
       </span>
     </div>
 
@@ -251,8 +254,8 @@ all the supplied k values will be returned.</p></li>
     <pre class="examples"><div class='input'><span class='va'>L</span> <span class='op'>=</span> <span class='fu'><a href='ruvSimulate.html'>ruvSimulate</a></span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>200</span>, n <span class='op'>=</span> <span class='fl'>1000</span>, nc <span class='op'>=</span> <span class='fl'>100</span>, nCelltypes <span class='op'>=</span> <span class='fl'>3</span>, nBatch <span class='op'>=</span> <span class='fl'>2</span>, lambda <span class='op'>=</span> <span class='fl'>0.1</span>, sce <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='va'>Y</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log2</a></span><span class='op'>(</span><span class='va'>L</span><span class='op'>$</span><span class='va'>Y</span> <span class='op'>+</span> <span class='fl'>1L</span><span class='op'>)</span><span class='op'>)</span>; <span class='va'>M</span> <span class='op'>=</span> <span class='va'>L</span><span class='op'>$</span><span class='va'>M</span>; <span class='va'>ctl</span> <span class='op'>=</span> <span class='va'>L</span><span class='op'>$</span><span class='va'>ctl</span>; <span class='va'>batch</span> <span class='op'>=</span> <span class='va'>L</span><span class='op'>$</span><span class='va'>batch</span>;
 <span class='va'>res</span> <span class='op'>=</span> <span class='fu'>scRUVIII</span><span class='op'>(</span>Y <span class='op'>=</span> <span class='va'>Y</span>, M <span class='op'>=</span> <span class='va'>M</span>, ctl <span class='op'>=</span> <span class='va'>ctl</span>, k <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span>, <span class='fl'>20</span><span class='op'>)</span>, batch <span class='op'>=</span> <span class='va'>batch</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Selecting optimal RUVk 
-#&gt; No cell type info, replicate matrix will be used as cell type info </div><div class='output co'>#&gt; <span class='message'>optimal ruvK:5</span></div><div class='img'><img src='scRUVIII-1.png' alt='' width='700' height='433' /></div></pre>
+</div><div class='co'>#&gt; Selecting optimal RUVk 
+#&gt; No cell type info, replicate matrix will be used as cell type info </div><div class='co'>#&gt; optimal ruvK:5</div><div class='img'><img src='scRUVIII-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -268,7 +271,7 @@ all the supplied k values will be returned.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
