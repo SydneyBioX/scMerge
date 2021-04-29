@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
@@ -368,9 +368,9 @@
 <span class="co">#&gt; scMerge complete!</span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Normally, scMerge takes "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">t2</span> <span class="op">-</span> <span class="va">t1</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">" seconds"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Normally, scMerge takes  1.61  seconds"</span>
+<span class="co">#&gt; [1] "Normally, scMerge takes  1.74  seconds"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Fast version of scMerge takes "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">t4</span> <span class="op">-</span> <span class="va">t3</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">" seconds"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Fast version of scMerge takes  0.79  seconds"</span>
+<span class="co">#&gt; [1] "Fast version of scMerge takes  0.83  seconds"</span>
 
 <span class="va">scMerge_fast</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">scMerge_fast</span>, exprs_values <span class="op">=</span> <span class="st">"scMerge_fast"</span><span class="op">)</span>
 
@@ -487,7 +487,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
 <span class="co">#&gt;  [1] BiocSingular_1.6.0          scater_1.18.6              </span>
-<span class="co">#&gt;  [3] ggplot2_3.3.3               scMerge_1.7.0              </span>
+<span class="co">#&gt;  [3] ggplot2_3.3.3               scMerge_1.7.1              </span>
 <span class="co">#&gt;  [5] SingleCellExperiment_1.12.0 SummarizedExperiment_1.20.0</span>
 <span class="co">#&gt;  [7] Biobase_2.50.0              GenomicRanges_1.42.0       </span>
 <span class="co">#&gt;  [9] GenomeInfoDb_1.26.7         IRanges_2.24.1             </span>
