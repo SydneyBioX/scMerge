@@ -95,14 +95,14 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
     sce_rownames <- rownames(sce_combine)
     if (is.null(ctl)) {
         stop("Negative control genes are needed. \n 
-             You could use either a pre-computed list or use scSEGIndex(), see vignette.")
+             You could consider to use data(segList) as a pre-curated list.")
     } else {
         if (is.character(ctl)) {
             ctl <- which(sce_rownames %in% ctl)
         }
         if (length(ctl) == 0) {
             stop("Negative control genes are needed. \n 
-             You could use either a pre-computed list or use scSEGIndex(), see vignette.",
+             You could consider to use data(segList) as a pre-curated list.",
                 call. = FALSE)
         }
     }

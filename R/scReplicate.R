@@ -505,7 +505,7 @@ compute_dist_res <- function(i, res1, res2, exprs_mat, dist,
             dist_mat <- pdist::pdist(t(mat1), t(mat2))
         }
         dist_mat <- as.matrix(dist_mat)
-        res_tmp <- c(res_tmp, stats::median(dist_mat))
+        res_tmp <- c(res_tmp, stats::median(dist_mat, na.rm = TRUE))
     }
     dist_res[[i]] <- res_tmp
     
@@ -905,3 +905,4 @@ computePCA_byHVGMarker <- function(this_batch_list, batch, batch_oneType,
     rownames(result) <- rownames(sub_exprs_mat)
     return(result)
 }
+
