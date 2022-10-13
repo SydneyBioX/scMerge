@@ -125,7 +125,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
         cell_type = cell_type, cell_type_match = cell_type_match, 
         cell_type_inc = cell_type_inc, dist = dist, WV = WV, 
         WV_marker = WV_marker, BPPARAM = BPPARAM, 
-        BSPARAM = BSPARAM, plot_igraph = plot_igraph, verbose = verbose)
+        BSPARAM = BSPARAM, plot_igraph = verbose, verbose = verbose)
     t2 <- Sys.time()
     
     timeReplicates <- t2 - t1

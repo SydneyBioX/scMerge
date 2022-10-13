@@ -491,252 +491,179 @@ compute_dist_mat_med <- function(k, exprs_mat, clustering_list,
     return(stats::median(dist_mat))
 }
 
-compute_dist_res <- function(i, res1, res2, exprs_mat, dist, 
-    dist_res) {
-    res_tmp <- c()
-    for (j in seq_len(max(res2))) {
-        mat1 <- exprs_mat[, names(which(res1 == i))]
-        mat2 <- exprs_mat[, names(which(res2 == j))]
-        if (dist == "cosine") {
-            dist_mat <- stats::dist(t(mat1), t(mat2), method = "cosine")
-        } else if (dist == "cor") {
-            dist_mat <- 1 - stats::cor(as.matrix(mat1), as.matrix(mat2))
-        } else {
-            dist_mat <- pdist::pdist(t(mat1), t(mat2))
-        }
-        dist_mat <- as.matrix(dist_mat)
-        res_tmp <- c(res_tmp, stats::median(dist_mat, na.rm = TRUE))
-    }
-    dist_res[[i]] <- res_tmp
-    
-    return(dist_res[[i]])
-}
 
 findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", 
-    BPPARAM, plot_igraph = TRUE) {
-    
-    batch_num <- length(clustering_list)
-    names(clustering_list) <- paste("Batch", seq_len(batch_num), 
-        sep = "")
-    
-    ## Check which batch has only one cluster
-    batch_oneType <- which(unlist(lapply(clustering_list, function(x) length(levels(as.factor(x))) == 
-        1)))
-    ## If there existsome batch_oneType
-    if (length(batch_oneType) != 0) {
-        ## And if all batch_oneType == num of batches, i.e.  every
-        ## batch only contains one cell type
-        if (length(batch_oneType) == batch_num) {
-            combine_pair <- utils::combn(batch_num, 2)
-            batch_oneType <- NULL
-            allones <- TRUE
-        } else {
-            ## if at least some batch contains more than 1 cell type Then
-            ## take away the batches with only one cell type and then
-            ## iterate through all combn
-            ## 
-            
-            ## 20190606 YL: to prevent only one batch left after exclude the batch with one type.
-            ## 
-            if (length(c(seq_len(batch_num))[-batch_oneType]) == 1) {
-              combine_pair <- NULL
-            }else{
-              combine_pair <- utils::combn(c(seq_len(batch_num))[-batch_oneType], 
-                                           2)
-            }
-            
-            
-            ## And then for those batches with only one cell type, we bind
-            ## to the previous generated combn
-            for (i in batch_oneType) {
-                for (j in c(seq_len(batch_num))[-batch_oneType]) {
-                  combine_pair <- cbind(combine_pair, c(i, j))
-                }
-            }
-            allones <- FALSE
-        }
+                    BPPARAM, plot_igraph = FALSE) {
+  
+  batch_num <- length(clustering_list)
+  names(clustering_list) <- paste("Batch", seq_len(batch_num), sep = "")
+  
+  ## Check which batch has only one cluster
+  batch_oneType <- which(unlist(lapply(clustering_list, function(x) length(levels(as.factor(x))) == 1)))
+  ## If there existsome batch_oneType
+  if (length(batch_oneType) != 0) {
+    ## And if all batch_oneType == num of batches, i.e.  every
+    ## batch only contains one cell type
+    if (length(batch_oneType) == batch_num) {
+      combine_pair <- utils::combn(batch_num, 2)
+      batch_oneType <- NULL
+      allones <- TRUE
     } else {
-        combine_pair <- utils::combn(batch_num, 2)
-        allones <- FALSE
+      ## if at least some batch contains more than 1 cell type Then
+      ## take away the batches with only one cell type and then
+      ## iterate through all combn
+      ## 
+      
+      ## 20190606 YL: to prevent only one batch left after exclude the batch with one type.
+      ## 
+      if (length(c(seq_len(batch_num))[-batch_oneType]) == 1) {
+        combine_pair <- NULL
+      }else{
+        combine_pair <- utils::combn(c(seq_len(batch_num))[-batch_oneType], 2)
+      }
+      
+      
+      ## And then for those batches with only one cell type, we bind
+      ## to the previous generated combn
+      for (i in batch_oneType) {
+        for (j in c(seq_len(batch_num))[-batch_oneType]) {
+          combine_pair <- cbind(combine_pair, c(i, j))
+        }
+      }
+      allones <- FALSE
+    }
+  } else {
+    combine_pair <- utils::combn(batch_num, 2)
+    allones <- FALSE
+  }
+  
+  
+  
+  
+  mnc <- list()
+  
+  ## If there are only two batches containing only two cell
+  ## types, then finding MNN is trivial. Return NULL
+  if (allones & batch_num == 2) {
+    return(NULL)
+  } else if (allones) {
+    ## If every batch contains only one cell type...
+    dist_res <- matrix(NA, nrow = batch_num, ncol = batch_num)
+    
+    
+    dist_mat_med <- BiocParallel::bplapply(seq_len(ncol(combine_pair)), function(k) {
+      compute_dist_mat_med(k = k, exprs_mat = exprs_mat, 
+                           clustering_list = clustering_list, 
+                           combine_pair = combine_pair, 
+                           dist = dist)
+    }, BPPARAM = BPPARAM)
+    
+    
+    
+    for (k in seq_len(ncol(combine_pair))) {
+      dist_res[combine_pair[1, k], combine_pair[2, k]] <- 
+        dist_res[combine_pair[2, k], combine_pair[1, k]] <- 
+        dist_mat_med[[k]]
     }
     
+    ## The neighbour_res is then which ever two pairs of batches
+    ## that are closes to each other
+    neighbour_res <- apply(dist_res, 1, which.min)
     
-    
-    
+    mnc_mat <- c()
+    for (i in seq_along(neighbour_res)) {
+      if (neighbour_res[neighbour_res[i]] == i) {
+        mnc_mat <- rbind(mnc_mat, sort(c(i, neighbour_res[i])))
+      }
+    }
+    mnc_mat <- unique(mnc_mat)
     mnc <- list()
-    
-    ## If there are only two batches containing only two cell
-    ## types, then finding MNN is trivial. Return NULL
-    if (allones & batch_num == 2) {
-        return(NULL)
-    } else if (allones) {
-        ## If every batch contains only one cell type...
-        dist_res <- matrix(NA, nrow = batch_num, ncol = batch_num)
-        
-        
-        
-        # if (parallel) {
-        dist_mat_med <- BiocParallel::bplapply(seq_len(ncol(combine_pair)), 
-            function(k) {
-                compute_dist_mat_med(k = k, exprs_mat = exprs_mat, 
-                  clustering_list = clustering_list, combine_pair = combine_pair, 
-                  dist = dist)
-            }, BPPARAM = BPPARAM)
-        # } else { dist_mat_med <-
-        # lapply(seq_len(ncol(combine_pair)), function(k) {
-        # compute_dist_mat_med(k = k, exprs_mat = exprs_mat,
-        # clustering_list = clustering_list, combine_pair =
-        # combine_pair, dist = dist) }) }
-        
-        
-        for (k in seq_len(ncol(combine_pair))) {
-            dist_res[combine_pair[1, k], combine_pair[2, k]] <- dist_res[combine_pair[2, 
-                k], combine_pair[1, k]] <- dist_mat_med[[k]]
-        }
-        
-        ## The neighbour_res is then which ever two pairs of batches
-        ## that are closes to each other
-        neighbour_res <- apply(dist_res, 1, which.min)
-        
-        mnc_mat <- c()
-        for (i in seq_along(neighbour_res)) {
-            if (neighbour_res[neighbour_res[i]] == i) {
-                mnc_mat <- rbind(mnc_mat, sort(c(i, neighbour_res[i])))
-            }
-        }
-        mnc_mat <- unique(mnc_mat)
-        mnc <- list()
-        for (i in seq_len(nrow(mnc_mat))) {
-            mnc[[i]] <- matrix(1, ncol = 2, nrow = 1)
-            colnames(mnc[[i]]) <- c(paste("Batch", mnc_mat[i, 
-                1], sep = ""), paste("Batch", mnc_mat[i, 2], 
-                sep = ""))
-        }
-    } else {
-        for (k in seq_len(ncol(combine_pair))) {
-            dist_res <- list()
-            # print(k)
-            res1 <- clustering_list[[combine_pair[1, k]]]
-            res2 <- clustering_list[[combine_pair[2, k]]]
-            
-            
-            # if (parallel) {
-            dist_res <- BiocParallel::bplapply(seq_len(max(res1)), 
-                function(i) {
-                  compute_dist_res(i = i, res1 = res1, res2 = res2, 
-                    exprs_mat = exprs_mat, dist = dist, dist_res)
-                }, BPPARAM = BPPARAM)
-            # } else { dist_res <- lapply(seq_len(max(res1)), function(i)
-            # { compute_dist_res(i = i, res1 = res1, res2 = res2,
-            # exprs_mat = exprs_mat, dist = dist, dist_res) }) }
-            
-            
-            dist_res <- do.call(rbind, dist_res)
-            neighbour_batch1 <- apply(dist_res, 1, which.min)
-            neighbour_batch2 <- apply(dist_res, 2, which.min)
-            mnc_tmp <- c()
-            for (l in seq_len(length(neighbour_batch1))) {
-                if (neighbour_batch2[neighbour_batch1[l]] == 
-                  l) {
-                  mnc_tmp <- rbind(mnc_tmp, c(l, neighbour_batch1[l]))
-                }
-            }
-            mnc[[k]] <- mnc_tmp
-            colnames(mnc[[k]]) <- c(paste("Batch", combine_pair[1, 
-                k], sep = ""), paste("Batch", combine_pair[2, 
-                k], sep = ""))
-        }
-    }  ## End else
-    
-    ############################################################### Function to perform network analysis
-    
-    
-    edge_list <- do.call(rbind, lapply(mnc, function(x) t(apply(x, 
-        1, function(y) paste(colnames(x), y, sep = "_")))))
-    
-    
-    ### 20190606 YL: creating the node list for each cluster in each batch
-    
-    node_list <- list()
-    
-    for (b in seq_along(clustering_list)) {
-      node_list[[b]] <- paste(names(clustering_list)[b],
-                              seq_len(max(clustering_list[[b]])), sep = "_")
+    for (i in seq_len(nrow(mnc_mat))) {
+      mnc[[i]] <- matrix(1, ncol = 2, nrow = 1)
+      colnames(mnc[[i]]) <- c(paste("Batch", mnc_mat[i, 1], sep = ""),
+                              paste("Batch", mnc_mat[i, 2], sep = ""))
     }
-    
-    node_list <- unlist(node_list)
-    
-    # if (is.null(edge_list)) {
-    #     return(NULL)
-    # } else {
-    #     g <- igraph::graph_from_edgelist(edge_list, directed = FALSE)
-    #     igraph::plot.igraph(g)
-    #     mnc <- igraph::fastgreedy.community(g)
-    #     mnc_df <- data.frame(group = as.numeric(mnc$membership),
-    #         batch = as.numeric(gsub("Batch", "", gsub("_.*",
-    #             "", mnc$names))), cluster = as.numeric(gsub(".*_",
-    #             "", mnc$names)))
-    # 
-    #     if (allones) {
-    #         mnc_df_new <- mnc_df
-    #         batch_oneType <- c(seq_len(batch_num))[-c(mnc_mat)]
-    #         for (i in batch_oneType) {
-    #             print(i)
-    #             neighbour_order <- rank(dist_res[i, ], na.last = TRUE)
-    #             group_order1 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order ==
-    #               1), "group"]
-    #             group_order2 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order ==
-    #               2), "group"]
-    #             if (group_order1 == group_order2) {
-    #               mnc_df_new <- rbind(mnc_df_new, c(group_order1,
-    #                 i, 1))
-    #             }
-    #         }
-    #         mnc_df <- mnc_df_new
-    #     }
-    # 
-    #     return(mnc_df)
-    # }
+  } else {
     
     
-    ### 20190606 YL: Use the node list and edge list to build the network
-    ### The edge list is null case will not be a special case now
-
+    mnc <- BiocParallel::bplapply(seq_len(ncol(combine_pair)), function(k) {
+      res1 <- clustering_list[[combine_pair[1, k]]]
+      res2 <- clustering_list[[combine_pair[2, k]]]
+      
+      mat1 <- as(exprs_mat[, names(res1), drop = FALSE], "dgCMatrix")
+      mat2 <- as(exprs_mat[, names(res2), drop = FALSE], "dgCMatrix")
+      
+      if (dist == "cosine") {
+        dist_mat <- 1 - proxyC::simil(t(mat1), t(mat2), method = "cosine")
+      } else if (dist == "cor") {
+        dist_mat <- 1 - proxyC::simil(t(mat1), t(mat2), method = "correlation")
+      } else {
+        dist_mat <- proxyC::dist(t(mat1), t(mat2))
+      }
+      
+      dist_res <- apply(expand.grid(seq_len(max(res1)), seq_len(max(res2))), 1, 
+                        function(x) {
+                          median(dist_mat[res1 == x[1], res2 == x[2], drop = FALSE], na.rm = TRUE)
+                        })
+      
+      dist_res <- matrix(dist_res, nrow = (max(res1)), ncol = (max(res2)))
+      
+      neighbour_batch1 <- apply(dist_res, 1, which.min)
+      neighbour_batch2 <- apply(dist_res, 2, which.min)
+      
+      mnc_tmp <- c()
+      for (l in seq_len(length(neighbour_batch1))) {
+        if (neighbour_batch2[neighbour_batch1[l]] == l) {
+          mnc_tmp <- rbind(mnc_tmp, c(l, neighbour_batch1[l]))
+        }
+      }
+      colnames(mnc_tmp) <- c(paste("Batch", combine_pair[1, k], sep = ""), 
+                             paste("Batch", combine_pair[2, k], sep = ""))
+      return(mnc_tmp)
+    }, BPPARAM = BPPARAM)
     
-    g <- igraph::make_empty_graph(directed = FALSE) + igraph::vertices(node_list)
-    g <- g + igraph::edges(t(edge_list))
-
-
-    if(plot_igraph){
-      igraph::plot.igraph(g)
-    }
     
-    mnc <- igraph::fastgreedy.community(g)
-    mnc_df <- data.frame(group = as.numeric(mnc$membership),
-                         batch = as.numeric(gsub("Batch", "", gsub("_.*", "", mnc$names))),
-                         cluster = as.numeric(gsub(".*_", "", mnc$names)))
-
-    ### 20190606 YL: to test here later  
-    # if (allones) {
-    #   mnc_df_new <- mnc_df
-    #   batch_oneType <- c(seq_len(batch_num))[-c(mnc_mat)]
-    #   for (i in batch_oneType) {
-    #     print(i)
-    #     neighbour_order <- rank(dist_res[i, ], na.last = TRUE)
-    #     group_order1 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order == 
-    #                                                         1), "group"]
-    #     group_order2 <- mnc_df[mnc_df[, "batch"] == which(neighbour_order == 
-    #                                                         2), "group"]
-    #     if (group_order1 == group_order2) {
-    #       mnc_df_new <- rbind(mnc_df_new, c(group_order1, 
-    #                                         i, 1))
-    #     }
-    #   }
-    #   mnc_df <- mnc_df_new
-    # }
-    
-    return(mnc_df)
+  }  ## End else
+  
+  ############################################################### Function to perform network analysis
+  
+  
+  edge_list <- do.call(rbind, lapply(mnc, function(x) t(apply(x, 1, function(y) paste(colnames(x), y, sep = "_")))))
+  
+  
+  ### 20190606 YL: creating the node list for each cluster in each batch
+  
+  node_list <- list()
+  
+  for (b in seq_along(clustering_list)) {
+    node_list[[b]] <- paste(names(clustering_list)[b],
+                            seq_len(max(clustering_list[[b]])), sep = "_")
+  }
+  
+  node_list <- unlist(node_list)
+  
+  
+  
+  ### 20190606 YL: Use the node list and edge list to build the network
+  ### The edge list is null case will not be a special case now
+  
+  
+  g <- igraph::make_empty_graph(directed = FALSE) + igraph::vertices(node_list)
+  g <- g + igraph::edges(t(edge_list))
+  
+  
+  if(plot_igraph){
+    igraph::plot.igraph(g)
+  }
+  
+  mnc <- igraph::fastgreedy.community(g)
+  mnc_df <- data.frame(group = as.numeric(mnc$membership),
+                       batch = as.numeric(gsub("Batch", "", gsub("_.*", "", mnc$names))),
+                       cluster = as.numeric(gsub(".*_", "", mnc$names)))
+  
+  return(mnc_df)
 }
+
 
 
 
