@@ -92,87 +92,134 @@ leveraging (pseudo)-replicates and control genes.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">scMerge</span><span class="op">(</span>
-  <span class="va">sce_combine</span>,
-  ctl <span class="op">=</span> <span class="cn">NULL</span>,
-  kmeansK <span class="op">=</span> <span class="cn">NULL</span>,
-  exprs <span class="op">=</span> <span class="st">"logcounts"</span>,
-  hvg_exprs <span class="op">=</span> <span class="st">"counts"</span>,
-  batch_name <span class="op">=</span> <span class="st">"batch"</span>,
-  marker <span class="op">=</span> <span class="cn">NULL</span>,
-  marker_list <span class="op">=</span> <span class="cn">NULL</span>,
-  ruvK <span class="op">=</span> <span class="fl">20</span>,
-  replicate_prop <span class="op">=</span> <span class="fl">1</span>,
-  cell_type <span class="op">=</span> <span class="cn">NULL</span>,
-  cell_type_match <span class="op">=</span> <span class="cn">FALSE</span>,
-  cell_type_inc <span class="op">=</span> <span class="cn">NULL</span>,
-  BSPARAM <span class="op">=</span> <span class="fu">ExactParam</span><span class="op">(</span><span class="op">)</span>,
-  svd_k <span class="op">=</span> <span class="fl">50</span>,
-  dist <span class="op">=</span> <span class="st">"cor"</span>,
-  WV <span class="op">=</span> <span class="cn">NULL</span>,
-  WV_marker <span class="op">=</span> <span class="cn">NULL</span>,
-  BPPARAM <span class="op">=</span> <span class="fu">SerialParam</span><span class="op">(</span><span class="op">)</span>,
-  return_all_RUV <span class="op">=</span> <span class="cn">FALSE</span>,
-  assay_name <span class="op">=</span> <span class="cn">NULL</span>,
-  plot_igraph <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scMerge</span><span class="op">(</span></span>
+<span>  <span class="va">sce_combine</span>,</span>
+<span>  ctl <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  kmeansK <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  exprs <span class="op">=</span> <span class="st">"logcounts"</span>,</span>
+<span>  hvg_exprs <span class="op">=</span> <span class="st">"counts"</span>,</span>
+<span>  batch_name <span class="op">=</span> <span class="st">"batch"</span>,</span>
+<span>  marker <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  marker_list <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ruvK <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  replicate_prop <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  cell_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cell_type_match <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cell_type_inc <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  BSPARAM <span class="op">=</span> <span class="fu">ExactParam</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  svd_k <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  dist <span class="op">=</span> <span class="st">"cor"</span>,</span>
+<span>  WV <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  WV_marker <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  BPPARAM <span class="op">=</span> <span class="fu">SerialParam</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  return_all_RUV <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  assay_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot_igraph <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>sce_combine</dt>
 <dd><p>A <code>SingleCellExperiment</code> object contains the batch-combined matrix with batch info in colData.</p></dd>
+
+
 <dt>ctl</dt>
 <dd><p>A character vector of negative control. It should have a non-empty intersection with the rows of sce_combine.</p></dd>
+
+
 <dt>kmeansK</dt>
 <dd><p>A vector indicates the kmeans's K for each batch. The length of kmeansK needs to be the same as the number of batch.</p></dd>
+
+
 <dt>exprs</dt>
 <dd><p>A string indicating the name of the assay requiring batch correction in sce_combine, default is logcounts.</p></dd>
+
+
 <dt>hvg_exprs</dt>
 <dd><p>A string indicating the assay that to be used for highly variable genes identification in sce_combine, default is counts.</p></dd>
+
+
 <dt>batch_name</dt>
 <dd><p>A character indicating the name of the batch column, default to "batch"</p></dd>
+
+
 <dt>marker</dt>
 <dd><p>An optional vector of markers, to be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead.</p></dd>
+
+
 <dt>marker_list</dt>
 <dd><p>An optional list of markers for each batch, which will be used in calculation of mutual nearest cluster.</p></dd>
+
+
 <dt>ruvK</dt>
 <dd><p>An optional integer/vector indicating the number of unwanted variation factors that are removed, default is 20.</p></dd>
+
+
 <dt>replicate_prop</dt>
 <dd><p>A number indicating the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1. Default to 1.</p></dd>
+
+
 <dt>cell_type</dt>
 <dd><p>An optional vector indicating the cell type information for each cell in the batch-combined matrix. If it is <code>NULL</code>, pseudo-replicate procedure will be run to identify cell type.</p></dd>
+
+
 <dt>cell_type_match</dt>
 <dd><p>An optional logical input for whether to find mutual nearest cluster using cell type information.</p></dd>
+
+
 <dt>cell_type_inc</dt>
 <dd><p>An optional vector indicating the indices of the cells that will be used to supervise the pseudo-replicate procedure.</p></dd>
+
+
 <dt>BSPARAM</dt>
 <dd><p>A <code>BiocSingularParam</code> class object from the <code>BiocSingular</code> package is used. Default is ExactParam().</p></dd>
+
+
 <dt>svd_k</dt>
 <dd><p>If BSPARAM is set to <code>RandomParam</code> or <code>IrlbaParam</code> class from <code>BiocSingular</code> package, then 
 <code>svd_k</code> will be used to used to reduce the computational cost of singular value decomposition. Default to 50.</p></dd>
+
+
 <dt>dist</dt>
 <dd><p>The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.</p></dd>
+
+
 <dt>WV</dt>
 <dd><p>A optional vector indicating the wanted variation factor other than cell type info, such as cell stages.</p></dd>
+
+
 <dt>WV_marker</dt>
 <dd><p>An optional vector indicating the markers of the wanted variation.</p></dd>
+
+
 <dt>BPPARAM</dt>
 <dd><p>A <code>BiocParallelParam</code> class object from the <code>BiocParallel</code> package is used. Default is SerialParam().</p></dd>
+
+
 <dt>return_all_RUV</dt>
 <dd><p>If <code>FALSE</code>, then only returns a <code>SingleCellExperiment</code> object with original data and one normalised matrix.
 Otherwise, the <code>SingleCellExperiment</code> object will contain the original data and one normalised matrix for <code>each</code> ruvK value. In this latter case, assay_name must have the same length as ruvK.</p></dd>
+
+
 <dt>assay_name</dt>
 <dd><p>The assay name(s) for the adjusted expression matrix(matrices). If <code>return_all_RUV = TRUE</code> assay_name must have the same length as ruvK.</p></dd>
+
+
 <dt>plot_igraph</dt>
 <dd><p>If <code>TRUE</code>, then during the un/semi-supervised scMerge, igraph plot will be displayed</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>If <code>TRUE</code>, then all intermediate steps will be shown. Default to <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns a <code>SingleCellExperiment</code> object with following components:</p><ul><li><p>assays: the original assays and also the normalised matrix</p></li>
+    
+
+<p>Returns a <code>SingleCellExperiment</code> object with following components:</p><ul><li><p>assays: the original assays and also the normalised matrix</p></li>
 <li><p>metadata: containing the ruvK vector, ruvK_optimal based on F-score, and the replicate matrix</p></li>
 </ul></div>
     <div id="author">
@@ -182,28 +229,27 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Loading example data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'example_sce'</span>, package <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">## Previously computed stably expressed genes</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'segList_ensemblGeneID'</span>, package <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">## Running an example data with minimal inputs</span></span>
-<span class="r-in"><span class="va">sce_mESC</span> <span class="op">&lt;-</span> <span class="fu">scMerge</span><span class="op">(</span>sce_combine <span class="op">=</span> <span class="va">example_sce</span>,</span>
-<span class="r-in">ctl <span class="op">=</span> <span class="va">segList_ensemblGeneID</span><span class="op">$</span><span class="va">mouse</span><span class="op">$</span><span class="va">mouse_scSEG</span>,</span>
-<span class="r-in">kmeansK <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span>,</span>
-<span class="r-in">assay_name <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Loading example data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'example_sce'</span>, package <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## Previously computed stably expressed genes</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'segList_ensemblGeneID'</span>, package <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## Running an example data with minimal inputs</span></span></span>
+<span class="r-in"><span><span class="va">sce_mESC</span> <span class="op">&lt;-</span> <span class="fu">scMerge</span><span class="op">(</span>sce_combine <span class="op">=</span> <span class="va">example_sce</span>,</span></span>
+<span class="r-in"><span>ctl <span class="op">=</span> <span class="va">segList_ensemblGeneID</span><span class="op">$</span><span class="va">mouse</span><span class="op">$</span><span class="va">mouse_scSEG</span>,</span></span>
+<span class="r-in"><span>kmeansK <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>assay_name <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension of the replicates mapping matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 200   3</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Step 2: Performing RUV normalisation. This will take minutes to hours. </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> scMerge complete!</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sce_mESC</span> <span class="op">=</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">sce_mESC</span>, exprs_values <span class="op">=</span> <span class="st">"logcounts"</span><span class="op">)</span>                      </span></span>
+<span class="r-in"><span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">sce_mESC</span>, colour_by <span class="op">=</span> <span class="st">'cellTypes'</span>, shape <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="scMerge-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">sce_mESC</span> <span class="op">=</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">sce_mESC</span>, exprs_values <span class="op">=</span> <span class="st">"logcounts"</span><span class="op">)</span>                      </span>
-<span class="r-in"><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">sce_mESC</span>, colour_by <span class="op">=</span> <span class="st">'cellTypes'</span>, shape <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sce_mESC</span> <span class="op">=</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">sce_mESC</span>, exprs_values <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span>                                       </span></span>
+<span class="r-in"><span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">sce_mESC</span>, colour_by <span class="op">=</span> <span class="st">'cellTypes'</span>, shape <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="scMerge-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">sce_mESC</span> <span class="op">=</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">sce_mESC</span>, exprs_values <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span>                                       </span>
-<span class="r-in"><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">sce_mESC</span>, colour_by <span class="op">=</span> <span class="st">'cellTypes'</span>, shape <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="scMerge-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
@@ -218,7 +264,7 @@ Otherwise, the <code>SingleCellExperiment</code> object will contain the origina
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

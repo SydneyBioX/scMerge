@@ -90,21 +90,21 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fastRUVIII</span><span class="op">(</span>
-  <span class="va">Y</span>,
-  <span class="va">M</span>,
-  <span class="va">ctl</span>,
-  k <span class="op">=</span> <span class="cn">NULL</span>,
-  eta <span class="op">=</span> <span class="cn">NULL</span>,
-  svd_k <span class="op">=</span> <span class="fl">50</span>,
-  include.intercept <span class="op">=</span> <span class="cn">TRUE</span>,
-  average <span class="op">=</span> <span class="cn">FALSE</span>,
-  BPPARAM <span class="op">=</span> <span class="fu">SerialParam</span><span class="op">(</span><span class="op">)</span>,
-  BSPARAM <span class="op">=</span> <span class="fu">ExactParam</span><span class="op">(</span><span class="op">)</span>,
-  fullalpha <span class="op">=</span> <span class="cn">NULL</span>,
-  return.info <span class="op">=</span> <span class="cn">FALSE</span>,
-  inputcheck <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fastRUVIII</span><span class="op">(</span></span>
+<span>  <span class="va">Y</span>,</span>
+<span>  <span class="va">M</span>,</span>
+<span>  <span class="va">ctl</span>,</span>
+<span>  k <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  eta <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  svd_k <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  include.intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  average <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  BPPARAM <span class="op">=</span> <span class="fu">SerialParam</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  BSPARAM <span class="op">=</span> <span class="fu">ExactParam</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  fullalpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  return.info <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  inputcheck <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -112,39 +112,66 @@
     <dl><dt>Y</dt>
 <dd><p>The unnormalised scRNA-Seq data matrix. 
 A m by n matrix, where m is the number of observations and n is the number of features.</p></dd>
+
+
 <dt>M</dt>
 <dd><p>The replicate mapping matrix.
 The mapping matrix has m rows (one for each observation), and each column represents a set of replicates. 
 The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.
 See ruv::RUVIII for more details.</p></dd>
+
+
 <dt>ctl</dt>
 <dd><p>An index vector to specify the negative controls. Either a logical vector of length n or a vector of integers.</p></dd>
+
+
 <dt>k</dt>
 <dd><p>The number of unwanted factors to remove. This is inherited from the ruvK argument from the scMerge::scMerge function.</p></dd>
+
+
 <dt>eta</dt>
 <dd><p>Gene-wise (as opposed to sample-wise) covariates. See ruv::RUVIII for details.</p></dd>
+
+
 <dt>svd_k</dt>
 <dd><p>If BSPARAM is set to <code>RandomParam</code> or <code>IrlbaParam</code> class from <code>BiocSingular</code> package, then 
 <code>svd_k</code> will be used to used to reduce the computational cost of singular value decomposition. Default to 50.</p></dd>
+
+
 <dt>include.intercept</dt>
 <dd><p>When eta is specified (not NULL) but does not already include an intercept term, this will automatically include one.
 See ruv::RUVIII for details.</p></dd>
+
+
 <dt>average</dt>
 <dd><p>Average replicates after adjustment. See ruv::RUVIII for details.</p></dd>
+
+
 <dt>BPPARAM</dt>
 <dd><p>A <code>BiocParallelParam</code> class object from the <code>BiocParallel</code> package is used. Default is SerialParam().</p></dd>
+
+
 <dt>BSPARAM</dt>
 <dd><p>A <code>BiocSingularParam</code> class object from the <code>BiocSingular</code> package is used. Default is ExactParam().</p></dd>
+
+
 <dt>fullalpha</dt>
 <dd><p>Not used. Please ignore. See ruv::RUVIII for details.</p></dd>
+
+
 <dt>return.info</dt>
 <dd><p>Additional information relating to the computation of normalised matrix. We recommend setting this to true.</p></dd>
+
+
 <dt>inputcheck</dt>
 <dd><p>We recommend setting this to true.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A normalised matrix of the same dimensions as the input matrix Y.</p>
+    
+
+<p>A normalised matrix of the same dimensions as the input matrix Y.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -153,17 +180,17 @@ See ruv::RUVIII for details.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">L</span> <span class="op">=</span> <span class="fu"><a href="ruvSimulate.html">ruvSimulate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">200</span>, n <span class="op">=</span> <span class="fl">500</span>, nc <span class="op">=</span> <span class="fl">400</span>, nCelltypes <span class="op">=</span> <span class="fl">3</span>, nBatch <span class="op">=</span> <span class="fl">2</span>, lambda <span class="op">=</span> <span class="fl">0.1</span>, sce <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">Y</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">Y</span>; <span class="va">M</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">M</span>; <span class="va">ctl</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">ctl</span></span>
-<span class="r-in"><span class="va">improved1</span> <span class="op">=</span> <span class="fu">scMerge</span><span class="fu">::</span><span class="fu">fastRUVIII</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, M <span class="op">=</span> <span class="va">M</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, </span>
-<span class="r-in">k <span class="op">=</span> <span class="fl">20</span>, BSPARAM <span class="op">=</span> <span class="fu">BiocSingular</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/BiocSingularParam.html" class="external-link">ExactParam</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">improved2</span> <span class="op">=</span> <span class="fu">scMerge</span><span class="fu">::</span><span class="fu">fastRUVIII</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, M <span class="op">=</span> <span class="va">M</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, </span>
-<span class="r-in">k <span class="op">=</span> <span class="fl">20</span>, BSPARAM <span class="op">=</span> <span class="fu">BiocSingular</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/BiocSingularParam.html" class="external-link">RandomParam</a></span><span class="op">(</span><span class="op">)</span>, svd_k <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">old</span> <span class="op">=</span> <span class="fu">ruv</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ruv/man/RUVIII.html" class="external-link">RUVIII</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, M <span class="op">=</span> <span class="va">M</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, k <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">improved1</span>, <span class="va">old</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">L</span> <span class="op">=</span> <span class="fu"><a href="ruvSimulate.html">ruvSimulate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">200</span>, n <span class="op">=</span> <span class="fl">500</span>, nc <span class="op">=</span> <span class="fl">400</span>, nCelltypes <span class="op">=</span> <span class="fl">3</span>, nBatch <span class="op">=</span> <span class="fl">2</span>, lambda <span class="op">=</span> <span class="fl">0.1</span>, sce <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Y</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">Y</span>; <span class="va">M</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">M</span>; <span class="va">ctl</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">ctl</span></span></span>
+<span class="r-in"><span><span class="va">improved1</span> <span class="op">=</span> <span class="fu">scMerge</span><span class="fu">::</span><span class="fu">fastRUVIII</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, M <span class="op">=</span> <span class="va">M</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, </span></span>
+<span class="r-in"><span>k <span class="op">=</span> <span class="fl">20</span>, BSPARAM <span class="op">=</span> <span class="fu">BiocSingular</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/BiocSingularParam.html" class="external-link">ExactParam</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">improved2</span> <span class="op">=</span> <span class="fu">scMerge</span><span class="fu">::</span><span class="fu">fastRUVIII</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, M <span class="op">=</span> <span class="va">M</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, </span></span>
+<span class="r-in"><span>k <span class="op">=</span> <span class="fl">20</span>, BSPARAM <span class="op">=</span> <span class="fu">BiocSingular</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/BiocSingularParam.html" class="external-link">RandomParam</a></span><span class="op">(</span><span class="op">)</span>, svd_k <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">old</span> <span class="op">=</span> <span class="fu">ruv</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ruv/man/RUVIII.html" class="external-link">RUVIII</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, M <span class="op">=</span> <span class="va">M</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, k <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">improved1</span>, <span class="va">old</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">improved2</span>, <span class="va">old</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean relative difference: 0.03372667"</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">improved2</span>, <span class="va">old</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean relative difference: 0.0124659"</span>
 </code></pre></div>
     </div>
   </div>
@@ -178,7 +205,7 @@ See ruv::RUVIII for details.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

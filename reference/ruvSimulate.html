@@ -96,40 +96,57 @@ and it is not intended to be used by end-users.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ruvSimulate</span><span class="op">(</span>
-  m <span class="op">=</span> <span class="fl">100</span>,
-  n <span class="op">=</span> <span class="fl">5000</span>,
-  nc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">n</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>,
-  nCelltypes <span class="op">=</span> <span class="fl">3</span>,
-  nBatch <span class="op">=</span> <span class="fl">2</span>,
-  k <span class="op">=</span> <span class="fl">20</span>,
-  lambda <span class="op">=</span> <span class="fl">0.1</span>,
-  sce <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ruvSimulate</span><span class="op">(</span></span>
+<span>  m <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">5000</span>,</span>
+<span>  nc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">n</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>  nCelltypes <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  nBatch <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  k <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  lambda <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  sce <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>m</dt>
 <dd><p>Number of observations</p></dd>
+
+
 <dt>n</dt>
 <dd><p>Number of features</p></dd>
+
+
 <dt>nc</dt>
 <dd><p>Number of negative controls</p></dd>
+
+
 <dt>nCelltypes</dt>
 <dd><p>Number of cell-types</p></dd>
+
+
 <dt>nBatch</dt>
 <dd><p>Number of batches</p></dd>
+
+
 <dt>k</dt>
 <dd><p>Number of unwanted factors in simulation</p></dd>
+
+
 <dt>lambda</dt>
 <dd><p>Rate parameter for random Poisson generation</p></dd>
+
+
 <dt>sce</dt>
 <dd><p>If <code>TRUE</code>, returns a SingleCellExperiment object</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If <code>sce</code> is FALSE, then the output is a list consists of</p><ul><li><p>Y,  expression matrix generated through Poisson random variables,</p></li>
+    
+
+<p>If <code>sce</code> is FALSE, then the output is a list consists of</p><ul><li><p>Y,  expression matrix generated through Poisson random variables,</p></li>
 <li><p>ctl, a logical vector indicating the control genes,</p></li>
 <li><p>M, replicate mapping matrix,</p></li>
 <li><p>cellTypes, a vector indicating simulated cell types</p></li>
@@ -139,10 +156,10 @@ and it is not intended to be used by end-users.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">L</span> <span class="op">=</span> <span class="fu">ruvSimulate</span><span class="op">(</span>m <span class="op">=</span> <span class="fl">200</span>, n <span class="op">=</span> <span class="fl">1000</span>, nc <span class="op">=</span> <span class="fl">200</span>, </span>
-<span class="r-in">nCelltypes <span class="op">=</span> <span class="fl">3</span>, nBatch <span class="op">=</span> <span class="fl">2</span>, lambda <span class="op">=</span> <span class="fl">0.1</span>, k <span class="op">=</span> <span class="fl">10</span>, sce <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">L</span> <span class="op">=</span> <span class="fu">ruvSimulate</span><span class="op">(</span>m <span class="op">=</span> <span class="fl">200</span>, n <span class="op">=</span> <span class="fl">1000</span>, nc <span class="op">=</span> <span class="fl">200</span>, </span></span>
+<span class="r-in"><span>nCelltypes <span class="op">=</span> <span class="fl">3</span>, nBatch <span class="op">=</span> <span class="fl">2</span>, lambda <span class="op">=</span> <span class="fl">0.1</span>, k <span class="op">=</span> <span class="fl">10</span>, sce <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">L</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class: SingleCellExperiment </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> dim: 1000 200 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> metadata(1): M</span>
@@ -154,21 +171,21 @@ and it is not intended to be used by end-users.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> reducedDimNames(0):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mainExpName: NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> altExpNames(0):</span>
-<span class="r-in"><span class="va">example</span> <span class="op">&lt;-</span> <span class="fu"><a href="scMerge.html">scMerge</a></span><span class="op">(</span>sce_combine <span class="op">=</span> <span class="va">L</span>,</span>
-<span class="r-in">                      ctl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'gene'</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">)</span>,</span>
-<span class="r-in">                      cell_type <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">cellTypes</span>,</span>
-<span class="r-in">                      ruvK <span class="op">=</span> <span class="fl">10</span>,</span>
-<span class="r-in">                      assay_name <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">example</span> <span class="op">&lt;-</span> <span class="fu"><a href="scMerge.html">scMerge</a></span><span class="op">(</span>sce_combine <span class="op">=</span> <span class="va">L</span>,</span></span>
+<span class="r-in"><span>                      ctl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'gene'</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                      cell_type <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">cellTypes</span>,</span></span>
+<span class="r-in"><span>                      ruvK <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>                      assay_name <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension of the replicates mapping matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 200   3</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Step 2: Performing RUV normalisation. This will take minutes to hours. </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> scMerge complete!</span>
-<span class="r-in"><span class="va">L</span> <span class="op">=</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">L</span>, exprs_values <span class="op">=</span> <span class="st">"logcounts"</span><span class="op">)</span>                      </span>
-<span class="r-in"><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">L</span>, colour_by <span class="op">=</span> <span class="st">'cellTypes'</span>, shape <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">L</span> <span class="op">=</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">L</span>, exprs_values <span class="op">=</span> <span class="st">"logcounts"</span><span class="op">)</span>                      </span></span>
+<span class="r-in"><span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">L</span>, colour_by <span class="op">=</span> <span class="st">'cellTypes'</span>, shape <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ruvSimulate-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">example</span> <span class="op">=</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">example</span>, exprs_values <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span>                                       </span>
-<span class="r-in"><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">example</span>, colour_by <span class="op">=</span> <span class="st">'cellTypes'</span>, shape <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">example</span> <span class="op">=</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">example</span>, exprs_values <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span>                                       </span></span>
+<span class="r-in"><span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">example</span>, colour_by <span class="op">=</span> <span class="st">'cellTypes'</span>, shape <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ruvSimulate-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -184,7 +201,7 @@ and it is not intended to be used by end-users.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

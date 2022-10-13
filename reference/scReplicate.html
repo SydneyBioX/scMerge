@@ -90,82 +90,126 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">scReplicate</span><span class="op">(</span>
-  <span class="va">sce_combine</span>,
-  batch <span class="op">=</span> <span class="cn">NULL</span>,
-  kmeansK <span class="op">=</span> <span class="cn">NULL</span>,
-  exprs <span class="op">=</span> <span class="st">"logcounts"</span>,
-  hvg_exprs <span class="op">=</span> <span class="st">"counts"</span>,
-  marker <span class="op">=</span> <span class="cn">NULL</span>,
-  marker_list <span class="op">=</span> <span class="cn">NULL</span>,
-  replicate_prop <span class="op">=</span> <span class="fl">1</span>,
-  cell_type <span class="op">=</span> <span class="cn">NULL</span>,
-  cell_type_match <span class="op">=</span> <span class="cn">FALSE</span>,
-  cell_type_inc <span class="op">=</span> <span class="cn">NULL</span>,
-  dist <span class="op">=</span> <span class="st">"cor"</span>,
-  WV <span class="op">=</span> <span class="cn">NULL</span>,
-  WV_marker <span class="op">=</span> <span class="cn">NULL</span>,
-  BPPARAM <span class="op">=</span> <span class="fu">SerialParam</span><span class="op">(</span><span class="op">)</span>,
-  return_all <span class="op">=</span> <span class="cn">FALSE</span>,
-  BSPARAM <span class="op">=</span> <span class="fu">ExactParam</span><span class="op">(</span><span class="op">)</span>,
-  plot_igraph <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scReplicate</span><span class="op">(</span></span>
+<span>  <span class="va">sce_combine</span>,</span>
+<span>  batch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  kmeansK <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  exprs <span class="op">=</span> <span class="st">"logcounts"</span>,</span>
+<span>  hvg_exprs <span class="op">=</span> <span class="st">"counts"</span>,</span>
+<span>  marker <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  marker_list <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  replicate_prop <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  cell_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cell_type_match <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cell_type_inc <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dist <span class="op">=</span> <span class="st">"cor"</span>,</span>
+<span>  WV <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  WV_marker <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  BPPARAM <span class="op">=</span> <span class="fu">SerialParam</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  return_all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  BSPARAM <span class="op">=</span> <span class="fu">ExactParam</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  plot_igraph <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>sce_combine</dt>
 <dd><p>A <code>SingleCellExperiment</code> object contains the batch-combined matrix with batch info in colData</p></dd>
+
+
 <dt>batch</dt>
 <dd><p>A vector indicates the batch information for each cell in the batch-combined matrix.</p></dd>
+
+
 <dt>kmeansK</dt>
 <dd><p>A vector indicates the kmeans's K for each batch, length of kmeansK needs to be the same as the number of batch.</p></dd>
+
+
 <dt>exprs</dt>
 <dd><p>A string indicates the assay that are used for batch correction, default is logcounts</p></dd>
+
+
 <dt>hvg_exprs</dt>
 <dd><p>A string indicates the assay that are used for highly variable genes identification, default is counts</p></dd>
+
+
 <dt>marker</dt>
 <dd><p>A vector of markers, which will be used in calculation of mutual nearest cluster. If no markers input, highly variable genes will be used instead</p></dd>
+
+
 <dt>marker_list</dt>
 <dd><p>A list of markers for each batch, which will be used in calculation of mutual nearest cluster.</p></dd>
+
+
 <dt>replicate_prop</dt>
 <dd><p>A number indicating the ratio of cells that are included in pseudo-replicates, ranges from 0 to 1. Default to 1.</p></dd>
+
+
 <dt>cell_type</dt>
 <dd><p>A vector indicates the cell type information for each cell in the batch-combined matrix. If it is <code>NULL</code>, pseudo-replicate procedure will be run to identify cell type.</p></dd>
+
+
 <dt>cell_type_match</dt>
 <dd><p>Whether find mutual nearest cluster using cell type information</p></dd>
+
+
 <dt>cell_type_inc</dt>
 <dd><p>A vector indicates the indices of the cells that will be used to supervise the pseudo-replicate procedure</p></dd>
+
+
 <dt>dist</dt>
 <dd><p>The distance metrics that are used in the calculation of the mutual nearest cluster, default is Pearson correlation.</p></dd>
+
+
 <dt>WV</dt>
 <dd><p>A vector indicates the wanted variation factor other than cell type info, such as cell stages.</p></dd>
+
+
 <dt>WV_marker</dt>
 <dd><p>A vector indicates the markers of the wanted variation.</p></dd>
+
+
 <dt>BPPARAM</dt>
 <dd><p>A <code>BiocParallelParam</code> class object from the <code>BiocParallel</code> package is used. Default is SerialParam().</p></dd>
+
+
 <dt>return_all</dt>
 <dd><p>If <code>FALSE</code>, only return the replicate matrix.</p></dd>
+
+
 <dt>BSPARAM</dt>
 <dd><p>A <code>BiocSingularParam</code> class object from the <code>BiocSingular</code> package is used. Default is ExactParam().</p></dd>
+
+
 <dt>plot_igraph</dt>
 <dd><p>If <code>TRUE</code>, then during the un/semi-supervised scMErge, igraph plot will be displayed</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>If <code>TRUE</code>, then all intermediate steps will be shown. Default to <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If <code>return_all</code> is <code>FALSE</code>, return a replicate matrix.
+    
+
+<p>If <code>return_all</code> is <code>FALSE</code>, return a replicate matrix.
 If <code>return_sce</code> is <code>TRUE</code>, return the followings</p>
 <dl><dt>repMat </dt>
 <dd><p>replicate matrix</p></dd>
+
 <dt>mnc </dt>
 <dd><p>mutual nearest cluster</p></dd>
+
 <dt>replicate vector </dt>
 <dd><p>replicate vector</p></dd>
+
 <dt>HVG </dt>
 <dd><p>highly variable genes used in scReplicate</p></dd>
+
+
 </dl><p>A cell-replicates mapping matrix.
 Each row correspond to a cell from the input expression matrix, and each column correspond to a cell-cluster/cell-type.
 An element of the mapping matrix is 1 if the scReplicate algorithm determines that this cell
@@ -178,15 +222,15 @@ should belong to that cell cluster and 0 otherwise.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Loading example data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'example_sce'</span>, package <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">scRep_result</span> <span class="op">=</span> <span class="fu">scReplicate</span><span class="op">(</span></span>
-<span class="r-in">  sce_combine <span class="op">=</span> <span class="va">example_sce</span>,</span>
-<span class="r-in">  batch <span class="op">=</span> <span class="va">example_sce</span><span class="op">$</span><span class="va">batch</span>,</span>
-<span class="r-in">  kmeansK <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Loading example data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'example_sce'</span>, package <span class="op">=</span> <span class="st">'scMerge'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">scRep_result</span> <span class="op">=</span> <span class="fu">scReplicate</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  sce_combine <span class="op">=</span> <span class="va">example_sce</span>,</span></span>
+<span class="r-in"><span>  batch <span class="op">=</span> <span class="va">example_sce</span><span class="op">$</span><span class="va">batch</span>,</span></span>
+<span class="r-in"><span>  kmeansK <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="scReplicate-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -201,7 +245,7 @@ should belong to that cell cluster and 0 otherwise.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

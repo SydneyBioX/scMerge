@@ -94,56 +94,79 @@ silhouette coefficient</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">scRUVIII</span><span class="op">(</span>
-  Y <span class="op">=</span> <span class="va">Y</span>,
-  M <span class="op">=</span> <span class="va">M</span>,
-  ctl <span class="op">=</span> <span class="va">ctl</span>,
-  fullalpha <span class="op">=</span> <span class="cn">NULL</span>,
-  k <span class="op">=</span> <span class="va">k</span>,
-  cell_type <span class="op">=</span> <span class="cn">NULL</span>,
-  batch <span class="op">=</span> <span class="cn">NULL</span>,
-  return_all_RUV <span class="op">=</span> <span class="cn">TRUE</span>,
-  BPPARAM <span class="op">=</span> <span class="fu">SerialParam</span><span class="op">(</span><span class="op">)</span>,
-  BSPARAM <span class="op">=</span> <span class="fu">ExactParam</span><span class="op">(</span><span class="op">)</span>,
-  svd_k <span class="op">=</span> <span class="fl">50</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scRUVIII</span><span class="op">(</span></span>
+<span>  Y <span class="op">=</span> <span class="va">Y</span>,</span>
+<span>  M <span class="op">=</span> <span class="va">M</span>,</span>
+<span>  ctl <span class="op">=</span> <span class="va">ctl</span>,</span>
+<span>  fullalpha <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  k <span class="op">=</span> <span class="va">k</span>,</span>
+<span>  cell_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  batch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  return_all_RUV <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  BPPARAM <span class="op">=</span> <span class="fu">SerialParam</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  BSPARAM <span class="op">=</span> <span class="fu">ExactParam</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  svd_k <span class="op">=</span> <span class="fl">50</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>Y</dt>
 <dd><p>The unnormalised SC data. A m by n matrix, where m is the number of observations and n is the number of features.</p></dd>
+
+
 <dt>M</dt>
 <dd><p>The replicate mapping matrix.
 The mapping matrix has m rows (one for each observation), and each column represents a set of replicates.
 The (i, j)-th entry of the mapping matrix is 1 if the i-th observation is in replicate set j, and 0 otherwise.
 See ruv::RUVIII for more details.</p></dd>
+
+
 <dt>ctl</dt>
 <dd><p>An index vector to specify the negative controls.
 Either a logical vector of length n or a vector of integers.</p></dd>
+
+
 <dt>fullalpha</dt>
 <dd><p>Not used. Please ignore.</p></dd>
+
+
 <dt>k</dt>
 <dd><p>The number of unwanted factors to remove. This is inherited from the ruvK argument from the scMerge::scMerge function.</p></dd>
+
+
 <dt>cell_type</dt>
 <dd><p>An optional vector indicating the cell type information for each cell
 in the batch-combined matrix. If it is <code>NULL</code>,
 pseudo-replicate procedure will be run to identify cell type.</p></dd>
+
+
 <dt>batch</dt>
 <dd><p>Batch information inherited from the scMerge::scMerge function.</p></dd>
+
+
 <dt>return_all_RUV</dt>
 <dd><p>Whether to return extra information on the RUV function, inherited from the scMerge::scMerge function</p></dd>
+
+
 <dt>BPPARAM</dt>
 <dd><p>A <code>BiocParallelParam</code> class object from the <code>BiocParallel</code> package is used. Default is SerialParam().</p></dd>
+
+
 <dt>BSPARAM</dt>
 <dd><p>A <code>BiocSingularParam</code> class object from the <code>BiocSingular</code> package is used. Default is ExactParam().</p></dd>
+
+
 <dt>svd_k</dt>
 <dd><p>If BSPARAM is set to <code>RandomParam</code> or <code>IrlbaParam</code> class from <code>BiocSingular</code> package, then 
 <code>svd_k</code> will be used to used to reduce the computational cost of singular value decomposition. Default to 50.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list consists of:</p><ul><li><p>RUV-normalised matrices: If k has multiple values, then the RUV-normalised matrices using
+    
+
+<p>A list consists of:</p><ul><li><p>RUV-normalised matrices: If k has multiple values, then the RUV-normalised matrices using
 all the supplied k values will be returned.</p></li>
 <li><p>optimal_ruvK: The optimal RUV k value as determined by silhouette coefficient.</p></li>
 </ul></div>
@@ -154,9 +177,9 @@ all the supplied k values will be returned.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">L</span> <span class="op">=</span> <span class="fu"><a href="ruvSimulate.html">ruvSimulate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">200</span>, n <span class="op">=</span> <span class="fl">1000</span>, nc <span class="op">=</span> <span class="fl">100</span>, nCelltypes <span class="op">=</span> <span class="fl">3</span>, nBatch <span class="op">=</span> <span class="fl">2</span>, lambda <span class="op">=</span> <span class="fl">0.1</span>, sce <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">Y</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">L</span><span class="op">$</span><span class="va">Y</span> <span class="op">+</span> <span class="fl">1L</span><span class="op">)</span><span class="op">)</span>; <span class="va">M</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">M</span>; <span class="va">ctl</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">ctl</span>; <span class="va">batch</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">batch</span>;</span>
-<span class="r-in"><span class="va">res</span> <span class="op">=</span> <span class="fu">scRUVIII</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, M <span class="op">=</span> <span class="va">M</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>, batch <span class="op">=</span> <span class="va">batch</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">L</span> <span class="op">=</span> <span class="fu"><a href="ruvSimulate.html">ruvSimulate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">200</span>, n <span class="op">=</span> <span class="fl">1000</span>, nc <span class="op">=</span> <span class="fl">100</span>, nCelltypes <span class="op">=</span> <span class="fl">3</span>, nBatch <span class="op">=</span> <span class="fl">2</span>, lambda <span class="op">=</span> <span class="fl">0.1</span>, sce <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Y</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">L</span><span class="op">$</span><span class="va">Y</span> <span class="op">+</span> <span class="fl">1L</span><span class="op">)</span><span class="op">)</span>; <span class="va">M</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">M</span>; <span class="va">ctl</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">ctl</span>; <span class="va">batch</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">batch</span>;</span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">=</span> <span class="fu">scRUVIII</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, M <span class="op">=</span> <span class="va">M</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>, batch <span class="op">=</span> <span class="va">batch</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Selecting optimal RUVk </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> No cell type info, replicate matrix will be used as cell type info </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> optimal ruvK:5</span>
@@ -175,7 +198,7 @@ all the supplied k values will be returned.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

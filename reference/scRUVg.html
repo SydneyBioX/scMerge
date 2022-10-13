@@ -92,43 +92,60 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">scRUVg</span><span class="op">(</span>
-  <span class="va">Y</span>,
-  <span class="va">ctl</span>,
-  <span class="va">k</span>,
-  Z <span class="op">=</span> <span class="fl">1</span>,
-  eta <span class="op">=</span> <span class="cn">NULL</span>,
-  include.intercept <span class="op">=</span> <span class="cn">TRUE</span>,
-  fullW <span class="op">=</span> <span class="cn">NULL</span>,
-  svdyc <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scRUVg</span><span class="op">(</span></span>
+<span>  <span class="va">Y</span>,</span>
+<span>  <span class="va">ctl</span>,</span>
+<span>  <span class="va">k</span>,</span>
+<span>  Z <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  eta <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  include.intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  fullW <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  svdyc <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>Y</dt>
 <dd><p>The data. A m by n matrix, where m is the number of observations and n is the number of features.</p></dd>
+
+
 <dt>ctl</dt>
 <dd><p>index vector to specify the negative controls.</p></dd>
+
+
 <dt>k</dt>
 <dd><p>The number of unwanted factors to use.</p></dd>
+
+
 <dt>Z</dt>
 <dd><p>Any additional covariates to include in the model.</p></dd>
+
+
 <dt>eta</dt>
 <dd><p>Gene-wise (as opposed to sample-wise) covariates.</p></dd>
+
+
 <dt>include.intercept</dt>
 <dd><p>Applies to both Z and eta. When Z or eta (or both) is
 specified (not NULL) but does not already include an intercept term, this will automatically include one.
 If only one of Z or eta should include an intercept, this variable should be set to FALSE,
 and the intercept term should be included manually where desired.</p></dd>
+
+
 <dt>fullW</dt>
 <dd><p>Can be included to speed up execution. Is returned by previous calls of scRUVg</p></dd>
+
+
 <dt>svdyc</dt>
 <dd><p>Can be included to speed up execution. For internal use; please use fullW instead.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list consists of:</p><ul><li><p>A matrix newY, the normalised matrix,</p></li>
+    
+
+<p>A list consists of:</p><ul><li><p>A matrix newY, the normalised matrix,</p></li>
 <li><p>A matrix W, the unwanted variation matrix, and ;</p></li>
 <li><p>A matrix alpha, this corresponding coefficient matrix for W.</p></li>
 </ul></div>
@@ -139,9 +156,9 @@ and the intercept term should be included manually where desired.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">L</span> <span class="op">=</span> <span class="fu">scMerge</span><span class="fu">::</span><span class="fu"><a href="ruvSimulate.html">ruvSimulate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">80</span>, n <span class="op">=</span> <span class="fl">1000</span>, nc <span class="op">=</span> <span class="fl">50</span>, nCelltypes <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">Y</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">Y</span>; <span class="va">ctl</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">ctl</span></span>
-<span class="r-in"><span class="va">ruvgRes</span> <span class="op">=</span> <span class="fu">scMerge</span><span class="fu">::</span><span class="fu">scRUVg</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, k <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">L</span> <span class="op">=</span> <span class="fu">scMerge</span><span class="fu">::</span><span class="fu"><a href="ruvSimulate.html">ruvSimulate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">80</span>, n <span class="op">=</span> <span class="fl">1000</span>, nc <span class="op">=</span> <span class="fl">50</span>, nCelltypes <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Y</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">Y</span>; <span class="va">ctl</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">ctl</span></span></span>
+<span class="r-in"><span><span class="va">ruvgRes</span> <span class="op">=</span> <span class="fu">scMerge</span><span class="fu">::</span><span class="fu">scRUVg</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, k <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -156,7 +173,7 @@ and the intercept term should be included manually where desired.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>
