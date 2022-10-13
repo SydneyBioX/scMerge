@@ -30,6 +30,7 @@ Imports:
   igraph,
   M3Drop (>= 1.9.4),
   parallel,
+  proxy,
   proxyC,
   ruv,
   S4Vectors (>= 0.23.19),
