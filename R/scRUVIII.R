@@ -148,23 +148,7 @@ zeroOneScale <- function(v) {
     v <- (v + 1)/2
     return(v)
 }
-####################################################### 
-standardize <- function(exprsMat, batch) {
-    exprsMat <- as.matrix(exprsMat)
-    num_cell <- ncol(exprsMat)
-    num_batch <- length(unique(batch))
-    batch <- as.factor(batch)
-    grand.mean <- matrix(base::rowMeans(exprsMat), nrow = 1)
-    stand.mean <- t(grand.mean) %*% t(rep(1, num_cell))
-    design <- stats::model.matrix(~-1 + batch)
-    B.hat <- solve(crossprod(design), tcrossprod(t(design), as.matrix(exprsMat)))
-    var.pooled <- ((exprsMat - t(design %*% B.hat))^2) %*% rep(1/(num_cell - 
-                                                                      num_batch), num_cell)
-    s.data <- (exprsMat - stand.mean)/(sqrt(var.pooled) %*% t(rep(1, 
-                                                                  num_cell)))
-    return(res = list(s.data = s.data, stand.mean = stand.mean, 
-                      stand.var = var.pooled))
-}
+
 ###############################
 solve_axb = function(a, b){
     x = solve(DelayedArray::t(a) %*% a) %*% DelayedArray::t(a) %*% b

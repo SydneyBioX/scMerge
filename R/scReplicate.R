@@ -466,7 +466,7 @@ centroidDist <- function(exprs_mat) {
 ###################################################################################################### Function to find the mutual nearest clusters
 
 
-#' @import proxyC simil dist
+#' @importFrom proxyC simil dist
 compute_dist_mat <- function(k, exprs_mat, clustering_list, 
                              combine_pair, dist) {
   ## We go through every pairwise batches print(k) Extract the
@@ -474,8 +474,8 @@ compute_dist_mat <- function(k, exprs_mat, clustering_list,
   res1 <- clustering_list[[combine_pair[1, k]]]
   res2 <- clustering_list[[combine_pair[2, k]]]
   
-  mat1 <- as(exprs_mat[, names(res1), drop = FALSE], "dgCMatrix")
-  mat2 <- as(exprs_mat[, names(res2), drop = FALSE], "dgCMatrix")
+  mat1 <- methods::as(exprs_mat[, names(res1), drop = FALSE], "dgCMatrix")
+  mat2 <- methods::as(exprs_mat[, names(res2), drop = FALSE], "dgCMatrix")
   
   if (dist == "cosine") {
     dist_mat <- 1 - proxyC::simil(t(mat1), t(mat2), method = "cosine")
@@ -499,8 +499,8 @@ compute_dist_res <- function(k, exprs_mat, clustering_list,
   res1 <- clustering_list[[combine_pair[1, k]]]
   res2 <- clustering_list[[combine_pair[2, k]]]
   
-  mat1 <- as(exprs_mat[, names(res1), drop = FALSE], "dgCMatrix")
-  mat2 <- as(exprs_mat[, names(res2), drop = FALSE], "dgCMatrix")
+  mat1 <- methods::as(exprs_mat[, names(res1), drop = FALSE], "dgCMatrix")
+  mat2 <- methods::as(exprs_mat[, names(res2), drop = FALSE], "dgCMatrix")
   
   if (dist == "cosine") {
     dist_mat <- 1 - proxyC::simil(t(mat1), t(mat2), method = "cosine")
@@ -512,7 +512,7 @@ compute_dist_res <- function(k, exprs_mat, clustering_list,
   
   dist_res <- apply(expand.grid(seq_len(max(res1)), seq_len(max(res2))), 1, 
                     function(x) {
-                      median(dist_mat[res1 == x[1], res2 == x[2], drop = FALSE], na.rm = TRUE)
+                      stats::median(dist_mat[res1 == x[1], res2 == x[2], drop = FALSE], na.rm = TRUE)
                     })
   
   dist_res <- matrix(dist_res, nrow = (max(res1)), ncol = (max(res2)))
@@ -520,7 +520,7 @@ compute_dist_res <- function(k, exprs_mat, clustering_list,
 }
 
 
-#' @import proxyC simil dist
+#' @importFrom proxyC simil dist
 findMNC <- function(exprs_mat, clustering_list, dist = "euclidean", 
                     BPPARAM, plot_igraph = FALSE) {
   
@@ -585,7 +585,7 @@ findMNC <- function(exprs_mat, clustering_list, dist = "euclidean",
                                    clustering_list = clustering_list, 
                                    combine_pair = combine_pair, 
                                    dist = dist)
-      median(dist_mat)
+      stats::median(dist_mat)
     }, BPPARAM = BPPARAM)
     
     
