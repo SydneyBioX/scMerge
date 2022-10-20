@@ -283,14 +283,14 @@ aggregate.Matrix <- function(x, groupings=NULL) {
         mapping <- methods::as(ruv::replicate.matrix(groupings2), "CsparseMatrix")
         colnames(mapping) <- substring(colnames(mapping), 2)
         mapping <- mapping[, levels(factor(groupings))]
-
+        
     } else {
         mapping <- methods::as(matrix(rep(1, length(groupings2)), ncol = 1), "CsparseMatrix")
         colnames(mapping) <- unique(groupings)
     }
     
     result <- t(mapping) %*% x
-
+    
     return(result)
 }
 
@@ -434,4 +434,113 @@ create_pseudoBulk <- function(exprsMat, cell_info, k_fold = 30, use_bpparam = Bi
     return(exprsMat_pseudo)
 }
 
+
+
+
+
+
+check_input2 <- function(exprsMat, batch, 
+                         cellTypes, condition, 
+                         ctl, chosen.hvg, return_subset_genes,
+                         exprsMat_counts){
+    
+    #### Checking input exprsMat
+    
+    if (is.null(exprsMat)) {
+        stop("The 'exprsMat' argument is NULL.")
+    }
+    
+    
+    #### Checking if the cell names are non-unique
+    cell_names <- colnames(exprsMat)
+    
+    if (length(cell_names) != length(unique(cell_names)) | is.null(cell_names)) {
+        stop("Column names of the input exprsMat object must not contain duplicates nor NULL")
+    }
+    
+    
+    
+    
+    #### Check batch input
+    
+    if (is.null(batch)) {
+        stop("The 'batch' argument is NULL.")
+    }
+    
+    if (any(is.na(batch))) {
+        stop("NA's found the batch column, please remove")
+    }
+    
+    
+    if (ncol(exprsMat) != length(batch)) {
+        stop("The length of batch is not equal to the number of column in exprsMat.")
+    }
+    
+    #### Check cell types input
+    
+    if (!is.null(cellTypes)) {
+        
+        if (any(is.na(cellTypes))) {
+            stop("NA's found the cellTypes column, please remove")
+        }
+        
+        
+        if (ncol(exprsMat) != length(cellTypes)) {
+            stop("The length of cellTypes is not equal to the number of column in exprsMat.")
+        }
+    }
+    
+
+    
+    #### Check condition input
+    
+    if (!is.null(condition)) {
+        
+        if (any(is.na(condition))) {
+            stop("NA's found the condition column, please remove.")
+        }
+        
+        
+        if (ncol(exprsMat) != length(condition)) {
+            stop("The length of condition is not equal to the number of column in exprsMat.")
+        }
+    }
+    
+    
+    #### check ctl, chosen.hvg and return_subset_genes
+    
+    if (sum(ctl %in% rownames(exprsMat)) == 0) {
+        stop("There is no ctl genes found in the rownames of exprsMat.")
+    }
+    
+
+
+    
+    if (!is.null(chosen.hvg)) {
+        if (sum(chosen.hvg %in% rownames(exprsMat)) == 0) {
+            stop("There is no chosen.hvg genes found in the rownames of exprsMat.")
+        }
+    }
+    
+    if (!is.null(return_subset_genes)) {
+        if (sum(return_subset_genes %in% rownames(exprsMat)) == 0) {
+            stop("There is no return_subset_genes genes found in the rownames of exprsMat.")
+        }
+    }
+
+    
+    #### Check cell types input
+    
+    if (!is.null(exprsMat_counts)) {
+        
+        if (ncol(exprsMat_counts) != ncol(exprsMat)) {
+            stop("The number of column in exprsMat_counts is not equal to the number of column in exprsMat")
+        }
+        
+    }
+    
+
+    
+
+}
 

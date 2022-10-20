@@ -175,7 +175,7 @@ scMerge <- function(sce_combine, ctl = NULL, kmeansK = NULL,
 }  ## End scMerge function
 
 
-check_input = function(sce_combine, exprs, hvg_exprs, assay_name, batch_name, ruvK, return_all_RUV, cell_type){
+check_input <- function(sce_combine, exprs, hvg_exprs, assay_name, batch_name, ruvK, return_all_RUV, cell_type){
     #### Checking input expression
     if (is.null(exprs) | !exprs %in% SummarizedExperiment::assayNames(sce_combine)) {
         stop("The 'exprs' argument is NULL or it not a part of the supplied SingleCellExperiment object 'assayNames'")

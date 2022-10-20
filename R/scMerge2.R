@@ -31,6 +31,8 @@
 #' @importFrom BiocSingular ExactParam
 #' @importFrom BiocNeighbors AnnoyParam
 #' @importFrom batchelor cosineNorm
+#' @importFrom DelayedMatrixStats rowSums2 colSums2
+#' @importFrom methods as is
 #' 
 #' @export
 #' @examples
@@ -72,21 +74,59 @@ scMerge2 <- function(exprsMat,
                      verbose = TRUE,
                      seed = 1) {
     
+    
     set.seed(seed)
+    
+    
+    # Input check
+    
+    ## In case there are complete zeroes in the rows or columns
+    colsum_exprs <- DelayedMatrixStats::colSums2(exprsMat)
+    rowsum_exprs <- DelayedMatrixStats::rowSums2(exprsMat)
+    if(any(rowsum_exprs == 0)){
+        message("Automatically removing ",
+                sum(rowsum_exprs == 0), " genes that are all zeroes in the data")
+        exprsMat <- exprsMat[rowsum_exprs != 0, ]
+        if (!is.null(exprsMat_counts)) {
+            exprsMat_counts <- exprsMat_counts[rowsum_exprs != 0, ]
+        }
+    }
+    
+    
+    if(any(colsum_exprs == 0)){
+        message("Automatically removing ", sum(colsum_exprs == 0), 
+                " cells that are all zeroes in the data")
+        exprsMat <- exprsMat[, colsum_exprs != 0]
+        batch <- batch[colsum_exprs != 0]
+        
+        if (is.null(cellTypes)) {
+            cellTypes <- cellTypes[colsum_exprs != 0]
+        }
+        
+        if (is.null(condition)) {
+            condition <- condition[colsum_exprs != 0]
+        }
+        
+        if (!is.null(exprsMat_counts)) {
+            exprsMat_counts <- exprsMat_counts[ , colsum_exprs != 0]
+        }
+        
+    }
+    
+    
+    
+    check_input2(exprsMat, batch, 
+                 cellTypes, condition, 
+                 ctl, chosen.hvg, return_subset_genes,
+                 exprsMat_counts)
+    
+    
     
     batch <- as.character(batch)
     if (!is.null(condition)) {
         condition <- as.character(condition)
     }
-    
-    
-    
     batch_list <- sort(unique(batch))
-    
-    
-    
-    
-    
     if (!is.null(condition)) {
         cond_mode <- TRUE
         condition_list <- sort(unique(condition))
@@ -111,6 +151,9 @@ scMerge2 <- function(exprsMat,
     meta_sample <- cbind(batch = batch, sample = sample, condition = condition)
     meta_sample <- unique(meta_sample)
     
+    if (methods::is(exprsMat, "matrix")) {
+        exprsMat <- methods::as(exprsMat, "CsparseMatrix")
+    }
     
     
     if (is.null(chosen.hvg)) {
@@ -178,7 +221,7 @@ scMerge2 <- function(exprsMat,
         
         
         
-
+        
         bulk_clustering_res_condition <- meta_sample[match(pseudobulk_sample_list, meta_sample[, "sample"]), "condition"]
         
         replicate_vector_condition <- lapply(condition_list, function(x) {
@@ -219,7 +262,7 @@ scMerge2 <- function(exprsMat,
                                          replicate_prop = 1, mnc_df = mnc_res)
     }
     
-
+    
     
     if (return_subset) {
         if (is.null(return_subset_genes)) {
@@ -240,7 +283,6 @@ scMerge2 <- function(exprsMat,
     
     res <- pseudoRUVIII(Y = t(exprsMat), 
                         Y_pseudo = t(bulkExprs), 
-                        #batch = pseudo_batch,
                         M = ruv::replicate.matrix(replicate_vector), 
                         ctl = rownames(exprsMat) %in% ctl,
                         k = ruvK, 
