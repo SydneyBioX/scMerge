@@ -30,39 +30,14 @@ leveraging (pseudo)-replicates, control genes and pseudo-bulk."><!-- mathjax -->
   </a>
 </li>
 <li>
-  <a href="../articles/scMerge.html">Vignette</a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Case Study
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu"><li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Breast_Data.html" class="external-link">Breast cancer data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/CellBench_Data.html" class="external-link">CellBench data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/ESC_Data.html" class="external-link">Embyronic stem cell data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Mouse_Liver_Data.html" class="external-link">Mouse liver data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Neuronal_Data.html" class="external-link">Neuronal single cell data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Pancreas4_Data.html" class="external-link">Four pancreas data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/mESC_Data.html" class="external-link">Mouse Embryonic Stem Cell Data</a>
-    </li>
-  </ul></li>
+<li>
+  <a href="../articles/scMerge.html">scMerge</a>
+</li>
+<li>
+  <a href="../articles/scMerge2.html">scMerge2</a>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -104,7 +79,7 @@ leveraging (pseudo)-replicates, control genes and pseudo-bulk.</p>
 <span>  use_bsparam <span class="op">=</span> <span class="fu">BiocSingular</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/BiocSingularParam.html" class="external-link">RandomParam</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  use_bnparam <span class="op">=</span> <span class="fu">BiocNeighbors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocNeighbors/man/AnnoyParam.html" class="external-link">AnnoyParam</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  pseudoBulk_fn <span class="op">=</span> <span class="st">"create_pseudoBulk"</span>,</span>
-<span>  k_psuedoBulk <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  k_pseudoBulk <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>  k_celltype <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  exprsMat_counts <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cosineNorm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -163,7 +138,7 @@ If it is <code>NULL</code>, pseudo-replicate procedure will be run to identify c
 <dd><p>A character indicates the way of pseudobulk constructed.</p></dd>
 
 
-<dt>k_psuedoBulk</dt>
+<dt>k_pseudoBulk</dt>
 <dd><p>An integer indicates the number of pseudobulk constructed within each cell grouping. Default is 30.</p></dd>
 
 
@@ -281,8 +256,8 @@ If <code>FALSE</code>, then only the estimated parameters will be returned.</p><
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>You're computing too large a percentage of total singular values, use a standard svd instead.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Normalising data"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Constructing pseudo-bulk"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension of psuedo-bulk expression: [1] 1047  131</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Identifying MNC using psuedo-bulk:"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension of pseudo-bulk expression: [1] 1047  131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Identifying MNC using pseudo-bulk:"</span>
 <span class="r-plt img"><img src="scMerge2-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Running RUV"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  200 1047</span>

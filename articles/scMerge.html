@@ -46,40 +46,13 @@
   </a>
 </li>
 <li>
-  <a href="../articles/scMerge.html">Vignette</a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Case Study
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Breast_Data.html" class="external-link">Breast cancer data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/CellBench_Data.html" class="external-link">CellBench data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/ESC_Data.html" class="external-link">Embyronic stem cell data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Mouse_Liver_Data.html" class="external-link">Mouse liver data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Neuronal_Data.html" class="external-link">Neuronal single cell data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Pancreas4_Data.html" class="external-link">Four pancreas data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/mESC_Data.html" class="external-link">Mouse Embryonic Stem Cell Data</a>
-    </li>
-  </ul>
+  <a href="../articles/scMerge.html">scMerge</a>
+</li>
+<li>
+  <a href="../articles/scMerge2.html">scMerge2</a>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -366,9 +339,9 @@
 <span><span class="co">#&gt; scMerge complete!</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Normally, scMerge takes "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">t2</span> <span class="op">-</span> <span class="va">t1</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">" seconds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Normally, scMerge takes  1.23  seconds"</span></span>
+<span><span class="co">#&gt; [1] "Normally, scMerge takes  1.36  seconds"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Fast version of scMerge takes "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">t4</span> <span class="op">-</span> <span class="va">t3</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">" seconds"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Fast version of scMerge takes  0.89  seconds"</span></span>
+<span><span class="co">#&gt; [1] "Fast version of scMerge takes  1  seconds"</span></span>
 <span></span>
 <span><span class="va">scMerge_fast</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">scMerge_fast</span>, exprs_values <span class="op">=</span> <span class="st">"scMerge_fast"</span><span class="op">)</span></span>
 <span></span>
@@ -438,7 +411,7 @@
 <div class="section level2">
 <h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
 </h2>
-<p>Please check out our paper for detailed analysis and results on multiple scRNA-Seq data. <a href="https://www.biorxiv.org/content/10.1101/393280v2" class="external-link uri">https://www.biorxiv.org/content/10.1101/393280v2</a></p>
+<p>Please check out our paper for detailed analysis and results on multiple scRNA-Seq data. <a href="https://doi.org/10.1073/pnas.1820006116" class="external-link uri">https://doi.org/10.1073/pnas.1820006116</a>.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"scMerge"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
