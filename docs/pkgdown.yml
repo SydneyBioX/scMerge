@@ -1,5 +1,5 @@
-pandoc: 1.19.2.1
-pkgdown: 1.3.0
+pandoc: 2.19.2
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   Breast_Data: case_study/Breast_Data.html
@@ -10,4 +10,6 @@ articles:
   Pancreas4_Data: case_study/Pancreas4_Data.html
   mESC_Data: case_study/mESC_Data.html
   scMerge: scMerge.html
+  scMerge2: scMerge2.html
+last_built: 2022-10-21T06:11Z
 

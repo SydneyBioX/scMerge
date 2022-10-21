@@ -39,10 +39,6 @@ BiocManager::install("scMerge", version = "devel")
 You can find the vignette at our website:
 <https://sydneybiox.github.io/scMerge/index.html>.
 
-## Case studies
-
-You can find a list of case studies here:
-<https://sydneybiox.github.io/scMerge/articles/>.
 
 ## Stably Expressed Genes
 
@@ -63,7 +59,7 @@ For more detailed information and evaluation about SEG, please see our publicati
 
 If you have any enquiries, especially about performing `scMerge`
 integration on your own data, then please contact
-<bioinformatics@maths.usyd.edu.au>. You can also [open an
+<yingxin.lin@sydney.edu.au>. You can also [open an
 issue](https://github.com/SydneyBioX/scMerge/issues) on GitHub.
 
 ## Reference

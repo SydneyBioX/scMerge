@@ -5,27 +5,29 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>scMerge: Merging multiple batches of scRNA-seq data • scMerge</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="scMerge: Merging multiple batches of scRNA-seq data">
-<meta property="og:description" content="Like all gene expression data, single-cell RNA-seq (scRNA-Seq) data suffers from 
+<title>scMerge: Merging multiple batches of single-cell data • scMerge</title>
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><meta property="og:title" content="scMerge: Merging multiple batches of single-cell data">
+<meta property="og:description" content="Like all gene expression data, single-cell data suffers from 
     batch effects and other unwanted variations that makes accurate biological interpretations difficult. 
     The scMerge method leverages factor analysis, stably expressed genes (SEGs) and (pseudo-) replicates to 
-    remove unwanted variations and merge multiple scRNA-Seq data. 
+    remove unwanted variations and merge multiple single-cell data. 
     This package contains all the necessary functions in the 
     scMerge pipeline, including the identification of SEGs, replication-identification methods, and 
-    merging of scRNA-Seq data. ">
-<meta name="twitter:card" content="summary">
+    merging of single-cell data. ">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
-    <div class="container template-article">
+<body data-spy="scroll" data-target="#toc">
+    
+
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -37,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">scMerge</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.99</span>
       </span>
     </div>
 
@@ -50,40 +52,13 @@
   </a>
 </li>
 <li>
-  <a href="articles/scMerge.html">Vignette</a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Case Study
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Breast_Data.html">Breast cancer data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/CellBench_Data.html">CellBench data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/ESC_Data.html">Embyronic stem cell data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Mouse_Liver_Data.html">Mouse liver data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Neuronal_Data.html">Neuronal single cell data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/Pancreas4_Data.html">Four pancreas data</a>
-    </li>
-    <li>
-      <a href="https://sydneybiox.github.io/scMerge/articles/case_study/mESC_Data.html">Mouse Embryonic Stem Cell Data</a>
-    </li>
-  </ul>
+  <a href="articles/scMerge.html">scMerge</a>
+</li>
+<li>
+  <a href="articles/scMerge2.html">scMerge2</a>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -91,7 +66,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/SydneyBioX/scMerge">
+  <a href="https://github.com/SydneyBioX/scMerge" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -107,100 +82,104 @@
       
 
       </header><div class="row">
-  <div class="col-md-9 contents">
-    
-
-    
-    
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="scmerge" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#scmerge" class="anchor"></a>scMerge</h1></div>
+  <div class="contents col-md-9">
+<div class="section level1">
+<div class="page-header"><h1 id="scmerge">scMerge<a class="anchor" aria-label="anchor" href="#scmerge"></a>
+</h1></div>
 <p><br></p>
 <p><img src="https://github.com/SydneyBioX/scMerge/raw/master/inst/logo.png" align="right" width="200"></p>
-<p><a href="https://travis-ci.org/SydneyBioX/scMerge"><img src="https://travis-ci.org/SydneyBioX/scMerge.svg?branch=master" alt="Travis build status"></a> <a href="https://codecov.io/gh/SydneyBioX/scMerge?branch=master"><img src="https://codecov.io/gh/SydneyBioX/scMerge/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://doi.org/10.1073/pnas.1820006116"><img src="https://img.shields.io/badge/doi-10.1073/pnas.1820006116-blue.svg"></a> <a href="https://github.com/SydneyBioX/scMerge"><img src="https://img.shields.io/badge/devel%20version-1.1.6-blue.svg"></a> <a href="https://bioconductor.org/packages/stats/bioc/scMerge"><img src="https://img.shields.io/badge/download-361/total-green.svg"></a> <a href="https://github.com/SydneyBioX/scMerge/commits/master"><img src="https://img.shields.io/github/last-commit/SydneyBioX/scMerge.svg"></a></p>
+<p><a href="https://github.com/SydneyBioX/scMerge/actions" class="external-link"><img src="https://github.com/SydneyBioX/scMerge/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://codecov.io/gh/SydneyBioX/scMerge?branch=master" class="external-link"><img src="https://codecov.io/gh/SydneyBioX/scMerge/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://doi.org/10.1073/pnas.1820006116" class="external-link"><img src="https://img.shields.io/badge/doi-10.1073/pnas.1820006116-blue.svg"></a> <a href="https://github.com/SydneyBioX/scMerge" class="external-link"><img src="https://img.shields.io/badge/devel%20version-1.5.0-blue.svg"></a> <a href="https://bioconductor.org/packages/stats/bioc/scMerge" class="external-link"><img src="https://img.shields.io/badge/download-1155/total-green.svg"></a> <a href="https://github.com/SydneyBioX/scMerge/commits/master" class="external-link"><img src="https://img.shields.io/github/last-commit/SydneyBioX/scMerge.svg"></a> <a href="https://hub.docker.com/repository/docker/kevinwang09/scmerge" class="external-link"><img src="https://img.shields.io/badge/Docker%20image-available-blue.svg"></a></p>
 <p><br></p>
 <p><code>scMerge</code> is a R package for merging and normalising single-cell RNA-Seq datasets.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p><code>scMerge</code> is available on Bioconductor (<a href="https://bioconductor.org/packages/scMerge" class="uri">https://bioconductor.org/packages/scMerge</a>). You can install it using:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co">## Install scMerge from Bioconductor, requires R 3.6.0 or above</span></a>
-<a class="sourceLine" id="cb1-2" title="2">BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"scMerge"</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="co">## You can also try to install the Bioconductor devel version of scMerge:</span></a>
-<a class="sourceLine" id="cb1-4" title="4">BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"scMerge"</span>, <span class="dt">version =</span> <span class="st">"devel"</span>)</a></code></pre></div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p><code>scMerge</code> is available on Bioconductor (<a href="https://bioconductor.org/packages/scMerge" class="external-link uri">https://bioconductor.org/packages/scMerge</a>). You can install it using:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Install scMerge from Bioconductor, requires R 3.6.0 or above</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"scMerge"</span><span class="op">)</span></span>
+<span><span class="co">## You can also try to install the Bioconductor devel version of scMerge:</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"scMerge"</span>, version <span class="op">=</span> <span class="st">"devel"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="vignette" class="section level2">
-<h2 class="hasAnchor">
-<a href="#vignette" class="anchor"></a>Vignette</h2>
-<p>You can find the vignette at our website: <a href="https://sydneybiox.github.io/scMerge/index.html" class="uri">https://sydneybiox.github.io/scMerge/index.html</a>.</p>
+<div class="section level2">
+<h2 id="vignette">Vignette<a class="anchor" aria-label="anchor" href="#vignette"></a>
+</h2>
+<p>You can find the vignette at our website: <a href="https://sydneybiox.github.io/scMerge/index.html" class="external-link uri">https://sydneybiox.github.io/scMerge/index.html</a>.</p>
 </div>
-<div id="case-studies" class="section level2">
-<h2 class="hasAnchor">
-<a href="#case-studies" class="anchor"></a>Case studies</h2>
-<p>You can find a list of case studies here: <a href="https://sydneybiox.github.io/scMerge/articles/" class="uri">https://sydneybiox.github.io/scMerge/articles/</a>.</p>
+<div class="section level2">
+<h2 id="stably-expressed-genes">Stably Expressed Genes<a class="anchor" aria-label="anchor" href="#stably-expressed-genes"></a>
+</h2>
+<p>Stably expressed genes identified from this study can be extracted by</p>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SydneyBioX/scMerge" class="external-link">scMerge</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">segList</span><span class="op">)</span></span>
+<span><span class="va">segList</span><span class="op">$</span><span class="va">human</span><span class="op">$</span><span class="va">human_scSEG</span> <span class="co"># human SEG</span></span>
+<span><span class="va">segList</span><span class="op">$</span><span class="va">mouse</span><span class="op">$</span><span class="va">mouse_scSEG</span> <span class="co"># mouse SEG</span></span></code></pre>
+<p>Or download csv files here (human SEG: <a href="https://www.maths.usyd.edu.au/u/yingxinl/wwwnb/SEG/human_scSEG.csv" class="external-link">link</a>; mouse SEG: <a href="https://www.maths.usyd.edu.au/u/yingxinl/wwwnb/SEG/mouse_scSEG.csv" class="external-link">link</a>)</p>
+<p>For more detailed information and evaluation about SEG, please see our publication <a href="https://doi.org/10.1093/gigascience/giz106" class="external-link uri">https://doi.org/10.1093/gigascience/giz106</a>.</p>
 </div>
-<div id="contact-us" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contact-us" class="anchor"></a>Contact us</h2>
-<p>If you have any enquries, especially about performing <code>scMerge</code> integration on your own data, then please contact <a href="mailto:bioinformatics@maths.usyd.edu.au" class="email">bioinformatics@maths.usyd.edu.au</a>. You can also <a href="https://github.com/SydneyBioX/scMerge/issues">open an issue</a> on GitHub.</p>
+<div class="section level2">
+<h2 id="contact-us">Contact us<a class="anchor" aria-label="anchor" href="#contact-us"></a>
+</h2>
+<p>If you have any enquiries, especially about performing <code>scMerge</code> integration on your own data, then please contact <a href="mailto:yingxin.lin@sydney.edu.au" class="email">yingxin.lin@sydney.edu.au</a>. You can also <a href="https://github.com/SydneyBioX/scMerge/issues" class="external-link">open an issue</a> on GitHub.</p>
 </div>
-<div id="reference" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reference" class="anchor"></a>Reference</h2>
+<div class="section level2">
+<h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
+</h2>
 <p><strong>scMerge leverages factor analysis, stable expression, and pseudoreplication to merge multiple single-cell RNA-seq datasets</strong></p>
 <p>Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang</p>
-<p>Our manuscript published at PNAS can be found <a href="http://www.pnas.org/lookup/doi/10.1073/pnas.1820006116">here</a>.</p>
+<p>Our manuscript published at PNAS can be found <a href="http://www.pnas.org/lookup/doi/10.1073/pnas.1820006116" class="external-link">here</a>.</p>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/scMerge">https://​www.bioconductor.org/​packages/​scMerge</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/SydneyBioX/scMerge">https://​github.com/​SydneyBioX/​scMerge</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/SydneyBioX/scMerge/issues">https://​github.com/​SydneyBioX/​scMerge/​issues</a>
-</li>
+<li><a href="https://www.bioconductor.org/packages/scMerge" class="external-link">View on Bioconductor</a></li>
+<li><a href="https://github.com/SydneyBioX/scMerge/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/SydneyBioX/scMerge/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
+
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing scMerge</a></li>
+<li><a href="authors.html#citation">Citing scMerge</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Kevin Wang <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Yingxin Lin <br><small class="roles"> Author </small>  </li>
+<li>Yingxin Lin <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Kevin Wang <br><small class="roles"> Author </small>  </li>
 <li>Sydney Bioinformatics and Biometrics Group <br><small class="roles"> Funder </small>  </li>
 </ul>
 </div>
 
 
-      </div>
 
+  </div>
 </div>
-
 
 
       <footer><div class="copyright">
-  <p>Developed by Kevin Wang, Yingxin Lin, Sydney Bioinformatics and Biometrics Group.</p>
+  <p></p>
+<p>Developed by Yingxin Lin, Kevin Wang, Sydney Bioinformatics and Biometrics Group.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -208,6 +187,8 @@
 
   
 
+
+  
 
   </body>
 </html>

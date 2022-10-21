@@ -14,7 +14,7 @@
 #' @param use_bsparam A \code{BiocSingularParam} class object from the \code{BiocSingular} package is used. Default is RandomParam().
 #' @param use_bnparam A \code{BiocNeighborsParam} class object from the \code{BiocNeighbors} package is used. Default is AnnoyParam().
 #' @param pseudoBulk_fn A character indicates the way of pseudobulk constructed.
-#' @param k_psuedoBulk An integer indicates the number of pseudobulk constructed within each cell grouping. Default is 30.
+#' @param k_pseudoBulk An integer indicates the number of pseudobulk constructed within each cell grouping. Default is 30.
 #' @param k_celltype An integer indicates the number of nearest neighbours used in \code{buildSNNGraph} when grouping cells within each batch. Default is 10.
 #' @param exprsMat_counts A gene (row) by cell (column) counts matrix to be adjusted.
 #' @param cosineNorm A logical vector indicates whether cosine normalisation is performed on input data.
@@ -64,7 +64,7 @@ scMerge2 <- function(exprsMat,
                      use_bsparam = BiocSingular::RandomParam(),
                      use_bnparam = BiocNeighbors::AnnoyParam(),
                      pseudoBulk_fn = "create_pseudoBulk",
-                     k_psuedoBulk = 30, 
+                     k_pseudoBulk = 30, 
                      k_celltype = 10,
                      exprsMat_counts = NULL,
                      cosineNorm = TRUE,
@@ -115,10 +115,10 @@ scMerge2 <- function(exprsMat,
     
     
     
-    check_input2(exprsMat, batch, 
-                 cellTypes, condition, 
-                 ctl, chosen.hvg, return_subset_genes,
-                 exprsMat_counts)
+    .check_input_scMerge2(exprsMat, batch, 
+                          cellTypes, condition, 
+                          ctl, chosen.hvg, return_subset_genes,
+                          exprsMat_counts)
     
     
     
@@ -195,7 +195,7 @@ scMerge2 <- function(exprsMat,
                                                clust = clust,
                                                cosineNorm = cosineNorm,
                                                pseudoBulk_fn = pseudoBulk_fn,
-                                               k_psuedoBulk = k_psuedoBulk, 
+                                               k_pseudoBulk = k_pseudoBulk, 
                                                use_bpparam = use_bpparam,
                                                verbose = verbose) 
     
@@ -210,7 +210,7 @@ scMerge2 <- function(exprsMat,
     
     
     if (verbose) {
-        print("Identifying MNC using psuedo-bulk:")
+        print("Identifying MNC using pseudo-bulk:")
     }
     
     if (cond_mode) {
@@ -254,7 +254,7 @@ scMerge2 <- function(exprsMat,
         mnc_res <- findMNC(bulkExprs[chosen.hvg, ], 
                            bulk_clustering_res, dist = "cor",
                            BPPARAM = use_bpparam, 
-                           plot_igraph = TRUE)
+                           plot_igraph = verbose)
         
         
         replicate_vector <- mncReplicate(clustering_list = bulk_clustering_res, 

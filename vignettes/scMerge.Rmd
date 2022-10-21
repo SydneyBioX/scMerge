@@ -445,7 +445,7 @@ scMerge_hdf5 = scMerge(
 
 # Reference
 
-Please check out our paper for detailed analysis and results on multiple scRNA-Seq data. https://www.biorxiv.org/content/10.1101/393280v2
+Please check out our paper for detailed analysis and results on multiple scRNA-Seq data. https://doi.org/10.1073/pnas.1820006116.
 
 ```{r reference}
 citation("scMerge")

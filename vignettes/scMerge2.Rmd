@@ -1,0 +1,130 @@
+---
+title: "An introduction to scMerge2"
+author:
+- name: Yingxin Lin
+  affiliation: School of Mathematics and Statistics, The University of Sydney, Australia
+output:
+  BiocStyle::html_document:
+    toc_float: true
+package: BiocStyle
+vignette: >
+  %\VignetteIndexEntry{scMerge2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+```
+
+
+
+# Introduction
+
+The scMerge algorithm allows batch effect removal and normalisation for single cell RNA-Seq data. It comprises of three key components including: 
+
+1.  The identification of stably expressed genes (SEGs) as "negative controls" for estimating unwanted factors; 
+2.  The construction of pseudo-replicates to estimate the effects of unwanted factors; and 
+3.  The adjustment of the datasets with unwanted variation using a fastRUVIII model. 
+
+
+The purpose of this vignette is to illustrate some uses of `scMerge` and explain its key components. 
+
+# Loading Packages and Data
+
+We will load the `scMerge` package. We designed our package to be consistent with the popular BioConductor's single cell analysis framework, namely the `SingleCellExperiment` and `scater` package. 
+
+```{r loading packages, warning = FALSE, message = FALSE}
+suppressPackageStartupMessages({
+    library(SingleCellExperiment)
+    library(scMerge)
+    library(scater)
+})
+```
+
+
+We provided an illustrative mouse embryonic stem cell (mESC) data in our package, as well as a set of pre-computed stably expressed gene (SEG) list to be used as negative control genes. 
+
+
+The full curated, unnormalised mESC data can be found [here](http://www.maths.usyd.edu.au/u/yingxinl/wwwnb/scMergeData/sce_mESC.rda). The `scMerge` package comes with a sub-sampled, two-batches version of this data (named "batch2" and "batch3" to be consistent with the full data) . 
+
+
+
+```{r loading data}
+## Subsetted mouse ESC data
+data("example_sce", package = "scMerge")
+data("segList_ensemblGeneID", package = "scMerge")
+```
+
+
+In this mESC data, we pooled data from 2 different batches from three different cell types. Using a PCA plot, we can see that despite strong separation of cell types, there is also a strong separation due to batch effects. This information is stored in the `colData` of `example_sce`. 
+
+```{r checking raw data}
+example_sce = runPCA(example_sce, exprs_values = "logcounts")
+
+scater::plotPCA(example_sce, 
+                colour_by = "cellTypes", 
+                shape_by = "batch")
+```
+
+
+# scMerge2
+
+
+```{r}
+scMerge2_res <- scMerge2(exprsMat = logcounts(example_sce),
+                         batch = example_sce$batch,
+                         ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                         verbose = FALSE)
+
+assay(example_sce, "scMerge2") <- scMerge2_res$newY
+
+example_sce = scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       
+scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
+```
+
+
+
+
+```{r}
+scMerge2_res <- scMerge2(exprsMat = logcounts(example_sce),
+                         batch = example_sce$batch,
+                         cellTypes = example_sce$cellTypes,
+                         ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                         verbose = FALSE)
+
+
+assay(example_sce, "scMerge2") <- scMerge2_res$newY
+
+example_sce = scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       
+scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
+```
+
+
+
+
+```{r}
+scMerge2_res <- scMerge2(exprsMat = logcounts(example_sce),
+                         batch = example_sce$batch,
+                         ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                         k_pseudoBulk = 50,
+                         verbose = FALSE)
+
+
+assay(example_sce, "scMerge2") <- scMerge2_res$newY
+
+example_sce = scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       
+scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
+```
+
+
+# Session Info
+
+```{r session info}
+sessionInfo()
+```
+
+

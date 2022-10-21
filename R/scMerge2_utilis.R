@@ -183,7 +183,7 @@ construct_pseudoBulk <- function(exprsMat = NULL,
                                  clust = NULL,
                                  cosineNorm = NULL,
                                  pseudoBulk_fn = "create_pseudoBulk",
-                                 k_psuedoBulk = 30, 
+                                 k_pseudoBulk = 30, 
                                  use_bpparam = BiocParallel::SerialParam(),
                                  verbose = TRUE) {
     
@@ -192,7 +192,7 @@ construct_pseudoBulk <- function(exprsMat = NULL,
         if (pseudoBulk_fn == "create_pseudoBulk_divide") {
             res <- create_pseudoBulk_divide(exprsMat_counts[, pseudobulk_sample == pseudobulk_sample_list[i]],
                                             clust[[i]], 
-                                            k_fold = k_psuedoBulk,
+                                            k_fold = k_pseudoBulk,
                                             use_bpparam = use_bpparam)
         }
         
@@ -200,7 +200,7 @@ construct_pseudoBulk <- function(exprsMat = NULL,
         if (pseudoBulk_fn == "create_pseudoBulk_pool_divide") {
             res <- create_pseudoBulk_pool_divide(exprsMat_counts[, pseudobulk_sample == pseudobulk_sample_list[i]],
                                                  clust[[i]], 
-                                                 k_fold = k_psuedoBulk,
+                                                 k_fold = k_pseudoBulk,
                                                  use_bpparam = use_bpparam)
         }
         
@@ -208,7 +208,7 @@ construct_pseudoBulk <- function(exprsMat = NULL,
         if (pseudoBulk_fn == "create_pseudoBulk") {
             res <- create_pseudoBulk(exprsMat[, pseudobulk_sample == pseudobulk_sample_list[i]],
                                      clust[[i]], 
-                                     k_fold = k_psuedoBulk,
+                                     k_fold = k_pseudoBulk,
                                      use_bpparam = use_bpparam)
         }
         
@@ -236,7 +236,7 @@ construct_pseudoBulk <- function(exprsMat = NULL,
     
     
     if (verbose) {
-        cat("Dimension of psuedo-bulk expression: ")
+        cat("Dimension of pseudo-bulk expression: ")
         print(dim(bulkExprs))
     }
     
@@ -439,10 +439,10 @@ create_pseudoBulk <- function(exprsMat, cell_info, k_fold = 30, use_bpparam = Bi
 
 
 
-check_input2 <- function(exprsMat, batch, 
-                         cellTypes, condition, 
-                         ctl, chosen.hvg, return_subset_genes,
-                         exprsMat_counts){
+.check_input_scMerge2 <- function(exprsMat, batch, 
+                                  cellTypes, condition, 
+                                  ctl, chosen.hvg, return_subset_genes,
+                                  exprsMat_counts){
     
     #### Checking input exprsMat
     
@@ -490,7 +490,7 @@ check_input2 <- function(exprsMat, batch,
         }
     }
     
-
+    
     
     #### Check condition input
     
@@ -513,8 +513,8 @@ check_input2 <- function(exprsMat, batch,
         stop("There is no ctl genes found in the rownames of exprsMat.")
     }
     
-
-
+    
+    
     
     if (!is.null(chosen.hvg)) {
         if (sum(chosen.hvg %in% rownames(exprsMat)) == 0) {
@@ -527,7 +527,7 @@ check_input2 <- function(exprsMat, batch,
             stop("There is no return_subset_genes genes found in the rownames of exprsMat.")
         }
     }
-
+    
     
     #### Check cell types input
     
@@ -539,8 +539,142 @@ check_input2 <- function(exprsMat, batch,
         
     }
     
+    
+    
+    
+}
 
+
+
+
+
+
+
+
+.check_input_scMerge2h <- function(exprsMat, 
+                                   h_idx_list, 
+                                   batch_list, 
+                                   cellTypes, condition, 
+                                   ctl, chosen.hvg, return_subset_genes,
+                                   exprsMat_counts){
+    
+    #### Checking input exprsMat
+    
+    if (is.null(exprsMat)) {
+        stop("The 'exprsMat' argument is NULL.")
+    }
+    
+    
+    #### Checking if the cell names are non-unique
+    cell_names <- colnames(exprsMat)
+    
+    if (length(cell_names) != length(unique(cell_names)) | is.null(cell_names)) {
+        stop("Column names of the input exprsMat object must not contain duplicates nor NULL")
+    }
+    
+    # Check h_idx_list and batch_list class
+    if (any(!is(h_idx_list, "list"), !is(batch_list, "list"))) {
+        stop("`h_idx_list` and `batch_list` should be a list.")
+    }
+    
+    if (!all(length(h_idx_list) == length(batch_list))) {
+        stop("`h_idx_list` and `batch_list` should have the same length.")
+    }
     
 
+    if (!all(unlist(lapply(h_idx_list, length)) == unlist(lapply(batch_list, length)))) {
+        stop("Each element in `h_idx_list` and `batch_list` should have the same length.")
+    }
+    
+    for (i in length(batch_list)) {
+        if (!all(unlist(lapply(h_idx_list[[i]], length)) == unlist(lapply(batch_list[[i]], length)))) {
+            
+            stop(paste("For level", i, ", each element in `h_idx_list` and `batch_list` do not have the same length."))
+        }
+        
+        if (!all(unlist(lapply(batch_list[[i]], function(x) length(unique(x)))) > 1)) {
+            stop(paste("For level", i, ", there is element that with only one batch"))
+        }
+        
+
+    }
+    
+
+
+    
+    
+    if (is.null(batch_list)) {
+        stop("The 'batch_list' argument is NULL.")
+    }
+    
+
+
+    #### Check cell types input
+    
+    if (!is.null(cellTypes)) {
+        
+        if (any(is.na(cellTypes))) {
+            stop("NA's found the cellTypes column, please remove")
+        }
+        
+        
+        if (ncol(exprsMat) != length(cellTypes)) {
+            stop("The length of cellTypes is not equal to the number of column in exprsMat.")
+        }
+    }
+    
+    
+    
+    #### Check condition input
+    
+    if (!is.null(condition)) {
+        
+        if (any(is.na(condition))) {
+            stop("NA's found the condition column, please remove.")
+        }
+        
+        
+        if (ncol(exprsMat) != length(condition)) {
+            stop("The length of condition is not equal to the number of column in exprsMat.")
+        }
+    }
+    
+    
+    #### check ctl, chosen.hvg and return_subset_genes
+    
+    if (sum(ctl %in% rownames(exprsMat)) == 0) {
+        stop("There is no ctl genes found in the rownames of exprsMat.")
+    }
+    
+    
+    
+    
+    if (!is.null(chosen.hvg)) {
+        if (sum(chosen.hvg %in% rownames(exprsMat)) == 0) {
+            stop("There is no chosen.hvg genes found in the rownames of exprsMat.")
+        }
+    }
+    
+    if (!is.null(return_subset_genes)) {
+        if (sum(return_subset_genes %in% rownames(exprsMat)) == 0) {
+            stop("There is no return_subset_genes genes found in the rownames of exprsMat.")
+        }
+    }
+    
+    
+    #### Check cell types input
+    
+    if (!is.null(exprsMat_counts)) {
+        
+        if (ncol(exprsMat_counts) != ncol(exprsMat)) {
+            stop("The number of column in exprsMat_counts is not equal to the number of column in exprsMat")
+        }
+        
+    }
+    
+    
+    
+    
 }
+
 
