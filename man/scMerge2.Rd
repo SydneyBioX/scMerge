@@ -84,7 +84,7 @@ library(SingleCellExperiment)
 exprsMat <- scMerge2(exprsMat = logcounts(example_sce),
 batch = example_sce$batch,
 ctl = segList_ensemblGeneID$mouse$mouse_scSEG)
-assay(example_sce, "scMerge2") <- t(exprsMat$newY)
+assay(example_sce, "scMerge2") <- exprsMat$newY
 
 
 example_sce = scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       

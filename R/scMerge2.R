@@ -45,7 +45,7 @@
 #' exprsMat <- scMerge2(exprsMat = logcounts(example_sce),
 #' batch = example_sce$batch,
 #' ctl = segList_ensemblGeneID$mouse$mouse_scSEG)
-#' assay(example_sce, "scMerge2") <- t(exprsMat$newY)
+#' assay(example_sce, "scMerge2") <- exprsMat$newY
 #' 
 #' 
 #' example_sce = scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       
@@ -83,15 +83,15 @@ scMerge2 <- function(exprsMat,
     ## In case there are complete zeroes in the rows or columns
     colsum_exprs <- DelayedMatrixStats::colSums2(exprsMat)
     rowsum_exprs <- DelayedMatrixStats::rowSums2(exprsMat)
-    if(any(rowsum_exprs == 0)){
-        message("Automatically removing ",
-                sum(rowsum_exprs == 0), " genes that are all zeroes in the data")
-        exprsMat <- exprsMat[rowsum_exprs != 0, ]
-        if (!is.null(exprsMat_counts)) {
-            exprsMat_counts <- exprsMat_counts[rowsum_exprs != 0, ]
-        }
-    }
-    
+    # if(any(rowsum_exprs == 0)){
+    #     message("Automatically removing ",
+    #             sum(rowsum_exprs == 0), " genes that are all zeroes in the data")
+    #     exprsMat <- exprsMat[rowsum_exprs != 0, ]
+    #     if (!is.null(exprsMat_counts)) {
+    #         exprsMat_counts <- exprsMat_counts[rowsum_exprs != 0, ]
+    #     }
+    # }
+    # 
     
     if(any(colsum_exprs == 0)){
         message("Automatically removing ", sum(colsum_exprs == 0), 
@@ -292,6 +292,9 @@ scMerge2 <- function(exprsMat,
                         normalised = return_matrix)
     
     
+    if (return_matrix) {
+        res$newY <- t(res$newY)
+    }
     
     
     gc(reset = TRUE)
