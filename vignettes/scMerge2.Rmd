@@ -73,6 +73,10 @@ scater::plotPCA(example_sce,
 
 # scMerge2
 
+## Unsupervised `scMerge`
+
+In unsupervised `scMerge`, we will perform graph clustering on shared nearest neighbour graphs within each batch to obtain pseudo-replicates. This requires the users to supply a `k_celltype` vector with the number of neighbour when constructed the nearest neighbour graph in each of the batches. By default, this number is 10.
+
 
 ```{r}
 scMerge2_res <- scMerge2(exprsMat = logcounts(example_sce),
@@ -86,6 +90,11 @@ example_sce = scater::runPCA(example_sce, exprs_values = 'scMerge2')
 scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
 ```
 
+
+## Semi-supervised `scMerge`
+
+
+When cell type information are known (e.g. results from cell type classification using reference), scMerge2 can use this information to construct pseudo-replicates and identify mutual nearest groups with `cellTypes` input. 
 
 
 
@@ -103,8 +112,11 @@ example_sce = scater::runPCA(example_sce, exprs_values = 'scMerge2')
 scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
 ```
 
+# More details of scMerge2
 
+## Number of pseudobulk 
 
+The number of pseudobulk constructed within each cell grouping is set via `k_pseudoBulk`. By default, this number is set as 30. A larger number will create more pseudo-bulk data in model estimation, with longer time in estimation. 
 
 ```{r}
 scMerge2_res <- scMerge2(exprsMat = logcounts(example_sce),

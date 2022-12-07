@@ -34,6 +34,12 @@
 #' @importFrom DelayedMatrixStats rowSums2 colSums2
 #' @importFrom methods as is
 #' 
+#' @return Returns a \code{list} object with following components:
+#' \itemize{
+#' \item{newY: }{if \code{return_matrix} is \code{TRUE}, the adjusted matrix will be return.}
+#' \item{fullalpha: }{Alpha estimated from the fastRUVIII model.}
+#' \item{M: }{Replicate matrix.}
+#' }
 #' @export
 #' @examples
 #' ## Loading example data

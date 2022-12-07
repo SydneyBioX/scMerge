@@ -70,6 +70,14 @@ If \code{FALSE}, then only the estimated parameters will be returned.}
 
 \item{seed}{A numeric input indicates the seed used.}
 }
+\value{
+Returns a \code{list} object with following components:
+\itemize{
+\item{newY: }{if \code{return_matrix} is \code{TRUE}, the adjusted matrix will be return.}
+\item{fullalpha: }{Alpha estimated from the fastRUVIII model.}
+\item{M: }{Replicate matrix.}
+}
+}
 \description{
 Merge single-cell data from different batches and experiments 
 leveraging (pseudo)-replicates, control genes and pseudo-bulk.
