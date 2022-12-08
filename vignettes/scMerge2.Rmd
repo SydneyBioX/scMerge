@@ -73,9 +73,9 @@ scater::plotPCA(example_sce,
 
 # scMerge2
 
-## Unsupervised `scMerge`
+## Unsupervised `scMerge2`
 
-In unsupervised `scMerge`, we will perform graph clustering on shared nearest neighbour graphs within each batch to obtain pseudo-replicates. This requires the users to supply a `k_celltype` vector with the number of neighbour when constructed the nearest neighbour graph in each of the batches. By default, this number is 10.
+In unsupervised `scMerge2`, we will perform graph clustering on shared nearest neighbour graphs within each batch to obtain pseudo-replicates. This requires the users to supply a `k_celltype` vector with the number of neighbour when constructed the nearest neighbour graph in each of the batches. By default, this number is 10.
 
 
 ```{r}
@@ -86,12 +86,13 @@ scMerge2_res <- scMerge2(exprsMat = logcounts(example_sce),
 
 assay(example_sce, "scMerge2") <- scMerge2_res$newY
 
-example_sce = scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       
+set.seed(2022)
+example_sce <- scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       
 scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
 ```
 
 
-## Semi-supervised `scMerge`
+## Semi-supervised `scMerge2`
 
 
 When cell type information are known (e.g. results from cell type classification using reference), scMerge2 can use this information to construct pseudo-replicates and identify mutual nearest groups with `cellTypes` input. 
@@ -128,9 +129,49 @@ scMerge2_res <- scMerge2(exprsMat = logcounts(example_sce),
 
 assay(example_sce, "scMerge2") <- scMerge2_res$newY
 
-example_sce = scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       
+set.seed(2022)
+example_sce <- scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       
 scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
 ```
+
+## Return matrix by batch 
+
+When working with large data, we can get the adjusted matrix for a smaller subset of cells each time. This can be achieved by setting `return_matrix` to `FALSE` in `scMerge2()` function, which the function then will not return the adjusted whole matrix but will output the estimated `fullalpha`.
+Then to get the adjusted matrix using the estimated `fullalpha`, we first need to performed cosine normalisation on the logcounts matrix and then calculate the row-wise (gene-wise) mean of the cosine normalised matrix (This is because by default, `scMerge2()` perform cosine normalisation on the log-normalised matrix before `RUVIII` step). Then we can use `getAdjustedMat()` to adjust the matrix of a subset of cells each time.
+
+
+
+```{r}
+scMerge2_res <- scMerge2(exprsMat = logcounts(example_sce),
+                         batch = example_sce$batch,
+                         ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                         verbose = FALSE,
+                         return_matrix = FALSE)
+
+cosineNorm_mat <- batchelor::cosineNorm(logcounts(example_sce))
+adjusted_means <- DelayedMatrixStats::rowMeans2(cosineNorm_mat)
+
+newY <- list()
+for (i in levels(example_sce$batch)) {
+    newY[[i]] <- getAdjustedMat(cosineNorm_mat[, example_sce$batch == i], 
+                                scMerge2_res$fullalpha,
+                                ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                                ruvK = 20,
+                                adjusted_means = adjusted_means)
+}
+newY <- do.call(cbind, newY)
+
+assay(example_sce, "scMerge2") <- newY[, colnames(example_sce)]
+
+set.seed(2022)
+example_sce <- scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       
+scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
+
+```
+
+
+Note that we can also adjust only a subset of genes by input a gene list in `return_subset_genes` in 
+both `getAdjustedMat()` and `scMerge2()`.
 
 
 # Session Info

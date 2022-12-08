@@ -308,3 +308,93 @@ scMerge2 <- function(exprsMat,
     return(res)
     
 }
+
+
+
+
+#' @title getAdjustedMat
+#' @description Get Adjusted Matrix with scMerge2 parameter estimated 
+#' @author Yingxin Lin
+#' @param exprsMat A gene (row) by cell (column) matrix to be adjusted.
+#' @param fullalpha A matrix indicates the estimated alpha returned by \code{scMerge2()}.
+#' @param ctl A character vector of negative control. It should have a non-empty intersection with the rows of exprsMat.
+#' @param adjusted_means A rowwise mean of the gene by cell matrix 
+#' @param ruvK An integer indicates the number of unwanted variation factors that are removed, default is 20.
+#' @param return_subset_genes An optional character vector of indicates the subset of genes will be adjusted.
+#' 
+#' @importFrom DelayedArray DelayedArray t
+#' @importFrom DelayedMatrixStats colMeans2
+#' 
+#' @return Returns the adjusted matrix will be return.
+#' 
+#' @export
+#' @examples
+#' ## Loading example data
+#' data('example_sce', package = 'scMerge')
+#' ## Previously computed stably expressed genes
+#' data('segList_ensemblGeneID', package = 'scMerge')
+#' ## Running an example data with minimal inputs
+#' library(SingleCellExperiment)
+#' scMerge2_res <- scMerge2(exprsMat = logcounts(example_sce),
+#' batch = example_sce$batch,
+#' ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+#' return_matrix = FALSE)
+#' cosineNorm_mat <- batchelor::cosineNorm(logcounts(example_sce))
+#' adjusted_means <- DelayedMatrixStats::rowMeans2(cosineNorm_mat)
+#' newY <- getAdjustedMat(cosineNorm_mat, scMerge2_res$fullalpha,
+#'               ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+#'               ruvK = 20,
+#'               adjusted_means = adjusted_means)
+#' assay(example_sce, "scMerge2") <- newY
+#' 
+#' example_sce = scater::runPCA(example_sce, exprs_values = 'scMerge2')                                       
+#' scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
+
+
+
+
+
+getAdjustedMat <- function(exprsMat, fullalpha, 
+                           ctl = rownames(exprsMat), 
+                           adjusted_means = NULL,
+                           ruvK = 20,
+                           return_subset_genes = NULL) {
+    
+    exprsMat <- DelayedArray(exprsMat)
+    exprsMat <- DelayedArray::t(exprsMat)
+    if (class(ctl) %in% c("character")) {
+        ctl <- intersect(colnames(exprsMat), ctl)
+        if (length(ctl) == 0) {
+            stop("No provided ctl genes in the data")
+        }
+    }
+    
+    if (!is.null(return_subset_genes)) {
+        return_subset_genes <- intersect(colnames(exprsMat), return_subset_genes)
+        if (length(return_subset_genes) == 0) {
+            stop("No provided return_subset_genes genes in the data")
+        }
+    }
+    
+    m <- nrow(exprsMat)
+
+    if (is.null(adjusted_means)) {
+        Y_stand <- sweep(exprsMat, 2, DelayedMatrixStats::colMeans2(exprsMat), "-")
+    } else {
+        Y_stand <- sweep(exprsMat, 2, adjusted_means, "-")
+    }
+    
+    fullalpha <- DelayedArray(fullalpha)
+    alpha <- fullalpha[seq_len(min(ruvK, nrow(fullalpha))), , drop = FALSE]
+    W <- Y_stand[, ctl] %*% DelayedArray::t(alpha[, ctl]) %*% solve(alpha[, ctl] %*% DelayedArray::t(alpha[, ctl]))
+    
+    if (!is.null(return_subset_genes)) {
+        newY <- exprsMat[, return_subset_genes] - W %*% alpha[, return_subset_genes]
+    } else {
+        newY <- exprsMat - W %*% alpha
+    }
+    
+    newY <- t(newY)
+    return(newY)
+}
+

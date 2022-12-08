@@ -63,7 +63,7 @@ fastRUVIII <- function(Y, M, ctl, k = NULL, eta = NULL,
     ## RUV1 is a reprocessing step for RUVIII
     Y <- ruv::RUV1(Y, eta, ctl, include.intercept = include.intercept)
     
-    if (class(BSPARAM) != "ExactParam") {
+    if (inherits(BSPARAM, "ExactParam")) {
         svd_k <- min(m - ncol(M), sum(ctl), svd_k, na.rm = TRUE)
     } else {
         svd_k <- min(m - ncol(M), sum(ctl), na.rm = TRUE)

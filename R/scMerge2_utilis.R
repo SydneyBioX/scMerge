@@ -53,8 +53,8 @@ pseudoRUVIII <- function(Y, Y_pseudo, M, ctl, k = NULL, eta = NULL,
     
     
     
-    
-    if (class(BSPARAM) != "ExactParam") {
+
+    if (inherits(BSPARAM, "ExactParam")) {
         svd_k <- k
         svd_k <- min(m_pseudo - ncol(M), sum(ctl), svd_k, na.rm = TRUE)
     } else {
