@@ -95,7 +95,6 @@ pseudoRUVIII <- function(Y, Y_pseudo, M, ctl, k = NULL, eta = NULL,
         
         Y <- DelayedArray::DelayedArray(Y)
         Y_stand <- DelayedArray::sweep(Y, 2, DelayedArray::colMeans(Y), "-")
-        print(dim(Y_stand))
         W <- Y_stand[, ctl] %*% DelayedArray::t(ac) %*% solve(ac %*% DelayedArray::t(ac))
         W <- DelayedArray::DelayedArray(W)
         

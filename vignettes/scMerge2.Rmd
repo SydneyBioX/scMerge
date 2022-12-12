@@ -173,6 +173,93 @@ scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
 Note that we can also adjust only a subset of genes by input a gene list in `return_subset_genes` in 
 both `getAdjustedMat()` and `scMerge2()`.
 
+## Hierarchical scMerge2
+
+scMerge2 provides a hierarchical merging strategy for data integration that requires multiple level adjustment through function `scMerge2h()`. For example, for the dataset with multiple samples, we may want to remove the sample effect first within the dataset before integrate it with other datasets. Below, we will illustrate how we can build a hierarchical merging order as input for `scMerge2h()`.
+
+For illustration purpose, here I first create a fake sample information for the sample data. Now, each batch has two samples. 
+
+```{r}
+# Create a fake sample information
+example_sce$sample <- rep(c(1:4), each = 50)
+table(example_sce$sample, example_sce$batch)
+```
+
+To perform `scMerge2h`, we need to create 
+
+1. a hierarchical index list that indicates the indices of the cells that are going into merging;
+2. a batch information list that indicates the batch information of each merging.
+
+We will first illustrate that a two-level merging case, where the first level refers to the sample effect removal within each batch, and the second level refers to the merging of two batches. 
+
+First, we will construct the hierarchical index list (`h_idx_list`). The hierarchical index list is a list that indicates for each level, which indices of the cells are going into merging. The number of the element of the list should be the same with the number of level of merging. For each element, it should contain a list of vectors of indices of each merging.
+
+
+```{r}
+# Construct a hierarchical index list
+h_idx_list <- list(level1 = split(seq_len(ncol(example_sce)), example_sce$batch),
+                   level2 = list(seq_len(ncol(example_sce))))
+```
+
+On level 1, we will perform two merging, one for each batch. Therefore, we have a list of two vectors of indices. Each indicates the indices of the cells of the batches.
+
+```{r}
+h_idx_list$level1
+```
+
+On level 2, we will perform one merging to merge two batches. Therefore, we have a list of one vector of indices, indicates all the indices of the cells of the full data.
+
+```{r}
+h_idx_list$level2
+```
+
+Next, we need to create the batch information list (`batch_list`), which has the same structure with the `h_idx_list`, but indicates the batch label of the `h_idx_list`. 
+
+
+```{r}
+# Construct a batch information list
+batch_list <- list(level1 = split(example_sce$sample, example_sce$batch),
+                   level2 = list(example_sce$batch))
+```
+
+We can see `batch_list` indicates the batch label for level of the merging.
+
+```{r}
+batch_list$level1
+```
+
+
+
+Now, we can input the `batch_list` and `h_idx_list` in `scMerge2h` to merge the data hierarchically. 
+We also need to input a `ruvK_list`, a vector of number of unwanted variation (k in RUV model) for each level of the merging. We suggest a lower `ruvK` in the first level. Here we set `ruvK_list = c(2, 5)` which indicates we will set RUV's k equal to 2 in the first level and 5 in the second level.
+
+```{r warning=FALSE}
+scMerge2_res <- scMerge2h(exprsMat = logcounts(example_sce),
+                          batch_list = batch_list,
+                          h_idx_list = h_idx_list,
+                          ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                          ruvK_list = c(2, 5),
+                          verbose = FALSE)
+```
+
+The output of `scMerge2h` is a list of matrices indicates the adjusted matrix from each level.
+
+```{r}
+length(scMerge2_res)
+lapply(scMerge2_res, dim)
+```
+
+
+Here we will use the adjusted matrix from the last level as the final adjusted matrix.
+
+```{r}
+assay(example_sce, "scMerge2") <- scMerge2_res[[length(h_idx_list)]]
+set.seed(2022)
+example_sce <- scater::runPCA(example_sce, exprs_values = 'scMerge2')                           
+scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
+```
+
+
 
 # Session Info
 

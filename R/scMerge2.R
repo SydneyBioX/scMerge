@@ -105,11 +105,11 @@ scMerge2 <- function(exprsMat,
         exprsMat <- exprsMat[, colsum_exprs != 0]
         batch <- batch[colsum_exprs != 0]
         
-        if (is.null(cellTypes)) {
+        if (!is.null(cellTypes)) {
             cellTypes <- cellTypes[colsum_exprs != 0]
         }
         
-        if (is.null(condition)) {
+        if (!is.null(condition)) {
             condition <- condition[colsum_exprs != 0]
         }
         
