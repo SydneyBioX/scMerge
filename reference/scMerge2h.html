@@ -223,7 +223,6 @@ If <code>FALSE</code>, then only the estimated parameters will be returned.</p><
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension of pseudo-bulk expression: [1] 1047   89</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Identifying MNC using pseudo-bulk:"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Running RUV"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  100 1047</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Hierarchical merging level 1, data2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Cluster within batch"</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>more singular values/vectors requested than available</span>
@@ -239,7 +238,6 @@ If <code>FALSE</code>, then only the estimated parameters will be returned.</p><
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Identifying MNC using pseudo-bulk:"</span>
 <span class="r-plt img"><img src="scMerge2h-2.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Running RUV"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  100 1047</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Hierarchical merging level 2, data1"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Cluster within batch"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Normalising data"</span>
@@ -248,7 +246,6 @@ If <code>FALSE</code>, then only the estimated parameters will be returned.</p><
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Identifying MNC using pseudo-bulk:"</span>
 <span class="r-plt img"><img src="scMerge2h-3.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Running RUV"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  200 1047</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">example_sce</span>, <span class="st">"scMerge2"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">exprsMat</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">h_idx_list</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">example_sce</span> <span class="op">=</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">example_sce</span>, exprs_values <span class="op">=</span> <span class="st">'scMerge2'</span><span class="op">)</span>                                       </span></span>
 <span class="r-in"><span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">example_sce</span>, colour_by <span class="op">=</span> <span class="st">'cellTypes'</span>, shape <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span></span></span>

@@ -168,7 +168,6 @@ default, this number is 10.</p>
 <span><span class="co">#&gt; Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =</span></span>
 <span><span class="co">#&gt; TRUE, : You're computing too large a percentage of total singular values, use a</span></span>
 <span><span class="co">#&gt; standard svd instead.</span></span>
-<span><span class="co">#&gt; [1]  200 1047</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">example_sce</span>, <span class="st">"scMerge2"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">scMerge2_res</span><span class="op">$</span><span class="va">newY</span></span>
 <span></span>
@@ -190,7 +189,6 @@ construct pseudo-replicates and identify mutual nearest groups with
 <span>                         cellTypes <span class="op">=</span> <span class="va">example_sce</span><span class="op">$</span><span class="va">cellTypes</span>,</span>
 <span>                         ctl <span class="op">=</span> <span class="va">segList_ensemblGeneID</span><span class="op">$</span><span class="va">mouse</span><span class="op">$</span><span class="va">mouse_scSEG</span>,</span>
 <span>                         verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]  200 1047</span></span>
 <span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">example_sce</span>, <span class="st">"scMerge2"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">scMerge2_res</span><span class="op">$</span><span class="va">newY</span></span>
@@ -222,7 +220,6 @@ with longer time in estimation.</p>
 <span><span class="co">#&gt; Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =</span></span>
 <span><span class="co">#&gt; TRUE, : You're computing too large a percentage of total singular values, use a</span></span>
 <span><span class="co">#&gt; standard svd instead.</span></span>
-<span><span class="co">#&gt; [1]  200 1047</span></span>
 <span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">example_sce</span>, <span class="st">"scMerge2"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">scMerge2_res</span><span class="op">$</span><span class="va">newY</span></span>
@@ -284,11 +281,146 @@ each time.</p>
 list in <code>return_subset_genes</code> in both
 <code><a href="../reference/getAdjustedMat.html">getAdjustedMat()</a></code> and <code><a href="../reference/scMerge2.html">scMerge2()</a></code>.</p>
 </div>
+<div class="section level3">
+<h3 id="hierarchical-scmerge2">Hierarchical scMerge2<a class="anchor" aria-label="anchor" href="#hierarchical-scmerge2"></a>
+</h3>
+<p>scMerge2 provides a hierarchical merging strategy for data
+integration that requires multiple level adjustment through function
+<code><a href="../reference/scMerge2h.html">scMerge2h()</a></code>. For example, for the dataset with multiple
+samples, we may want to remove the sample effect first within the
+dataset before integrate it with other datasets. Below, we will
+illustrate how we can build a hierarchical merging order as input for
+<code><a href="../reference/scMerge2h.html">scMerge2h()</a></code>.</p>
+<p>For illustration purpose, here I first create a fake sample
+information for the sample data. Now, each batch has two samples.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Create a fake sample information</span></span>
+<span><span class="va">example_sce</span><span class="op">$</span><span class="va">sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">example_sce</span><span class="op">$</span><span class="va">sample</span>, <span class="va">example_sce</span><span class="op">$</span><span class="va">batch</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    </span></span>
+<span><span class="co">#&gt;     batch2 batch3</span></span>
+<span><span class="co">#&gt;   1     50      0</span></span>
+<span><span class="co">#&gt;   2     50      0</span></span>
+<span><span class="co">#&gt;   3      0     50</span></span>
+<span><span class="co">#&gt;   4      0     50</span></span></code></pre></div>
+<p>To perform <code>scMerge2h</code>, we need to create</p>
+<ol style="list-style-type: decimal">
+<li>a hierarchical index list that indicates the indices of the cells
+that are going into merging;</li>
+<li>a batch information list that indicates the batch information of
+each merging.</li>
+</ol>
+<p>We will first illustrate that a two-level merging case, where the
+first level refers to the sample effect removal within each batch, and
+the second level refers to the merging of two batches.</p>
+<p>First, we will construct the hierarchical index list
+(<code>h_idx_list</code>). The hierarchical index list is a list that
+indicates for each level, which indices of the cells are going into
+merging. The number of the element of the list should be the same with
+the number of level of merging. For each element, it should contain a
+list of vectors of indices of each merging.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Construct a hierarchical index list</span></span>
+<span><span class="va">h_idx_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>level1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/splitAsList.html" class="external-link">split</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">example_sce</span><span class="op">)</span><span class="op">)</span>, <span class="va">example_sce</span><span class="op">$</span><span class="va">batch</span><span class="op">)</span>,</span>
+<span>                   level2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">example_sce</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>On level 1, we will perform two merging, one for each batch.
+Therefore, we have a list of two vectors of indices. Each indicates the
+indices of the cells of the batches.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">h_idx_list</span><span class="op">$</span><span class="va">level1</span></span>
+<span><span class="co">#&gt; $batch2</span></span>
+<span><span class="co">#&gt;   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18</span></span>
+<span><span class="co">#&gt;  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36</span></span>
+<span><span class="co">#&gt;  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54</span></span>
+<span><span class="co">#&gt;  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72</span></span>
+<span><span class="co">#&gt;  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90</span></span>
+<span><span class="co">#&gt;  [91]  91  92  93  94  95  96  97  98  99 100</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $batch3</span></span>
+<span><span class="co">#&gt;   [1] 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118</span></span>
+<span><span class="co">#&gt;  [19] 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136</span></span>
+<span><span class="co">#&gt;  [37] 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154</span></span>
+<span><span class="co">#&gt;  [55] 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172</span></span>
+<span><span class="co">#&gt;  [73] 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190</span></span>
+<span><span class="co">#&gt;  [91] 191 192 193 194 195 196 197 198 199 200</span></span></code></pre></div>
+<p>On level 2, we will perform one merging to merge two batches.
+Therefore, we have a list of one vector of indices, indicates all the
+indices of the cells of the full data.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">h_idx_list</span><span class="op">$</span><span class="va">level2</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt;   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18</span></span>
+<span><span class="co">#&gt;  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36</span></span>
+<span><span class="co">#&gt;  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54</span></span>
+<span><span class="co">#&gt;  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72</span></span>
+<span><span class="co">#&gt;  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90</span></span>
+<span><span class="co">#&gt;  [91]  91  92  93  94  95  96  97  98  99 100 101 102 103 104 105 106 107 108</span></span>
+<span><span class="co">#&gt; [109] 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126</span></span>
+<span><span class="co">#&gt; [127] 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144</span></span>
+<span><span class="co">#&gt; [145] 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162</span></span>
+<span><span class="co">#&gt; [163] 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180</span></span>
+<span><span class="co">#&gt; [181] 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198</span></span>
+<span><span class="co">#&gt; [199] 199 200</span></span></code></pre></div>
+<p>Next, we need to create the batch information list
+(<code>batch_list</code>), which has the same structure with the
+<code>h_idx_list</code>, but indicates the batch label of the
+<code>h_idx_list</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Construct a batch information list</span></span>
+<span><span class="va">batch_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>level1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/splitAsList.html" class="external-link">split</a></span><span class="op">(</span><span class="va">example_sce</span><span class="op">$</span><span class="va">sample</span>, <span class="va">example_sce</span><span class="op">$</span><span class="va">batch</span><span class="op">)</span>,</span>
+<span>                   level2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">example_sce</span><span class="op">$</span><span class="va">batch</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>We can see <code>batch_list</code> indicates the batch label for
+level of the merging.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">batch_list</span><span class="op">$</span><span class="va">level1</span></span>
+<span><span class="co">#&gt; $batch2</span></span>
+<span><span class="co">#&gt;   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span></span>
+<span><span class="co">#&gt;  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</span></span>
+<span><span class="co">#&gt;  [75] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $batch3</span></span>
+<span><span class="co">#&gt;   [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3</span></span>
+<span><span class="co">#&gt;  [38] 3 3 3 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4</span></span>
+<span><span class="co">#&gt;  [75] 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4</span></span></code></pre></div>
+<p>Now, we can input the <code>batch_list</code> and
+<code>h_idx_list</code> in <code>scMerge2h</code> to merge the data
+hierarchically. We also need to input a <code>ruvK_list</code>, a vector
+of number of unwanted variation (k in RUV model) for each level of the
+merging. We suggest a lower <code>ruvK</code> in the first level. Here
+we set <code>ruvK_list = c(2, 5)</code> which indicates we will set
+RUV’s k equal to 2 in the first level and 5 in the second level.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">scMerge2_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scMerge2h.html">scMerge2h</a></span><span class="op">(</span>exprsMat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/assays.html" class="external-link">logcounts</a></span><span class="op">(</span><span class="va">example_sce</span><span class="op">)</span>,</span>
+<span>                          batch_list <span class="op">=</span> <span class="va">batch_list</span>,</span>
+<span>                          h_idx_list <span class="op">=</span> <span class="va">h_idx_list</span>,</span>
+<span>                          ctl <span class="op">=</span> <span class="va">segList_ensemblGeneID</span><span class="op">$</span><span class="va">mouse</span><span class="op">$</span><span class="va">mouse_scSEG</span>,</span>
+<span>                          ruvK_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>                          verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>The output of <code>scMerge2h</code> is a list of matrices indicates
+the adjusted matrix from each level.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">scMerge2_res</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">scMerge2_res</span>, <span class="va">dim</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [1] 1047  200</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]</span></span>
+<span><span class="co">#&gt; [1] 1047  200</span></span></code></pre></div>
+<p>Here we will use the adjusted matrix from the last level as the final
+adjusted matrix.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">example_sce</span>, <span class="st">"scMerge2"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">scMerge2_res</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">h_idx_list</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2022</span><span class="op">)</span></span>
+<span><span class="va">example_sce</span> <span class="op">&lt;-</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">example_sce</span>, exprs_values <span class="op">=</span> <span class="st">'scMerge2'</span><span class="op">)</span>                           </span>
+<span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">example_sce</span>, colour_by <span class="op">=</span> <span class="st">'cellTypes'</span>, shape <span class="op">=</span> <span class="st">'batch'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="scMerge2_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.2.2 (2022-10-31)</span></span>
 <span><span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
@@ -307,7 +439,7 @@ list in <code>return_subset_genes</code> in both
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
 <span><span class="co">#&gt;  [1] scater_1.26.1               ggplot2_3.4.0              </span></span>
-<span><span class="co">#&gt;  [3] scuttle_1.8.1               scMerge_1.9.99             </span></span>
+<span><span class="co">#&gt;  [3] scuttle_1.8.2               scMerge_1.9.99             </span></span>
 <span><span class="co">#&gt;  [5] SingleCellExperiment_1.20.0 SummarizedExperiment_1.28.0</span></span>
 <span><span class="co">#&gt;  [7] Biobase_2.58.0              GenomicRanges_1.50.1       </span></span>
 <span><span class="co">#&gt;  [9] GenomeInfoDb_1.34.4         IRanges_2.32.0             </span></span>
@@ -320,7 +452,7 @@ list in <code>return_subset_genes</code> in both
 <span><span class="co">#&gt;   [3] systemfonts_1.0.4         igraph_1.3.5             </span></span>
 <span><span class="co">#&gt;   [5] proxyC_0.3.3              splines_4.2.2            </span></span>
 <span><span class="co">#&gt;   [7] BiocParallel_1.32.4       inline_0.3.19            </span></span>
-<span><span class="co">#&gt;   [9] digest_0.6.30             htmltools_0.5.4          </span></span>
+<span><span class="co">#&gt;   [9] digest_0.6.31             htmltools_0.5.4          </span></span>
 <span><span class="co">#&gt;  [11] viridis_0.6.2             fansi_1.0.3              </span></span>
 <span><span class="co">#&gt;  [13] magrittr_2.0.3            checkmate_2.1.0          </span></span>
 <span><span class="co">#&gt;  [15] memoise_2.0.1             ScaledMatrix_1.6.0       </span></span>
