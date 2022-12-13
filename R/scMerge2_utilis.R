@@ -53,7 +53,7 @@ pseudoRUVIII <- function(Y, Y_pseudo, M, ctl, k = NULL, eta = NULL,
     
     
     
-
+    
     if (inherits(BSPARAM, "ExactParam")) {
         svd_k <- k
         svd_k <- min(m_pseudo - ncol(M), sum(ctl), svd_k, na.rm = TRUE)
@@ -557,10 +557,22 @@ create_pseudoBulk <- function(exprsMat, cell_info, k_fold = 30, use_bpparam = Bi
                                    ctl, chosen.hvg, return_subset_genes,
                                    exprsMat_counts){
     
+    
+    
     #### Checking input exprsMat
     
     if (is.null(exprsMat)) {
         stop("The 'exprsMat' argument is NULL.")
+    }
+    
+    
+    
+    colsum_exprs <- DelayedMatrixStats::colSums2(exprsMat)
+    rowsum_exprs <- DelayedMatrixStats::rowSums2(exprsMat)
+    
+    if(any(colsum_exprs == 0)){
+        stop("There are ", sum(colsum_exprs == 0), 
+             " cells that are all zeroes in the data, please remove them before running scMerge2h.")
     }
     
     
@@ -580,7 +592,7 @@ create_pseudoBulk <- function(exprsMat, cell_info, k_fold = 30, use_bpparam = Bi
         stop("`h_idx_list` and `batch_list` should have the same length.")
     }
     
-
+    
     if (!all(unlist(lapply(h_idx_list, length)) == unlist(lapply(batch_list, length)))) {
         stop("Each element in `h_idx_list` and `batch_list` should have the same length.")
     }
@@ -595,19 +607,19 @@ create_pseudoBulk <- function(exprsMat, cell_info, k_fold = 30, use_bpparam = Bi
             stop(paste("For level", i, ", there is element that with only one batch"))
         }
         
-
+        
     }
     
-
-
+    
+    
     
     
     if (is.null(batch_list)) {
         stop("The 'batch_list' argument is NULL.")
     }
     
-
-
+    
+    
     #### Check cell types input
     
     if (!is.null(cellTypes)) {

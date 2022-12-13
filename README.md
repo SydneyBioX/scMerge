@@ -1,6 +1,4 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # scMerge
 
 <br />
@@ -37,8 +35,9 @@ BiocManager::install("scMerge", version = "devel")
 ## Vignette
 
 You can find the vignette at our website:
-<https://sydneybiox.github.io/scMerge/index.html>.
 
+1. scMerge: <https://sydneybiox.github.io/scMerge/articles/scMerge.html>.
+2. scMerge2: <https://sydneybiox.github.io/scMerge/articles/scMerge2.html>.
 
 ## Stably Expressed Genes
 
@@ -64,12 +63,12 @@ issue](https://github.com/SydneyBioX/scMerge/issues) on GitHub.
 
 ## Reference
 
-**scMerge leverages factor analysis, stable expression, and
-pseudoreplication to merge multiple single-cell RNA-seq datasets**
 
-Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch,
+1. scMerge: **scMerge leverages factor analysis, stable expression, and
+pseudoreplication to merge multiple single-cell RNA-seq datasets**. Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch,
 Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P.
-Speed, Pengyi Yang, Jean Y. H. Yang
-
-Our manuscript published at PNAS can be found
+Speed, Pengyi Yang, Jean Y. H. Yang. (2019). Our manuscript published at PNAS can be found
 [here](http://www.pnas.org/lookup/doi/10.1073/pnas.1820006116).
+
+2. scMerge2: **Atlas-scale single-cell multi-sample multi-condition data integration using scMerge2**. Yingxin Lin, Yue Cao, Elijah Willie, Ellis Patrick, Jean Y.H. Yang. (2022). Our manuscript in biorxiv can be found [here](https://www.biorxiv.org/content/10.1101/2022.12.08.519588v1).
+
