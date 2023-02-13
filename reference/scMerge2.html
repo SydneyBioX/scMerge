@@ -86,6 +86,8 @@ leveraging (pseudo)-replicates, control genes and pseudo-bulk.</p>
 <span>  return_subset <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  return_subset_genes <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  return_matrix <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  byChunk <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  chunkSize <span class="op">=</span> <span class="fl">50000</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -163,7 +165,15 @@ If it is <code>NULL</code>, pseudo-replicate procedure will be run to identify c
 
 
 <dt>return_matrix</dt>
-<dd><p>A logical vector indicates whether the adjusted matrix is calculated and returned. 
+<dd><p>A logical value indicates whether the adjusted matrix is calculated and returned.</p></dd>
+
+
+<dt>byChunk</dt>
+<dd><p>A logical value indicates whether it calculates the adjusted matrix by chunk</p></dd>
+
+
+<dt>chunkSize</dt>
+<dd><p>A numeric indicates the size of the chunk.
 If <code>FALSE</code>, then only the estimated parameters will be returned.</p></dd>
 
 
@@ -228,7 +238,7 @@ If <code>FALSE</code>, then only the estimated parameters will be returned.</p><
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
 </div>
 
       </footer></div>
