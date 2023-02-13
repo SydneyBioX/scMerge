@@ -23,6 +23,8 @@ scMerge2(
   return_subset = FALSE,
   return_subset_genes = NULL,
   return_matrix = TRUE,
+  byChunk = TRUE,
+  chunkSize = 50000,
   verbose = TRUE,
   seed = 1
 )
@@ -63,7 +65,11 @@ If it is \code{NULL}, pseudo-replicate procedure will be run to identify cell ty
 
 \item{return_subset_genes}{An optional character vector of indicates the subset of genes will be adjusted.}
 
-\item{return_matrix}{A logical vector indicates whether the adjusted matrix is calculated and returned. 
+\item{return_matrix}{A logical value indicates whether the adjusted matrix is calculated and returned.}
+
+\item{byChunk}{A logical value indicates whether it calculates the adjusted matrix by chunk}
+
+\item{chunkSize}{A numeric indicates the size of the chunk.
 If \code{FALSE}, then only the estimated parameters will be returned.}
 
 \item{verbose}{If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.}

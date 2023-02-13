@@ -40,7 +40,7 @@ Imports:
   S4Vectors (>= 0.23.19),
   SingleCellExperiment (>= 1.7.3),
   SummarizedExperiment
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Suggests: 
     BiocStyle,
     covr,

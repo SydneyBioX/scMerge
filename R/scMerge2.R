@@ -20,7 +20,9 @@
 #' @param cosineNorm A logical vector indicates whether cosine normalisation is performed on input data.
 #' @param return_subset If \code{TRUE}, adjusted matrix of only a subset of genes (hvg or indicates in \code{return_subset_genes}) will be return. 
 #' @param return_subset_genes An optional character vector of indicates the subset of genes will be adjusted.
-#' @param return_matrix A logical vector indicates whether the adjusted matrix is calculated and returned. 
+#' @param return_matrix A logical value indicates whether the adjusted matrix is calculated and returned. 
+#' @param byChunk A logical value indicates whether it calculates the adjusted matrix by chunk
+#' @param chunkSize A numeric indicates the size of the chunk.
 #' If \code{FALSE}, then only the estimated parameters will be returned.
 #' @param verbose If \code{TRUE}, then all intermediate steps will be shown. Default to \code{FALSE}.
 #' @param seed A numeric input indicates the seed used.
@@ -77,6 +79,8 @@ scMerge2 <- function(exprsMat,
                      return_subset = FALSE,
                      return_subset_genes = NULL,
                      return_matrix = TRUE,
+                     byChunk = TRUE,
+                     chunkSize = 50000,
                      verbose = TRUE,
                      seed = 1) {
     
@@ -295,7 +299,10 @@ scMerge2 <- function(exprsMat,
                         BSPARAM = use_bsparam,
                         return.info = TRUE,
                         subset = subset_genes,
-                        normalised = return_matrix)
+                        normalised = return_matrix,
+                        verbose = verbose,
+                        byChunk = byChunk,
+                        chunkSize = chunkSize)
     
     
     if (return_matrix) {

@@ -20,7 +20,10 @@ pseudoRUVIII <- function(Y, Y_pseudo, M, ctl, k = NULL, eta = NULL,
                          subset = NULL,
                          BPPARAM = BiocParallel::SerialParam(), 
                          BSPARAM = BiocSingular::ExactParam(),
-                         normalised = TRUE) {
+                         normalised = TRUE,
+                         verbose = TRUE,
+                         byChunk = TRUE,
+                         chunkSize = 50000) {
     
     
     
@@ -92,18 +95,47 @@ pseudoRUVIII <- function(Y, Y_pseudo, M, ctl, k = NULL, eta = NULL,
     if (normalised) {
         
         ac <- alpha[, ctl, drop = FALSE]
-        
         Y <- DelayedArray::DelayedArray(Y)
         Y_stand <- DelayedArray::sweep(Y, 2, DelayedArray::colMeans(Y), "-")
-        W <- Y_stand[, ctl] %*% DelayedArray::t(ac) %*% solve(ac %*% DelayedArray::t(ac))
-        W <- DelayedArray::DelayedArray(W)
         
+
         
-        if (!is.null(subset)) {
-            newY <- Y[, subset] - W %*% alpha[, subset]
+        if (nrow(Y) >= 1.5 * chunkSize & byChunk) {
+          chunkList <- createChunk(nrow(Y), chunkSize = chunkSize)
+          
+          
+          if (verbose) {
+            print("Adjusting matrix by chunk")
+          }
+          
+          newY <- BiocParallel::bplapply(chunkList, function(cl) {
+            idx_range <- cl[1]:cl[2]
+            
+            W <- Y_stand[idx_range, ctl] %*% DelayedArray::t(ac) %*% solve(ac %*% DelayedArray::t(ac))
+            W <- DelayedArray::DelayedArray(W)
+            
+            if (!is.null(subset)) {
+              newY_tmp <- Y[idx_range, subset] - W %*% alpha[, subset]
+            } else {
+              newY_tmp <- Y[idx_range, ] - W %*% alpha
+            }
+            return(newY_tmp)
+          }, BPPARAM = BPPARAM)
+          newY <- do.call(rbind, newY)
+          
         } else {
+          
+          W <- Y_stand[, ctl] %*% DelayedArray::t(ac) %*% solve(ac %*% DelayedArray::t(ac))
+          W <- DelayedArray::DelayedArray(W)
+          
+          if (!is.null(subset)) {
+            newY <- Y[, subset] - W %*% alpha[, subset]
+          } else {
             newY <- Y - W %*% alpha
+          }
         }
+        
+
         
         if (!return.info) {
             return(newY)
@@ -116,6 +148,25 @@ pseudoRUVIII <- function(Y, Y_pseudo, M, ctl, k = NULL, eta = NULL,
     
 }
 
+# This function is to create chunk for matrix adjustement
+createChunk <- function(n, chunkSize = 1000) {
+  
+  starts <- seq(1, n, chunkSize)
+  ends <- starts + chunkSize -1
+  ends[length(ends)] <- n
+  
+  if (length(ends) > 1) {
+    if (ends[length(ends)] - ends[length(ends) - 1] < chunkSize/2) {
+      starts <- starts[1:(length(starts) - 1)]
+      ends <- ends[1:(length(ends) - 1)]
+      ends[length(ends)] <- n
+    }
+  }
+  
+  
+  chunkList <- mapply(c, starts, ends, SIMPLIFY = FALSE)
+  return(chunkList)
+}
 
 
 #' @importFrom scran buildSNNGraph
