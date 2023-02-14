@@ -96,7 +96,8 @@ pseudoRUVIII <- function(Y, Y_pseudo, M, ctl, k = NULL, eta = NULL,
         
         ac <- alpha[, ctl, drop = FALSE]
         Y <- DelayedArray::DelayedArray(Y)
-        Y_stand <- DelayedArray::sweep(Y, 2, DelayedArray::colMeans(Y), "-")
+        adjusted_means <- DelayedArray::colMeans(Y)
+        
         
 
         
@@ -110,8 +111,8 @@ pseudoRUVIII <- function(Y, Y_pseudo, M, ctl, k = NULL, eta = NULL,
           
           newY <- BiocParallel::bplapply(chunkList, function(cl) {
             idx_range <- cl[1]:cl[2]
-            
-            W <- Y_stand[idx_range, ctl] %*% DelayedArray::t(ac) %*% solve(ac %*% DelayedArray::t(ac))
+            Y_stand <- DelayedArray::sweep(Y[idx_range, ], 2, adjusted_means, "-")
+            W <- Y_stand[, ctl] %*% DelayedArray::t(ac) %*% solve(ac %*% DelayedArray::t(ac))
             W <- DelayedArray::DelayedArray(W)
             
             if (!is.null(subset)) {
@@ -124,7 +125,7 @@ pseudoRUVIII <- function(Y, Y_pseudo, M, ctl, k = NULL, eta = NULL,
           newY <- do.call(rbind, newY)
           
         } else {
-          
+          Y_stand <- DelayedArray::sweep(Y, 2, adjusted_means, "-")
           W <- Y_stand[, ctl] %*% DelayedArray::t(ac) %*% solve(ac %*% DelayedArray::t(ac))
           W <- DelayedArray::DelayedArray(W)
           
