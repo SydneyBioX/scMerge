@@ -95,8 +95,9 @@ pseudoRUVIII <- function(Y, Y_pseudo, M, ctl, k = NULL, eta = NULL,
     if (normalised) {
         
         ac <- alpha[, ctl, drop = FALSE]
+        adjusted_means <- colMeans(Y)
         Y <- DelayedArray::DelayedArray(Y)
-        adjusted_means <- DelayedArray::colMeans(Y)
+
         
         
 
