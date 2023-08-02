@@ -70,5 +70,4 @@ Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P.
 Speed, Pengyi Yang, Jean Y. H. Yang. (2019). Our manuscript published at PNAS can be found
 [here](http://www.pnas.org/lookup/doi/10.1073/pnas.1820006116).
 
-2. scMerge2: **Atlas-scale single-cell multi-sample multi-condition data integration using scMerge2**. Yingxin Lin, Yue Cao, Elijah Willie, Ellis Patrick, Jean Y.H. Yang. (2022). Our manuscript in biorxiv can be found [here](https://www.biorxiv.org/content/10.1101/2022.12.08.519588v1).
-
+2. scMerge2: **Atlas-scale single-cell multi-sample multi-condition data integration using scMerge2**. Yingxin Lin, Yue Cao, Elijah Willie, Ellis Patrick, Jean Y.H. Yang. (2023). Our manuscript published in Nature Communications can be found [here](https://doi.org/10.1038/s41467-023-39923-2).

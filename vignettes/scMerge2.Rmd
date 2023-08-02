@@ -190,6 +190,9 @@ To perform `scMerge2h`, we need to create
 1. a hierarchical index list that indicates the indices of the cells that are going into merging;
 2. a batch information list that indicates the batch information of each merging.
 
+
+### Scenario 1
+
 We will first illustrate that a two-level merging case, where the first level refers to the sample effect removal within each batch, and the second level refers to the merging of two batches. 
 
 First, we will construct the hierarchical index list (`h_idx_list`). The hierarchical index list is a list that indicates for each level, which indices of the cells are going into merging. The number of the element of the list should be the same with the number of level of merging. For each element, it should contain a list of vectors of indices of each merging.
@@ -251,6 +254,39 @@ lapply(scMerge2_res, dim)
 
 
 Here we will use the adjusted matrix from the last level as the final adjusted matrix.
+
+```{r}
+assay(example_sce, "scMerge2") <- scMerge2_res[[length(h_idx_list)]]
+set.seed(2022)
+example_sce <- scater::runPCA(example_sce, exprs_values = 'scMerge2')                           
+scater::plotPCA(example_sce, colour_by = 'cellTypes', shape = 'batch')
+```
+
+### Scenario 2
+
+scMerge2h can handle a flexible merging strategy input. For example, on level 1 above, we can only merge data for one batch. As an example, we can start from modify the batch index list and hierarchical index list to remove the list of batch 2 on level 1.
+
+
+```{r}
+h_idx_list2 <- h_idx_list
+batch_list2 <- batch_list
+h_idx_list2$level1$batch2 <- NULL
+batch_list2$level1$batch2 <- NULL
+print(h_idx_list2)
+print(batch_list2)
+```
+
+
+```{r warning=FALSE}
+scMerge2_res <- scMerge2h(exprsMat = logcounts(example_sce),
+                          batch_list = batch_list2,
+                          h_idx_list = h_idx_list2,
+                          ctl = segList_ensemblGeneID$mouse$mouse_scSEG,
+                          ruvK_list = c(2, 5),
+                          verbose = FALSE)
+```
+
+
 
 ```{r}
 assay(example_sce, "scMerge2") <- scMerge2_res[[length(h_idx_list)]]

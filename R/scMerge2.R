@@ -167,7 +167,11 @@ scMerge2 <- function(exprsMat,
     
     
     if (is.null(chosen.hvg)) {
-        chosen.hvg <- feature_selection(exprsMat, batch, use_bpparam = use_bpparam)
+        chosen.hvg <- try(feature_selection(exprsMat, batch, use_bpparam = use_bpparam),
+                          silent = TRUE)
+        if ("try-error" %in% class(chosen.hvg)) {
+            stop("HVG identification fail. Please manually input a hvg list in hvg.")
+        }
     }
     
     
