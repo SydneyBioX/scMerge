@@ -12,13 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="scMerge: Merging multiple batches of scRNA-seq data">
-<meta property="og:description" content="Like all gene expression data, single-cell data suffers from 
-    batch effects and other unwanted variations that makes accurate biological interpretations difficult. 
-    The scMerge method leverages factor analysis, stably expressed genes (SEGs) and (pseudo-) replicates to 
-    remove unwanted variations and merge multiple single-cell data. 
-    This package contains all the necessary functions in the 
-    scMerge pipeline, including the identification of SEGs, replication-identification methods, and 
-    merging of single-cell data. ">
+<meta property="og:description" content="Like all gene expression data, single-cell data suffers from batch effects and other unwanted variations that makes accurate biological interpretations difficult. The scMerge method leverages factor analysis, stably expressed genes (SEGs) and (pseudo-) replicates to remove unwanted variations and merge multiple single-cell data. This package contains all the necessary functions in the scMerge pipeline, including the identification of SEGs, replication-identification methods, and merging of single-cell data.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -97,9 +91,9 @@
 <p><code>scMerge</code> is available on Bioconductor (<a href="https://bioconductor.org/packages/scMerge" class="external-link uri">https://bioconductor.org/packages/scMerge</a>). You can install it using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Install scMerge from Bioconductor, requires R 3.6.0 or above</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"scMerge"</span><span class="op">)</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"scMerge"</span><span class="op">)</span></span>
 <span><span class="co">## You can also try to install the Bioconductor devel version of scMerge:</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"scMerge"</span>, version <span class="op">=</span> <span class="st">"devel"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"scMerge"</span>, version <span class="op">=</span> <span class="st">"devel"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="vignette">Vignette<a class="anchor" aria-label="anchor" href="#vignette"></a>
@@ -131,7 +125,7 @@
 </h2>
 <ol style="list-style-type: decimal">
 <li><p>scMerge: <strong>scMerge leverages factor analysis, stable expression, and pseudoreplication to merge multiple single-cell RNA-seq datasets</strong>. Yingxin Lin, Shila Ghazanfar, Kevin Y.X. Wang, Johann A. Gagnon-Bartsch, Kitty K. Lo, Xianbin Su, Ze-Guang Han, John T. Ormerod, Terence P. Speed, Pengyi Yang, Jean Y. H. Yang. (2019). Our manuscript published at PNAS can be found <a href="http://www.pnas.org/lookup/doi/10.1073/pnas.1820006116" class="external-link">here</a>.</p></li>
-<li><p>scMerge2: <strong>Atlas-scale single-cell multi-sample multi-condition data integration using scMerge2</strong>. Yingxin Lin, Yue Cao, Elijah Willie, Ellis Patrick, Jean Y.H. Yang. (2022). Our manuscript in biorxiv can be found <a href="https://www.biorxiv.org/content/10.1101/2022.12.08.519588v1" class="external-link">here</a>.</p></li>
+<li><p>scMerge2: <strong>Atlas-scale single-cell multi-sample multi-condition data integration using scMerge2</strong>. Yingxin Lin, Yue Cao, Elijah Willie, Ellis Patrick, Jean Y.H. Yang. (2023). Our manuscript published in Nature Communications can be found <a href="https://doi.org/10.1038/s41467-023-39923-2" class="external-link">here</a>.</p></li>
 </ol>
 </div>
 </div>
