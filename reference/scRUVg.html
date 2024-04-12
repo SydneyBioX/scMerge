@@ -134,9 +134,6 @@ and the intercept term should be included manually where desired.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">L</span> <span class="op">=</span> <span class="fu">scMerge</span><span class="fu">::</span><span class="fu"><a href="ruvSimulate.html">ruvSimulate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fl">80</span>, n <span class="op">=</span> <span class="fl">1000</span>, nc <span class="op">=</span> <span class="fl">50</span>, nCelltypes <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">Y</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">Y</span>; <span class="va">ctl</span> <span class="op">=</span> <span class="va">L</span><span class="op">$</span><span class="va">ctl</span></span></span>
 <span class="r-in"><span><span class="va">ruvgRes</span> <span class="op">=</span> <span class="fu">scMerge</span><span class="fu">::</span><span class="fu">scRUVg</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, ctl <span class="op">=</span> <span class="va">ctl</span>, k <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in .check_Ops_vector_arg_length(e, x_nrow, e_what = e_what, x_what = x_what):</span> when the left operand is not a DelayedArray object (or derivative), its</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span>   length (80000) cannot be greater than the first dimension of the right</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span>   operand (80)</span>
 </code></pre></div>
     </div>
   </div>
