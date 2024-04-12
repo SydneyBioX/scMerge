@@ -23,7 +23,7 @@ res2 = scMerge(sce_combine = example_sce2, ctl = segList_ensemblGeneID$mouse$mou
 
 
 ## Checking if the ourput matrices are numerically equal
-expect_equal(assay(res1, "scMerge1"), assay(res2, "scMerge2")[, order(index)])
+expect_equal(as(assay(res1, "scMerge1"), "dgCMatrix"), as(assay(res2, "scMerge2"), "dgCMatrix")[, order(index)])
 
 
 ## Checking if the replication matrices are numerically equal up to a permutation

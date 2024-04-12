@@ -400,9 +400,9 @@ getAdjustedMat <- function(exprsMat, fullalpha,
     W <- Y_stand[, ctl] %*% DelayedArray::t(alpha[, ctl]) %*% solve(alpha[, ctl] %*% DelayedArray::t(alpha[, ctl]))
     
     if (!is.null(return_subset_genes)) {
-        newY <- exprsMat[, return_subset_genes] - W %*% alpha[, return_subset_genes]
+        newY <- exprsMat[, return_subset_genes] - DelayedArray::DelayedArray(W %*% alpha[, return_subset_genes])
     } else {
-        newY <- exprsMat - W %*% alpha
+        newY <- exprsMat - DelayedArray::DelayedArray(W %*% alpha) 
     }
     
     newY <- t(newY)

@@ -163,8 +163,11 @@ standardize2 <- function(Y, batch) {
     design <- stats::model.matrix(~-1 + batch)
     B.hat = solve_axb(a = DelayedArray::t(design) %*% design,
                       b = DelayedArray::t(Y %*% design))
-    
-    stand_var <- DelayedArray::rowSums(((Y - DelayedArray::t(B.hat) %*% DelayedArray::t(design))^2))/(num_cell - num_batch)
+    B.hat = DelayedArray::DelayedArray(B.hat)
+    B_designed <- DelayedArray::t(B.hat) %*% DelayedArray::t(design)
+    B_designed <- DelayedArray::DelayedArray(B_designed)
+    Y <- DelayedArray::DelayedArray(Y)
+    stand_var <- DelayedArray::rowSums(((Y - B_designed)^2))/(num_cell - num_batch)
     stand_Y <- (Y-stand_mean)/sqrt(stand_var)
     return(res = list(stand_Y = stand_Y, 
                       stand_mean = stand_mean, 

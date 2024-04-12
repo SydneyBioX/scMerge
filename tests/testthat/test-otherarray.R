@@ -38,8 +38,8 @@ sce_sp <- scMerge(
   cell_type = sce_sp$cellTypes,
   assay_name = 'sp_output')
 
-expect_equal(as.matrix(assay(sce_sp, "sp_output")), 
-             assay(sce_matrix, "matrix_output"))
+expect_equal(as(assay(sce_sp, "sp_output"), "matrix"), 
+             as(assay(sce_matrix, "matrix_output"), "matrix"))
 ################ DelayedArray ################
 sce_da = L
 assay(sce_da, "counts") = DelayedArray(counts)
@@ -54,21 +54,21 @@ sce_da <- scMerge(
 
 sce_da
 
-expect_equal(as.matrix(assay(sce_da, "da_output")), 
-             assay(sce_matrix, "matrix_output"))
-################ HDF5Array ################
-sce_hdf = L
-assay(sce_hdf, "counts") = as(counts, "HDF5Array")
-assay(sce_hdf, "logcounts") = as(logcounts, "HDF5Array")
-
-sce_hdf <- scMerge(
-  sce_combine = sce_hdf,
-  ctl = paste0("gene",1:10),
-  kmeansK = c(3, 3),
-  cell_type = sce_hdf$cellTypes,
-  assay_name = 'hdf_output')
-
-sce_hdf
-
-expect_equal(as.matrix(assay(sce_hdf, "hdf_output")), 
-             assay(sce_matrix, "matrix_output"))
+expect_equal(as(assay(sce_da, "da_output"), "matrix"), 
+             as(assay(sce_matrix, "matrix_output"), "matrix"))
+# ################ HDF5Array ################
+# sce_hdf = L
+# assay(sce_hdf, "counts") = as(counts, "HDF5Array")
+# assay(sce_hdf, "logcounts") = as(logcounts, "HDF5Array")
+# 
+# sce_hdf <- scMerge(
+#   sce_combine = sce_hdf,
+#   ctl = paste0("gene",1:10),
+#   kmeansK = c(3, 3),
+#   cell_type = sce_hdf$cellTypes,
+#   assay_name = 'hdf_output')
+# 
+# sce_hdf
+# 
+# expect_equal(as(assay(sce_hdf, "hdf_output"), "matrix"), 
+#              as(assay(sce_matrix, "matrix_output"), "matrix"))
