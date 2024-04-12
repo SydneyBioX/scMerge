@@ -76,11 +76,10 @@ scRUVg <- function(Y, ctl, k, Z = 1, eta = NULL, include.intercept = TRUE,
     }
     
     W = alpha = NULL
-    
     W = fullW[, seq_len(k), drop = FALSE]
     alpha = solve(t(W) %*% W) %*% t(W) %*% Y0
-    
-    newY = Y - W %*% alpha
+    Y <- DelayedArray::DelayedArray(Y)
+    newY = Y - DelayedArray::DelayedArray(W %*% alpha)
     
     return(list(newY = newY, W = W, alpha = alpha))
 }
