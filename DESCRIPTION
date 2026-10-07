@@ -1,7 +1,7 @@
 Package: scMerge
 Type: Package
 Title: scMerge: Merging multiple batches of scRNA-seq data
-Version: 1.19.0
+Version: 1.29.1
 Authors@R: c(
     person("Yingxin", "Lin", email = "yingxin.lin@sydney.edu.au", role = c("aut", "cre")
     ),
@@ -19,7 +19,7 @@ Description: Like all gene expression data, single-cell data suffers from
 License: GPL-3
 Encoding: UTF-8
 LazyData: false
-Depends: R (>= 3.6.0)
+Depends: R (>= 4.6.0)
 Imports:
   BiocGenerics,
   BiocParallel,
@@ -30,7 +30,7 @@ Imports:
   DelayedMatrixStats,
   distr,
   igraph,
-  M3Drop (>= 1.9.4),
+  M3Drop,
   proxyC,
   ruv,
   cvTools,
@@ -38,8 +38,8 @@ Imports:
   batchelor,
   scran,
   methods,
-  S4Vectors (>= 0.23.19),
-  SingleCellExperiment (>= 1.7.3),
+  S4Vectors,
+  SingleCellExperiment,
   SummarizedExperiment
 RoxygenNote: 7.2.3
 Suggests: 
