@@ -64,7 +64,7 @@ sce_cbind <- function(sce_list, method = "intersect", cut_off_batch = 0.01,
                 function(y) assay(y, exprs[i])))
         }
         names(assay_list) <- exprs
-        colData_list <- do.call(DelayedArray::rbind, 
+        colData_list <- do.call(BiocGenerics::rbind, 
                                 lapply(sce_list, function(y) colData(y)[, colData_names, drop = FALSE]))
         sce_combine <- SingleCellExperiment::SingleCellExperiment(assay = assay_list, 
             colData = colData_list)
@@ -75,7 +75,7 @@ sce_cbind <- function(sce_list, method = "intersect", cut_off_batch = 0.01,
         
         assay_list <- list()
         for (i in seq_len(length(exprs))) {
-            assay_list[[i]] <- do.call(DelayedArray::cbind, 
+            assay_list[[i]] <- do.call(BiocGenerics::cbind, 
                                        lapply(sce_list, function(x) {
                   mat <- matrix(0, nrow = length(keep), ncol = ncol(x), 
                                 dimnames = list(keep, colnames(x)))
