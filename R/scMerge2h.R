@@ -199,7 +199,7 @@ scMerge2h <- function(exprsMat,
                     last_level <- last_level - 1
                 }
                 
-                input_matrix <- do.call(DelayedArray::cbind, input_matrix)
+                input_matrix <- do.call(BiocGenerics::cbind, input_matrix)
                 input_matrix <- cbind(input_matrix, 
                                       DelayedArray::DelayedArray(exprsMat[, colnames(exprsMat)[remain_idx]]))
                 input_matrix <- input_matrix[, colnames(exprsMat)[idx]]
@@ -232,7 +232,7 @@ scMerge2h <- function(exprsMat,
             
         }
         
-        output_list[[h_level]] <- do.call(DelayedArray::cbind, output_list[[h_level]])
+        output_list[[h_level]] <- do.call(BiocGenerics::cbind, output_list[[h_level]])
     }
     
     
